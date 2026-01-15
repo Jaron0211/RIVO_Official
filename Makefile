@@ -18,7 +18,7 @@ LDFLAGS=-ldflags "-X main.Version=$(VERSION) -X main.GitCommit=$(GIT_COMMIT) -X 
 # Build for current platform
 build:
 	@echo "Building $(BINARY_NAME)..."
-	@cd $(SOURCE_DIR) && $(GO) build $(LDFLAGS) -o ../$(BUILD_DIR)/$(BINARY_NAME) $(CMD_DIR)
+	@cd $(SOURCE_DIR) && $(GO) build $(LDFLAGS) -o ../$(BUILD_DIR)/$(BINARY_NAME) ./cmd/kairoio-server
 	@echo "✓ Binary built: $(BUILD_DIR)/$(BINARY_NAME)"
 
 # Build for all platforms
@@ -28,23 +28,23 @@ build-all: clean
 	
 	# Linux AMD64
 	@echo "Building for Linux AMD64..."
-	@cd $(SOURCE_DIR) && GOOS=linux GOARCH=amd64 $(GO) build $(LDFLAGS) -o ../$(BUILD_DIR)/$(BINARY_NAME)-linux-amd64 $(CMD_DIR)
+	@cd $(SOURCE_DIR) && GOOS=linux GOARCH=amd64 $(GO) build $(LDFLAGS) -o ../$(BUILD_DIR)/$(BINARY_NAME)-linux-amd64 ./cmd/kairoio-server
 	
 	# Linux ARM64
 	@echo "Building for Linux ARM64..."
-	@cd $(SOURCE_DIR) && GOOS=linux GOARCH=arm64 $(GO) build $(LDFLAGS) -o ../$(BUILD_DIR)/$(BINARY_NAME)-linux-arm64 $(CMD_DIR)
+	@cd $(SOURCE_DIR) && GOOS=linux GOARCH=arm64 $(GO) build $(LDFLAGS) -o ../$(BUILD_DIR)/$(BINARY_NAME)-linux-arm64 ./cmd/kairoio-server
 	
 	# macOS AMD64
 	@echo "Building for macOS AMD64..."
-	@cd $(SOURCE_DIR) && GOOS=darwin GOARCH=amd64 $(GO) build $(LDFLAGS) -o ../$(BUILD_DIR)/$(BINARY_NAME)-darwin-amd64 $(CMD_DIR)
+	@cd $(SOURCE_DIR) && GOOS=darwin GOARCH=amd64 $(GO) build $(LDFLAGS) -o ../$(BUILD_DIR)/$(BINARY_NAME)-darwin-amd64 ./cmd/kairoio-server
 	
 	# macOS ARM64 (Apple Silicon)
 	@echo "Building for macOS ARM64..."
-	@cd $(SOURCE_DIR) && GOOS=darwin GOARCH=arm64 $(GO) build $(LDFLAGS) -o ../$(BUILD_DIR)/$(BINARY_NAME)-darwin-arm64 $(CMD_DIR)
+	@cd $(SOURCE_DIR) && GOOS=darwin GOARCH=arm64 $(GO) build $(LDFLAGS) -o ../$(BUILD_DIR)/$(BINARY_NAME)-darwin-arm64 ./cmd/kairoio-server
 	
 	# Windows AMD64
 	@echo "Building for Windows AMD64..."
-	@cd $(SOURCE_DIR) && GOOS=windows GOARCH=amd64 $(GO) build $(LDFLAGS) -o ../$(BUILD_DIR)/$(BINARY_NAME)-windows-amd64.exe $(CMD_DIR)
+	@cd $(SOURCE_DIR) && GOOS=windows GOARCH=amd64 $(GO) build $(LDFLAGS) -o ../$(BUILD_DIR)/$(BINARY_NAME)-windows-amd64.exe ./cmd/kairoio-server
 	
 	@echo "✓ All binaries built successfully!"
 	@ls -lh $(BUILD_DIR)/
