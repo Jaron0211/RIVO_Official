@@ -1,0 +1,107 @@
+package database
+
+import (
+	"fmt"
+	"log"
+	"time"
+
+	"github.com/Jaron0211/kairoio-server/internal/models"
+	"gorm.io/driver/postgres"
+	"gorm.io/driver/sqlite"
+	"gorm.io/gorm"
+	"gorm.io/gorm/logger"
+)
+
+// Database wraps the GORM database connection
+type Database struct {
+	DB *gorm.DB
+}
+
+// Config holds database configuration
+type Config struct {
+	Type            string // "postgres" or "sqlite"
+	DSN             string // Data Source Name
+	MaxConnections  int
+	MaxIdle         int
+	ConnMaxLifetime time.Duration
+	LogLevel        string // "silent", "error", "warn", "info"
+}
+
+// NewDatabase creates a new database connection
+func NewDatabase(cfg Config) (*Database, error) {
+	var (
+		db  *gorm.DB
+		err error
+	)
+
+	// Configure logger
+	logLevel := logger.Silent
+	switch cfg.LogLevel {
+	case "error":
+		logLevel = logger.Error
+	case "warn":
+		logLevel = logger.Warn
+	case "info":
+		logLevel = logger.Info
+	}
+
+	gormConfig := &gorm.Config{
+		Logger: logger.Default.LogMode(logLevel),
+	}
+
+	// Connect based on type
+	switch cfg.Type {
+	case "postgres":
+		db, err = gorm.Open(postgres.Open(cfg.DSN), gormConfig)
+	case "sqlite":
+		db, err = gorm.Open(sqlite.Open(cfg.DSN), gormConfig)
+	default:
+		return nil, fmt.Errorf("unsupported database type: %s", cfg.Type)
+	}
+
+	if err != nil {
+		return nil, fmt.Errorf("failed to connect to database: %w", err)
+	}
+
+	// Configure connection pool
+	sqlDB, err := db.DB()
+	if err != nil {
+		return nil, fmt.Errorf("failed to get database instance: %w", err)
+	}
+
+	sqlDB.SetMaxOpenConns(cfg.MaxConnections)
+	sqlDB.SetMaxIdleConns(cfg.MaxIdle)
+	sqlDB.SetConnMaxLifetime(cfg.ConnMaxLifetime)
+
+	log.Printf("Database connected: type=%s", cfg.Type)
+
+	return &Database{DB: db}, nil
+}
+
+// AutoMigrate runs database migrations
+func (d *Database) AutoMigrate() error {
+	return d.DB.AutoMigrate(
+		&models.Account{},
+		&models.Robot{},
+		&models.RobotStatus{},
+		&models.EmailVerificationCode{},
+	)
+}
+
+// Close closes the database connection
+func (d *Database) Close() error {
+	sqlDB, err := d.DB.DB()
+	if err != nil {
+		return err
+	}
+	return sqlDB.Close()
+}
+
+// Health checks database health
+func (d *Database) Health() error {
+	sqlDB, err := d.DB.DB()
+	if err != nil {
+		return err
+	}
+	return sqlDB.Ping()
+}
