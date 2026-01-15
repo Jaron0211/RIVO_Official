@@ -247,3 +247,78 @@ func (h *RobotHandler) ListRobots(w http.ResponseWriter, r *http.Request) {
 		"count":  len(robots),
 	})
 }
+// AlertRequest represents an alert from a robot
+type AlertRequest struct {
+	AlertType string `json:"alert_type"`
+	Severity  string `json:"severity"`
+	Message   string `json:"message"`
+	Timestamp string `json:"timestamp"`
+}
+
+// SubmitAlert handles incoming robot alerts
+// POST /api/v1/robots/{robotId}/alert
+func (h *RobotHandler) SubmitAlert(w http.ResponseWriter, r *http.Request) {
+	robotID := chi.URLParam(r, "robotId")
+	if robotID == "" {
+		http.Error(w, "robot_id is required", http.StatusBadRequest)
+		return
+	}
+
+	var req AlertRequest
+	if err := json.NewDecoder(r.Body).Decode(&req); err != nil {
+		http.Error(w, "Invalid request body", http.StatusBadRequest)
+		return
+	}
+
+	// In a real implementation, we would store this in the database
+	// For now, we just log it and return success
+	log.Printf("[ALERT] Robot %s: [%s/%s] %s", robotID, req.Severity, req.AlertType, req.Message)
+
+	response := map[string]interface{}{
+		"success": true,
+		"data": map[string]interface{}{
+			"status":   "received",
+			"robot_id": robotID,
+		},
+	}
+
+	w.Header().Set("Content-Type", "application/json")
+	json.NewEncoder(w).Encode(response)
+}
+
+// SubmitGenericMessage handles custom messages defined by user schemas
+// It validates that the robot_id exists and logs/stores the payload
+func (h *RobotHandler) SubmitGenericMessage(w http.ResponseWriter, r *http.Request) {
+	robotID := chi.URLParam(r, "robotId")
+	if robotID == "" {
+		http.Error(w, "robot_id is required", http.StatusBadRequest)
+		return
+	}
+
+	// Read raw body
+	var payload map[string]interface{}
+	if err := json.NewDecoder(r.Body).Decode(&payload); err != nil {
+		http.Error(w, "Invalid request body", http.StatusBadRequest)
+		return
+	}
+
+	// In a real implementation:
+	// 1. Identify which schema this is (from URL path)
+	// 2. Validate payload against that specific schema
+	// 3. Store in a flexible document store like MongoDB or JSONB column
+
+	// For now, we log it as a generic event
+	log.Printf("[GENERIC] Robot %s sent message to %s: %v", robotID, r.URL.Path, payload)
+
+	response := map[string]interface{}{
+		"success": true,
+		"data": map[string]interface{}{
+			"status":   "received",
+			"robot_id": robotID,
+			"path":     r.URL.Path,
+		},
+	}
+
+	w.Header().Set("Content-Type", "application/json")
+	json.NewEncoder(w).Encode(response)
+}

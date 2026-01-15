@@ -13,7 +13,9 @@ GIT_COMMIT=$(shell git rev-parse --short HEAD 2>/dev/null || echo "unknown")
 BUILD_TIME=$(shell date -u '+%Y-%m-%d_%H:%M:%S')
 
 # Linker flags
-LDFLAGS=-ldflags "-X main.Version=$(VERSION) -X main.GitCommit=$(GIT_COMMIT) -X main.BuildTime=$(BUILD_TIME)"
+ADMIN_USER?=kairoio
+ADMIN_PASS?=kairoio
+LDFLAGS=-ldflags "-X main.Version=$(VERSION) -X main.GitCommit=$(GIT_COMMIT) -X main.BuildTime=$(BUILD_TIME) -X main.AdminUser=$(ADMIN_USER) -X main.AdminPass=$(ADMIN_PASS)"
 
 # Build for current platform
 build:

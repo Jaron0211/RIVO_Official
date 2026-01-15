@@ -92,6 +92,14 @@ func Load(configPath string) (*Config, error) {
 		return nil, fmt.Errorf("failed to unmarshal config: %w", err)
 	}
 
+	// Manually handle time.Duration fields (viper unmarshal doesn't handle them well)
+	cfg.Server.ReadTimeout = v.GetDuration("server.read_timeout")
+	cfg.Server.WriteTimeout = v.GetDuration("server.write_timeout")
+	cfg.Server.IdleTimeout = v.GetDuration("server.idle_timeout")
+	cfg.Database.ConnMaxLifetime = v.GetDuration("database.conn_max_lifetime")
+	cfg.Auth.TokenTTL = v.GetDuration("auth.token_ttl")
+	cfg.Email.CodeTTL = v.GetDuration("email.code_ttl")
+
 	return &cfg, nil
 }
 
