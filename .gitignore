@@ -27,6 +27,7 @@ go.work
 # OS
 .DS_Store
 Thumbs.db
+*.pid
 
 # Config (keep examples)
 config.yaml
