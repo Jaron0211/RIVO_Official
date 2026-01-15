@@ -5,6 +5,7 @@ go 1.24.0
 toolchain go1.24.11
 
 require (
+	github.com/go-chi/chi/v5 v5.2.4
 	github.com/spf13/viper v1.21.0
 	golang.org/x/crypto v0.31.0
 	gopkg.in/gomail.v2 v2.0.0-20160411212932-81ebce5c23df
