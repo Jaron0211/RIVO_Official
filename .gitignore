@@ -1,0 +1,47 @@
+# Binaries
+kairoio-server
+kairoio-server-*
+*.exe
+*.dll
+*.so
+*.dylib
+
+# Test binary
+*.test
+
+# Output
+*.out
+release/*.log
+release/data/
+
+# Go workspace
+go.work
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Config (keep examples)
+config.yaml
+.env
+
+# Database
+*.db
+*.db-shm
+*.db-wal
+*.mv.db
+
+# Logs
+*.log
+logs/
+
+# Temporary
+tmp/
+temp/

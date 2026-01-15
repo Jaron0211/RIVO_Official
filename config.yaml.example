@@ -1,0 +1,44 @@
+server:
+  host: "0.0.0.0"
+  port: 8080
+  read_timeout: 15s
+  write_timeout: 15s
+  idle_timeout: 60s
+
+database:
+  # Type: "postgres" or "sqlite"
+  type: "sqlite"
+  # PostgreSQL DSN format: postgres://user:password@host:port/database?sslmode=disable
+  # SQLite DSN format: file:path/to/database.db?cache=shared&mode=rwc
+  dsn: "file:./data/kairoio.db?cache=shared&mode=rwc"
+  max_connections: 25
+  max_idle: 5
+  conn_max_lifetime: 5m
+
+auth:
+  # JWT token time-to-live  
+  token_ttl: 24h
+  # bcrypt cost (4-31, default 12)
+  password_cost: 12
+
+email:
+  smtp_host: "smtp.gmail.com"
+  smtp_port: 587
+  from_address: ""
+  from_name: "KairoIO Server"
+  username: ""
+  password: ""
+  # Verification code expiry
+  code_ttl: 20m
+
+logging:
+  # Level: debug, info, warn, error
+  level: "info"
+  # Format: json or console
+  format: "console"
+
+# Feature flags
+features:
+  email_verification_required: true
+  robot_quota_enabled: true
+  rate_limiting_enabled: true
