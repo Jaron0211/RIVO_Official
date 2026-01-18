@@ -14,7 +14,7 @@ type Robot struct {
 	UpdatedAt time.Time `gorm:"column:updated_at" json:"updated_at"`
 
 	// Relations
-	Account *Account       `gorm:"foreignKey:AccountID" json:"account,omitempty"`
+	Account  *Account      `gorm:"foreignKey:AccountID" json:"account,omitempty"`
 	Statuses []RobotStatus `gorm:"foreignKey:RobotID" json:"statuses,omitempty"`
 }
 
@@ -38,4 +38,20 @@ type RobotStatus struct {
 // TableName specifies the table name for RobotStatus
 func (RobotStatus) TableName() string {
 	return "robot_statuses"
+}
+
+// RobotLog represents a robot log message
+type RobotLog struct {
+	ID        uint      `gorm:"primaryKey;autoIncrement;column:id" json:"id"`
+	RobotID   string    `gorm:"not null;index;column:robot_id" json:"robot_id"`
+	AccountID string    `gorm:"not null;index;column:account_id" json:"account_id"`
+	Topic     string    `gorm:"not null;index;column:topic" json:"topic"`
+	Message   string    `gorm:"type:text;not null;column:message" json:"message"`
+	Level     string    `gorm:"column:level" json:"level"` // info, warn, error
+	Timestamp time.Time `gorm:"index;column:timestamp" json:"timestamp"`
+}
+
+// TableName specifies the table name for RobotLog
+func (RobotLog) TableName() string {
+	return "robot_logs"
 }

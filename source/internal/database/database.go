@@ -131,6 +131,7 @@ func (d *Database) AutoMigrate() error {
 		&models.Account{},
 		&models.Robot{},
 		&models.RobotStatus{},
+		&models.RobotLog{},
 		&models.EmailVerificationCode{},
 	)
 }

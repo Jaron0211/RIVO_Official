@@ -174,6 +174,39 @@ func (r *Repository) GetRobotStatusHistory(robotID string, limit int) ([]models.
 	return statuses, nil
 }
 
+// GetRobotStatusesByTimeRange retrieves status history for a robot within a time range
+func (r *Repository) GetRobotStatusesByTimeRange(robotID string, start, end time.Time) ([]models.RobotStatus, error) {
+	var statuses []models.RobotStatus
+	result := r.db.Where("robot_id = ? AND timestamp BETWEEN ? AND ?", robotID, start, end).
+		Order("timestamp ASC").
+		Find(&statuses)
+	if result.Error != nil {
+		return nil, result.Error
+	}
+	return statuses, nil
+}
+
+// --- Robot Log Operations ---
+
+// CreateRobotLog creates a new robot log entry
+func (r *Repository) CreateRobotLog(log *models.RobotLog) error {
+	return r.db.Create(log).Error
+}
+
+// GetRobotLogs retrieves logs for a robot with optional filtering
+func (r *Repository) GetRobotLogs(robotID string, topic string, limit int) ([]models.RobotLog, error) {
+	var logs []models.RobotLog
+	query := r.db.Where("robot_id = ?", robotID)
+	if topic != "" {
+		query = query.Where("topic = ?", topic)
+	}
+	result := query.Order("timestamp DESC").Limit(limit).Find(&logs)
+	if result.Error != nil {
+		return nil, result.Error
+	}
+	return logs, nil
+}
+
 // --- Email Verification Operations ---
 
 // StoreVerificationCode stores an email verification code

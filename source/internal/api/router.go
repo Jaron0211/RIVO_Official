@@ -92,6 +92,9 @@ func NewRouter(repo *database.Repository, authHandler *AuthHandler, robotHandler
 			r.Get("/robots", robotHandler.ListRobots)
 			r.Post("/robots/{robotId}/status", robotHandler.UpdateStatus)
 			r.Get("/robots/{robotId}/status", robotHandler.GetStatus)
+			r.Get("/robots/{robotId}/history", robotHandler.GetHistory)
+			r.Post("/robots/{robotId}/logs", robotHandler.SubmitLog)
+			r.Get("/robots/{robotId}/logs/subscribe", robotHandler.SubscribeLogs)
 			r.Post("/robots/{robotId}/alert", robotHandler.SubmitAlert)
 
 			// Dynamic Routes from Custom Schemas

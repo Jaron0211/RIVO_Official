@@ -2,8 +2,10 @@ package api
 
 import (
 	"encoding/json"
+	"fmt"
 	"log"
 	"net/http"
+	"sync"
 	"time"
 
 	"github.com/Jaron0211/kairoio-server/internal/auth"
@@ -14,12 +16,66 @@ import (
 
 // RobotHandler handles robot management endpoints
 type RobotHandler struct {
-	repo *database.Repository
+	repo        *database.Repository
+	broadcaster *LogBroadcaster
+}
+
+type LogBroadcaster struct {
+	mu          sync.RWMutex
+	subscribers map[string][]chan models.RobotLog // robotID -> list of channels
+}
+
+func NewLogBroadcaster() *LogBroadcaster {
+	return &LogBroadcaster{
+		subscribers: make(map[string][]chan models.RobotLog),
+	}
+}
+
+func (b *LogBroadcaster) Broadcast(log models.RobotLog) {
+	b.mu.RLock()
+	defer b.mu.RUnlock()
+
+	if subs, ok := b.subscribers[log.RobotID]; ok {
+		for _, ch := range subs {
+			select {
+			case ch <- log:
+			default:
+				// Avoid blocking if subscriber is slow
+			}
+		}
+	}
+}
+
+func (b *LogBroadcaster) Subscribe(robotID string) chan models.RobotLog {
+	b.mu.Lock()
+	defer b.mu.Unlock()
+
+	ch := make(chan models.RobotLog, 10)
+	b.subscribers[robotID] = append(b.subscribers[robotID], ch)
+	return ch
+}
+
+func (b *LogBroadcaster) Unsubscribe(robotID string, ch chan models.RobotLog) {
+	b.mu.Lock()
+	defer b.mu.Unlock()
+
+	if subs, ok := b.subscribers[robotID]; ok {
+		for i, sub := range subs {
+			if sub == ch {
+				b.subscribers[robotID] = append(subs[:i], subs[i+1:]...)
+				close(ch)
+				break
+			}
+		}
+	}
 }
 
 // NewRobotHandler creates a new RobotHandler
 func NewRobotHandler(repo *database.Repository) *RobotHandler {
-	return &RobotHandler{repo: repo}
+	return &RobotHandler{
+		repo:        repo,
+		broadcaster: NewLogBroadcaster(),
+	}
 }
 
 // RegisterRobotRequest represents robot registration request
@@ -247,6 +303,7 @@ func (h *RobotHandler) ListRobots(w http.ResponseWriter, r *http.Request) {
 		"count":  len(robots),
 	})
 }
+
 // AlertRequest represents an alert from a robot
 type AlertRequest struct {
 	AlertType string `json:"alert_type"`
@@ -321,4 +378,135 @@ func (h *RobotHandler) SubmitGenericMessage(w http.ResponseWriter, r *http.Reque
 
 	w.Header().Set("Content-Type", "application/json")
 	json.NewEncoder(w).Encode(response)
+}
+
+// GetHistory handles GET /api/v1/robots/{robotId}/history
+// Query params: start (ISO 8601), end (ISO 8601)
+func (h *RobotHandler) GetHistory(w http.ResponseWriter, r *http.Request) {
+	accountID, err := auth.GetAccountID(r.Context())
+	if err != nil {
+		respondError(w, http.StatusUnauthorized, "Unauthorized")
+		return
+	}
+
+	robotID := chi.URLParam(r, "robotId")
+	startStr := r.URL.Query().Get("start")
+	endStr := r.URL.Query().Get("end")
+
+	if robotID == "" || startStr == "" || endStr == "" {
+		respondError(w, http.StatusBadRequest, "robotId, start, and end are required")
+		return
+	}
+
+	start, err := time.Parse(time.RFC3339, startStr)
+	if err != nil {
+		respondError(w, http.StatusBadRequest, "Invalid start time format")
+		return
+	}
+	end, err := time.Parse(time.RFC3339, endStr)
+	if err != nil {
+		respondError(w, http.StatusBadRequest, "Invalid end time format")
+		return
+	}
+
+	// Verify robot belongs to account
+	robot, err := h.repo.GetRobotByID(robotID)
+	if err != nil || robot.AccountID != accountID {
+		respondError(w, http.StatusForbidden, "Access denied")
+		return
+	}
+
+	statuses, err := h.repo.GetRobotStatusesByTimeRange(robotID, start, end)
+	if err != nil {
+		respondError(w, http.StatusInternalServerError, "Failed to fetch history")
+		return
+	}
+
+	respondSuccess(w, map[string]interface{}{
+		"robot_id": robotID,
+		"count":    len(statuses),
+		"history":  statuses,
+	})
+}
+
+// SubmitLog handles POST /api/v1/robots/{robotId}/logs
+func (h *RobotHandler) SubmitLog(w http.ResponseWriter, r *http.Request) {
+	accountID, err := auth.GetAccountID(r.Context())
+	if err != nil {
+		respondError(w, http.StatusUnauthorized, "Unauthorized")
+		return
+	}
+
+	robotID := chi.URLParam(r, "robotId")
+	var logMsg struct {
+		Topic     string `json:"topic"`
+		Message   string `json:"message"`
+		Level     string `json:"level"`
+		Timestamp string `json:"timestamp"`
+	}
+
+	if err := json.NewDecoder(r.Body).Decode(&logMsg); err != nil {
+		respondError(w, http.StatusBadRequest, "Invalid request body")
+		return
+	}
+
+	ts := time.Now()
+	if logMsg.Timestamp != "" {
+		if parsed, err := time.Parse(time.RFC3339, logMsg.Timestamp); err == nil {
+			ts = parsed
+		}
+	}
+
+	robotLog := &models.RobotLog{
+		RobotID:   robotID,
+		AccountID: accountID,
+		Topic:     logMsg.Topic,
+		Message:   logMsg.Message,
+		Level:     logMsg.Level,
+		Timestamp: ts,
+	}
+
+	if err := h.repo.CreateRobotLog(robotLog); err != nil {
+		respondError(w, http.StatusInternalServerError, "Failed to store log")
+		return
+	}
+
+	// Broadcast for real-time subscribers
+	h.broadcaster.Broadcast(*robotLog)
+
+	respondSuccess(w, map[string]interface{}{
+		"status": "logged",
+	})
+}
+
+// SubscribeLogs handles GET /api/v1/robots/{robotId}/logs/subscribe (SSE)
+func (h *RobotHandler) SubscribeLogs(w http.ResponseWriter, r *http.Request) {
+	robotID := chi.URLParam(r, "robotId")
+	if robotID == "" {
+		respondError(w, http.StatusBadRequest, "robot_id is required")
+		return
+	}
+
+	// Set SSE headers
+	w.Header().Set("Content-Type", "text/event-stream")
+	w.Header().Set("Cache-Control", "no-cache")
+	w.Header().Set("Connection", "keep-alive")
+	w.Header().Set("Access-Control-Allow-Origin", "*")
+
+	ch := h.broadcaster.Subscribe(robotID)
+	defer h.broadcaster.Unsubscribe(robotID, ch)
+
+	// Context for client disconnection
+	ctx := r.Context()
+
+	for {
+		select {
+		case log := <-ch:
+			data, _ := json.Marshal(log)
+			fmt.Fprintf(w, "data: %s\n\n", string(data))
+			w.(http.Flusher).Flush()
+		case <-ctx.Done():
+			return
+		}
+	}
 }
