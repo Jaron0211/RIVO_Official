@@ -15,12 +15,31 @@ BUILD_TIME=$(shell date -u '+%Y-%m-%d_%H:%M:%S')
 # Linker flags
 ADMIN_USER?=kairoio
 ADMIN_PASS?=kairoio
-LDFLAGS=-ldflags "-X main.Version=$(VERSION) -X main.GitCommit=$(GIT_COMMIT) -X main.BuildTime=$(BUILD_TIME) -X main.AdminUser=$(ADMIN_USER) -X main.AdminPass=$(ADMIN_PASS)"
+DATABASE_TYPE?=sqlite
+#DATABASE_TYPE?=postgres
+DATABASE_HOST?=localhost
+DATABASE_PORT?=5432
+DATABASE_USER?=kairoio
+DATABASE_PASSWORD?=kairoio
+DATABASE_NAME?=kairoio
+LDFLAGS=-ldflags "-X main.Version=$(VERSION) -X main.GitCommit=$(GIT_COMMIT) -X main.BuildTime=$(BUILD_TIME) -X main.AdminUser=$(ADMIN_USER) -X main.AdminPass=$(ADMIN_PASS) -X main.DBHost=$(DATABASE_HOST) -X main.DBPort=$(DATABASE_PORT) -X main.DBUser=$(DATABASE_USER) -X main.DBPass=$(DATABASE_PASSWORD) -X main.DBName=$(DATABASE_NAME)"
 
 # Build for current platform
 build:
 	@echo "Building $(BINARY_NAME)..."
+	@mkdir -p $(BUILD_DIR)
 	@cd $(SOURCE_DIR) && $(GO) build $(LDFLAGS) -o ../$(BUILD_DIR)/$(BINARY_NAME) ./cmd/kairoio-server
+	@if [ ! -f $(BUILD_DIR)/config.yaml ]; then \
+		cp config.yaml.example $(BUILD_DIR)/config.yaml; \
+		echo "✓ Created $(BUILD_DIR)/config.yaml from example"; \
+	fi
+	@echo "Syncing $(BUILD_DIR)/config.yaml with Makefile settings..."
+	@sed -i '/^database:/,/^auth:/ s/type: .*/type: "$(DATABASE_TYPE)"/' $(BUILD_DIR)/config.yaml
+	@sed -i '/^database:/,/^auth:/ s/host: .*/host: "$(DATABASE_HOST)"/' $(BUILD_DIR)/config.yaml
+	@sed -i '/^database:/,/^auth:/ s/port: .*/port: "$(DATABASE_PORT)"/' $(BUILD_DIR)/config.yaml
+	@sed -i '/^database:/,/^auth:/ s/user: .*/user: "$(DATABASE_USER)"/' $(BUILD_DIR)/config.yaml
+	@sed -i '/^database:/,/^auth:/ s/password: .*/password: "$(DATABASE_PASSWORD)"/' $(BUILD_DIR)/config.yaml
+	@sed -i '/^database:/,/^auth:/ s/database: .*/database: "$(DATABASE_NAME)"/' $(BUILD_DIR)/config.yaml
 	@echo "✓ Binary built: $(BUILD_DIR)/$(BINARY_NAME)"
 
 # Build for all platforms

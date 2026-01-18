@@ -31,6 +31,11 @@ type ServerConfig struct {
 type DatabaseConfig struct {
 	Type            string
 	DSN             string
+	Host            string
+	Port            string
+	User            string
+	Password        string
+	DBName          string
 	MaxConnections  int
 	MaxIdle         int
 	ConnMaxLifetime time.Duration
@@ -76,7 +81,7 @@ func Load(configPath string) (*Config, error) {
 	// Read config file if provided
 	if configPath != "" {
 		v.SetConfigFile(configPath)
-		if err :=  v.ReadInConfig(); err != nil {
+		if err := v.ReadInConfig(); err != nil {
 			return nil, fmt.Errorf("failed to read config file: %w", err)
 		}
 	}
@@ -115,6 +120,11 @@ func setDefaults(v *viper.Viper) {
 	// Database defaults
 	v.SetDefault("database.type", "sqlite")
 	v.SetDefault("database.dsn", "file:./data/kairoio.db?cache=shared&mode=rwc")
+	v.SetDefault("database.host", "")
+	v.SetDefault("database.port", "")
+	v.SetDefault("database.user", "")
+	v.SetDefault("database.password", "")
+	v.SetDefault("database.database", "")
 	v.SetDefault("database.max_connections", 25)
 	v.SetDefault("database.max_idle", 5)
 	v.SetDefault("database.conn_max_lifetime", "5m")
