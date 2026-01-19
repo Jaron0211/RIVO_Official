@@ -15,8 +15,8 @@ BUILD_TIME=$(shell date -u '+%Y-%m-%d_%H:%M:%S')
 # Linker flags
 ADMIN_USER?=kairoio
 ADMIN_PASS?=kairoio
-DATABASE_TYPE?=sqlite
-#DATABASE_TYPE?=postgres
+# DATABASE_TYPE?=sqlite
+DATABASE_TYPE?=postgres
 DATABASE_HOST?=localhost
 DATABASE_PORT?=5432
 DATABASE_USER?=kairoio
@@ -40,7 +40,12 @@ build:
 	@sed -i '/^database:/,/^auth:/ s/user: .*/user: "$(DATABASE_USER)"/' $(BUILD_DIR)/config.yaml
 	@sed -i '/^database:/,/^auth:/ s/password: .*/password: "$(DATABASE_PASSWORD)"/' $(BUILD_DIR)/config.yaml
 	@sed -i '/^database:/,/^auth:/ s/database: .*/database: "$(DATABASE_NAME)"/' $(BUILD_DIR)/config.yaml
-	@echo "✓ Binary built: $(BUILD_DIR)/$(BINARY_NAME)"
+	@if [ "$(DATABASE_TYPE)" = "postgres" ]; then \
+		sed -i '/^database:/,/^auth:/ s/dsn: .*/# dsn: "use-components-for-postgres"/' $(BUILD_DIR)/config.yaml; \
+	else \
+		sed -i '/^database:/,/^auth:/ s/# dsn: .*/dsn: "file:.\/data\/kairoio.db?cache=shared\&mode=rwc"/' $(BUILD_DIR)/config.yaml; \
+	fi
+	@echo "✓ Binary built: $(BUILD_DIR)/$(BINARY_NAME) (Self-contained with embedded schemas)"
 
 # Build for all platforms
 build-all: clean
@@ -102,8 +107,19 @@ docker:
 	@docker build -t kairoio-server:$(VERSION) -t kairoio-server:latest .
 	@echo "✓ Docker image built: kairoio-server:$(VERSION)"
 
+# Start database if needed (for postgres)
+db-up:
+	@if [ "$(DATABASE_TYPE)" = "postgres" ]; then \
+		if ! docker info > /dev/null 2>&1; then \
+			echo "WARNING: Docker is not running or not accessible. Please start Docker for PostgreSQL support."; \
+		else \
+			echo "Ensuring PostgreSQL is running..."; \
+			docker-compose up -d postgres; \
+		fi \
+	fi
+
 # Run locally
-run: build
+run: build db-up
 	@echo "Starting server..."
 	@cd $(BUILD_DIR) && ./$(BINARY_NAME)
 

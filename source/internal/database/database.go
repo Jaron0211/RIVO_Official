@@ -61,7 +61,7 @@ func NewDatabase(cfg Config) (*Database, error) {
 	switch cfg.Type {
 	case "postgres":
 		dsn := cfg.DSN
-		if dsn == "" || strings.Contains(dsn, "user:password@host:port") {
+		if dsn == "" || (!strings.HasPrefix(dsn, "postgres://") && !strings.HasPrefix(dsn, "postgresql://") && !strings.Contains(dsn, "host=")) {
 			// Construct DSN from components
 			host := cfg.Host
 			if host == "" {
