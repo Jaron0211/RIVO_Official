@@ -111,19 +111,9 @@ func (h *RobotHandler) RegisterRobot(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	// Validate robot type
-	validTypes := map[string]bool{
-		"ArduinoUno":    true,
-		"ArduinoMega":   true,
-		"RaspberryPi3":  true,
-		"RaspberryPi4":  true,
-		"ESP32":         true,
-		"ESP8266":       true,
-		"PatrolBot":     true,
-		"CleaningRobot": true,
-	}
-	if !validTypes[req.RobotType] {
-		respondError(w, http.StatusBadRequest, "Invalid robot type")
+	// Validate robot type (removed hardcoded list to allow any type for platform flexibility)
+	if req.RobotType == "" {
+		respondError(w, http.StatusBadRequest, "robot_type is required")
 		return
 	}
 
@@ -364,8 +354,9 @@ func (h *RobotHandler) SubmitGenericMessage(w http.ResponseWriter, r *http.Reque
 	// 2. Validate payload against that specific schema
 	// 3. Store in a flexible document store like MongoDB or JSONB column
 
-	// For now, we log it as a generic event
-	log.Printf("[GENERIC] Robot %s sent message to %s: %v", robotID, r.URL.Path, payload)
+	// For now, we log it as a structured event
+	timestamp := time.Now().Format(time.RFC3339)
+	log.Printf("[GENERIC][%s] Robot %s sent message to %s: %v", timestamp, robotID, r.URL.Path, payload)
 
 	response := map[string]interface{}{
 		"success": true,

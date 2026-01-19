@@ -72,11 +72,7 @@ func NewRouter(repo *database.Repository, authHandler *AuthHandler, robotHandler
 
 		// Protected routes (auth required)
 		authMiddleware := auth.NewMiddleware(func(certKey string) (string, error) {
-			// Check for virtual admin key first
-			if certKey == "ADMIN-CERT-KEY-PLACEHOLDER" {
-				return "ADMIN-001", nil
-			}
-
+			// Check for certification key in database
 			account, err := repo.GetAccountByCertKey(certKey)
 			if err != nil {
 				return "", fmt.Errorf("invalid certification key")
