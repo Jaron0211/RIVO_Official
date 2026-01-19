@@ -89,6 +89,7 @@ func NewRouter(repo *database.Repository, authHandler *AuthHandler, robotHandler
 			r.Post("/robots/{robotId}/status", robotHandler.UpdateStatus)
 			r.Get("/robots/{robotId}/status", robotHandler.GetStatus)
 			r.Get("/robots/{robotId}/history", robotHandler.GetHistory)
+			r.Get("/robots/{robotId}/token", robotHandler.GetStreamingToken)
 			r.Post("/robots/{robotId}/logs", robotHandler.SubmitLog)
 			r.Get("/robots/{robotId}/logs/subscribe", robotHandler.SubscribeLogs)
 			r.Post("/robots/{robotId}/alert", robotHandler.SubmitAlert)

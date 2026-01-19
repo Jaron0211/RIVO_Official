@@ -2,6 +2,7 @@ package database
 
 import (
 	"errors"
+	"strings"
 	"time"
 
 	"github.com/Jaron0211/kairoio-server/internal/models"
@@ -91,7 +92,7 @@ func (r *Repository) UpdateAccount(account *models.Account) error {
 func (r *Repository) CreateRobot(robot *models.Robot) error {
 	result := r.db.Create(robot)
 	if result.Error != nil {
-		if errors.Is(result.Error, gorm.ErrDuplicatedKey) {
+		if errors.Is(result.Error, gorm.ErrDuplicatedKey) || strings.Contains(result.Error.Error(), "duplicate key") {
 			return ErrRobotExists
 		}
 		return result.Error

@@ -3,15 +3,16 @@ package api
 import (
 	"encoding/json"
 	"fmt"
-	"log"
 	"net/http"
 	"sync"
 	"time"
 
 	"github.com/Jaron0211/kairoio-server/internal/auth"
 	"github.com/Jaron0211/kairoio-server/internal/database"
+	"github.com/Jaron0211/kairoio-server/internal/logger"
 	"github.com/Jaron0211/kairoio-server/internal/models"
 	"github.com/go-chi/chi/v5"
+	lkauth "github.com/livekit/protocol/auth"
 )
 
 // RobotHandler handles robot management endpoints
@@ -132,7 +133,7 @@ func (h *RobotHandler) RegisterRobot(w http.ResponseWriter, r *http.Request) {
 			respondError(w, http.StatusConflict, "Robot already registered")
 			return
 		}
-		log.Printf("Failed to create robot: %v", err)
+		logger.Errorf("Failed to create robot: %v", err)
 		respondError(w, http.StatusInternalServerError, "Failed to register robot")
 		return
 	}
@@ -165,7 +166,7 @@ func (h *RobotHandler) UpdateStatus(w http.ResponseWriter, r *http.Request) {
 			respondError(w, http.StatusNotFound, "Robot not found")
 			return
 		}
-		log.Printf("Failed to get robot: %v", err)
+		logger.Errorf("Failed to get robot: %v", err)
 		respondError(w, http.StatusInternalServerError, "Failed to get robot")
 		return
 	}
@@ -197,7 +198,7 @@ func (h *RobotHandler) UpdateStatus(w http.ResponseWriter, r *http.Request) {
 	}
 
 	if err := h.repo.CreateRobotStatus(status); err != nil {
-		log.Printf("Failed to create status: %v", err)
+		logger.Errorf("Failed to create status: %v", err)
 		respondError(w, http.StatusInternalServerError, "Failed to update status")
 		return
 	}
@@ -230,7 +231,7 @@ func (h *RobotHandler) GetStatus(w http.ResponseWriter, r *http.Request) {
 			respondError(w, http.StatusNotFound, "Robot not found")
 			return
 		}
-		log.Printf("Failed to get robot: %v", err)
+		logger.Errorf("Failed to get robot: %v", err)
 		respondError(w, http.StatusInternalServerError, "Failed to get robot")
 		return
 	}
@@ -243,7 +244,7 @@ func (h *RobotHandler) GetStatus(w http.ResponseWriter, r *http.Request) {
 	// Get latest status
 	status, err := h.repo.GetLatestRobotStatus(robotID)
 	if err != nil {
-		log.Printf("Failed to get status: %v", err)
+		logger.Errorf("Failed to get status: %v", err)
 		respondError(w, http.StatusInternalServerError, "Failed to get status")
 		return
 	}
@@ -259,7 +260,7 @@ func (h *RobotHandler) GetStatus(w http.ResponseWriter, r *http.Request) {
 	// Parse status JSON
 	var statusData map[string]interface{}
 	if err := json.Unmarshal([]byte(status.StatusJSON), &statusData); err != nil {
-		log.Printf("Failed to parse status: %v", err)
+		logger.Errorf("Failed to parse status: %v", err)
 		respondError(w, http.StatusInternalServerError, "Failed to parse status")
 		return
 	}
@@ -283,7 +284,7 @@ func (h *RobotHandler) ListRobots(w http.ResponseWriter, r *http.Request) {
 	// Get all robots for account
 	robots, err := h.repo.GetRobotsByAccountID(accountID)
 	if err != nil {
-		log.Printf("Failed to get robots: %v", err)
+		logger.Errorf("Failed to get robots: %v", err)
 		respondError(w, http.StatusInternalServerError, "Failed to get robots")
 		return
 	}
@@ -319,7 +320,7 @@ func (h *RobotHandler) SubmitAlert(w http.ResponseWriter, r *http.Request) {
 
 	// In a real implementation, we would store this in the database
 	// For now, we just log it and return success
-	log.Printf("[ALERT] Robot %s: [%s/%s] %s", robotID, req.Severity, req.AlertType, req.Message)
+	logger.Infof("[ALERT] Robot %s: [%s/%s] %s", robotID, req.Severity, req.AlertType, req.Message)
 
 	response := map[string]interface{}{
 		"success": true,
@@ -356,7 +357,7 @@ func (h *RobotHandler) SubmitGenericMessage(w http.ResponseWriter, r *http.Reque
 
 	// For now, we log it as a structured event
 	timestamp := time.Now().Format(time.RFC3339)
-	log.Printf("[GENERIC][%s] Robot %s sent message to %s: %v", timestamp, robotID, r.URL.Path, payload)
+	logger.Infof("[GENERIC][%s] Robot %s sent message to %s: %v", timestamp, robotID, r.URL.Path, payload)
 
 	response := map[string]interface{}{
 		"success": true,
@@ -500,4 +501,64 @@ func (h *RobotHandler) SubscribeLogs(w http.ResponseWriter, r *http.Request) {
 			return
 		}
 	}
+}
+
+// GetStreamingToken handles GET /api/v1/robots/{robotId}/token
+func (h *RobotHandler) GetStreamingToken(w http.ResponseWriter, r *http.Request) {
+	accountID, err := auth.GetAccountID(r.Context())
+	if err != nil {
+		respondError(w, http.StatusUnauthorized, "Unauthorized")
+		return
+	}
+
+	robotID := chi.URLParam(r, "robotId")
+	if robotID == "" {
+		respondError(w, http.StatusBadRequest, "robotId is required")
+		return
+	}
+
+	// Verify robot belongs to account
+	robot, err := h.repo.GetRobotByID(robotID)
+	if err != nil {
+		if err == database.ErrRobotNotFound {
+			respondError(w, http.StatusNotFound, "Robot not found")
+			return
+		}
+		respondError(w, http.StatusInternalServerError, "Failed to verify robot")
+		return
+	}
+
+	if robot.AccountID != accountID {
+		respondError(w, http.StatusForbidden, "Access denied")
+		return
+	}
+
+	// LiveKit Configuration (should ideally come from config/env)
+	apiKey := "devkey"    // Placeholder
+	apiSecret := "secret" // Placeholder
+	livekitHost := "http://localhost:7880"
+
+	// Create a new token
+	at := lkauth.NewAccessToken(apiKey, apiSecret)
+
+	// Set identity and grant access to the room
+	// The room name is the robot ID
+	at.SetIdentity(accountID)
+	at.AddGrant(&lkauth.VideoGrant{
+		RoomJoin: true,
+		Room:     robotID,
+	})
+	at.SetValidFor(time.Hour)
+
+	token, err := at.ToJWT()
+	if err != nil {
+		respondError(w, http.StatusInternalServerError, "Failed to generate token")
+		return
+	}
+
+	respondSuccess(w, map[string]interface{}{
+		"token": token,
+		"host":  livekitHost,
+		"room":  robotID,
+	})
 }
