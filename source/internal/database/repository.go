@@ -208,6 +208,11 @@ func (r *Repository) GetRobotLogs(robotID string, topic string, limit int) ([]mo
 	return logs, nil
 }
 
+// CreateAlert stores a new alert in the database
+func (r *Repository) CreateAlert(alert *models.Alert) error {
+	return r.db.Create(alert).Error
+}
+
 // --- Email Verification Operations ---
 
 // StoreVerificationCode stores an email verification code

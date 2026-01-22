@@ -1,0 +1,77 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "control_input",
+  "title": "Control Input Command",
+  "description": "Generic control input endpoint for sending custom actions to robots. Actions can be dynamically registered at runtime.",
+  "endpoint": "/api/v1/robots/{robot_id}/control",
+  "method": "POST",
+  "category": "control",
+  "type": "object",
+  "required": ["action"],
+  "properties": {
+    "action": {
+      "type": "string",
+      "description": "The action identifier to execute (must be registered)",
+      "example": "gripper_open"
+    },
+    "parameters": {
+      "type": "object",
+      "description": "Action-specific parameters",
+      "additionalProperties": true,
+      "example": {
+        "force": 10,
+        "speed": 0.5
+      }
+    },
+    "requestId": {
+      "type": "string",
+      "description": "Optional unique request ID for tracking/correlation",
+      "example": "REQ-20251122-001"
+    },
+    "timestamp": {
+      "type": "string",
+      "format": "date-time",
+      "description": "ISO 8601 timestamp when the command was issued",
+      "example": "2025-11-22T16:15:02Z"
+    },
+    "priority": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 10,
+      "default": 5,
+      "description": "Command priority (0=lowest, 10=highest)",
+      "example": 5
+    },
+    "timeout": {
+      "type": "number",
+      "description": "Command timeout in seconds",
+      "default": 30,
+      "example": 30
+    }
+  },
+  "examples": [
+    {
+      "title": "Gripper Control",
+      "value": {
+        "action": "gripper_open",
+        "parameters": {
+          "force": 10,
+          "speed": 0.5
+        },
+        "requestId": "REQ-001",
+        "priority": 5
+      }
+    },
+    {
+      "title": "Custom Sensor Read",
+      "value": {
+        "action": "read_sensor",
+        "parameters": {
+          "sensorId": "temp_01",
+          "samples": 5
+        },
+        "requestId": "REQ-002"
+      }
+    }
+  ]
+}

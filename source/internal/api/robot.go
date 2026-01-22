@@ -306,32 +306,66 @@ type AlertRequest struct {
 // SubmitAlert handles incoming robot alerts
 // POST /api/v1/robots/{robotId}/alert
 func (h *RobotHandler) SubmitAlert(w http.ResponseWriter, r *http.Request) {
+	// Get account ID from context (token validation)
+	accountID, err := auth.GetAccountID(r.Context())
+	if err != nil {
+		respondError(w, http.StatusUnauthorized, "Unauthorized")
+		return
+	}
+
 	robotID := chi.URLParam(r, "robotId")
 	if robotID == "" {
-		http.Error(w, "robot_id is required", http.StatusBadRequest)
+		respondError(w, http.StatusBadRequest, "robot_id is required")
+		return
+	}
+
+	// Verify robot belongs to account
+	robot, err := h.repo.GetRobotByID(robotID)
+	if err != nil {
+		if err == database.ErrRobotNotFound {
+			respondError(w, http.StatusNotFound, "Robot not found")
+			return
+		}
+		logger.Errorf("Failed to get robot: %v", err)
+		respondError(w, http.StatusInternalServerError, "Failed to get robot")
+		return
+	}
+
+	if robot.AccountID != accountID {
+		respondError(w, http.StatusForbidden, "Access denied")
 		return
 	}
 
 	var req AlertRequest
 	if err := json.NewDecoder(r.Body).Decode(&req); err != nil {
-		http.Error(w, "Invalid request body", http.StatusBadRequest)
+		respondError(w, http.StatusBadRequest, "Invalid request body")
 		return
 	}
 
-	// In a real implementation, we would store this in the database
-	// For now, we just log it and return success
-	logger.Infof("[ALERT] Robot %s: [%s/%s] %s", robotID, req.Severity, req.AlertType, req.Message)
-
-	response := map[string]interface{}{
-		"success": true,
-		"data": map[string]interface{}{
-			"status":   "received",
-			"robot_id": robotID,
-		},
+	// Create alert model
+	alert := &models.Alert{
+		RobotID:   robotID,
+		AccountID: accountID,
+		AlertType: req.AlertType,
+		Severity:  req.Severity,
+		Message:   req.Message,
+		Status:    "active",
+		CreatedAt: time.Now(),
 	}
 
-	w.Header().Set("Content-Type", "application/json")
-	json.NewEncoder(w).Encode(response)
+	if err := h.repo.CreateAlert(alert); err != nil {
+		logger.Errorf("Failed to store alert: %v", err)
+		respondError(w, http.StatusInternalServerError, "Failed to store alert")
+		return
+	}
+
+	logger.Infof("[ALERT] Robot %s: [%s/%s] %s (Stored as %s)", robotID, req.Severity, req.AlertType, req.Message, alert.ID)
+
+	respondSuccess(w, map[string]interface{}{
+		"message":  "Alert received and stored",
+		"alert_id": alert.ID,
+		"robot_id": robotID,
+	})
 }
 
 // SubmitGenericMessage handles custom messages defined by user schemas

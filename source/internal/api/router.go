@@ -7,6 +7,7 @@ import (
 	"strings"
 	"time"
 
+	"github.com/Jaron0211/kairoio-server/internal/action"
 	"github.com/Jaron0211/kairoio-server/internal/auth"
 	"github.com/Jaron0211/kairoio-server/internal/database"
 	"github.com/Jaron0211/kairoio-server/internal/schema"
@@ -15,7 +16,7 @@ import (
 )
 
 // Router creates and configures the HTTP router
-func NewRouter(repo *database.Repository, authHandler *AuthHandler, robotHandler *RobotHandler, schemaHandler *schema.Handler) http.Handler {
+func NewRouter(repo *database.Repository, authHandler *AuthHandler, robotHandler *RobotHandler, schemaHandler *schema.Handler, actionHandler *action.Handler, alertHandler *AlertHandler) http.Handler {
 	r := chi.NewRouter()
 
 	// Middleware
@@ -94,6 +95,27 @@ func NewRouter(repo *database.Repository, authHandler *AuthHandler, robotHandler
 			r.Get("/robots/{robotId}/logs/subscribe", robotHandler.SubscribeLogs)
 			r.Post("/robots/{robotId}/alert", robotHandler.SubmitAlert)
 
+			// Control input endpoint (dynamic actions)
+			r.Post("/robots/{robotId}/control", actionHandler.HandleControlInput)
+			r.Get("/robots/{robotId}/control/logs", actionHandler.GetActionLogs)
+
+			// Action management (CRUD for dynamic actions)
+			r.Route("/actions", func(r chi.Router) {
+				r.Get("/", actionHandler.ListActions)
+				r.Get("/all", actionHandler.ListAllActions)
+				r.Post("/", actionHandler.RegisterAction)
+				r.Get("/{actionId}", actionHandler.GetAction)
+				r.Put("/{actionId}", actionHandler.UpdateAction)
+				r.Delete("/{actionId}", actionHandler.DeleteAction)
+			})
+
+			// Alert management
+			r.Route("/alerts", func(r chi.Router) {
+				r.Get("/", alertHandler.ListAlerts)
+				r.Post("/{alertId}/acknowledge", alertHandler.AcknowledgeAlert)
+				r.Post("/{alertId}/resolve", alertHandler.ResolveAlert)
+			})
+
 			// Dynamic Routes from Custom Schemas
 			// Iterate all known schemas and register generic handlers for those we haven't covered
 			// Note: In production you might want a more robust way to collision check
@@ -109,6 +131,7 @@ func NewRouter(repo *database.Repository, authHandler *AuthHandler, robotHandler
 						// but rigorous deduping is better.
 						isHandled := entry.Endpoint == "/api/v1/robots/{robot_id}/status" ||
 							entry.Endpoint == "/api/v1/robots/{robot_id}/alert" ||
+							entry.Endpoint == "/api/v1/robots/{robot_id}/control" ||
 							entry.Endpoint == "/api/v1/robots"
 
 						// We need to strip /api/v1 prefix because we are inside the route group

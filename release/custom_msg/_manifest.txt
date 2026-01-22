@@ -1,0 +1,11 @@
+# Custom Message Schemas Manifest
+# Add customer-specific schema files here
+# Lines starting with # are comments
+#
+# To add a new schema:
+# 1. Create your_schema.json in this directory
+# 2. Add the filename below
+# 3. Restart the server (or use dynamic action API for runtime registration)
+
+# Control Input - base endpoint for dynamic actions
+control_input.json
