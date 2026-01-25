@@ -16,7 +16,7 @@ import (
 )
 
 // Router creates and configures the HTTP router
-func NewRouter(repo *database.Repository, authHandler *AuthHandler, robotHandler *RobotHandler, schemaHandler *schema.Handler, actionHandler *action.Handler, alertHandler *AlertHandler) http.Handler {
+func NewRouter(repo *database.Repository, authHandler *AuthHandler, robotHandler *RobotHandler, schemaHandler *schema.Handler, actionHandler *action.Handler, alertHandler *AlertHandler, mapHandler *MapHandler, configHandler *ConfigHandler) http.Handler {
 	r := chi.NewRouter()
 
 	// Middleware
@@ -61,6 +61,7 @@ func NewRouter(repo *database.Repository, authHandler *AuthHandler, robotHandler
 	// API v1 routes
 	r.Route("/api/v1", func(r chi.Router) {
 		// Public routes (no auth required)
+		r.Get("/config", configHandler.GetConfig)
 		r.Route("/auth", func(r chi.Router) {
 			r.Post("/login", authHandler.Login)
 		})
@@ -90,10 +91,12 @@ func NewRouter(repo *database.Repository, authHandler *AuthHandler, robotHandler
 			r.Post("/robots/{robotId}/status", robotHandler.UpdateStatus)
 			r.Get("/robots/{robotId}/status", robotHandler.GetStatus)
 			r.Get("/robots/{robotId}/history", robotHandler.GetHistory)
+			r.Get("/robots/{robotId}/trajectory", robotHandler.GetTrajectory)
 			r.Get("/robots/{robotId}/token", robotHandler.GetStreamingToken)
 			r.Post("/robots/{robotId}/logs", robotHandler.SubmitLog)
 			r.Get("/robots/{robotId}/logs/subscribe", robotHandler.SubscribeLogs)
 			r.Post("/robots/{robotId}/alert", robotHandler.SubmitAlert)
+			r.Post("/robots/{robotId}/map", robotHandler.SetActiveMap)
 
 			// Control input endpoint (dynamic actions)
 			r.Post("/robots/{robotId}/control", actionHandler.HandleControlInput)
@@ -115,6 +118,16 @@ func NewRouter(repo *database.Repository, authHandler *AuthHandler, robotHandler
 				r.Post("/{alertId}/acknowledge", alertHandler.AcknowledgeAlert)
 				r.Post("/{alertId}/resolve", alertHandler.ResolveAlert)
 			})
+
+			// Map management
+			r.Route("/map", func(r chi.Router) {
+				r.Post("/upload", mapHandler.UploadMap)
+				r.Get("/latest", mapHandler.GetLatestMap)
+				r.Get("/{id}", mapHandler.GetMap)
+				r.Get("/{id}/image", mapHandler.GetMapImage)
+				r.Delete("/{id}", mapHandler.DeleteMap)
+			})
+			r.Get("/maps", mapHandler.ListMaps)
 
 			// Dynamic Routes from Custom Schemas
 			// Iterate all known schemas and register generic handlers for those we haven't covered

@@ -249,3 +249,59 @@ func (r *Repository) CleanupExpiredCodes() error {
 	return r.db.Where("expires_at < ?", time.Now()).
 		Delete(&models.EmailVerificationCode{}).Error
 }
+
+// --- Map Operations ---
+
+// SaveMap stores a new map in the database
+func (r *Repository) SaveMap(m *models.Map) error {
+	return r.db.Create(m).Error
+}
+
+// GetMapByID retrieves a map by ID
+func (r *Repository) GetMapByID(id string) (*models.Map, error) {
+	var m models.Map
+	result := r.db.Where("id = ?", id).First(&m)
+	if result.Error != nil {
+		return nil, result.Error
+	}
+	return &m, nil
+}
+
+// GetLatestMapDraft retrieves the most recently uploaded map for an account
+func (r *Repository) GetLatestMapDraft(accountID string) (*models.Map, error) {
+	var m models.Map
+	result := r.db.Where("account_id = ?", accountID).
+		Order("created_at DESC").
+		First(&m)
+	if result.Error != nil {
+		if errors.Is(result.Error, gorm.ErrRecordNotFound) {
+			return nil, nil
+		}
+		return nil, result.Error
+	}
+	return &m, nil
+}
+
+// ListMapsForAccount retrieves all maps for an account
+func (r *Repository) ListMapsForAccount(accountID string) ([]models.Map, error) {
+	var maps []models.Map
+	result := r.db.Where("account_id = ?", accountID).
+		Order("created_at DESC").
+		Find(&maps)
+	if result.Error != nil {
+		return nil, result.Error
+	}
+	return maps, nil
+}
+
+// DeleteMap deletes a map
+func (r *Repository) DeleteMap(id string) error {
+	result := r.db.Delete(&models.Map{}, "id = ?", id)
+	if result.Error != nil {
+		return result.Error
+	}
+	if result.RowsAffected == 0 {
+		return errors.New("map not found")
+	}
+	return nil
+}

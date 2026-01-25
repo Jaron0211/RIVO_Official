@@ -35,6 +35,63 @@ type Config struct {
 	LogLevel        string // "silent", "error", "warn", "info"
 }
 
+// ensurePostgresDatabase connects to the default postgres database and creates
+// the target database if it doesn't exist
+func ensurePostgresDatabase(cfg Config) error {
+	host := cfg.Host
+	if host == "" {
+		host = "localhost"
+	}
+	port := cfg.Port
+	if port == "" {
+		port = "5432"
+	}
+	user := cfg.User
+	if user == "" {
+		user = "postgres"
+	}
+	dbname := cfg.DBName
+	if dbname == "" {
+		dbname = "kairoio"
+	}
+
+	// Connect to the default 'postgres' database to create the target database
+	adminDSN := fmt.Sprintf("host=%s user=%s password=%s dbname=postgres port=%s sslmode=disable",
+		host, user, cfg.Password, port)
+
+	adminDB, err := gorm.Open(postgres.Open(adminDSN), &gorm.Config{
+		Logger: logger.Default.LogMode(logger.Silent),
+	})
+	if err != nil {
+		return fmt.Errorf("failed to connect to postgres database: %w", err)
+	}
+
+	sqlDB, err := adminDB.DB()
+	if err != nil {
+		return fmt.Errorf("failed to get admin database instance: %w", err)
+	}
+	defer sqlDB.Close()
+
+	// Check if the database exists
+	var exists bool
+	err = adminDB.Raw("SELECT EXISTS(SELECT 1 FROM pg_database WHERE datname = ?)", dbname).Scan(&exists).Error
+	if err != nil {
+		return fmt.Errorf("failed to check if database exists: %w", err)
+	}
+
+	if !exists {
+		// Create the database
+		// Note: CREATE DATABASE cannot be executed inside a transaction, so we use Exec directly
+		err = adminDB.Exec(fmt.Sprintf("CREATE DATABASE %s", dbname)).Error
+		if err != nil {
+			return fmt.Errorf("failed to create database %s: %w", dbname, err)
+		}
+		log.Printf("Database '%s' created successfully", dbname)
+	}
+
+	return nil
+}
+
 // NewDatabase creates a new database connection
 func NewDatabase(cfg Config) (*Database, error) {
 	var (
@@ -60,6 +117,11 @@ func NewDatabase(cfg Config) (*Database, error) {
 	// Connect based on type
 	switch cfg.Type {
 	case "postgres":
+		// Ensure the database exists before connecting
+		if err := ensurePostgresDatabase(cfg); err != nil {
+			return nil, fmt.Errorf("failed to ensure database exists: %w", err)
+		}
+
 		dsn := cfg.DSN
 		if dsn == "" || (!strings.HasPrefix(dsn, "postgres://") && !strings.HasPrefix(dsn, "postgresql://") && !strings.Contains(dsn, "host=")) {
 			// Construct DSN from components
@@ -138,6 +200,7 @@ func (d *Database) AutoMigrate() error {
 		&models.AlertRule{},
 		&models.AlertNotificationLog{},
 		&models.NotificationChannel{},
+		&models.Map{},
 	)
 }
 

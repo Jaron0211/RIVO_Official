@@ -69,6 +69,7 @@ type FeatureFlags struct {
 	EmailVerificationRequired bool
 	RobotQuotaEnabled         bool
 	RateLimitingEnabled       bool
+	RobotOfflineThreshold     time.Duration
 }
 
 // Load loads configuration from file and environment variables
@@ -104,6 +105,7 @@ func Load(configPath string) (*Config, error) {
 	cfg.Database.ConnMaxLifetime = v.GetDuration("database.conn_max_lifetime")
 	cfg.Auth.TokenTTL = v.GetDuration("auth.token_ttl")
 	cfg.Email.CodeTTL = v.GetDuration("email.code_ttl")
+	cfg.Features.RobotOfflineThreshold = v.GetDuration("features.robot_offline_threshold")
 
 	return &cfg, nil
 }
@@ -147,4 +149,5 @@ func setDefaults(v *viper.Viper) {
 	v.SetDefault("features.email_verification_required", true)
 	v.SetDefault("features.robot_quota_enabled", true)
 	v.SetDefault("features.rate_limiting_enabled", true)
+	v.SetDefault("features.robot_offline_threshold", "30s")
 }

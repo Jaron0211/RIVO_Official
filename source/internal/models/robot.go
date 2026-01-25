@@ -9,8 +9,9 @@ type Robot struct {
 	ID        string    `gorm:"primaryKey;column:id" json:"id"`
 	AccountID string    `gorm:"not null;index;column:account_id" json:"account_id"`
 	RobotType string    `gorm:"not null;column:robot_type" json:"robot_type"`
-	RobotName string    `gorm:"column:robot_name" json:"robot_name"`
-	CreatedAt time.Time `gorm:"column:created_at" json:"created_at"`
+	RobotName   string    `gorm:"column:robot_name" json:"robot_name"`
+	ActiveMapID string    `gorm:"column:active_map_id" json:"active_map_id"`
+	CreatedAt   time.Time `gorm:"column:created_at" json:"created_at"`
 	UpdatedAt time.Time `gorm:"column:updated_at" json:"updated_at"`
 
 	// Relations

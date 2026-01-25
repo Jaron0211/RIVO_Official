@@ -455,6 +455,87 @@ func (h *RobotHandler) GetHistory(w http.ResponseWriter, r *http.Request) {
 	})
 }
 
+// GetTrajectory handles GET /api/v1/robots/{robotId}/trajectory
+// Similar to history but optimized for path plotting (lat/lng/x/y only)
+func (h *RobotHandler) GetTrajectory(w http.ResponseWriter, r *http.Request) {
+	accountID, err := auth.GetAccountID(r.Context())
+	if err != nil {
+		respondError(w, http.StatusUnauthorized, "Unauthorized")
+		return
+	}
+
+	robotID := chi.URLParam(r, "robotId")
+	startStr := r.URL.Query().Get("start")
+	endStr := r.URL.Query().Get("end")
+
+	if robotID == "" {
+		respondError(w, http.StatusBadRequest, "robotId is required")
+		return
+	}
+
+	var start, end time.Time
+	if startStr != "" {
+		start, _ = time.Parse(time.RFC3339, startStr)
+	} else {
+		start = time.Now().Add(-24 * time.Hour)
+	}
+
+	if endStr != "" {
+		end, _ = time.Parse(time.RFC3339, endStr)
+	} else {
+		end = time.Now()
+	}
+
+	// Verify robot belongs to account
+	robot, err := h.repo.GetRobotByID(robotID)
+	if err != nil || robot.AccountID != accountID {
+		respondError(w, http.StatusForbidden, "Access denied")
+		return
+	}
+
+	statuses, err := h.repo.GetRobotStatusesByTimeRange(robotID, start, end)
+	if err != nil {
+		respondError(w, http.StatusInternalServerError, "Failed to fetch trajectory")
+		return
+	}
+
+	type Point struct {
+		X         float64   `json:"x"`
+		Y         float64   `json:"y"`
+		Lat       float64   `json:"lat"`
+		Lng       float64   `json:"lng"`
+		Timestamp time.Time `json:"timestamp"`
+	}
+
+	var path []Point
+	for _, s := range statuses {
+		var statusData map[string]interface{}
+		if err := json.Unmarshal([]byte(s.StatusJSON), &statusData); err == nil {
+			p := Point{Timestamp: s.Timestamp}
+
+			// Extract global position
+			if gp, ok := statusData["global_position"].(map[string]interface{}); ok {
+				p.Lat, _ = gp["latitude"].(float64)
+				p.Lng, _ = gp["longitude"].(float64)
+			}
+
+			// Extract local position
+			if lp, ok := statusData["local_position"].(map[string]interface{}); ok {
+				p.X, _ = lp["x"].(float64)
+				p.Y, _ = lp["y"].(float64)
+			}
+
+			path = append(path, p)
+		}
+	}
+
+	respondSuccess(w, map[string]interface{}{
+		"robot_id": robotID,
+		"count":    len(path),
+		"path":     path,
+	})
+}
+
 // SubmitLog handles POST /api/v1/robots/{robotId}/logs
 func (h *RobotHandler) SubmitLog(w http.ResponseWriter, r *http.Request) {
 	accountID, err := auth.GetAccountID(r.Context())
@@ -594,5 +675,73 @@ func (h *RobotHandler) GetStreamingToken(w http.ResponseWriter, r *http.Request)
 		"token": token,
 		"host":  livekitHost,
 		"room":  robotID,
+	})
+}
+
+// SetActiveMapRequest represents request to set active map
+type SetActiveMapRequest struct {
+	MapID string `json:"map_id"`
+}
+
+// SetActiveMap handles POST /api/v1/robots/{robotId}/map
+func (h *RobotHandler) SetActiveMap(w http.ResponseWriter, r *http.Request) {
+	accountID, err := auth.GetAccountID(r.Context())
+	if err != nil {
+		respondError(w, http.StatusUnauthorized, "Unauthorized")
+		return
+	}
+
+	robotID := chi.URLParam(r, "robotId")
+	if robotID == "" {
+		respondError(w, http.StatusBadRequest, "robotId is required")
+		return
+	}
+
+	var req SetActiveMapRequest
+	if err := json.NewDecoder(r.Body).Decode(&req); err != nil {
+		respondError(w, http.StatusBadRequest, "Invalid request body")
+		return
+	}
+
+	robot, err := h.repo.GetRobotByID(robotID)
+	if err != nil {
+		if err == database.ErrRobotNotFound {
+			respondError(w, http.StatusNotFound, "Robot not found")
+			return
+		}
+		respondError(w, http.StatusInternalServerError, "Failed to get robot")
+		return
+	}
+
+	if robot.AccountID != accountID {
+		respondError(w, http.StatusForbidden, "Access denied")
+		return
+	}
+
+	// Validate Map exists (optional but good practice)
+	if req.MapID != "" {
+		m, err := h.repo.GetMapByID(req.MapID)
+		if err != nil {
+			respondError(w, http.StatusNotFound, "Map not found")
+			return
+		}
+		if m.AccountID != accountID {
+			respondError(w, http.StatusForbidden, "Map access denied")
+			return
+		}
+	}
+
+	robot.ActiveMapID = req.MapID
+	robot.UpdatedAt = time.Now()
+
+	if err := h.repo.UpdateRobot(robot); err != nil {
+		respondError(w, http.StatusInternalServerError, "Failed to update robot")
+		return
+	}
+
+	respondSuccess(w, map[string]interface{}{
+		"message":       "Active map updated",
+		"robot_id":      robotID,
+		"active_map_id": req.MapID,
 	})
 }
