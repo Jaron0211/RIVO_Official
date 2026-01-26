@@ -1,0 +1,512 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="KairoIO - 機器人雲端管理平台。讓你的機器人作品快速擁有雲端後台、即時監控與 App 控制能力。">
+    <meta name="keywords" content="機器人, IoT, 雲端平台, 車隊管理, ROS, AMR, AGV, ESP32">
+    <meta property="og:title" content="KairoIO - 機器人雲端管理平台">
+    <meta property="og:description" content="讓你的機器人作品，3 天內變成有雲端後台的產品">
+    <meta property="og:type" content="website">
+    <title>KairoIO - 機器人雲端管理平台</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="container">
+            <a href="#" class="logo">
+                <span class="logo-icon">K</span>
+                <span class="logo-text">KairoIO</span>
+            </a>
+            <ul class="nav-links">
+                <li><a href="#features">功能</a></li>
+                <li><a href="#use-cases">應用場景</a></li>
+                <li><a href="#pricing">方案</a></li>
+                <li><a href="#contact" class="btn btn-outline">聯絡我們</a></li>
+            </ul>
+            <button class="mobile-menu-btn" aria-label="選單">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container">
+            <div class="hero-content">
+                <h1>機器人雲端管理平台</h1>
+                <p class="hero-subtitle">
+                    讓你的機器人作品，<strong>3 天內</strong>變成有雲端後台的產品
+                </p>
+                <p class="hero-description">
+                    專為機器人新創、研究實驗室打造的輕量級車隊管理平台。<br>
+                    即時監控、遠端控制、數據分析，一站搞定。
+                </p>
+                <div class="hero-buttons">
+                    <a href="#contact" class="btn btn-primary">預約 Demo</a>
+                    <a href="https://github.com/Jaron0211/kairoio-server" class="btn btn-secondary" target="_blank">
+                        GitHub
+                    </a>
+                </div>
+            </div>
+            <div class="hero-visual">
+                <div class="dashboard-preview">
+                    <div class="preview-header">
+                        <span class="dot red"></span>
+                        <span class="dot yellow"></span>
+                        <span class="dot green"></span>
+                    </div>
+                    <div class="preview-content">
+                        <div class="robot-card">
+                            <div class="robot-status online"></div>
+                            <div class="robot-info">
+                                <span class="robot-name">巡邏機器人 #001</span>
+                                <span class="robot-battery">85%</span>
+                            </div>
+                        </div>
+                        <div class="robot-card">
+                            <div class="robot-status online"></div>
+                            <div class="robot-info">
+                                <span class="robot-name">送餐機器人 #002</span>
+                                <span class="robot-battery">72%</span>
+                            </div>
+                        </div>
+                        <div class="robot-card">
+                            <div class="robot-status warning"></div>
+                            <div class="robot-info">
+                                <span class="robot-name">清潔機器人 #003</span>
+                                <span class="robot-battery">23%</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section id="features" class="features">
+        <div class="container">
+            <h2 class="section-title">核心功能</h2>
+            <p class="section-subtitle">完整的機器人管理解決方案，開箱即用</p>
+
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/>
+                        </svg>
+                    </div>
+                    <h3>即時監控</h3>
+                    <p>SSE 即時推送，毫秒級延遲。電池、位置、感測器狀態一目瞭然。</p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <rect x="3" y="3" width="18" height="18" rx="2"/>
+                            <path d="M3 9h18M9 21V9"/>
+                        </svg>
+                    </div>
+                    <h3>動態 Schema</h3>
+                    <p>自定義訊息類型，無需修改程式碼。你的機器人，你的資料結構。</p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+                        </svg>
+                    </div>
+                    <h3>告警系統</h3>
+                    <p>規則引擎自動觸發告警，支援 LINE、Email、Webhook 多管道通知。</p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <polygon points="23 7 16 12 23 17 23 7"/>
+                            <rect x="1" y="5" width="15" height="14" rx="2"/>
+                        </svg>
+                    </div>
+                    <h3>視頻串流</h3>
+                    <p>LiveKit WebRTC 整合，低延遲視頻監控。支援 ESP32-CAM。</p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/>
+                            <circle cx="12" cy="10" r="3"/>
+                        </svg>
+                    </div>
+                    <h3>地圖管理</h3>
+                    <p>支援 ROS 導航地圖格式 (PGM + YAML)，視覺化機器人位置與軌跡。</p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"/>
+                        </svg>
+                    </div>
+                    <h3>動態 Action</h3>
+                    <p>運行時註冊控制動作，Webhook 整合外部系統。彈性無限。</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Tech Stack Section -->
+    <section class="tech-stack">
+        <div class="container">
+            <h2 class="section-title">技術架構</h2>
+            <p class="section-subtitle">現代化技術堆疊，輕量高效</p>
+
+            <div class="tech-grid">
+                <div class="tech-item">
+                    <span class="tech-name">Go</span>
+                    <span class="tech-desc">高效能後端</span>
+                </div>
+                <div class="tech-item">
+                    <span class="tech-name">PostgreSQL</span>
+                    <span class="tech-desc">可靠資料庫</span>
+                </div>
+                <div class="tech-item">
+                    <span class="tech-name">Docker</span>
+                    <span class="tech-desc">容器化部署</span>
+                </div>
+                <div class="tech-item">
+                    <span class="tech-name">LiveKit</span>
+                    <span class="tech-desc">WebRTC 串流</span>
+                </div>
+                <div class="tech-item">
+                    <span class="tech-name">SSE</span>
+                    <span class="tech-desc">即時推送</span>
+                </div>
+                <div class="tech-item">
+                    <span class="tech-name">REST API</span>
+                    <span class="tech-desc">標準介面</span>
+                </div>
+            </div>
+
+            <div class="tech-highlight">
+                <div class="highlight-item">
+                    <span class="highlight-number">單一二進制</span>
+                    <span class="highlight-label">輕量部署</span>
+                </div>
+                <div class="highlight-item">
+                    <span class="highlight-number">&lt; 50MB</span>
+                    <span class="highlight-label">執行檔大小</span>
+                </div>
+                <div class="highlight-item">
+                    <span class="highlight-number">多平台</span>
+                    <span class="highlight-label">Linux / macOS / Windows</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Use Cases Section -->
+    <section id="use-cases" class="use-cases">
+        <div class="container">
+            <h2 class="section-title">適合誰？</h2>
+            <p class="section-subtitle">無論你是新創團隊還是研究單位，KairoIO 都能加速你的開發</p>
+
+            <div class="use-cases-grid">
+                <div class="use-case-card">
+                    <div class="use-case-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M12 2L2 7l10 5 10-5-10-5z"/>
+                            <path d="M2 17l10 5 10-5"/>
+                            <path d="M2 12l10 5 10-5"/>
+                        </svg>
+                    </div>
+                    <h3>機器人新創</h3>
+                    <p>你專注硬體與核心技術，雲端管理交給 KairoIO。從原型到產品，加速 6-12 個月開發時程。</p>
+                    <ul class="use-case-list">
+                        <li>AMR / AGV 車隊管理</li>
+                        <li>服務型機器人監控</li>
+                        <li>無人機編隊協調</li>
+                    </ul>
+                </div>
+
+                <div class="use-case-card">
+                    <div class="use-case-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M22 10v6M2 10l10-5 10 5-10 5z"/>
+                            <path d="M6 12v5c0 2 2 3 6 3s6-1 6-3v-5"/>
+                        </svg>
+                    </div>
+                    <h3>大學實驗室</h3>
+                    <p>快速建立實驗平台，專注研究而非基礎建設。論文 Demo、競賽展示的最佳夥伴。</p>
+                    <ul class="use-case-list">
+                        <li>ROS 機器人研究</li>
+                        <li>SLAM 演算法驗證</li>
+                        <li>多機器人協作實驗</li>
+                    </ul>
+                </div>
+
+                <div class="use-case-card">
+                    <div class="use-case-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <rect x="2" y="3" width="20" height="14" rx="2"/>
+                            <path d="M8 21h8M12 17v4"/>
+                        </svg>
+                    </div>
+                    <h3>IoT 專案</h3>
+                    <p>ESP32、Arduino 等硬體輕鬆上雲。完整範例程式碼，從感測器到雲端一條龍。</p>
+                    <ul class="use-case-list">
+                        <li>智慧農業監控</li>
+                        <li>環境感測網路</li>
+                        <li>遠端設備管理</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Pricing Section -->
+    <section id="pricing" class="pricing">
+        <div class="container">
+            <h2 class="section-title">服務方案</h2>
+            <p class="section-subtitle">彈性計價，隨你的規模成長</p>
+
+            <div class="pricing-grid">
+                <div class="pricing-card">
+                    <div class="pricing-header">
+                        <h3>Starter</h3>
+                        <div class="price">
+                            <span class="currency">NT$</span>
+                            <span class="amount">3,000</span>
+                            <span class="period">/月</span>
+                        </div>
+                    </div>
+                    <ul class="pricing-features">
+                        <li>最多 5 台機器人</li>
+                        <li>即時監控與控制</li>
+                        <li>7 天數據保留</li>
+                        <li>Email 告警通知</li>
+                        <li>社群技術支援</li>
+                    </ul>
+                    <a href="#contact" class="btn btn-outline btn-block">開始使用</a>
+                </div>
+
+                <div class="pricing-card featured">
+                    <div class="pricing-badge">推薦</div>
+                    <div class="pricing-header">
+                        <h3>Growth</h3>
+                        <div class="price">
+                            <span class="currency">NT$</span>
+                            <span class="amount">8,000</span>
+                            <span class="period">/月</span>
+                        </div>
+                    </div>
+                    <ul class="pricing-features">
+                        <li>最多 20 台機器人</li>
+                        <li>即時監控與控制</li>
+                        <li>30 天數據保留</li>
+                        <li>LINE + Email 告警</li>
+                        <li>視頻串流支援</li>
+                        <li>優先技術支援</li>
+                    </ul>
+                    <a href="#contact" class="btn btn-primary btn-block">開始使用</a>
+                </div>
+
+                <div class="pricing-card">
+                    <div class="pricing-header">
+                        <h3>Scale</h3>
+                        <div class="price">
+                            <span class="currency">NT$</span>
+                            <span class="amount">25,000</span>
+                            <span class="period">/月</span>
+                        </div>
+                    </div>
+                    <ul class="pricing-features">
+                        <li>最多 100 台機器人</li>
+                        <li>即時監控與控制</li>
+                        <li>90 天數據保留</li>
+                        <li>全管道告警通知</li>
+                        <li>視頻串流支援</li>
+                        <li>專屬技術顧問</li>
+                        <li>客製化開發支援</li>
+                    </ul>
+                    <a href="#contact" class="btn btn-outline btn-block">聯絡我們</a>
+                </div>
+            </div>
+
+            <div class="pricing-note">
+                <p>需要更大規模或客製化方案？<a href="#contact">聯絡我們</a>討論企業方案。</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Integration Services -->
+    <section class="services">
+        <div class="container">
+            <h2 class="section-title">整合服務</h2>
+            <p class="section-subtitle">一次性專業服務，快速將你的機器人產品化</p>
+
+            <div class="services-grid">
+                <div class="service-item">
+                    <h4>需求對接</h4>
+                    <p>定義 Schema、API 端點規劃</p>
+                    <span class="service-price">NT$ 30,000 起</span>
+                </div>
+                <div class="service-item">
+                    <h4>客製 Dashboard</h4>
+                    <p>依據你的機器人類型打造專屬介面</p>
+                    <span class="service-price">NT$ 50,000 起</span>
+                </div>
+                <div class="service-item">
+                    <h4>App 白標</h4>
+                    <p>KairoIO Android App 客製化</p>
+                    <span class="service-price">NT$ 30,000 起</span>
+                </div>
+                <div class="service-item">
+                    <h4>硬體整合</h4>
+                    <p>ESP32 / ROS 客戶端程式支援</p>
+                    <span class="service-price">NT$ 20,000 起</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="contact">
+        <div class="container">
+            <h2 class="section-title">聯絡我們</h2>
+            <p class="section-subtitle">預約 Demo 或討論你的專案需求</p>
+
+            <div class="contact-grid">
+                <div class="contact-info">
+                    <div class="contact-item">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+                            <polyline points="22,6 12,13 2,6"/>
+                        </svg>
+                        <div>
+                            <h4>Email</h4>
+                            <a href="mailto:contact@kairoio.com">contact@kairoio.com</a>
+                        </div>
+                    </div>
+
+                    <div class="contact-item">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/>
+                        </svg>
+                        <div>
+                            <h4>GitHub</h4>
+                            <a href="https://github.com/Jaron0211/kairoio-server" target="_blank">Jaron0211/kairoio-server</a>
+                        </div>
+                    </div>
+
+                    <div class="contact-item">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/>
+                            <circle cx="12" cy="10" r="3"/>
+                        </svg>
+                        <div>
+                            <h4>地點</h4>
+                            <span>台灣</span>
+                        </div>
+                    </div>
+                </div>
+
+                <form class="contact-form" action="https://formspree.io/f/YOUR_FORM_ID" method="POST">
+                    <div class="form-group">
+                        <label for="name">姓名</label>
+                        <input type="text" id="name" name="name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Email</label>
+                        <input type="email" id="email" name="email" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="company">公司 / 單位</label>
+                        <input type="text" id="company" name="company">
+                    </div>
+                    <div class="form-group">
+                        <label for="message">訊息</label>
+                        <textarea id="message" name="message" rows="4" placeholder="請簡述你的專案需求或想了解的內容..." required></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-primary btn-block">送出</button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-brand">
+                    <a href="#" class="logo">
+                        <span class="logo-icon">K</span>
+                        <span class="logo-text">KairoIO</span>
+                    </a>
+                    <p>機器人雲端管理平台</p>
+                </div>
+                <div class="footer-links">
+                    <div class="footer-column">
+                        <h4>產品</h4>
+                        <ul>
+                            <li><a href="#features">功能</a></li>
+                            <li><a href="#pricing">方案</a></li>
+                            <li><a href="https://github.com/Jaron0211/kairoio-server" target="_blank">文件</a></li>
+                        </ul>
+                    </div>
+                    <div class="footer-column">
+                        <h4>資源</h4>
+                        <ul>
+                            <li><a href="https://github.com/Jaron0211/kairoio-server" target="_blank">GitHub</a></li>
+                            <li><a href="https://github.com/Jaron0211/kairoio-server/issues" target="_blank">問題回報</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 KairoIO. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Mobile menu toggle
+        document.querySelector('.mobile-menu-btn').addEventListener('click', function() {
+            document.querySelector('.nav-links').classList.toggle('active');
+            this.classList.toggle('active');
+        });
+
+        // Smooth scroll for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                    // Close mobile menu if open
+                    document.querySelector('.nav-links').classList.remove('active');
+                    document.querySelector('.mobile-menu-btn').classList.remove('active');
+                }
+            });
+        });
+
+        // Navbar background on scroll
+        window.addEventListener('scroll', function() {
+            const navbar = document.querySelector('.navbar');
+            if (window.scrollY > 50) {
+                navbar.classList.add('scrolled');
+            } else {
+                navbar.classList.remove('scrolled');
+            }
+        });
+    </script>
+</body>
+</html>
