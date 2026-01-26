@@ -164,6 +164,13 @@ func NewDatabase(cfg Config) (*Database, error) {
 		}
 
 		db, err = gorm.Open(sqlite.Open(cfg.DSN), gormConfig)
+		if err == nil {
+			// Optimize SQLite for concurrent access
+			db.Exec("PRAGMA journal_mode=WAL;")
+			db.Exec("PRAGMA busy_timeout=10000;") // Increased timeout
+			db.Exec("PRAGMA synchronous=NORMAL;")
+			db.Exec("PRAGMA cache_size=-64000;") // 64MB cache
+		}
 	default:
 		return nil, fmt.Errorf("unsupported database type: %s", cfg.Type)
 	}
@@ -179,6 +186,9 @@ func NewDatabase(cfg Config) (*Database, error) {
 	}
 
 	sqlDB.SetMaxOpenConns(cfg.MaxConnections)
+	if cfg.Type == "sqlite" {
+		sqlDB.SetMaxOpenConns(1)
+	}
 	sqlDB.SetMaxIdleConns(cfg.MaxIdle)
 	sqlDB.SetConnMaxLifetime(cfg.ConnMaxLifetime)
 

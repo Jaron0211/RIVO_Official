@@ -5,7 +5,9 @@ import (
 	"strings"
 	"time"
 
+	"github.com/Jaron0211/kairoio-server/internal/auth"
 	"github.com/Jaron0211/kairoio-server/internal/models"
+	"github.com/google/uuid"
 	"gorm.io/gorm"
 )
 
@@ -92,7 +94,10 @@ func (r *Repository) UpdateAccount(account *models.Account) error {
 func (r *Repository) CreateRobot(robot *models.Robot) error {
 	result := r.db.Create(robot)
 	if result.Error != nil {
-		if errors.Is(result.Error, gorm.ErrDuplicatedKey) || strings.Contains(result.Error.Error(), "duplicate key") {
+		errStr := result.Error.Error()
+		if errors.Is(result.Error, gorm.ErrDuplicatedKey) ||
+			strings.Contains(errStr, "duplicate key") ||
+			strings.Contains(errStr, "UNIQUE constraint failed") {
 			return ErrRobotExists
 		}
 		return result.Error
@@ -304,4 +309,41 @@ func (r *Repository) DeleteMap(id string) error {
 		return errors.New("map not found")
 	}
 	return nil
+}
+
+// SeedDefaultUser ensures the default 'kairoio' user exists
+func (r *Repository) SeedDefaultUser() error {
+	email := "kairoio"
+	password := "kairoio"
+
+	// Check if user exists
+	_, err := r.GetAccountByEmail(email)
+	if err == nil {
+		return nil // User exists
+	}
+
+	// Generate hash
+	hash, err := auth.HashPassword(password, 12)
+	if err != nil {
+		return err
+	}
+
+	// Generate cert key
+	certKey, err := auth.GenerateCertificationKey()
+	if err != nil {
+		return err
+	}
+
+	// Create User
+	account := &models.Account{
+		ID:               "acc_" + uuid.New().String(),
+		Email:            email,
+		PasswordHash:     hash,
+		CertificationKey: certKey,
+		EmailVerified:    true,
+		CreatedAt:        time.Now(),
+		UpdatedAt:        time.Now(),
+	}
+
+	return r.CreateAccount(account)
 }

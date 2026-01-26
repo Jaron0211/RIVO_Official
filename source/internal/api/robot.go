@@ -12,13 +12,15 @@ import (
 	"github.com/Jaron0211/kairoio-server/internal/logger"
 	"github.com/Jaron0211/kairoio-server/internal/models"
 	"github.com/go-chi/chi/v5"
-	lkauth "github.com/livekit/protocol/auth"
+
+	"github.com/Jaron0211/kairoio-server/internal/livekit"
 )
 
 // RobotHandler handles robot management endpoints
 type RobotHandler struct {
-	repo        *database.Repository
-	broadcaster *LogBroadcaster
+	repo           *database.Repository
+	broadcaster    *LogBroadcaster
+	livekitService *livekit.Service
 }
 
 type LogBroadcaster struct {
@@ -72,10 +74,11 @@ func (b *LogBroadcaster) Unsubscribe(robotID string, ch chan models.RobotLog) {
 }
 
 // NewRobotHandler creates a new RobotHandler
-func NewRobotHandler(repo *database.Repository) *RobotHandler {
+func NewRobotHandler(repo *database.Repository, lkService *livekit.Service) *RobotHandler {
 	return &RobotHandler{
-		repo:        repo,
-		broadcaster: NewLogBroadcaster(),
+		repo:           repo,
+		broadcaster:    NewLogBroadcaster(),
+		livekitService: lkService,
 	}
 }
 
@@ -130,7 +133,17 @@ func (h *RobotHandler) RegisterRobot(w http.ResponseWriter, r *http.Request) {
 
 	if err := h.repo.CreateRobot(robot); err != nil {
 		if err == database.ErrRobotExists {
-			respondError(w, http.StatusConflict, "Robot already registered")
+			// Check if it belongs to the same account
+			existing, err := h.repo.GetRobotByID(req.RobotID)
+			if err == nil && existing.AccountID == accountID {
+				// Success, already registered to this user
+				respondSuccess(w, map[string]interface{}{
+					"message":  "Robot already registered",
+					"robot_id": existing.ID,
+				})
+				return
+			}
+			respondError(w, http.StatusConflict, "Robot ID already taken")
 			return
 		}
 		logger.Errorf("Failed to create robot: %v", err)
@@ -648,25 +661,18 @@ func (h *RobotHandler) GetStreamingToken(w http.ResponseWriter, r *http.Request)
 		return
 	}
 
-	// LiveKit Configuration (should ideally come from config/env)
-	apiKey := "devkey"    // Placeholder
-	apiSecret := "secret" // Placeholder
-	livekitHost := "http://localhost:7880"
+	// Get identity from query params or fallback to accountID
+	identity := r.URL.Query().Get("identity")
+	if identity == "" {
+		identity = accountID
+	}
 
-	// Create a new token
-	at := lkauth.NewAccessToken(apiKey, apiSecret)
+	// LiveKit Configuration
+	livekitHost := h.livekitService.GetHost()
 
-	// Set identity and grant access to the room
-	// The room name is the robot ID
-	at.SetIdentity(accountID)
-	at.AddGrant(&lkauth.VideoGrant{
-		RoomJoin: true,
-		Room:     robotID,
-	})
-	at.SetValidFor(time.Hour)
-
-	token, err := at.ToJWT()
+	token, err := h.livekitService.CreateUserToken(identity, robotID)
 	if err != nil {
+		logger.Errorf("Failed to generate token: %v", err)
 		respondError(w, http.StatusInternalServerError, "Failed to generate token")
 		return
 	}

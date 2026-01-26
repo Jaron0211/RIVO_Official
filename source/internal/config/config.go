@@ -10,12 +10,13 @@ import (
 
 // Config holds all application configuration
 type Config struct {
-	Server   ServerConfig
-	Database DatabaseConfig
-	Auth     AuthConfig
-	Email    EmailConfig
-	Logging  LoggingConfig
-	Features FeatureFlags
+	Server   ServerConfig   `mapstructure:"server"`
+	Database DatabaseConfig `mapstructure:"database"`
+	Auth     AuthConfig     `mapstructure:"auth"`
+	Email    EmailConfig    `mapstructure:"email"`
+	Logging  LoggingConfig  `mapstructure:"logging"`
+	LiveKit  LiveKitConfig  `mapstructure:"livekit"`
+	Features FeatureFlags   `mapstructure:"features"`
 }
 
 // ServerConfig holds HTTP server configuration
@@ -62,6 +63,13 @@ type EmailConfig struct {
 type LoggingConfig struct {
 	Level  string
 	Format string
+}
+
+// LiveKitConfig holds LiveKit server configuration
+type LiveKitConfig struct {
+	Host      string `mapstructure:"host"`
+	APIKey    string `mapstructure:"api_key"`
+	APISecret string `mapstructure:"api_secret"`
 }
 
 // FeatureFlags holds feature toggles
@@ -121,7 +129,7 @@ func setDefaults(v *viper.Viper) {
 
 	// Database defaults
 	v.SetDefault("database.type", "sqlite")
-	v.SetDefault("database.dsn", "file:./data/kairoio.db?cache=shared&mode=rwc")
+	v.SetDefault("database.dsn", "file:./data/kairoio.db?mode=rwc")
 	v.SetDefault("database.host", "")
 	v.SetDefault("database.port", "")
 	v.SetDefault("database.user", "")
@@ -150,4 +158,9 @@ func setDefaults(v *viper.Viper) {
 	v.SetDefault("features.robot_quota_enabled", true)
 	v.SetDefault("features.rate_limiting_enabled", true)
 	v.SetDefault("features.robot_offline_threshold", "30s")
+
+	// LiveKit defaults
+	v.SetDefault("livekit.host", "ws://localhost:7880")
+	v.SetDefault("livekit.api_key", "devkey")
+	v.SetDefault("livekit.api_secret", "secret")
 }
