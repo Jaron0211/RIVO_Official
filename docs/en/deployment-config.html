@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Deployment & Configuration - RIVO Documentation</title>
+    <link rel="stylesheet" href="../style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@300;400;500;600;700&family=Space+Mono:wght@400;700&display=swap"
+        rel="stylesheet">
+</head>
+
+<body>
+    <nav class="docs-nav">
+        <a href="../../index.html" class="nav-brand">
+            <img src="../../assets/logo-navbar.png" alt="RIVO">
+            <span>RIVO Docs</span>
+        </a>
+        <div class="lang-switch">
+            <a href="deployment-config.html" class="lang-btn active">EN</a>
+            <a href="../zh/deployment-config.html" class="lang-btn">繁中</a>
+        </div>
+    </nav>
+
+    <div class="docs-container">
+        <aside class="sidebar">
+            <div class="sidebar-group">
+                <div class="sidebar-group-title">Introduction</div>
+                <a href="getting-started.html" class="sidebar-link">Getting Started</a>
+                <a href="deployment-config.html" class="sidebar-link active">Deployment & Config</a>
+            </div>
+            <div class="sidebar-group">
+                <div class="sidebar-group-title">API Reference</div>
+                <a href="api-guide.html" class="sidebar-link">API Usage Guide</a>
+                <a href="custom-schemas.html" class="sidebar-link">Custom Message Schemas</a>
+            </div>
+            <div class="sidebar-group">
+                <div class="sidebar-group-title">Operations</div>
+                <a href="advanced.html" class="sidebar-link">Security & Maintenance</a>
+                <a href="troubleshooting.html" class="sidebar-link">Troubleshooting</a>
+            </div>
+        </aside>
+
+        <main class="main-content">
+            <h1>Deployment & Configuration</h1>
+
+            <h2>3. Deployment Options</h2>
+            <h3>3.1 Docker Deployment (Recommended)</h3>
+            <p>Docker is the recommended way to deploy RIVO Server in production.</p>
+            <pre><code>docker build -t rivo-server:latest .</code></pre>
+            <p>Run with essential env vars:</p>
+            <pre><code>docker run -d \
+  -p 8080:8080 \
+  -e RIVO_AUTH_JWT_ACCESS_SECRET="your-32-char-secret" \
+  -e RIVO_AUTH_JWT_REFRESH_SECRET="your-refresh-secret" \
+  rivo-server:latest</code></pre>
+
+            <h3>3.2 Binary Deployment</h3>
+            <p>Direct execution on Linux, macOS, or Windows. Use systemd for persistence on Linux.</p>
+
+            <h2>4. Configuration Reference</h2>
+            <p>RIVO can be configured via <code>config.yaml</code> or environment variables (prefixed with
+                <code>RIVO_</code>).</p>
+
+            <h3>Essential Settings</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Key</th>
+                        <th>Env Var</th>
+                        <th>Description</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>auth.jwt.access_secret</td>
+                        <td>RIVO_AUTH_JWT_ACCESS_SECRET</td>
+                        <td>Min 32-char key for JWT</td>
+                    </tr>
+                    <tr>
+                        <td>database.type</td>
+                        <td>RIVO_DATABASE_TYPE</td>
+                        <td>"sqlite" or "postgres"</td>
+                    </tr>
+                    <tr>
+                        <td>server.port</td>
+                        <td>RIVO_SERVER_PORT</td>
+                        <td>Default: 8080</td>
+                    </tr>
+                </tbody>
+            </table>
+        </main>
+    </div>
+</body>
+
+</html>

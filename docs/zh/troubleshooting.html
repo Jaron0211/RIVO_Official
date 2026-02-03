@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>疑難排解 - RIVO 技術文件</title>
+    <link rel="stylesheet" href="../style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@300;400;500;600;700&family=Noto+Sans+TC:wght@400;500;700&family=Space+Mono:wght@400;700&display=swap"
+        rel="stylesheet">
+</head>
+
+<body>
+    <nav class="docs-nav">
+        <a href="../../index.html" class="nav-brand">
+            <img src="../../assets/logo-navbar.png" alt="RIVO">
+            <span>RIVO 文件中心</span>
+        </a>
+        <div class="lang-switch">
+            <a href="../en/troubleshooting.html" class="lang-btn">EN</a>
+            <a href="troubleshooting.html" class="lang-btn active">繁中</a>
+        </div>
+    </nav>
+
+    <div class="docs-container">
+        <aside class="sidebar">
+            <div class="sidebar-group">
+                <div class="sidebar-group-title">介紹</div>
+                <a href="getting-started.html" class="sidebar-link">入門指南</a>
+                <a href="deployment-config.html" class="sidebar-link">部署與設定</a>
+            </div>
+            <div class="sidebar-group">
+                <div class="sidebar-group-title">API 參考</div>
+                <a href="api-guide.html" class="sidebar-link">API 使用指南</a>
+                <a href="custom-schemas.html" class="sidebar-link">自訂訊息 Schema</a>
+            </div>
+            <div class="sidebar-group">
+                <div class="sidebar-group-title">營運維護</div>
+                <a href="advanced.html" class="sidebar-link">安全與維護</a>
+                <a href="troubleshooting.html" class="sidebar-link active">疑難排解</a>
+            </div>
+        </aside>
+
+        <main class="main-content">
+            <h1>疑難排解</h1>
+
+            <h3>常見問題</h3>
+
+            <h4>"Invalid or expired token"</h4>
+            <p><strong>原因：</strong> Access Token 已逾期（預設為 30 分鐘）。</p>
+            <p><strong>解決方案：</strong> 使用 Refresh Token 透過 <code>/api/v1/auth/refresh</code> 終端取得新的 Access Token。</p>
+
+            <h4>"Connection refused"</h4>
+            <p><strong>原因：</strong> 伺服器未運行、埠號錯誤或防火牆阻擋。</p>
+            <p><strong>解決方案：</strong> 檢查進程是否正在執行，並核對 <code>config.yaml</code> 中的 <code>server.port</code> 設定。</p>
+
+            <h4>"Database connection failed"</h4>
+            <p><strong>原因：</strong> 資料庫無法訪問或憑據錯誤。</p>
+            <p><strong>解決方案：</strong> 驗證資料庫 DSN 並確保資料庫服務或檔案可被存取。</p>
+
+            <h4>"Rate limit exceeded"</h4>
+            <p><strong>原因：</strong> 單一 IP 發送了過多請求。</p>
+            <p><strong>解決方案：</strong> 在客戶端實作指數退避（Exponential Backoff）重試機制，或調整設定檔中的 <code>requests_per_second</code>。</p>
+        </main>
+    </div>
+</body>
+
+</html>

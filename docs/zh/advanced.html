@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>安全與維護 - RIVO 技術文件</title>
+    <link rel="stylesheet" href="../style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@300;400;500;600;700&family=Noto+Sans+TC:wght@400;500;700&family=Space+Mono:wght@400;700&display=swap"
+        rel="stylesheet">
+</head>
+
+<body>
+    <nav class="docs-nav">
+        <a href="../../index.html" class="nav-brand">
+            <img src="../../assets/logo-navbar.png" alt="RIVO">
+            <span>RIVO 文件中心</span>
+        </a>
+        <div class="lang-switch">
+            <a href="../en/advanced.html" class="lang-btn">EN</a>
+            <a href="advanced.html" class="lang-btn active">繁中</a>
+        </div>
+    </nav>
+
+    <div class="docs-container">
+        <aside class="sidebar">
+            <div class="sidebar-group">
+                <div class="sidebar-group-title">介紹</div>
+                <a href="getting-started.html" class="sidebar-link">入門指南</a>
+                <a href="deployment-config.html" class="sidebar-link">部署與設定</a>
+            </div>
+            <div class="sidebar-group">
+                <div class="sidebar-group-title">API 參考</div>
+                <a href="api-guide.html" class="sidebar-link">API 使用指南</a>
+                <a href="custom-schemas.html" class="sidebar-link">自訂訊息 Schema</a>
+            </div>
+            <div class="sidebar-group">
+                <div class="sidebar-group-title">營運維護</div>
+                <a href="advanced.html" class="sidebar-link active">安全與維護</a>
+                <a href="troubleshooting.html" class="sidebar-link">疑難排解</a>
+            </div>
+        </aside>
+
+        <main class="main-content">
+            <h1>安全與維護</h1>
+
+            <h2>9. 安全最佳實踐</h2>
+            <ul>
+                <li><strong>JWT 密鑰：</strong> 確保 <code>access_secret</code> 與 <code>refresh_secret</code> 長度至少為 32 字元。
+                </li>
+                <li><strong>HTTPS：</strong> 在生產環境中，務必配合反向代理（Nginx 或 Caddy）啟用 TLS 傳輸加密。</li>
+                <li><strong>流量限制：</strong> 啟用內建的 Rate Limiting 以防止暴力破解攻擊。</li>
+                <li><strong>欄位加密：</strong> 使用 <code>security.encryption_key</code> 對資料庫中的敏感資訊進行加密存儲。</li>
+            </ul>
+
+            <h2>8. 營運與維護</h2>
+            <h3>系統監控</h3>
+            <p>透過 <code>/health</code> 終端進行系統健康狀況監控。</p>
+            <h3>日誌管理</h3>
+            <p>日誌會每日自動輪替並存放在 <code>logs/</code> 資料夾中。將 <code>logging.level</code> 設為 <code>debug</code> 可獲得更詳細的追蹤資訊。</p>
+            <h3>備份</h3>
+            <p>使用 SQLite 時，直接備份 <code>data/rivo.db</code> 檔案即可。使用 PostgreSQL 時，請配合 <code>pg_dump</code> 進行定期備份。</p>
+        </main>
+    </div>
+</body>
+
+</html>

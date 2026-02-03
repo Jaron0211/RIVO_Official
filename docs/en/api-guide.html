@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>API Usage Guide - RIVO Documentation</title>
+    <link rel="stylesheet" href="../style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@300;400;500;600;700&family=Space+Mono:wght@400;700&display=swap"
+        rel="stylesheet">
+</head>
+
+<body>
+    <nav class="docs-nav">
+        <a href="../../index.html" class="nav-brand">
+            <img src="../../assets/logo-navbar.png" alt="RIVO">
+            <span>RIVO Docs</span>
+        </a>
+        <div class="lang-switch">
+            <a href="api-guide.html" class="lang-btn active">EN</a>
+            <a href="../zh/api-guide.html" class="lang-btn">繁中</a>
+        </div>
+    </nav>
+
+    <div class="docs-container">
+        <aside class="sidebar">
+            <div class="sidebar-group">
+                <div class="sidebar-group-title">Introduction</div>
+                <a href="getting-started.html" class="sidebar-link">Getting Started</a>
+                <a href="deployment-config.html" class="sidebar-link">Deployment & Config</a>
+            </div>
+            <div class="sidebar-group">
+                <div class="sidebar-group-title">API Reference</div>
+                <a href="api-guide.html" class="sidebar-link active">API Usage Guide</a>
+                <a href="custom-schemas.html" class="sidebar-link">Custom Message Schemas</a>
+            </div>
+            <div class="sidebar-group">
+                <div class="sidebar-group-title">Operations</div>
+                <a href="advanced.html" class="sidebar-link">Security & Maintenance</a>
+                <a href="troubleshooting.html" class="sidebar-link">Troubleshooting</a>
+            </div>
+        </aside>
+
+        <main class="main-content">
+            <h1>API Usage Guide</h1>
+            <p>All protected endpoints require an <code>Authorization</code> header with a Bearer token.</p>
+            <pre><code>Authorization: Bearer &lt;access_token&gt;</code></pre>
+
+            <h2>6.1 Authentication</h2>
+            <p>Login to receive an access and refresh token.</p>
+            <pre><code>curl -X POST http://localhost:8080/api/v1/auth/login \
+  -H "Content-Type: application/json" \
+  -d '{"username": "user@example.com", "password": "password"}'</code></pre>
+
+            <h2>6.2 Robot Management</h2>
+            <p>Register a new robot to the fleet.</p>
+            <pre><code>curl -X POST http://localhost:8080/api/v1/robots \
+  -H "Authorization: Bearer $TOKEN" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "robot_id": "turtlebot-001",
+    "robot_type": "turtlebot3",
+    "robot_name": "Warehouse Bot #1"
+  }'</code></pre>
+
+            <h2>6.3 Status & Telemetry</h2>
+            <p>Update robot status periodically (heartbeat, position, battery).</p>
+            <pre><code>curl -X POST http://localhost:8080/api/v1/robots/{robotId}/status \
+  -H "Authorization: Bearer $TOKEN" \
+  -d '{"status": "active", "battery_level": 85}'</code></pre>
+
+            <h2>6.8 Commands & Control</h2>
+            <p>Send actions to robots via REST.</p>
+            <pre><code>curl -X POST http://localhost:8080/api/v1/robots/{robotId}/control \
+  -H "Authorization: Bearer $TOKEN" \
+  -d '{"action": "gripper_open", "parameters": {"force": 10}}'</code></pre>
+        </main>
+    </div>
+</body>
+
+</html>

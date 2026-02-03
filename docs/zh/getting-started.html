@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>入門指南 - RIVO 技術文件</title>
+    <link rel="stylesheet" href="../style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@300;400;500;600;700&family=Noto+Sans+TC:wght@400;500;700&family=Space+Mono:wght@400;700&display=swap"
+        rel="stylesheet">
+</head>
+
+<body>
+    <nav class="docs-nav">
+        <a href="../../index.html" class="nav-brand">
+            <img src="../../assets/logo-navbar.png" alt="RIVO">
+            <span>RIVO 文件中心</span>
+        </a>
+        <div class="lang-switch">
+            <a href="../en/getting-started.html" class="lang-btn">EN</a>
+            <a href="getting-started.html" class="lang-btn active">繁中</a>
+        </div>
+    </nav>
+
+    <div class="docs-container">
+        <aside class="sidebar">
+            <div class="sidebar-group">
+                <div class="sidebar-group-title">介紹</div>
+                <a href="getting-started.html" class="sidebar-link active">入門指南</a>
+                <a href="deployment-config.html" class="sidebar-link">部署與設定</a>
+            </div>
+            <div class="sidebar-group">
+                <div class="sidebar-group-title">API 參考</div>
+                <a href="api-guide.html" class="sidebar-link">API 使用指南</a>
+                <a href="custom-schemas.html" class="sidebar-link">自訂訊息 Schema</a>
+            </div>
+            <div class="sidebar-group">
+                <div class="sidebar-group-title">營運維護</div>
+                <a href="advanced.html" class="sidebar-link">安全與維護</a>
+                <a href="troubleshooting.html" class="sidebar-link">疑難排解</a>
+            </div>
+        </aside>
+
+        <main class="main-content">
+            <h1>入門指南</h1>
+            <p>RIVO Server 是一個專為物聯網機器人車隊管理打造的後端平台。它提供了基於 Go 語言編寫的高性能後端，協助您高效管理機器人車隊。</p>
+
+            <div class="callout">
+                <strong>注意：</strong> 本指南適用於維運人員、DevOps 工程師及整合開發人員。內容涵蓋部署、設定及 API 使用方法。
+            </div>
+
+            <h2>1. 簡介</h2>
+            <p>RIVO Server 提供以下核心功能：</p>
+            <ul>
+                <li><strong>機器人註冊與監控</strong> - 追踪機器人狀態並監控其健康狀況。</li>
+                <li><strong>即時遙測資料</strong> - 串流機器人遙測數據（里程、電池、感測器）。</li>
+                <li><strong>日誌管理</strong> - 即時收集並串流來自機器人的運行日誌。</li>
+                <li><strong>告警系統</strong> - 接收、確認並解決機器人告警。</li>
+                <li><strong>地圖管理</strong> - 上傳並管理 ROS 地圖與軌跡追踪。</li>
+                <li><strong>指令與控制</strong> - 透過 REST 或 WebSocket 下發控制指令。</li>
+            </ul>
+
+            <h2>2. 套件內容</h2>
+            <p>發行套件包含以下結構：</p>
+            <pre><code>release/
+├── rivo-server          # 主伺服器執行檔
+├── rivo-admin           # 管理員 CLI 工具
+├── config.yaml          # 設定檔
+├── custom_msg/          # 自訂訊息 Schema
+├── data/                # SQLite 資料庫（若使用）
+└── logs/                # 伺服器日誌檔案</code></pre>
+
+            <h2>3. 首次設定</h2>
+            <h3>步驟 1：啟動伺服器</h3>
+            <p>若使用二進位檔案部署，請執行：</p>
+            <pre><code>./rivo-server</code></pre>
+            <p>伺服器將自動建立資料庫資料表並載入 Schema。</p>
+
+            <h3>步驟 2：驗證狀態</h3>
+            <p>檢查伺服器是否正常運行：</p>
+            <pre><code>curl http://localhost:8080/health</code></pre>
+
+            <h3>步驟 3：建立 Master 帳號</h3>
+            <p>使用 admin 工具建立初始帳號：</p>
+            <pre><code>./rivo-admin seed --email admin@yourcompany.com --password "SecurePassword123!"</code></pre>
+        </main>
+    </div>
+</body>
+
+</html>

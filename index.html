@@ -1,0 +1,867 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description"
+        content="RIVO — IoT 機器人車隊管理平台。支援 LiveKit WebRTC 串流、動態 Action 註冊與 JSON Schema 自動介面。專業級安全保障，一機連雲。">
+    <meta name="keywords" content="RIVO, 機器人車隊管理, IoT 機器人, ROS 雲端, WebRTC 串流, 機器人監控, LiveKit, 機器人介面">
+    <meta property="og:title" content="RIVO — Enterprise-Grade Robot Fleet Management">
+    <meta property="og:description" content="RIVO — IoT 機器人車隊管理平台。支援 LiveKit WebRTC 串流、動態 Action 註冊與 JSON Schema 自動介面。">
+    <meta property="og:image"
+        content="https://raw.githubusercontent.com/Jaron0211/rivo-server/main/docs/assets/og-image.png">
+    <meta property="og:type" content="website">
+    <meta name="twitter:card" content="summary_large_image">
+    <title>RIVO — The Future of Robot Fleet Management</title>
+    <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="assets/favicon-16.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="assets/apple-touch-icon.png">
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Space+Mono:wght@400;700&family=Public+Sans:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,400;1,500;1,600&family=Noto+Sans+TC:wght@400;500;700;800&display=swap"
+        rel="stylesheet">
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "SoftwareApplication",
+      "name": "RIVO",
+      "operatingSystem": "Linux, macOS, Windows",
+      "applicationCategory": "BusinessApplication",
+      "description": "物聯網機器人車隊管理後端，支援即時串流與動態控制",
+      "offers": {
+        "@type": "AggregateOffer",
+        "lowPrice": "0",
+        "highPrice": "8000",
+        "priceCurrency": "TWD",
+        "offerCount": "4"
+      }
+    }
+    </script>
+</head>
+
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="container">
+            <a href="#" class="logo">
+                <img src="assets/logo-navbar.png" srcset="assets/logo-navbar.png 1x, assets/logo-navbar@2x.png 2x"
+                    alt="RIVO" class="logo-img">
+            </a>
+            <ul class="nav-links">
+                <li><a href="#problems">痛點</a></li>
+                <li><a href="#solution">解決方案</a></li>
+                <li><a href="#features">功能</a></li>
+                <li><a href="#comparison">比較</a></li>
+                <li><a href="#pricing">方案</a></li>
+                <li><a href="#faq">FAQ</a></li>
+                <li><a href="docs/index.html" class="btn btn-outline"
+                        style="padding: 0.6rem 1.2rem; margin-right: 0.5rem; font-size: 0.85rem;">技術文件 / Resource</a>
+                </li>
+                <li>
+                    <div class="nav-cta">
+                        <a href="#contact" class="btn btn-primary">詢問試用</a>
+                    </div>
+                </li>
+            </ul>
+            <button class="mobile-menu-btn" aria-label="選單">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container">
+            <div class="hero-content fade-in">
+                <span class="hero-label">RIVO — IoT Robot Fleet management platform</span>
+                <h1>打造您的<br>專業機器人產品</h1>
+                <p class="hero-description">
+                    支援 LiveKit 高畫質串流與動態 Action 控制。基於 Go 語言的高性能後端，為您的機器人車隊提供穩定的雲端心臟。
+                </p>
+                <div class="hero-buttons">
+                    <a href="#contact" class="btn btn-primary">詢問試用</a>
+                    <a href="#solution" class="btn btn-secondary">觀看 Demo</a>
+                </div>
+                <div class="hero-stats">
+                    <div class="hero-stat">
+                        <span class="hero-stat-value">10 min</span>
+                        <span class="hero-stat-label">快速部屬</span>
+                    </div>
+                    <div class="hero-stat">
+                        <span class="hero-stat-value">200+</span>
+                        <span class="hero-stat-label">支援元件</span>
+                    </div>
+                    <div class="hero-stat">
+                        <span class="hero-stat-value">6x</span>
+                        <span class="hero-stat-label">更快上市</span>
+                    </div>
+                </div>
+            </div>
+            <div class="hero-visual fade-in-right">
+                <div class="dashboard-preview">
+                    <div class="preview-header">
+                        <span class="dot red"></span>
+                        <span class="dot yellow"></span>
+                        <span class="dot green"></span>
+                        <span
+                            style="margin-left: auto; color: #737373; font-size: 12px; font-family: 'Space Mono', monospace;">app.rivo.dev</span>
+                    </div>
+                    <div class="preview-content">
+                        <div class="robot-card">
+                            <div class="robot-status online"></div>
+                            <div class="robot-info">
+                                <span class="robot-name">Patrol-Bot #001</span>
+                                <span class="robot-battery">85%</span>
+                            </div>
+                        </div>
+                        <div class="robot-card" style="opacity: 0.8;">
+                            <div class="robot-status warning"></div>
+                            <div class="robot-info">
+                                <span class="robot-name">Delivery-Bot #002</span>
+                                <span class="robot-battery">23%</span>
+                            </div>
+                        </div>
+                        <div class="robot-card" style="opacity: 0.6;">
+                            <div class="robot-status offline"></div>
+                            <div class="robot-info">
+                                <span class="robot-name">Cleaner-Bot #003</span>
+                                <span class="robot-battery">--</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Problem Section -->
+    <section id="problems" class="problems">
+        <div class="container">
+            <span class="section-label fade-in">Pain Points</span>
+            <h2 class="section-title fade-in">你遇到這些問題嗎？</h2>
+            <p class="section-subtitle fade-in">機器人做好了，但離「產品」還有一大段距離</p>
+
+            <div class="problems-grid">
+                <div class="problem-card stagger-child">
+                    <div class="problem-icon">01</div>
+                    <h3>募資簡報時投影 RViz，投資人完全看不懂</h3>
+                    <p class="problem-need">需要一個「正常人看得懂」的監控介面</p>
+                </div>
+
+                <div class="problem-card stagger-child">
+                    <div class="problem-icon">02</div>
+                    <h3>客戶要看 Demo，但機器人在實驗室無法遠端展示</h3>
+                    <p class="problem-need">需要隨時隨地都能展示的雲端系統</p>
+                </div>
+
+                <div class="problem-card stagger-child">
+                    <div class="problem-icon">03</div>
+                    <h3>花了 3 個月開發雲端後台，核心功能還沒做完</h3>
+                    <p class="problem-need">需要專注在機器人本身，不是雲端架構</p>
+                </div>
+
+                <div class="problem-card stagger-child">
+                    <div class="problem-icon">04</div>
+                    <h3>管理 5 台以上機器人，開始力不從心</h3>
+                    <p class="problem-need">需要專業的 Fleet 管理系統</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Solution Demo Section -->
+    <section id="solution" class="solution">
+        <div class="container">
+            <span class="section-label fade-in">How It Works</span>
+            <h2 class="section-title fade-in">2 分鐘快速上線</h2>
+            <p class="section-subtitle fade-in">從安裝到上線，只需要一行指令</p>
+
+            <div class="solution-grid">
+                <!-- Terminal -->
+                <div class="solution-card solution-card-code fade-in">
+                    <div class="terminal-mockup">
+                        <div class="terminal-header">
+                            <span class="dot red"></span>
+                            <span class="dot yellow"></span>
+                            <span class="dot green"></span>
+                        </div>
+                        <div class="terminal-body">
+                            <div><span class="prompt">$</span> <span class="command">curl -X POST
+                                    https://api.rivo.dev/v1/robots/register</span></div>
+                            <div><span class="prompt">$</span> <span class="command">rivo-bridge --token $AUTH_TOKEN
+                                    --discover</span></div>
+                            <br>
+                            <div><span class="output">WebSocket Handshake Successful</span></div>
+                            <div><span class="output">LiveKit RTC Session Active</span></div>
+                            <div><span class="output">Loaded 12 custom JSON Schemas</span></div>
+                            <div><span class="output">Control Actions Ready</span></div>
+                            <span class="cursor"></span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Arrow -->
+                <div class="solution-arrow fade-in">
+                    <span class="arrow-desktop">&rarr;</span>
+                    <span class="arrow-mobile" style="display:none;">&darr;</span>
+                </div>
+
+                <!-- Dashboard Preview -->
+                <div class="solution-card fade-in-right">
+                    <div class="browser-mockup">
+                        <div class="browser-header">
+                            <span class="dot red"></span>
+                            <span class="dot yellow"></span>
+                            <span class="dot green"></span>
+                            <span class="browser-url">app.rivo.dev/dashboard</span>
+                        </div>
+                        <div class="browser-content">
+                            <div class="browser-widget map-widget">
+                                <div class="map-dot"></div>
+                            </div>
+                            <div class="browser-widget">
+                                <div class="widget-label">Battery</div>
+                                <div class="widget-value">85%</div>
+                            </div>
+                            <div class="browser-widget">
+                                <div class="widget-label">Speed</div>
+                                <div class="widget-value">1.2 m/s</div>
+                            </div>
+                            <div class="browser-widget">
+                                <div class="widget-label">Status</div>
+                                <div class="widget-value" style="color: #22C55E;">Online</div>
+                            </div>
+                            <div class="browser-widget">
+                                <div class="widget-label">Stream</div>
+                                <div class="widget-value" style="font-size: 14px;">Live</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Feature Pills -->
+            <div class="feature-pills fade-in">
+                <span class="feature-pill">ROS1/2 Topics自動偵測</span>
+                <span class="feature-pill">3D/2D地圖顯示</span>
+                <span class="feature-pill">可調整顯示工具</span>
+                <span class="feature-pill">快速部屬</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Grid Section -->
+    <section id="features" class="features">
+        <div class="container">
+            <span class="section-label fade-in">Platform</span>
+            <h2 class="section-title fade-in">完整功能，開箱即用</h2>
+            <p class="section-subtitle fade-in">專為 ROS 機器人團隊打造的全方位雲端平台</p>
+
+            <div class="features-grid">
+                <div class="feature-card stagger-child">
+                    <h3>LiveKit 影片串流</h3>
+                    <p>整合 WebRTC 技術，提供極低延遲的機器人視角畫面，支援多路同時串流與錄影</p>
+                </div>
+                <div class="feature-card stagger-child">
+                    <h3>動態 Action 系統</h3>
+                    <p>隨時註冊新的控制指令，內建參數驗證與 Webhook 整合，安全下發遠端操作</p>
+                </div>
+                <div class="feature-card stagger-child">
+                    <h3>JSON Schema 介面</h3>
+                    <p>無需開發前端，透過 Schema 定義訊息格式，自動生成對應的監控與控制面板</p>
+                </div>
+                <div class="feature-card stagger-child">
+                    <h3>分級權限管理</h3>
+                    <p>Master、Manager、Viewer 三級權限。彈性管理團隊成員對特定機器人群組的讀寫權限</p>
+                </div>
+                <div class="feature-card stagger-child">
+                    <h3>企業級安全加密</h3>
+                    <p>JWT Session 管理、AES-256 敏感欄位加密、全量 API 審計日誌 (Audit Logs)</p>
+                </div>
+                <div class="feature-card stagger-child">
+                    <h3>異常自動告警</h3>
+                    <p>內建告警引擎，定時追蹤電量、連線狀態與自訂指標，支援多管道推播通知</p>
+                </div>
+                <div class="feature-card stagger-child">
+                    <h3>精確地圖與軌跡</h3>
+                    <p>支援 PGM/YAML 地圖上傳，即時渲染機器人位置、路徑軌跡與 LiDAR 點雲資料</p>
+                </div>
+                <div class="feature-card stagger-child">
+                    <h3>在地技術支援</h3>
+                    <p>台灣在地開發團隊，提供完整的中文 API 文件、技術諮詢與客製化開發服務</p>
+                </div>
+                <div class="feature-card stagger-child">
+                    <h3>高效能 Go 後端</h3>
+                    <p>基於 Go 1.24 打造，具備高性能、高併發處理能力，支援 PostgreSQL 與 SQLite</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Comparison Section -->
+    <section id="comparison" class="comparison">
+        <div class="container">
+            <span class="section-label fade-in">Comparison</span>
+            <h2 class="section-title fade-in">為什麼選擇 RIVO？</h2>
+            <p class="section-subtitle fade-in">和其他方案的詳細比較</p>
+
+            <div class="comparison-table-wrapper fade-in">
+                <table class="comparison-table">
+                    <thead>
+                        <tr>
+                            <th>需求</th>
+                            <th>自己開發</th>
+                            <th>rosbridge</th>
+                            <th>Formant / Viam</th>
+                            <th class="highlight-col">RIVO</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="row-label">開發時間</td>
+                            <td>3-6 個月</td>
+                            <td>1-2 個月</td>
+                            <td>1-2 週學習</td>
+                            <td class="highlight-col"><strong>2 分鐘</strong></td>
+                        </tr>
+                        <tr>
+                            <td class="row-label">開發成本</td>
+                            <td>NT$ 300K+</td>
+                            <td>NT$ 80K+</td>
+                            <td>-</td>
+                            <td class="highlight-col"><strong>NT$ 50K</strong></td>
+                        </tr>
+                        <tr>
+                            <td class="row-label">技術門檻</td>
+                            <td>需全端工程師</td>
+                            <td>需前端工程師</td>
+                            <td>需學英文文件</td>
+                            <td class="highlight-col"><strong>會 ROS 就會用</strong></td>
+                        </tr>
+                        <tr>
+                            <td class="row-label">手機 App</td>
+                            <td>需另外開發</td>
+                            <td>需另外開發</td>
+                            <td class="no-feature">-</td>
+                            <td class="highlight-col has-feature">內建</td>
+                        </tr>
+                        <tr>
+                            <td class="row-label">中文支援</td>
+                            <td>-</td>
+                            <td>-</td>
+                            <td class="no-feature">-</td>
+                            <td class="highlight-col has-feature">完整</td>
+                        </tr>
+                        <tr>
+                            <td class="row-label">在地服務</td>
+                            <td>-</td>
+                            <td>-</td>
+                            <td class="no-feature">&#10008;</td>
+                            <td class="highlight-col has-feature">台灣團隊</td>
+                        </tr>
+                        <tr>
+                            <td class="row-label">月費</td>
+                            <td>維護成本</td>
+                            <td>伺服器費用</td>
+                            <td>$100+ USD</td>
+                            <td class="highlight-col"><strong>NT$ 3K 起</strong></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="fit-checklist fade-in">
+                <h3>適合你如果：</h3>
+                <div class="fit-items">
+                    <div class="fit-item">你已經有 ROS / ROS2 機器人</div>
+                    <div class="fit-item">你需要展示給客戶或投資人</div>
+                    <div class="fit-item">你想快速產品化，不想花時間做雲端</div>
+                    <div class="fit-item">你需要管理多台機器人</div>
+                    <div class="fit-item">你需要中文技術支援</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Pricing Section -->
+    <section id="pricing" class="pricing">
+        <div class="container">
+            <span class="section-label fade-in">Pricing</span>
+            <h2 class="section-title fade-in">透明定價，無隱藏費用</h2>
+            <p class="section-subtitle fade-in">無論你是個人開發者還是成長中的新創公司，都有適合你的方案</p>
+
+            <div class="pricing-grid four-col">
+                <div class="pricing-card stagger-child">
+                    <div class="pricing-header">
+                        <h3>開發者方案</h3>
+                        <div class="price">
+                            <span class="amount" style="font-size: 42px;">免費</span>
+                        </div>
+                    </div>
+                    <ul class="pricing-features">
+                        <li>1 台機器人</li>
+                        <li>7 天資料保留</li>
+                        <li>基礎 Dashboard</li>
+                        <li>社群支援</li>
+                    </ul>
+                    <a href="#contact" class="btn btn-outline btn-block">開始免費試用</a>
+                </div>
+
+                <div class="pricing-card stagger-child">
+                    <div class="pricing-header">
+                        <h3>學術方案</h3>
+                        <div class="price">
+                            <span class="currency">NT$</span>
+                            <span class="amount">2,000</span>
+                            <span class="period">/月</span>
+                        </div>
+                    </div>
+                    <ul class="pricing-features">
+                        <li>最多 5 台機器人</li>
+                        <li>基礎 Dashboard</li>
+                        <li>Email 技術支援</li>
+                        <li>需 .edu.tw 信箱驗證</li>
+                    </ul>
+                    <a href="#contact" class="btn btn-outline btn-block">申請教育方案</a>
+                </div>
+
+                <div class="pricing-card featured stagger-child">
+                    <div class="pricing-badge">Most Popular</div>
+                    <div class="pricing-header">
+                        <h3>快速上線方案</h3>
+                        <div class="price">
+                            <span class="currency">NT$</span>
+                            <span class="amount">8,000</span>
+                            <span class="period">/月</span>
+                        </div>
+                    </div>
+                    <div class="pricing-onetime">
+                        孵化服務：NT$ 50,000（一次性）<br>
+                        <small>3 天到府完成整合</small>
+                    </div>
+                    <ul class="pricing-features">
+                        <li>支援 20 台機器人</li>
+                        <li>無限 Dashboard 使用者</li>
+                        <li>Dashboard 客製化</li>
+                        <li>中文技術支援</li>
+                        <li>每月功能更新</li>
+                        <li>手機 App 設定</li>
+                    </ul>
+                    <a href="#contact" class="btn btn-outline btn-block">立即預約諮詢</a>
+                </div>
+
+                <div class="pricing-card stagger-child">
+                    <div class="pricing-header">
+                        <h3>企業方案</h3>
+                        <div class="price">
+                            <span class="amount" style="font-size: 36px;">客製化定價</span>
+                        </div>
+                    </div>
+                    <ul class="pricing-features">
+                        <li>機器人數量無上限</li>
+                        <li>私有部署選項</li>
+                        <li>專屬客服經理</li>
+                        <li>SLA 保證</li>
+                        <li>客製化開發</li>
+                    </ul>
+                    <a href="#contact" class="btn btn-outline btn-block">聯絡業務</a>
+                </div>
+            </div>
+
+            <p class="pricing-note fade-in">學術單位享 50% 優惠 — <a href="#contact">查看教育方案</a></p>
+        </div>
+    </section>
+
+    <!-- Social Proof Section -->
+    <section id="testimonials" class="testimonials">
+        <div class="container">
+            <span class="section-label fade-in">Testimonials</span>
+            <h2 class="section-title fade-in">他們都在使用 RIVO</h2>
+            <p class="section-subtitle fade-in">來自台灣機器人社群的真實回饋</p>
+
+            <div class="testimonials-grid">
+                <div class="testimonial-card stagger-child">
+                    <div class="testimonial-badge">學術研究</div>
+                    <blockquote>
+                        「原本要花 2 個月做的雲端系統，RIVO 3 天就搞定了。現在我們可以專注在研究本身。」
+                    </blockquote>
+                    <div class="testimonial-author">
+                        <div class="author-avatar">林</div>
+                        <div class="author-info">
+                            <strong>林教授</strong>
+                            <span>國立台灣大學 機械系</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="testimonial-card stagger-child">
+                    <div class="testimonial-badge">機器人新創</div>
+                    <blockquote>
+                        「募資路演時，投資人看到我們的手機 App 即時監控，直接問什麼時候可以投資。」
+                    </blockquote>
+                    <div class="testimonial-author">
+                        <div class="author-avatar">陳</div>
+                        <div class="author-info">
+                            <strong>陳執行長</strong>
+                            <span>XX 機器人公司</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="testimonial-card stagger-child">
+                    <div class="testimonial-badge">系統整合</div>
+                    <blockquote>
+                        「客戶的工廠有 12 台 AGV，用 RIVO Fleet 管理，一個畫面就能掌握全局。」
+                    </blockquote>
+                    <div class="testimonial-author">
+                        <div class="author-avatar">張</div>
+                        <div class="author-info">
+                            <strong>張技術總監</strong>
+                            <span>XX 智慧製造</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ Section -->
+    <section id="faq" class="faq">
+        <div class="container">
+            <span class="section-label fade-in">FAQ</span>
+            <h2 class="section-title fade-in">常見問題</h2>
+            <p class="section-subtitle fade-in">關於 RIVO 你想知道的一切</p>
+
+            <div class="faq-list">
+                <div class="faq-item">
+                    <button class="faq-question" aria-expanded="false">
+                        <h3>我的機器人不是標準的 ROS package，可以用嗎？</h3>
+                        <span class="faq-toggle">+</span>
+                    </button>
+                    <div class="faq-answer">
+                        <p>可以！只要你的機器人有發布 topics，RIVO 都能自動偵測並連接。我們支援自訂 topic 映射，也提供 3 天孵化服務協助整合。</p>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <button class="faq-question" aria-expanded="false">
+                        <h3>我的資料會存在哪裡？安全嗎？</h3>
+                        <span class="faq-toggle">+</span>
+                    </button>
+                    <div class="faq-answer">
+                        <p>資料儲存在台灣的資料中心。所有傳輸都經過 TLS 加密，敏感資料採用 AES-256 加密儲存。我們也提供私有部署選項給企業客戶。</p>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <button class="faq-question" aria-expanded="false">
+                        <h3>支援 ROS1 還是 ROS2？</h3>
+                        <span class="faq-toggle">+</span>
+                    </button>
+                    <div class="faq-answer">
+                        <p>兩者都支援！ROS1 支援 Kinetic、Melodic、Noetic；ROS2 支援 Foxy、Galactic、Humble、Iron。</p>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <button class="faq-question" aria-expanded="false">
+                        <h3>如果不滿意可以退款嗎？</h3>
+                        <span class="faq-toggle">+</span>
+                    </button>
+                    <div class="faq-answer">
+                        <p>孵化服務完成後 7 天內，如果不滿意可以全額退款。訂閱制可隨時取消，按月計費不綁約。</p>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <button class="faq-question" aria-expanded="false">
+                        <h3>你們跟 Formant、Viam 有什麼不同？</h3>
+                        <span class="faq-toggle">+</span>
+                    </button>
+                    <div class="faq-answer">
+                        <p>我們提供完整中文介面和文件、台灣本地團隊可到府服務、針對台灣市場的友善定價（約國際價格的 1/3）、3 天上線承諾而非自助式平台。</p>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <button class="faq-question" aria-expanded="false">
+                        <h3>可以私有部署嗎？</h3>
+                        <span class="faq-toggle">+</span>
+                    </button>
+                    <div class="faq-answer">
+                        <p>可以！企業方案支援私有部署，可安裝在您自己的伺服器或私有雲環境中。我們的團隊會協助完成部署與設定。</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Final CTA Banner -->
+    <section class="cta-banner">
+        <div class="container">
+            <div class="fade-in">
+                <span class="cta-badge">Limited Offer</span>
+                <h2 class="section-title">準備好讓你的機器人上雲了嗎？</h2>
+                <div class="cta-offer-list">
+                    前 10 名客戶享有：<br>
+                    <span class="check">孵化服務 7 折優惠（NT$ 35,000）</span><br>
+                    <span class="check">前 3 個月訂閱 5 折</span><br>
+                    <span class="check">免費客製化 Dashboard</span>
+                </div>
+                <div class="cta-buttons">
+                    <a href="#contact" class="btn btn-primary btn-lg">立即預約免費諮詢</a>
+                    <a href="#solution" class="btn-ghost">觀看 Demo</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="contact">
+        <div class="container">
+            <span class="section-label fade-in">Contact</span>
+            <h2 class="section-title fade-in">聯絡我們</h2>
+            <p class="section-subtitle fade-in">填寫表單，我們的技術顧問將與您預約免費諮詢</p>
+
+            <div class="contact-grid">
+                <div class="contact-info">
+                    <div class="contact-item">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" />
+                            <polyline points="22,6 12,13 2,6" />
+                        </svg>
+                        <div>
+                            <h4>Email</h4>
+                            <a href="mailto:hello@rivo.dev">hello@rivo.dev</a>
+                        </div>
+                    </div>
+
+                    <div class="contact-item">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path
+                                d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z" />
+                        </svg>
+                        <div>
+                            <h4>Line</h4>
+                            <span>@rivo.dev</span>
+                        </div>
+                    </div>
+
+                    <div class="contact-item">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" />
+                            <circle cx="12" cy="10" r="3" />
+                        </svg>
+                        <div>
+                            <h4>Address</h4>
+                            <span>台南市東區大學路1號</span>
+                        </div>
+                    </div>
+
+                    <div class="contact-item">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <circle cx="12" cy="12" r="10" />
+                            <polyline points="12 6 12 12 16 14" />
+                        </svg>
+                        <div>
+                            <h4>Hours</h4>
+                            <span>Mon - Fri, 9:00 - 18:00</span>
+                        </div>
+                    </div>
+                </div>
+
+                <form class="contact-form" action="https://formspree.io/f/mqakvjzd" method="POST">
+                    <div class="form-group">
+                        <label for="name">您的姓名 / 專案負責人</label>
+                        <input type="text" id="name" name="name" placeholder="例如：林小明" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="email">商務聯絡 Email</label>
+                        <input type="email" id="email" name="email" placeholder="name@company.com" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="company">公司 / 學校實驗室名稱</label>
+                        <input type="text" id="company" name="company" placeholder="例如：RIVO Robotics Lab">
+                    </div>
+                    <div class="form-group">
+                        <label for="message">您的需求與機器人平台</label>
+                        <textarea id="message" name="message" rows="4"
+                            placeholder="請告訴我們您的機器人類型（如 ROS 2 巡檢機器人）以及目前遇到的痛點..." required></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-primary btn-block">立即預約免費諮詢</button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-brand">
+                    <a href="#" class="logo">
+                        <img src="assets/logo-white.png" srcset="assets/logo-white.png 1x, assets/logo-white@2x.png 2x"
+                            alt="RIVO" class="logo-img logo-img-footer">
+                    </a>
+                    <p>The robotics cloud platform built for speed and scale.</p>
+                    <div class="footer-social">
+                        <a href="https://github.com/Jaron0211/rivo-server" target="_blank">GitHub</a>
+                        <a href="#">LinkedIn</a>
+                        <a href="#">YouTube</a>
+                    </div>
+                </div>
+                <div class="footer-links">
+                    <div class="footer-column">
+                        <h4>Product</h4>
+                        <ul>
+                            <li><a href="#features">功能介紹</a></li>
+                            <li><a href="#pricing">定價</a></li>
+                            <li><a href="docs/index.html">技術文件</a></li>
+                        </ul>
+                    </div>
+                    <div class="footer-column">
+                        <h4>Support</h4>
+                        <ul>
+                            <li><a href="#faq">常見問題</a></li>
+                            <li><a href="docs/en/getting-started.html">English Docs</a></li>
+                            <li><a href="docs/zh/getting-started.html">繁體中文文件</a></li>
+                            <li><a href="#contact">聯絡我們</a></li>
+                        </ul>
+                    </div>
+                    <div class="footer-column">
+                        <h4>Contact</h4>
+                        <ul>
+                            <li><a href="mailto:hello@rivo.dev">hello@rivo.dev</a></li>
+                            <li><span>Line: @rivo.dev</span></li>
+                            <li><span>台南市東區大學路1號</span></li>
+                            <li><span>Mon - Fri, 9:00 - 18:00</span></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2026 RIVO. All rights reserved.</p>
+                <div class="footer-bottom-links">
+                    <a href="#">Privacy Policy</a>
+                    <a href="#">Terms of Service</a>
+                </div>
+            </div>
+            <p class="footer-made" style="text-align: center; margin-top: 12px;">Made in Taiwan</p>
+        </div>
+    </footer>
+
+    <script>
+        // Mobile menu toggle
+        document.querySelector('.mobile-menu-btn').addEventListener('click', function () {
+            document.querySelector('.nav-links').classList.toggle('active');
+            this.classList.toggle('active');
+        });
+
+        // Smooth scroll for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                    document.querySelector('.nav-links').classList.remove('active');
+                    document.querySelector('.mobile-menu-btn').classList.remove('active');
+                }
+            });
+        });
+
+        // Navbar background on scroll
+        window.addEventListener('scroll', function () {
+            const navbar = document.querySelector('.navbar');
+            if (window.scrollY > 50) {
+                navbar.classList.add('scrolled');
+            } else {
+                navbar.classList.remove('scrolled');
+            }
+        });
+
+        // FAQ Accordion
+        document.querySelectorAll('.faq-question').forEach(button => {
+            button.addEventListener('click', function () {
+                const item = this.parentElement;
+                const isActive = item.classList.contains('active');
+
+                // Close all items
+                document.querySelectorAll('.faq-item').forEach(faq => {
+                    faq.classList.remove('active');
+                    faq.querySelector('.faq-question').setAttribute('aria-expanded', 'false');
+                });
+
+                // Open clicked item if it wasn't already active
+                if (!isActive) {
+                    item.classList.add('active');
+                    this.setAttribute('aria-expanded', 'true');
+                }
+            });
+        });
+
+        // Scroll animations with Intersection Observer
+        const observerOptions = {
+            threshold: 0.15,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver(function (entries) {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, observerOptions);
+
+        // Observe fade-in elements
+        document.querySelectorAll('.fade-in, .fade-in-right').forEach(el => {
+            observer.observe(el);
+        });
+
+        // Staggered animations for cards
+        const staggerObserver = new IntersectionObserver(function (entries) {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const children = entry.target.querySelectorAll('.stagger-child');
+                    children.forEach((child, index) => {
+                        setTimeout(() => {
+                            child.classList.add('visible');
+                        }, index * 100);
+                    });
+                    staggerObserver.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.1 });
+
+        // Observe parent containers of stagger children
+        document.querySelectorAll('.problems-grid, .features-grid, .pricing-grid, .testimonials-grid').forEach(grid => {
+            staggerObserver.observe(grid);
+        });
+
+        // Responsive arrow for solution section
+        function updateArrow() {
+            const desktop = document.querySelector('.arrow-desktop');
+            const mobile = document.querySelector('.arrow-mobile');
+            if (desktop && mobile) {
+                if (window.innerWidth <= 1024) {
+                    desktop.style.display = 'none';
+                    mobile.style.display = 'inline';
+                } else {
+                    desktop.style.display = 'inline';
+                    mobile.style.display = 'none';
+                }
+            }
+        }
+        updateArrow();
+        window.addEventListener('resize', updateArrow);
+    </script>
+</body>
+
+</html>

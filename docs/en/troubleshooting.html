@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Troubleshooting - RIVO Documentation</title>
+    <link rel="stylesheet" href="../style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@300;400;500;600;700&family=Space+Mono:wght@400;700&display=swap"
+        rel="stylesheet">
+</head>
+
+<body>
+    <nav class="docs-nav">
+        <a href="../../index.html" class="nav-brand">
+            <img src="../../assets/logo-navbar.png" alt="RIVO">
+            <span>RIVO Docs</span>
+        </a>
+        <div class="lang-switch">
+            <a href="troubleshooting.html" class="lang-btn active">EN</a>
+            <a href="../zh/troubleshooting.html" class="lang-btn">繁中</a>
+        </div>
+    </nav>
+
+    <div class="docs-container">
+        <aside class="sidebar">
+            <div class="sidebar-group">
+                <div class="sidebar-group-title">Introduction</div>
+                <a href="getting-started.html" class="sidebar-link">Getting Started</a>
+                <a href="deployment-config.html" class="sidebar-link">Deployment & Config</a>
+            </div>
+            <div class="sidebar-group">
+                <div class="sidebar-group-title">API Reference</div>
+                <a href="api-guide.html" class="sidebar-link">API Usage Guide</a>
+                <a href="custom-schemas.html" class="sidebar-link">Custom Message Schemas</a>
+            </div>
+            <div class="sidebar-group">
+                <div class="sidebar-group-title">Operations</div>
+                <a href="advanced.html" class="sidebar-link">Security & Maintenance</a>
+                <a href="troubleshooting.html" class="sidebar-link active">Troubleshooting</a>
+            </div>
+        </aside>
+
+        <main class="main-content">
+            <h1>Troubleshooting</h1>
+
+            <h3>Common Issues</h3>
+
+            <h4>"Invalid or expired token"</h4>
+            <p><strong>Cause:</strong> Access token has expired (default: 30 minutes).</p>
+            <p><strong>Solution:</strong> Use the refresh token to get a new access token via the
+                <code>/api/v1/auth/refresh</code> endpoint.</p>
+
+            <h4>"Connection refused"</h4>
+            <p><strong>Cause:</strong> Server not running, wrong port, or firewall blocking.</p>
+            <p><strong>Solution:</strong> Check if the process is running and verify the <code>server.port</code> in
+                <code>config.yaml</code>.</p>
+
+            <h4>"Database connection failed"</h4>
+            <p><strong>Cause:</strong> Database not accessible or credentials wrong.</p>
+            <p><strong>Solution:</strong> Verify database DSN and ensure the service/file is accessible.</p>
+
+            <h4>"Rate limit exceeded"</h4>
+            <p><strong>Cause:</strong> Too many requests from a single IP.</p>
+            <p><strong>Solution:</strong> Implement exponential backoff in your client or adjust
+                <code>requests_per_second</code> in config.</p>
+        </main>
+    </div>
+</body>
+
+</html>

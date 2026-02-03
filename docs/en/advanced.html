@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Security & Maintenance - RIVO Documentation</title>
+    <link rel="stylesheet" href="../style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@300;400;500;600;700&family=Space+Mono:wght@400;700&display=swap"
+        rel="stylesheet">
+</head>
+
+<body>
+    <nav class="docs-nav">
+        <a href="../../index.html" class="nav-brand">
+            <img src="../../assets/logo-navbar.png" alt="RIVO">
+            <span>RIVO Docs</span>
+        </a>
+        <div class="lang-switch">
+            <a href="advanced.html" class="lang-btn active">EN</a>
+            <a href="../zh/advanced.html" class="lang-btn">繁中</a>
+        </div>
+    </nav>
+
+    <div class="docs-container">
+        <aside class="sidebar">
+            <div class="sidebar-group">
+                <div class="sidebar-group-title">Introduction</div>
+                <a href="getting-started.html" class="sidebar-link">Getting Started</a>
+                <a href="deployment-config.html" class="sidebar-link">Deployment & Config</a>
+            </div>
+            <div class="sidebar-group">
+                <div class="sidebar-group-title">API Reference</div>
+                <a href="api-guide.html" class="sidebar-link">API Usage Guide</a>
+                <a href="custom-schemas.html" class="sidebar-link">Custom Message Schemas</a>
+            </div>
+            <div class="sidebar-group">
+                <div class="sidebar-group-title">Operations</div>
+                <a href="advanced.html" class="sidebar-link active">Security & Maintenance</a>
+                <a href="troubleshooting.html" class="sidebar-link">Troubleshooting</a>
+            </div>
+        </aside>
+
+        <main class="main-content">
+            <h1>Security & Maintenance</h1>
+
+            <h2>9. Security Best Practices</h2>
+            <ul>
+                <li><strong>JWT Secrets:</strong> Ensure <code>access_secret</code> and <code>refresh_secret</code> are
+                    at least 32 characters.</li>
+                <li><strong>HTTPS:</strong> Always use a reverse proxy (Nginx/Caddy) for TLS in production.</li>
+                <li><strong>Rate Limiting:</strong> Use the built-in rate limiter to prevent brute force attacks.</li>
+                <li><strong>Encryption:</strong> Use <code>security.encryption_key</code> for sensitive database fields.
+                </li>
+            </ul>
+
+            <h2>8. Operations & Maintenance</h2>
+            <h3>Monitoring</h3>
+            <p>Use the <code>/health</code> endpoint for uptime monitoring.</p>
+            <h3>Logging</h3>
+            <p>Logs are rotated daily in the <code>logs/</code> folder. Set <code>logging.level</code> to
+                <code>debug</code> for verbose traces.</p>
+            <h3>Backup</h3>
+            <p>For SQLite, simply copy the <code>data/rivo.db</code> file. For PostgreSQL, use <code>pg_dump</code>.</p>
+        </main>
+    </div>
+</body>
+
+</html>

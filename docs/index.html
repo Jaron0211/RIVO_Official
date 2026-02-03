@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <script>
+        // Simple language detection and redirect
+        const lang = navigator.language || navigator.userLanguage;
+        if (lang.startsWith('zh')) {
+            window.location.href = 'zh/getting-started.html';
+        } else {
+            window.location.href = 'en/getting-started.html';
+        }
+    </script>
+</head>
+
+<body>
+    <p>Redirecting to documentation...</p>
+</body>
+
+</html>

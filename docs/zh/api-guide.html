@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>API 使用指南 - RIVO 技術文件</title>
+    <link rel="stylesheet" href="../style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@300;400;500;600;700&family=Noto+Sans+TC:wght@400;500;700&family=Space+Mono:wght@400;700&display=swap"
+        rel="stylesheet">
+</head>
+
+<body>
+    <nav class="docs-nav">
+        <a href="../../index.html" class="nav-brand">
+            <img src="../../assets/logo-navbar.png" alt="RIVO">
+            <span>RIVO 文件中心</span>
+        </a>
+        <div class="lang-switch">
+            <a href="../en/api-guide.html" class="lang-btn">EN</a>
+            <a href="api-guide.html" class="lang-btn active">繁中</a>
+        </div>
+    </nav>
+
+    <div class="docs-container">
+        <aside class="sidebar">
+            <div class="sidebar-group">
+                <div class="sidebar-group-title">介紹</div>
+                <a href="getting-started.html" class="sidebar-link">入門指南</a>
+                <a href="deployment-config.html" class="sidebar-link">部署與設定</a>
+            </div>
+            <div class="sidebar-group">
+                <div class="sidebar-group-title">API 參考</div>
+                <a href="api-guide.html" class="sidebar-link active">API 使用指南</a>
+                <a href="custom-schemas.html" class="sidebar-link">自訂訊息 Schema</a>
+            </div>
+            <div class="sidebar-group">
+                <div class="sidebar-group-title">營運維護</div>
+                <a href="advanced.html" class="sidebar-link">安全與維護</a>
+                <a href="troubleshooting.html" class="sidebar-link">疑難排解</a>
+            </div>
+        </aside>
+
+        <main class="main-content">
+            <h1>API 使用指南</h1>
+            <p>所有受保護的 API 終端（Endpoints）都需要在 HTTP 標頭中包含 <code>Authorization</code> 並攜帶 Bearer Token。</p>
+            <pre><code>Authorization: Bearer &lt;access_token&gt;</code></pre>
+
+            <h2>6.1 身份驗證</h2>
+            <p>透過登入 API 取得 Access Token 與 Refresh Token。</p>
+            <pre><code>curl -X POST http://localhost:8080/api/v1/auth/login \
+  -H "Content-Type: application/json" \
+  -d '{"username": "user@example.com", "password": "password"}'</code></pre>
+
+            <h2>6.2 機器人管理</h2>
+            <p>將新的機器人註冊到車隊中。</p>
+            <pre><code>curl -X POST http://localhost:8080/api/v1/robots \
+  -H "Authorization: Bearer $TOKEN" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "robot_id": "turtlebot-001",
+    "robot_type": "turtlebot3",
+    "robot_name": "倉庫機器人 #1"
+  }'</code></pre>
+
+            <h2>6.3 狀態與遙測</h2>
+            <p>定期更新機器人狀態（心跳、位置、電量）。</p>
+            <pre><code>curl -X POST http://localhost:8080/api/v1/robots/{robotId}/status \
+  -H "Authorization: Bearer $TOKEN" \
+  -d '{"status": "active", "battery_level": 85}'</code></pre>
+
+            <h2>6.8 指令與控制</h2>
+            <p>透過 REST 向機器人下發 Action 指令。</p>
+            <pre><code>curl -X POST http://localhost:8080/api/v1/robots/{robotId}/control \
+  -H "Authorization: Bearer $TOKEN" \
+  -d '{"action": "gripper_open", "parameters": {"force": 10}}'</code></pre>
+        </main>
+    </div>
+</body>
+
+</html>

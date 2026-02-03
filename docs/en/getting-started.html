@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Getting Started - RIVO Documentation</title>
+    <link rel="stylesheet" href="../style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@300;400;500;600;700&family=Space+Mono:wght@400;700&display=swap"
+        rel="stylesheet">
+</head>
+
+<body>
+    <nav class="docs-nav">
+        <a href="../../index.html" class="nav-brand">
+            <img src="../../assets/logo-navbar.png" alt="RIVO">
+            <span>RIVO Docs</span>
+        </a>
+        <div class="lang-switch">
+            <a href="getting-started.html" class="lang-btn active">EN</a>
+            <a href="../zh/getting-started.html" class="lang-btn">繁中</a>
+        </div>
+    </nav>
+
+    <div class="docs-container">
+        <aside class="sidebar">
+            <div class="sidebar-group">
+                <div class="sidebar-group-title">Introduction</div>
+                <a href="getting-started.html" class="sidebar-link active">Getting Started</a>
+                <a href="deployment-config.html" class="sidebar-link">Deployment & Config</a>
+            </div>
+            <div class="sidebar-group">
+                <div class="sidebar-group-title">API Reference</div>
+                <a href="api-guide.html" class="sidebar-link">API Usage Guide</a>
+                <a href="custom-schemas.html" class="sidebar-link">Custom Message Schemas</a>
+            </div>
+            <div class="sidebar-group">
+                <div class="sidebar-group-title">Operations</div>
+                <a href="advanced.html" class="sidebar-link">Security & Maintenance</a>
+                <a href="troubleshooting.html" class="sidebar-link">Troubleshooting</a>
+            </div>
+        </aside>
+
+        <main class="main-content">
+            <h1>Getting Started</h1>
+            <p>RIVO Server is a backend platform for IoT robot fleet management. It provides a robust, high-performance
+                Go-based backend to manage your robot fleet efficiently.</p>
+
+            <div class="callout">
+                <strong>Note:</strong> This guide is for operators, DevOps engineers, and integration developers. It
+                covers deployment, configuration, and API usage.
+            </div>
+
+            <h2>1. Introduction</h2>
+            <p>RIVO Server provides:</p>
+            <ul>
+                <li><strong>Robot Registration & Monitoring</strong> - Track status and monitor health.</li>
+                <li><strong>Real-time Telemetry</strong> - Stream robot telemetry data (odometry, battery, sensors).
+                </li>
+                <li><strong>Log Management</strong> - Collect and stream logs from robots in real-time.</li>
+                <li><strong>Alert System</strong> - Receive, acknowledge, and resolve robot alerts.</li>
+                <li><strong>Map Management</strong> - Upload and manage ROS maps with trajectory tracking.</li>
+                <li><strong>Command & Control</strong> - Send commands to robots via REST or WebSocket.</li>
+            </ul>
+
+            <h2>2. Package Contents</h2>
+            <p>The release package contains the following structure:</p>
+            <pre><code>release/
+├── rivo-server          # Main server executable
+├── rivo-admin           # Admin CLI tool
+├── config.yaml          # Configuration file
+├── custom_msg/          # Custom message schemas
+├── data/                # SQLite database (if used)
+└── logs/                # Server log files</code></pre>
+
+            <h2>3. First-Time Setup</h2>
+            <h3>Step 1: Start the Server</h3>
+            <p>For binary deployment, run:</p>
+            <pre><code>./rivo-server</code></pre>
+            <p>The server will automatically create database tables and load schemas.</p>
+
+            <h3>Step 2: Verify Status</h3>
+            <p>Check if the server is healthy:</p>
+            <pre><code>curl http://localhost:8080/health</code></pre>
+
+            <h3>Step 3: Create Master Account</h3>
+            <p>Use the admin tool to create your initial account:</p>
+            <pre><code>./rivo-admin seed --email admin@yourcompany.com --password "SecurePassword123!"</code></pre>
+        </main>
+    </div>
+</body>
+
+</html>

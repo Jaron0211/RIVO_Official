@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Custom Message Schemas - RIVO Documentation</title>
+    <link rel="stylesheet" href="../style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@300;400;500;600;700&family=Space+Mono:wght@400;700&display=swap"
+        rel="stylesheet">
+</head>
+
+<body>
+    <nav class="docs-nav">
+        <a href="../../index.html" class="nav-brand">
+            <img src="../../assets/logo-navbar.png" alt="RIVO">
+            <span>RIVO Docs</span>
+        </a>
+        <div class="lang-switch">
+            <a href="custom-schemas.html" class="lang-btn active">EN</a>
+            <a href="../zh/custom-schemas.html" class="lang-btn">繁中</a>
+        </div>
+    </nav>
+
+    <div class="docs-container">
+        <aside class="sidebar">
+            <div class="sidebar-group">
+                <div class="sidebar-group-title">Introduction</div>
+                <a href="getting-started.html" class="sidebar-link">Getting Started</a>
+                <a href="deployment-config.html" class="sidebar-link">Deployment & Config</a>
+            </div>
+            <div class="sidebar-group">
+                <div class="sidebar-group-title">API Reference</div>
+                <a href="api-guide.html" class="sidebar-link">API Usage Guide</a>
+                <a href="custom-schemas.html" class="sidebar-link active">Custom Message Schemas</a>
+            </div>
+            <div class="sidebar-group">
+                <div class="sidebar-group-title">Operations</div>
+                <a href="advanced.html" class="sidebar-link">Security & Maintenance</a>
+                <a href="troubleshooting.html" class="sidebar-link">Troubleshooting</a>
+            </div>
+        </aside>
+
+        <main class="main-content">
+            <h1>Custom Message Schemas</h1>
+            <p>RIVO allows you to extend the API using JSON Schemas. This enables robots to send custom data without
+                changing the server code.</p>
+
+            <h2>7.1 Schema Directory</h2>
+            <p>Schemas are stored in the <code>custom_msg/</code> directory. A manifest file controls which schemas are
+                active.</p>
+            <pre><code>custom_msg/
+├── _manifest.txt          # Active schema list
+├── control_input.json     
+└── sensor_reading.json    # Your custom schema</code></pre>
+
+            <h2>7.2 Manifest File</h2>
+            <p>Example <code>_manifest.txt</code>:</p>
+            <pre><code># Built-in
+control_input.json
+
+# Custom
+sensor_reading.json</code></pre>
+
+            <h2>7.3 Adding a Schema</h2>
+            <ol>
+                <li>Create a JSON file (Draft-07 format).</li>
+                <li>Add the filename to <code>_manifest.txt</code>.</li>
+                <li>Restart RIVO Server.</li>
+            </ol>
+            <p>The new endpoint will be available at <code>/api/v1/robots/{id}/&lt;schema_id&gt;</code>.</p>
+        </main>
+    </div>
+</body>
+
+</html>

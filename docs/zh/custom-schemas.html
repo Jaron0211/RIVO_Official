@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>自訂訊息 Schema - RIVO 技術文件</title>
+    <link rel="stylesheet" href="../style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@300;400;500;600;700&family=Noto+Sans+TC:wght@400;500;700&family=Space+Mono:wght@400;700&display=swap"
+        rel="stylesheet">
+</head>
+
+<body>
+    <nav class="docs-nav">
+        <a href="../../index.html" class="nav-brand">
+            <img src="../../assets/logo-navbar.png" alt="RIVO">
+            <span>RIVO 文件中心</span>
+        </a>
+        <div class="lang-switch">
+            <a href="../en/custom-schemas.html" class="lang-btn">EN</a>
+            <a href="custom-schemas.html" class="lang-btn active">繁中</a>
+        </div>
+    </nav>
+
+    <div class="docs-container">
+        <aside class="sidebar">
+            <div class="sidebar-group">
+                <div class="sidebar-group-title">介紹</div>
+                <a href="getting-started.html" class="sidebar-link">入門指南</a>
+                <a href="deployment-config.html" class="sidebar-link">部署與設定</a>
+            </div>
+            <div class="sidebar-group">
+                <div class="sidebar-group-title">API 參考</div>
+                <a href="api-guide.html" class="sidebar-link">API 使用指南</a>
+                <a href="custom-schemas.html" class="sidebar-link active">自訂訊息 Schema</a>
+            </div>
+            <div class="sidebar-group">
+                <div class="sidebar-group-title">營運維護</div>
+                <a href="advanced.html" class="sidebar-link">安全與維護</a>
+                <a href="troubleshooting.html" class="sidebar-link">疑難排解</a>
+            </div>
+        </aside>
+
+        <main class="main-content">
+            <h1>自訂訊息 Schema</h1>
+            <p>RIVO 允許您透過 JSON Schema 擴充 API 介面。這讓機器人能夠下傳自訂格式的數據，而無需修改伺服器程式碼。</p>
+
+            <h2>7.1 Schema 目錄結構</h2>
+            <p>所有的 Schema 檔案都存放在 <code>custom_msg/</code> 目錄下。清單檔案（Manifest）決定了哪些 Schema 會被載入。</p>
+            <pre><code>custom_msg/
+├── _manifest.txt          # 啟用的 Schema 清單
+├── control_input.json     
+└── sensor_reading.json    # 您自訂的 Schema</code></pre>
+
+            <h2>7.2 清單檔案 (Manifest)</h2>
+            <p><code>_manifest.txt</code> 範例：</p>
+            <pre><code># 內建
+control_input.json
+
+# 自訂
+sensor_reading.json</code></pre>
+
+            <h2>7.3 新增 Schema</h2>
+            <ol>
+                <li>建立一個 JSON 檔案（符合 JSON Schema Draft-07 格式）。</li>
+                <li>將檔案名稱新增至 <code>_manifest.txt</code> 中。</li>
+                <li>重啟 RIVO Server。</li>
+            </ol>
+            <p>新的 API 終端將自動對應至 <code>/api/v1/robots/{id}/&lt;schema_id&gt;</code>。</p>
+        </main>
+    </div>
+</body>
+
+</html>

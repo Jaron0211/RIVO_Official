@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>部署與設定 - RIVO 技術文件</title>
+    <link rel="stylesheet" href="../style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@300;400;500;600;700&family=Noto+Sans+TC:wght@400;500;700&family=Space+Mono:wght@400;700&display=swap"
+        rel="stylesheet">
+</head>
+
+<body>
+    <nav class="docs-nav">
+        <a href="../../index.html" class="nav-brand">
+            <img src="../../assets/logo-navbar.png" alt="RIVO">
+            <span>RIVO 文件中心</span>
+        </a>
+        <div class="lang-switch">
+            <a href="../en/deployment-config.html" class="lang-btn">EN</a>
+            <a href="deployment-config.html" class="lang-btn active">繁中</a>
+        </div>
+    </nav>
+
+    <div class="docs-container">
+        <aside class="sidebar">
+            <div class="sidebar-group">
+                <div class="sidebar-group-title">介紹</div>
+                <a href="getting-started.html" class="sidebar-link">入門指南</a>
+                <a href="deployment-config.html" class="sidebar-link active">部署與設定</a>
+            </div>
+            <div class="sidebar-group">
+                <div class="sidebar-group-title">API 參考</div>
+                <a href="api-guide.html" class="sidebar-link">API 使用指南</a>
+                <a href="custom-schemas.html" class="sidebar-link">自訂訊息 Schema</a>
+            </div>
+            <div class="sidebar-group">
+                <div class="sidebar-group-title">營運維護</div>
+                <a href="advanced.html" class="sidebar-link">安全與維護</a>
+                <a href="troubleshooting.html" class="sidebar-link">疑難排解</a>
+            </div>
+        </aside>
+
+        <main class="main-content">
+            <h1>部署與設定</h1>
+
+            <h2>3. 部署選項</h2>
+            <h3>3.1 Docker 部署 (推薦)</h3>
+            <p>Docker 是在生產環境中部署 RIVO Server 的推薦方式。</p>
+            <pre><code>docker build -t rivo-server:latest .</code></pre>
+            <p>使用必要的環境變數執行：</p>
+            <pre><code>docker run -d \
+  -p 8080:8080 \
+  -e RIVO_AUTH_JWT_ACCESS_SECRET="您的32字元密鑰" \
+  -e RIVO_AUTH_JWT_REFRESH_SECRET="您的重新整理密鑰" \
+  rivo-server:latest</code></pre>
+
+            <h3>3.2 二進位檔案部署</h3>
+            <p>可在 Linux、macOS 或 Windows 上直接執行。在 Linux 上建議使用 systemd 進行守護進程管理。</p>
+
+            <h2>4. 設定參考</h2>
+            <p>RIVO 可以透過 <code>config.yaml</code> 檔案或環境變數（前綴為 <code>RIVO_</code>）進行設定。</p>
+
+            <h3>核心設定項</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>設定鍵</th>
+                        <th>環境變數</th>
+                        <th>說明</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>auth.jwt.access_secret</td>
+                        <td>RIVO_AUTH_JWT_ACCESS_SECRET</td>
+                        <td>JWT 簽名密鑰（至少 32 字元）</td>
+                    </tr>
+                    <tr>
+                        <td>database.type</td>
+                        <td>RIVO_DATABASE_TYPE</td>
+                        <td>"sqlite" 或 "postgres"</td>
+                    </tr>
+                    <tr>
+                        <td>server.port</td>
+                        <td>RIVO_SERVER_PORT</td>
+                        <td>預設埠號：8080</td>
+                    </tr>
+                </tbody>
+            </table>
+        </main>
+    </div>
+</body>
+
+</html>
