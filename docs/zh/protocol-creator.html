@@ -1,0 +1,961 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>協議產生器 - RIVO 技術文件</title>
+    <link rel="stylesheet" href="../style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@300;400;500;600;700&family=Noto+Sans+TC:wght@400;500;700&family=Space+Mono:wght@400;700&display=swap"
+        rel="stylesheet">
+    <style>
+        .protocol-form {
+            max-width: 800px;
+        }
+
+        /* Progress Stepper */
+        .progress-stepper {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 48px;
+            padding: 24px 0;
+            position: relative;
+        }
+
+        .progress-stepper::before {
+            content: '';
+            position: absolute;
+            top: 40px;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: #E5E5E5;
+            z-index: 0;
+        }
+
+        .step {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            position: relative;
+            z-index: 1;
+        }
+
+        .step-number {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: #FFFFFF;
+            border: 2px solid #E5E5E5;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Space Mono', monospace;
+            font-weight: 700;
+            font-size: 14px;
+            color: #737373;
+            transition: all 0.3s ease;
+            margin-bottom: 8px;
+        }
+
+        .step-label {
+            font-size: 12px;
+            color: #737373;
+            text-align: center;
+            font-weight: 500;
+        }
+
+        .step.completed .step-number {
+            background: #22C55E;
+            border-color: #22C55E;
+            color: #FFFFFF;
+        }
+
+        .step.completed .step-number::after {
+            content: '✓';
+        }
+
+        .step.active .step-number {
+            background: #000000;
+            border-color: #000000;
+            color: #FFFFFF;
+            transform: scale(1.1);
+        }
+
+        .step.active .step-label {
+            color: #000000;
+            font-weight: 600;
+        }
+
+        /* Template Selector */
+        .template-selector {
+            background: #F5F5F5;
+            border: 1px solid #E5E5E5;
+            border-radius: 8px;
+            padding: 24px;
+            margin-bottom: 32px;
+        }
+
+        .template-selector h3 {
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: 16px;
+            color: #262626;
+        }
+
+        .template-buttons {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 12px;
+        }
+
+        .template-btn {
+            padding: 16px;
+            background: #FFFFFF;
+            border: 2px solid #E5E5E5;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-align: left;
+            font-family: 'Public Sans', sans-serif;
+        }
+
+        .template-btn:hover {
+            border-color: #000000;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        .template-btn-title {
+            font-weight: 600;
+            font-size: 14px;
+            margin-bottom: 4px;
+            color: #000000;
+        }
+
+        .template-btn-desc {
+            font-size: 12px;
+            color: #737373;
+        }
+
+        /* Enhanced Form Sections */
+        .form-section {
+            background: #FFFFFF;
+            border: 1px solid #E5E5E5;
+            border-radius: 8px;
+            padding: 0;
+            margin-bottom: 16px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+            transition: all 0.3s ease;
+            overflow: hidden;
+        }
+
+        .form-section:hover {
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+        }
+
+        .form-section.active {
+            border-color: #000000;
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
+        }
+
+        .form-section-header {
+            padding: 20px 32px;
+            background: #FAFAFA;
+            border-bottom: 1px solid #E5E5E5;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            user-select: none;
+        }
+
+        .form-section-header:hover {
+            background: #F5F5F5;
+        }
+
+        .form-section.active .form-section-header {
+            background: #FFFFFF;
+        }
+
+        .form-section-body {
+            padding: 32px;
+            display: none;
+        }
+
+        .form-section.active .form-section-body {
+            display: block;
+        }
+
+        .section-status {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            border: 2px solid #E5E5E5;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            color: #FFFFFF;
+        }
+
+        .form-section.completed .section-status {
+            background: #22C55E;
+            border-color: #22C55E;
+        }
+
+        .form-section.completed .section-status::after {
+            content: '✓';
+        }
+
+        .form-section-title {
+            font-family: 'Space Mono', monospace;
+            font-size: 13px;
+            text-transform: uppercase;
+            color: #737373;
+            letter-spacing: 1px;
+            margin-bottom: 20px;
+            padding-bottom: 12px;
+            border-bottom: 1px solid #E5E5E5;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: #262626;
+            font-size: 14px;
+        }
+
+        .form-group input,
+        .form-group select {
+            width: 100%;
+            padding: 12px 16px;
+            border: 1px solid #D4D4D4;
+            background: #FFFFFF;
+            font-family: 'Public Sans', sans-serif;
+            font-size: 14px;
+            transition: all 0.3s ease;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: #000000;
+        }
+
+        .form-help {
+            font-size: 12px;
+            color: #737373;
+            margin-top: 4px;
+            font-family: 'Space Mono', monospace;
+        }
+
+        .data-point {
+            background: #FFFFFF;
+            border: 1px solid #E5E5E5;
+            padding: 20px;
+            margin-bottom: 16px;
+        }
+
+        .data-point-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 16px;
+            padding-bottom: 12px;
+            border-bottom: 1px solid #E5E5E5;
+        }
+
+        .data-point-title {
+            font-weight: 600;
+            font-size: 14px;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 12px 24px;
+            font-size: 13px;
+            font-weight: 600;
+            font-family: 'Space Mono', monospace;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            border: 2px solid transparent;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            background: #000000;
+            color: #FFFFFF;
+            text-decoration: none;
+        }
+
+        .btn:hover {
+            background: #262626;
+            opacity: 1;
+        }
+
+        .btn-outline {
+            background: transparent;
+            color: #000000;
+            border-color: #D4D4D4;
+        }
+
+        .btn-outline:hover {
+            border-color: #000000;
+        }
+
+        .btn-danger {
+            background: #EF4444;
+            color: #FFFFFF;
+            border-color: #EF4444;
+            padding: 8px 16px;
+            font-size: 12px;
+        }
+
+        .btn-danger:hover {
+            background: #DC2626;
+        }
+
+        .btn-add {
+            margin-top: 16px;
+        }
+
+        .yaml-preview {
+            background: #171717;
+            border: 1px solid #262626;
+            padding: 24px;
+            margin-top: 32px;
+        }
+
+        .yaml-preview-title {
+            font-family: 'Space Mono', monospace;
+            font-size: 13px;
+            text-transform: uppercase;
+            color: #FFFFFF;
+            letter-spacing: 1px;
+            margin-bottom: 16px;
+        }
+
+        .yaml-code {
+            font-family: 'Space Mono', monospace;
+            font-size: 13px;
+            line-height: 1.8;
+            color: #22C55E;
+            white-space: pre-wrap;
+            word-break: break-all;
+        }
+
+        .download-section {
+            margin-top: 24px;
+            text-align: center;
+        }
+
+        .checkbox-group {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 12px;
+        }
+
+        .checkbox-group input[type="checkbox"] {
+            width: auto;
+            margin: 0;
+        }
+
+        .mapping-fields {
+            margin-left: 28px;
+            padding-left: 16px;
+            border-left: 2px solid #E5E5E5;
+        }
+
+        /* Download Section Enhancement */
+        .download-options {
+            display: flex;
+            gap: 12px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .btn-copy {
+            background: #FFFFFF;
+            color: #000000;
+            border: 2px solid #E5E5E5;
+        }
+
+        .btn-copy:hover {
+            border-color: #000000;
+            background: #F5F5F5;
+        }
+
+        /* Mobile Responsive */
+        @media (max-width: 768px) {
+            .progress-stepper {
+                padding: 16px 0;
+            }
+
+            .step-number {
+                width: 32px;
+                height: 32px;
+                font-size: 12px;
+            }
+
+            .step-label {
+                font-size: 10px;
+            }
+
+            .template-buttons {
+                grid-template-columns: 1fr;
+            }
+
+            .form-section-body {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <nav class="docs-nav">
+        <a href="../../index.html" class="nav-brand">
+            <img src="../../assets/logo-navbar.png" alt="RIVO">
+            <span>RIVO 文件中心</span>
+        </a>
+        <div class="lang-switch">
+            <a href="../en/protocol-creator.html" class="lang-btn">EN</a>
+            <a href="protocol-creator.html" class="lang-btn active">繁中</a>
+        </div>
+    </nav>
+
+    <div class="docs-container">
+        <aside class="sidebar">
+            <div class="sidebar-group">
+                <div class="sidebar-group-title">介紹</div>
+                <a href="getting-started.html" class="sidebar-link">入門指南</a>
+                <a href="deployment-config.html" class="sidebar-link">部署與設定</a>
+            </div>
+            <div class="sidebar-group">
+                <div class="sidebar-group-title">API 參考</div>
+                <a href="api-guide.html" class="sidebar-link">API 使用指南</a>
+                <a href="custom-schemas.html" class="sidebar-link">自訂訊息 Schema</a>
+            </div>
+            <div class="sidebar-group">
+                <div class="sidebar-group-title">工具</div>
+                <a href="protocol-creator.html" class="sidebar-link active">協議產生器</a>
+                <a href="visual-editor.html" class="sidebar-link">視覺化編輯器</a>
+            </div>
+            <div class="sidebar-group">
+                <div class="sidebar-group-title">營運維護</div>
+                <a href="advanced.html" class="sidebar-link">安全與維護</a>
+                <a href="troubleshooting.html" class="sidebar-link">疑難排解</a>
+            </div>
+        </aside>
+
+        <main class="main-content">
+            <h1>RIVO Node 協議產生器</h1>
+            <p>無需撰寫程式碼，透過友善的表單介面建立感測器協議檔案。此工具會自動產生符合 RIVO Node 規格的 YAML 配置檔。</p>
+
+            <div class="callout">
+                <strong>使用說明：</strong> 填寫以下表單，系統會自動產生 YAML 協議檔案。完成後點擊「下載協議檔案」即可取得 .yaml 檔案。
+            </div>
+
+            <!-- Progress Stepper -->
+            <div class="progress-stepper">
+                <div class="step" id="stepIndicator1">
+                    <div class="step-number">1</div>
+                    <div class="step-label">基本資訊</div>
+                </div>
+                <div class="step" id="stepIndicator2">
+                    <div class="step-number">2</div>
+                    <div class="step-label">裝置識別</div>
+                </div>
+                <div class="step" id="stepIndicator3">
+                    <div class="step-number">3</div>
+                    <div class="step-label">資料定義</div>
+                </div>
+                <div class="step" id="stepIndicator4">
+                    <div class="step-number">4</div>
+                    <div class="step-label">輸出對應</div>
+                </div>
+            </div>
+
+            <!-- Template Selector -->
+            <div class="template-selector">
+                <h3>快速開始：選擇範本</h3>
+                <div class="template-buttons">
+                    <button class="template-btn" onclick="loadTemplate('bme280')">
+                        <div class="template-btn-title">BME280 感測器</div>
+                        <div class="template-btn-desc">溫度、氣壓、濕度感測器</div>
+                    </button>
+                    <button class="template-btn" onclick="loadTemplate('mpu6050')">
+                        <div class="template-btn-title">MPU6050 感測器</div>
+                        <div class="template-btn-desc">6軸加速度與陀螺儀</div>
+                    </button>
+                    <button class="template-btn" onclick="loadTemplate('blank')">
+                        <div class="template-btn-title">從空白開始</div>
+                        <div class="template-btn-desc">自訂所有設定</div>
+                    </button>
+                </div>
+            </div>
+
+            <form class="protocol-form" id="protocolForm">
+                <!-- Step 1: Sensor Basics -->
+                <div class="form-section active" id="section1">
+                    <div class="form-section-header" onclick="toggleSection(1)">
+                        <div class="form-section-title">步驟 1：感測器基本資訊</div>
+                        <div class="section-status"></div>
+                    </div>
+                    <div class="form-section-body">
+
+                        <div class="form-group">
+                            <label for="sensorId">感測器名稱 / ID</label>
+                            <input type="text" id="sensorId" placeholder="例如：my-custom-sensor" required>
+                            <div class="form-help">唯一識別碼，建議使用小寫英文與連字號</div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="busType">匯流排類型</label>
+                            <select id="busType" required>
+                                <option value="i2c">I2C</option>
+                                <option value="uart">UART</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="address">位址</label>
+                            <input type="text" id="address" placeholder="例如：0x76" required>
+                            <div class="form-help">十六進位格式，例如 0x76</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Step 2: Identification -->
+                <div class="form-section" id="section2">
+                    <div class="form-section-header" onclick="toggleSection(2)">
+                        <div class="form-section-title">步驟 2：裝置識別（握手）</div>
+                        <div class="section-status"></div>
+                    </div>
+                    <div class="form-section-body">
+
+                        <div class="form-group">
+                            <label for="whoamiReg">識別暫存器位址</label>
+                            <input type="text" id="whoamiReg" placeholder="例如：0xD0" required>
+                            <div class="form-help">用於確認裝置身分的暫存器</div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="whoamiValue">預期值</label>
+                            <input type="text" id="whoamiValue" placeholder="例如：0x60" required>
+                            <div class="form-help">讀取該暫存器時的預期回傳值</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Step 3: Data Points -->
+                <div class="form-section" id="section3">
+                    <div class="form-section-header" onclick="toggleSection(3)">
+                        <div class="form-section-title">步驟 3：資料定義</div>
+                        <div class="section-status"></div>
+                    </div>
+                    <div class="form-section-body">
+                        <div id="dataPointsContainer"></div>
+                        <button type="button" class="btn btn-outline btn-add" onclick="addDataPoint()">+ 新增資料點</button>
+                    </div>
+                </div>
+
+                <!-- Step 4: Output Mapping -->
+                <div class="form-section" id="section4">
+                    <div class="form-section-header" onclick="toggleSection(4)">
+                        <div class="form-section-title">步驟 4：輸出對應</div>
+                        <div class="section-status"></div>
+                    </div>
+                    <div class="form-section-body">
+
+                        <div class="checkbox-group">
+                            <input type="checkbox" id="mapToStatus">
+                            <label for="mapToStatus">對應到即時狀態</label>
+                        </div>
+
+                        <div class="mapping-fields" id="statusFields" style="display: none;">
+                            <div class="form-group">
+                                <label for="statusUnit">單位</label>
+                                <input type="text" id="statusUnit" placeholder="例如：C, F, %">
+                            </div>
+                        </div>
+
+                        <div class="checkbox-group">
+                            <input type="checkbox" id="mapToTelemetry">
+                            <label for="mapToTelemetry">對應到遙測圖表</label>
+                        </div>
+
+                        <div class="mapping-fields" id="telemetryFields" style="display: none;">
+                            <div class="form-group">
+                                <label for="telemetryTopic">主題名稱</label>
+                                <input type="text" id="telemetryTopic" placeholder="例如：/weather">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+
+            <!-- YAML Preview -->
+            <div class="yaml-preview">
+                <div class="yaml-preview-title">YAML 預覽</div>
+                <div class="yaml-code" id="yamlOutput"># 請填寫上方表單以產生 YAML 配置</div>
+            </div>
+
+            <div class="download-section">
+                <div class="download-options">
+                    <button type="button" class="btn" onclick="downloadYAML()">下載協議檔案</button>
+                    <button type="button" class="btn btn-copy" onclick="copyToClipboard()">複製到剪貼簿</button>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        let dataPointCounter = 0;
+        let currentStep = 1;
+
+        // Toggle collapsible sections
+        function toggleSection(sectionNum) {
+            // Close all sections
+            for (let i = 1; i <= 4; i++) {
+                const section = document.getElementById(`section${i}`);
+                if (section) {
+                    section.classList.remove('active');
+                }
+            }
+
+            // Open clicked section
+            const targetSection = document.getElementById(`section${sectionNum}`);
+            if (targetSection) {
+                targetSection.classList.add('active');
+                currentStep = sectionNum;
+                updateProgressIndicator();
+            }
+        }
+
+        // Update progress indicator
+        function updateProgressIndicator() {
+            for (let i = 1; i <= 4; i++) {
+                const step = document.getElementById(`stepIndicator${i}`);
+                if (step) {
+                    step.classList.remove('active', 'completed');
+                    if (i < currentStep) {
+                        step.classList.add('completed');
+                    } else if (i === currentStep) {
+                        step.classList.add('active');
+                    }
+                }
+            }
+        }
+
+        // Load template
+        function loadTemplate(templateName) {
+            // Clear form
+            document.getElementById('protocolForm').reset();
+            document.getElementById('dataPointsContainer').innerHTML = '';
+            dataPointCounter = 0;
+
+            const templates = {
+                'bme280': {
+                    sensorId: 'bme280-sensor',
+                    busType: 'i2c',
+                    address: '0x76',
+                    whoamiReg: '0xD0',
+                    whoamiValue: '0x60',
+                    dataPoints: [
+                        { name: 'raw_temp', reg: '0xFA', len: '3', decode: 'bme280_temp' },
+                        { name: 'raw_press', reg: '0xF7', len: '3', decode: 'bme280_press' },
+                        { name: 'raw_hum', reg: '0xFD', len: '2', decode: 'bme280_hum' }
+                    ],
+                    mapStatus: true,
+                    statusUnit: 'C',
+                    mapTelemetry: true,
+                    telemetryTopic: '/weather'
+                },
+                'mpu6050': {
+                    sensorId: 'mpu6050-sensor',
+                    busType: 'i2c',
+                    address: '0x68',
+                    whoamiReg: '0x75',
+                    whoamiValue: '0x68',
+                    dataPoints: [
+                        { name: 'accel_x', reg: '0x3B', len: '2', decode: 'int16_be' },
+                        { name: 'accel_y', reg: '0x3D', len: '2', decode: 'int16_be' },
+                        { name: 'accel_z', reg: '0x3F', len: '2', decode: 'int16_be' },
+                        { name: 'gyro_x', reg: '0x43', len: '2', decode: 'int16_be' },
+                        { name: 'gyro_y', reg: '0x45', len: '2', decode: 'int16_be' },
+                        { name: 'gyro_z', reg: '0x47', len: '2', decode: 'int16_be' }
+                    ],
+                    mapStatus: false,
+                    mapTelemetry: true,
+                    telemetryTopic: '/imu'
+                },
+                'blank': {
+                    sensorId: 'my-custom-sensor',
+                    busType: 'i2c',
+                    address: '0x76',
+                    whoamiReg: '0xD0',
+                    whoamiValue: '0x60',
+                    dataPoints: [],
+                    mapStatus: false,
+                    mapTelemetry: false
+                }
+            };
+
+            const template = templates[templateName];
+            if (!template) return;
+
+            // Fill basic fields
+            document.getElementById('sensorId').value = template.sensorId;
+            document.getElementById('busType').value = template.busType;
+            document.getElementById('address').value = template.address;
+            document.getElementById('whoamiReg').value = template.whoamiReg;
+            document.getElementById('whoamiValue').value = template.whoamiValue;
+
+            // Add data points
+            template.dataPoints.forEach(dp => {
+                addDataPoint();
+                const lastDataPoint = document.querySelector('.data-point:last-child');
+                if (lastDataPoint) {
+                    lastDataPoint.querySelector('.dp-name').value = dp.name;
+                    lastDataPoint.querySelector('.dp-reg').value = dp.reg;
+                    lastDataPoint.querySelector('.dp-len').value = dp.len;
+                    lastDataPoint.querySelector('.dp-decode').value = dp.decode;
+                }
+            });
+
+            // Set mapping
+            document.getElementById('mapToStatus').checked = template.mapStatus;
+            document.getElementById('statusFields').style.display = template.mapStatus ? 'block' : 'none';
+            if (template.mapStatus) {
+                document.getElementById('statusUnit').value = template.statusUnit;
+            }
+
+            document.getElementById('mapToTelemetry').checked = template.mapTelemetry;
+            document.getElementById('telemetryFields').style.display = template.mapTelemetry ? 'block' : 'none';
+            if (template.mapTelemetry) {
+                document.getElementById('telemetryTopic').value = template.telemetryTopic;
+            }
+
+            // If blank template, add one empty data point
+            if (templateName === 'blank') {
+                addDataPoint();
+            }
+
+            updateYAML();
+        }
+
+        // Copy to clipboard
+        function copyToClipboard() {
+            const yaml = document.getElementById('yamlOutput').textContent;
+
+            if (yaml.includes('# 請填寫')) {
+                alert('請先填寫表單');
+                return;
+            }
+
+            navigator.clipboard.writeText(yaml).then(() => {
+                // Visual feedback
+                const btn = event.target;
+                const originalText = btn.innerHTML;
+                btn.innerHTML = '✓ 已複製';
+                btn.style.background = '#22C55E';
+                btn.style.borderColor = '#22C55E';
+                btn.style.color = '#FFFFFF';
+
+                setTimeout(() => {
+                    btn.innerHTML = originalText;
+                    btn.style.background = '';
+                    btn.style.borderColor = '';
+                    btn.style.color = '';
+                }, 2000);
+            }).catch(err => {
+                alert('複製失敗，請手動複製');
+                console.error('Copy failed:', err);
+            });
+        }
+
+        // Toggle mapping fields
+        document.getElementById('mapToStatus').addEventListener('change', function () {
+            document.getElementById('statusFields').style.display = this.checked ? 'block' : 'none';
+        });
+
+        document.getElementById('mapToTelemetry').addEventListener('change', function () {
+            document.getElementById('telemetryFields').style.display = this.checked ? 'block' : 'none';
+        });
+
+        // Add data point
+        function addDataPoint() {
+            dataPointCounter++;
+            const container = document.getElementById('dataPointsContainer');
+            const dataPoint = document.createElement('div');
+            dataPoint.className = 'data-point';
+            dataPoint.id = `dataPoint${dataPointCounter}`;
+
+            dataPoint.innerHTML = `
+                <div class="data-point-header">
+                    <div class="data-point-title">資料點 #${dataPointCounter}</div>
+                    <button type="button" class="btn btn-danger" onclick="removeDataPoint(${dataPointCounter})">移除</button>
+                </div>
+                <div class="form-group">
+                    <label>資料名稱</label>
+                    <input type="text" class="dp-name" placeholder="例如：raw_temp" required>
+                    <div class="form-help">內部變數名稱</div>
+                </div>
+                <div class="form-group">
+                    <label>暫存器位址</label>
+                    <input type="text" class="dp-reg" placeholder="例如：0xFA" required>
+                </div>
+                <div class="form-group">
+                    <label>讀取長度（位元組）</label>
+                    <input type="number" class="dp-len" min="1" max="16" value="2" required>
+                </div>
+                <div class="form-group">
+                    <label>資料型態 / 解碼器</label>
+                    <select class="dp-decode" required>
+                        <option value="int8">int8</option>
+                        <option value="uint8">uint8</option>
+                        <option value="int16_le">int16_le (小端序)</option>
+                        <option value="int16_be">int16_be (大端序)</option>
+                        <option value="uint16_le">uint16_le (小端序)</option>
+                        <option value="uint16_be">uint16_be (大端序)</option>
+                        <option value="int32_le">int32_le (小端序)</option>
+                        <option value="int32_be">int32_be (大端序)</option>
+                        <option value="uint32_le">uint32_le (小端序)</option>
+                        <option value="uint32_be">uint32_be (大端序)</option>
+                        <option value="float32">float32</option>
+                        <option value="bme280_temp">bme280_temp (BME280 溫度)</option>
+                        <option value="bme280_press">bme280_press (BME280 氣壓)</option>
+                        <option value="bme280_hum">bme280_hum (BME280 濕度)</option>
+                    </select>
+                </div>
+            `;
+
+            container.appendChild(dataPoint);
+            updateYAML();
+        }
+
+        // Remove data point
+        function removeDataPoint(id) {
+            const element = document.getElementById(`dataPoint${id}`);
+            if (element) {
+                element.remove();
+                updateYAML();
+            }
+        }
+
+        // Update YAML preview
+        function updateYAML() {
+            const sensorId = document.getElementById('sensorId').value || 'my-custom-sensor';
+            const busType = document.getElementById('busType').value;
+            const address = document.getElementById('address').value || '0x76';
+            const whoamiReg = document.getElementById('whoamiReg').value || '0xD0';
+            const whoamiValue = document.getElementById('whoamiValue').value || '0x60';
+
+            let yaml = `id: "${sensorId}"\ntype: "sensor"\nbus: "${busType}"\naddress: "${address}"\n`;
+            yaml += `identify:\n  whoami_reg: "${whoamiReg}"\n  whoami_value: "${whoamiValue}"\n`;
+
+            // Read section
+            yaml += `read:\n  interval_ms: 500\n  registers:\n`;
+
+            const dataPoints = document.querySelectorAll('.data-point');
+            if (dataPoints.length === 0) {
+                yaml += `    # 請新增至少一個資料點\n`;
+            } else {
+                dataPoints.forEach(dp => {
+                    const name = dp.querySelector('.dp-name').value || 'data_point';
+                    const reg = dp.querySelector('.dp-reg').value || '0x00';
+                    const len = dp.querySelector('.dp-len').value || '2';
+                    const decode = dp.querySelector('.dp-decode').value || 'uint16_le';
+
+                    yaml += `    - name: "${name}"\n`;
+                    yaml += `      reg: "${reg}"\n`;
+                    yaml += `      len: ${len}\n`;
+                    yaml += `      decode: "${decode}"\n`;
+                });
+            }
+
+            // Map section
+            yaml += `map:\n`;
+
+            const mapToStatus = document.getElementById('mapToStatus').checked;
+            const mapToTelemetry = document.getElementById('mapToTelemetry').checked;
+
+            if (mapToStatus) {
+                const unit = document.getElementById('statusUnit').value || 'C';
+                const firstDataPoint = document.querySelector('.dp-name');
+                const varName = firstDataPoint ? firstDataPoint.value : 'raw_data';
+
+                yaml += `  status:\n`;
+                yaml += `    sensor_overview:\n`;
+                yaml += `      - sensor_id: "${sensorId}_1"\n`;
+                yaml += `        sensor_type: "Sensor"\n`;
+                yaml += `        value: "\${${varName}}"\n`;
+                yaml += `        unit: "${unit}"\n`;
+            }
+
+            if (mapToTelemetry) {
+                const topic = document.getElementById('telemetryTopic').value || '/topic';
+                const firstDataPoint = document.querySelector('.dp-name');
+                const varName = firstDataPoint ? firstDataPoint.value : 'raw_data';
+
+                yaml += `  telemetry:\n`;
+                yaml += `    "${topic}":\n`;
+                yaml += `      data: "\${${varName}}"\n`;
+            }
+
+            if (!mapToStatus && !mapToTelemetry) {
+                yaml += `  # 請至少選擇一個輸出對應\n`;
+            }
+
+            document.getElementById('yamlOutput').textContent = yaml;
+        }
+
+        // Download YAML
+        function downloadYAML() {
+            const yaml = document.getElementById('yamlOutput').textContent;
+            const sensorId = document.getElementById('sensorId').value || 'my-custom-sensor';
+
+            if (yaml.includes('# 請填寫')) {
+                alert('請先填寫表單');
+                return;
+            }
+
+            const blob = new Blob([yaml], { type: 'text/yaml' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `${sensorId}.yaml`;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+        }
+
+        // Listen to all form inputs
+        document.getElementById('protocolForm').addEventListener('input', updateYAML);
+        document.getElementById('mapToStatus').addEventListener('change', updateYAML);
+        document.getElementById('mapToTelemetry').addEventListener('change', updateYAML);
+
+        // Add first data point on load
+        window.addEventListener('load', function () {
+            updateProgressIndicator();  // Initialize progress indicator
+            toggleSection(1);  // Open first section
+            addDataPoint();
+            updateYAML();
+        });
+    </script>
+</body>
+
+</html>

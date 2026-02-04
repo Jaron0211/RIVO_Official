@@ -1,0 +1,319 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "RIVO Visual Protocol Editor Schema",
+  "description": "JSON schema for visual node-based protocol configuration",
+  "type": "object",
+  "required": ["version", "metadata", "nodes", "edges"],
+  "properties": {
+    "version": {
+      "type": "string",
+      "description": "Schema version",
+      "const": "1.0"
+    },
+    "metadata": {
+      "type": "object",
+      "description": "Protocol metadata",
+      "required": ["id", "name"],
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique protocol identifier"
+        },
+        "name": {
+          "type": "string",
+          "description": "Human-readable protocol name"
+        },
+        "description": {
+          "type": "string",
+          "description": "Protocol description"
+        },
+        "author": {
+          "type": "string",
+          "description": "Protocol author"
+        },
+        "created": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Creation timestamp"
+        },
+        "modified": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Last modification timestamp"
+        }
+      }
+    },
+    "nodes": {
+      "type": "array",
+      "description": "Array of nodes in the graph",
+      "items": {
+        "oneOf": [
+          { "$ref": "#/definitions/SensorInputNode" },
+          { "$ref": "#/definitions/ConstantNode" },
+          { "$ref": "#/definitions/CalibrationNode" },
+          { "$ref": "#/definitions/MathFunctionNode" },
+          { "$ref": "#/definitions/OutputStatusNode" },
+          { "$ref": "#/definitions/OutputTelemetryNode" }
+        ]
+      }
+    },
+    "edges": {
+      "type": "array",
+      "description": "Connections between nodes",
+      "items": {
+        "$ref": "#/definitions/Edge"
+      }
+    }
+  },
+  "definitions": {
+    "BaseNode": {
+      "type": "object",
+      "required": ["id", "type", "position"],
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique node identifier"
+        },
+        "type": {
+          "type": "string",
+          "description": "Node type identifier"
+        },
+        "position": {
+          "type": "object",
+          "required": ["x", "y"],
+          "properties": {
+            "x": { "type": "number" },
+            "y": { "type": "number" }
+          }
+        }
+      }
+    },
+    "SensorInputNode": {
+      "allOf": [
+        { "$ref": "#/definitions/BaseNode" },
+        {
+          "properties": {
+            "type": { "const": "input/sensor" },
+            "data": {
+              "type": "object",
+              "required": ["register", "length", "decoder", "variable_name"],
+              "properties": {
+                "register": {
+                  "type": "string",
+                  "description": "Register address in hex format (e.g., 0xFA)",
+                  "pattern": "^0x[0-9A-Fa-f]+$"
+                },
+                "length": {
+                  "type": "integer",
+                  "description": "Number of bytes to read",
+                  "minimum": 1,
+                  "maximum": 16
+                },
+                "decoder": {
+                  "type": "string",
+                  "description": "Decoder type for raw data",
+                  "enum": [
+                    "int8", "uint8",
+                    "int16_le", "int16_be",
+                    "uint16_le", "uint16_be",
+                    "int32_le", "int32_be",
+                    "uint32_le", "uint32_be",
+                    "float32",
+                    "bme280_temp", "bme280_press", "bme280_hum"
+                  ]
+                },
+                "variable_name": {
+                  "type": "string",
+                  "description": "Variable name for this sensor reading",
+                  "pattern": "^[a-z_][a-z0-9_]*$"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "ConstantNode": {
+      "allOf": [
+        { "$ref": "#/definitions/BaseNode" },
+        {
+          "properties": {
+            "type": { "const": "input/constant" },
+            "data": {
+              "type": "object",
+              "required": ["name", "value"],
+              "properties": {
+                "name": {
+                  "type": "string",
+                  "description": "Constant name",
+                  "pattern": "^[a-z_][a-z0-9_]*$"
+                },
+                "value": {
+                  "type": "number",
+                  "description": "Constant value"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "CalibrationNode": {
+      "allOf": [
+        { "$ref": "#/definitions/BaseNode" },
+        {
+          "properties": {
+            "type": { "const": "process/calibration" },
+            "data": {
+              "type": "object",
+              "required": ["expression"],
+              "properties": {
+                "expression": {
+                  "type": "string",
+                  "description": "Mathematical expression for calibration (e.g., '$input * 1.8 + 32')"
+                },
+                "description": {
+                  "type": "string",
+                  "description": "Human-readable description of the calibration"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "MathFunctionNode": {
+      "allOf": [
+        { "$ref": "#/definitions/BaseNode" },
+        {
+          "properties": {
+            "type": { "const": "process/math" },
+            "data": {
+              "type": "object",
+              "required": ["function"],
+              "properties": {
+                "function": {
+                  "type": "string",
+                  "description": "Mathematical function to apply",
+                  "enum": ["abs", "sqrt", "pow", "log", "log10", "exp", "sin", "cos", "tan", "round", "floor", "ceil"]
+                },
+                "parameter": {
+                  "type": "number",
+                  "description": "Optional parameter for functions like pow"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "OutputStatusNode": {
+      "allOf": [
+        { "$ref": "#/definitions/BaseNode" },
+        {
+          "properties": {
+            "type": { "const": "output/status" },
+            "data": {
+              "type": "object",
+              "required": ["sensor_id", "sensor_type"],
+              "properties": {
+                "sensor_id": {
+                  "type": "string",
+                  "description": "Unique sensor identifier for status display"
+                },
+                "sensor_type": {
+                  "type": "string",
+                  "description": "Sensor type (e.g., Temperature, Humidity, Pressure)"
+                },
+                "unit": {
+                  "type": "string",
+                  "description": "Unit of measurement (e.g., C, F, %, Pa)"
+                },
+                "min_value": {
+                  "type": "number",
+                  "description": "Minimum expected value for validation"
+                },
+                "max_value": {
+                  "type": "number",
+                  "description": "Maximum expected value for validation"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "OutputTelemetryNode": {
+      "allOf": [
+        { "$ref": "#/definitions/BaseNode" },
+        {
+          "properties": {
+            "type": { "const": "output/telemetry" },
+            "data": {
+              "type": "object",
+              "required": ["topic", "field"],
+              "properties": {
+                "topic": {
+                  "type": "string",
+                  "description": "Telemetry topic path (e.g., /weather, /imu)"
+                },
+                "field": {
+                  "type": "string",
+                  "description": "Field name within the topic"
+                },
+                "sample_rate": {
+                  "type": "integer",
+                  "description": "Sampling rate in milliseconds",
+                  "minimum": 10
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "Edge": {
+      "type": "object",
+      "required": ["id", "source", "target"],
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique edge identifier"
+        },
+        "source": {
+          "type": "object",
+          "required": ["node_id", "port"],
+          "properties": {
+            "node_id": {
+              "type": "string",
+              "description": "Source node identifier"
+            },
+            "port": {
+              "type": "string",
+              "description": "Output port name"
+            }
+          }
+        },
+        "target": {
+          "type": "object",
+          "required": ["node_id", "port"],
+          "properties": {
+            "node_id": {
+              "type": "string",
+              "description": "Target node identifier"
+            },
+            "port": {
+              "type": "string",
+              "description": "Input port name"
+            }
+          }
+        },
+        "data_type": {
+          "type": "string",
+          "description": "Type of data flowing through this edge",
+          "enum": ["number", "string", "boolean", "object", "array"]
+        }
+      }
+    }
+  }
+}

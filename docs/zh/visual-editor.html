@@ -1,0 +1,618 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>視覺化協議編輯器 - RIVO 技術文件</title>
+    <link rel="stylesheet" href="../style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@300;400;500;600;700&family=Noto+Sans+TC:wght@400;500;700&family=Space+Mono:wght@400;700&display=swap"
+        rel="stylesheet">
+
+    <!-- Custom Node Editor -->
+    <script src="../../src/simple-node-editor.js"></script>
+    <script src="../../src/yaml-generator.js"></script>
+    <script src="../../src/property-editor.js"></script>
+
+    <style>
+        .node-editor-container {
+            display: flex;
+            height: calc(100vh - 120px);
+            gap: 0;
+        }
+
+        .editor-sidebar {
+            width: 280px;
+            background: #FAFAFA;
+            border-right: 1px solid #E5E5E5;
+            overflow-y: auto;
+            padding: 24px;
+        }
+
+        .editor-canvas {
+            flex: 1;
+            background: #F5F5F5;
+            position: relative;
+        }
+
+        #nodeCanvas {
+            width: 100%;
+            height: 100%;
+            display: block;
+        }
+
+        .editor-toolbar {
+            background: #FFFFFF;
+            border-bottom: 1px solid #E5E5E5;
+            padding: 16px 24px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .toolbar-actions {
+            display: flex;
+            gap: 12px;
+        }
+
+        .node-palette-group {
+            margin-bottom: 24px;
+        }
+
+        .palette-title {
+            font-family: 'Space Mono', monospace;
+            font-size: 11px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: #737373;
+            margin-bottom: 12px;
+        }
+
+        .palette-node {
+            background: #FFFFFF;
+            border: 1px solid #E5E5E5;
+            border-radius: 4px;
+            padding: 12px;
+            margin-bottom: 8px;
+            cursor: move;
+            transition: all 0.2s ease;
+            user-select: none;
+        }
+
+        .palette-node:hover {
+            border-color: #000000;
+            transform: translateX(4px);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .palette-node-title {
+            font-weight: 600;
+            font-size: 13px;
+            margin-bottom: 4px;
+            color: #000000;
+        }
+
+        .palette-node-desc {
+            font-size: 11px;
+            color: #737373;
+            line-height: 1.4;
+        }
+
+        .btn-toolbar {
+            padding: 8px 16px;
+            font-size: 12px;
+            font-weight: 600;
+            font-family: 'Space Mono', monospace;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+            border: 1px solid #E5E5E5;
+            background: #FFFFFF;
+            color: #000000;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            border-radius: 4px;
+        }
+
+        .btn-toolbar:hover {
+            border-color: #000000;
+            background: #F5F5F5;
+        }
+
+        .btn-toolbar.primary {
+            background: #000000;
+            color: #FFFFFF;
+            border-color: #000000;
+        }
+
+        .btn-toolbar.primary:hover {
+            background: #262626;
+        }
+
+        .output-panel {
+            position: absolute;
+            bottom: 0;
+            right: 0;
+            width: 400px;
+            height: 300px;
+            background: #171717;
+            border: 1px solid #262626;
+            border-bottom: none;
+            border-right: none;
+            display: none;
+            flex-direction: column;
+        }
+
+        .output-panel.visible {
+            display: flex;
+        }
+
+        .output-header {
+            padding: 12px 16px;
+            background: #262626;
+            color: #FFFFFF;
+            font-family: 'Space Mono', monospace;
+            font-size: 12px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .output-content {
+            flex: 1;
+            padding: 16px;
+            overflow-y: auto;
+            font-family: 'Space Mono', monospace;
+            font-size: 12px;
+            line-height: 1.6;
+            color: #22C55E;
+            white-space: pre-wrap;
+        }
+
+        .close-panel {
+            cursor: pointer;
+            color: #FFFFFF;
+            background: none;
+            border: none;
+            font-size: 16px;
+            padding: 0;
+            width: 20px;
+            height: 20px;
+        }
+
+        /* Property Editor Modal */
+        .property-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1000;
+        }
+
+        .property-modal-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+        }
+
+        .property-modal-content {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: #FFFFFF;
+            border-radius: 8px;
+            box-shadow: 0 4px 24px rgba(0, 0, 0, 0.2);
+            width: 500px;
+            max-height: 80vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .property-modal-header {
+            padding: 20px 24px;
+            border-bottom: 1px solid #E5E5E5;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .property-modal-header h3 {
+            margin: 0;
+            font-size: 18px;
+            font-weight: 600;
+        }
+
+        .close-btn {
+            background: none;
+            border: none;
+            font-size: 24px;
+            cursor: pointer;
+            color: #737373;
+            padding: 0;
+            width: 30px;
+            height: 30px;
+        }
+
+        .close-btn:hover {
+            color: #000000;
+        }
+
+        .property-modal-body {
+            padding: 24px;
+            overflow-y: auto;
+            flex: 1;
+        }
+
+        .property-field {
+            margin-bottom: 20px;
+        }
+
+        .property-field label {
+            display: block;
+            font-size: 13px;
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: #000000;
+        }
+
+        .property-input {
+            width: 100%;
+            padding: 10px 12px;
+            font-size: 13px;
+            font-family: 'Space Mono', monospace;
+            border: 1px solid #E5E5E5;
+            border-radius: 4px;
+            transition: border-color 0.2s;
+        }
+
+        .property-input:focus {
+            outline: none;
+            border-color: #000000;
+        }
+
+        textarea.property-input {
+            resize: vertical;
+            min-height: 80px;
+        }
+
+        .property-modal-footer {
+            padding: 16px 24px;
+            border-top: 1px solid #E5E5E5;
+            display: flex;
+            justify-content: flex-end;
+            gap: 12px;
+        }
+
+        .btn-cancel,
+        .btn-save {
+            padding: 10px 20px;
+            font-size: 13px;
+            font-weight: 600;
+            font-family: 'Space Mono', monospace;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .btn-cancel {
+            background: #FFFFFF;
+            border: 1px solid #E5E5E5;
+            color: #000000;
+        }
+
+        .btn-cancel:hover {
+            background: #F5F5F5;
+            border-color: #000000;
+        }
+
+        .btn-save {
+            background: #000000;
+            border: 1px solid #000000;
+            color: #FFFFFF;
+        }
+
+        .btn-save:hover {
+            background: #262626;
+        }
+    </style>
+</head>
+
+<body>
+    <nav class="docs-nav">
+        <a href="../../index.html" class="nav-brand">
+            <img src="../../assets/logo-navbar.png" alt="RIVO">
+            <span>RIVO 文件中心</span>
+        </a>
+        <div class="lang-switch">
+            <a href="../en/visual-editor.html" class="lang-btn">EN</a>
+            <a href="visual-editor.html" class="lang-btn active">繁中</a>
+        </div>
+    </nav>
+
+    <div class="docs-container">
+        <aside class="sidebar">
+            <div class="sidebar-group">
+                <div class="sidebar-group-title">介紹</div>
+                <a href="getting-started.html" class="sidebar-link">入門指南</a>
+                <a href="deployment-config.html" class="sidebar-link">部署與設定</a>
+            </div>
+            <div class="sidebar-group">
+                <div class="sidebar-group-title">API 參考</div>
+                <a href="api-guide.html" class="sidebar-link">API 使用指南</a>
+                <a href="custom-schemas.html" class="sidebar-link">自訂訊息 Schema</a>
+            </div>
+            <div class="sidebar-group">
+                <div class="sidebar-group-title">工具</div>
+                <a href="protocol-creator.html" class="sidebar-link">協議產生器</a>
+                <a href="visual-editor.html" class="sidebar-link active">視覺化編輯器</a>
+            </div>
+            <div class="sidebar-group">
+                <div class="sidebar-group-title">營運維護</div>
+                <a href="advanced.html" class="sidebar-link">安全與維護</a>
+                <a href="troubleshooting.html" class="sidebar-link">疑難排解</a>
+            </div>
+        </aside>
+
+        <main class="main-content" style="max-width: none; padding: 0;">
+            <div class="editor-toolbar">
+                <h1 style="margin: 0; font-size: 18px;">RIVO Node 視覺化協議編輯器</h1>
+                <div class="toolbar-actions">
+                    <button class="btn-toolbar" onclick="clearGraph()">清除</button>
+                    <button class="btn-toolbar" onclick="importJSON()">匯入 JSON</button>
+                    <button class="btn-toolbar" onclick="exportJSON()">匯出 JSON</button>
+                    <button class="btn-toolbar primary" onclick="generateYAML()">產生 YAML</button>
+                </div>
+            </div>
+
+            <div class="node-editor-container">
+                <div class="editor-sidebar">
+                    <div class="node-palette-group">
+                        <div class="palette-title">輸入節點</div>
+                        <div class="palette-node" draggable="true" data-node-type="SensorInput">
+                            <div class="palette-node-title">感測器輸入</div>
+                            <div class="palette-node-desc">從暫存器讀取原始感測器數據</div>
+                        </div>
+                        <div class="palette-node" draggable="true" data-node-type="Constant">
+                            <div class="palette-node-title">常數</div>
+                            <div class="palette-node-desc">定義固定數值用於校正</div>
+                        </div>
+                    </div>
+
+                    <div class="node-palette-group">
+                        <div class="palette-title">處理節點</div>
+                        <div class="palette-node" draggable="true" data-node-type="Calibration">
+                            <div class="palette-node-title">校正運算</div>
+                            <div class="palette-node-desc">使用數學表達式轉換數據</div>
+                        </div>
+                        <div class="palette-node" draggable="true" data-node-type="MathFunction">
+                            <div class="palette-node-title">數學函數</div>
+                            <div class="palette-node-desc">預定義的數學運算</div>
+                        </div>
+                        <div class="palette-node" draggable="true" data-node-type="BinaryOp">
+                            <div class="palette-node-title">二元運算</div>
+                            <div class="palette-node-desc">雙輸入數學運算 (+, -, *, /, %, pow, log)</div>
+                        </div>
+                        <div class="palette-node" draggable="true" data-node-type="BitShift">
+                            <div class="palette-node-title">位元位移</div>
+                            <div class="palette-node-desc">左移/右移位元操作 (<<,>>)</div>
+                        </div>
+                        <div class="palette-node" draggable="true" data-node-type="BitMask">
+                            <div class="palette-node-title">位元遮罩</div>
+                            <div class="palette-node-desc">位元遮罩運算 (&, |, ^)</div>
+                        </div>
+                    </div>
+
+                    <div class="node-palette-group">
+                        <div class="palette-title">輸出節點</div>
+                        <div class="palette-node" draggable="true" data-node-type="OutputStatus">
+                            <div class="palette-node-title">狀態輸出</div>
+                            <div class="palette-node-desc">對應到即時狀態顯示</div>
+                        </div>
+                        <div class="palette-node" draggable="true" data-node-type="OutputTelemetry">
+                            <div class="palette-node-title">遙測輸出</div>
+                            <div class="palette-node-desc">對應到遙測圖表系統</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="editor-canvas">
+                    <canvas id="nodeCanvas"></canvas>
+                    <div class="output-panel" id="outputPanel">
+                        <div class="output-header">
+                            <span>生成的 YAML</span>
+                            <button class="close-panel" onclick="toggleOutput()">×</button>
+                        </div>
+                        <div class="output-content" id="outputContent"># 點擊「產生 YAML」查看結果<br>提示：雙擊節點可編輯屬性</div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        // Initialize property editor and node editor
+        let editor;
+        let propertyEditor;
+
+        document.addEventListener('DOMContentLoaded', () => {
+            editor = new SimpleNodeEditor('nodeCanvas');
+            propertyEditor = new NodePropertyEditor(editor);
+
+            // Type mapping
+            const typeMap = {
+                'SensorInput': 'input/sensor',
+                'Constant': 'input/constant',
+                'Calibration': 'process/calibration',
+                'MathFunction': 'process/math',
+                'BinaryOp': 'process/binary_op',
+                'BitShift': 'process/bit_shift',
+                'BitMask': 'process/bit_mask',
+                'OutputStatus': 'output/status',
+                'OutputTelemetry': 'output/telemetry'
+            };
+
+            // Drag and drop support
+            const paletteNodes = document.querySelectorAll('.palette-node');
+            paletteNodes.forEach(node => {
+                node.addEventListener('dragstart', (e) => {
+                    e.dataTransfer.setData('nodeType', node.dataset.nodeType);
+                });
+
+                // Also support click to add
+                node.addEventListener('click', () => {
+                    const nodeType = node.dataset.nodeType;
+                    const mappedType = typeMap[nodeType];
+                    if (mappedType) {
+                        // Add node to center of visible canvas with offset
+                        editor.addNode(mappedType, {
+                            x: 300 + (editor.nodes.length % 3) * 220,
+                            y: 100 + Math.floor(editor.nodes.length / 3) * 120
+                        });
+                    }
+                });
+            });
+
+            const canvas = document.getElementById('nodeCanvas');
+            canvas.addEventListener('dragover', (e) => {
+                e.preventDefault();
+            });
+
+            canvas.addEventListener('drop', (e) => {
+                e.preventDefault();
+                const nodeType = e.dataTransfer.getData('nodeType');
+                const rect = canvas.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
+
+                const mappedType = typeMap[nodeType];
+                if (mappedType) {
+                    editor.addNode(mappedType, { x, y });
+                }
+            });
+        });
+
+        // Toolbar functions
+        function clearGraph() {
+            if (confirm('確定要清除所有節點？')) {
+                editor.clearAll();
+            }
+        }
+
+        function importJSON() {
+            const input = document.createElement('input');
+            input.type = 'file';
+            input.accept = '.json';
+            input.onchange = (e) => {
+                const file = e.target.files[0];
+                const reader = new FileReader();
+                reader.onload = (event) => {
+                    try {
+                        const data = JSON.parse(event.target.result);
+                        // Import nodes from JSON
+                        if (data.nodes && Array.isArray(data.nodes)) {
+                            editor.clearAll();
+                            data.nodes.forEach(nodeData => {
+                                const node = editor.addNode(nodeData.type, {
+                                    x: nodeData.position.x,
+                                    y: nodeData.position.y
+                                });
+                                Object.assign(node.properties, nodeData.data);
+                            });
+                            alert('匯入成功！');
+                        } else {
+                            alert('無效的 JSON 格式');
+                        }
+                    } catch (err) {
+                        alert('匯入失敗：' + err.message);
+                    }
+                };
+                reader.readAsText(file);
+            };
+            input.click();
+        }
+
+        function exportJSON() {
+            const nodes = editor.getNodes().map((node, idx) => ({
+                id: `node_${idx}`,
+                type: node.type,
+                position: { x: node.x, y: node.y },
+                data: node.properties
+            }));
+
+            const connections = editor.getConnections().map((conn, idx) => ({
+                id: `edge_${idx}`,
+                source: { node_id: `node_${conn.from - 1}`, port: 'output' },
+                target: { node_id: `node_${conn.to - 1}`, port: 'input' }
+            }));
+
+            const data = {
+                version: '1.0',
+                metadata: {
+                    id: 'exported-protocol',
+                    name: 'Exported Protocol',
+                    created: new Date().toISOString()
+                },
+                nodes: nodes,
+                edges: connections
+            };
+
+            const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'rivo-protocol.json';
+            a.click();
+            URL.revokeObjectURL(url);
+        }
+
+        function generateYAML() {
+            const nodes = editor.getNodes();
+            const connections = editor.getConnections();
+
+            // Build graph object compatible with yaml-generator
+            const graphData = {
+                _nodes: nodes.map(n => ({
+                    id: n.id,
+                    type: n.type,
+                    properties: n.properties
+                })),
+                links: connections.reduce((acc, conn, idx) => {
+                    acc[idx] = {
+                        origin_id: conn.from,
+                        target_id: conn.to
+                    };
+                    return acc;
+                }, {})
+            };
+
+            const result = generateEnhancedYAML(graphData);
+
+            if (result.error) {
+                alert(result.error);
+                return;
+            }
+
+            document.getElementById('outputContent').textContent = result.yaml;
+            document.getElementById('outputPanel').classList.add('visible');
+        }
+
+        function toggleOutput() {
+            document.getElementById('outputPanel').classList.toggle('visible');
+        }
+    </script>
+</body>
+
+</html>

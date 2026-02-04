@@ -1,0 +1,116 @@
+{
+    "version": "1.0",
+    "metadata": {
+        "id": "bme280-temp-fahrenheit",
+        "name": "BME280 Temperature with Fahrenheit Conversion",
+        "description": "Reads temperature from BME280 sensor and converts to Fahrenheit",
+        "author": "RIVO Team",
+        "created": "2026-02-05T00:00:00Z"
+    },
+    "nodes": [
+        {
+            "id": "sensor_temp",
+            "type": "input/sensor",
+            "position": {
+                "x": 100,
+                "y": 150
+            },
+            "data": {
+                "register": "0xFA",
+                "length": 3,
+                "decoder": "bme280_temp",
+                "variable_name": "raw_temp"
+            }
+        },
+        {
+            "id": "const_offset",
+            "type": "input/constant",
+            "position": {
+                "x": 100,
+                "y": 300
+            },
+            "data": {
+                "name": "fahrenheit_offset",
+                "value": 32.0
+            }
+        },
+        {
+            "id": "calib_to_fahrenheit",
+            "type": "process/calibration",
+            "position": {
+                "x": 350,
+                "y": 150
+            },
+            "data": {
+                "expression": "$input * 1.8 + $fahrenheit_offset",
+                "description": "Convert Celsius to Fahrenheit"
+            }
+        },
+        {
+            "id": "output_status",
+            "type": "output/status",
+            "position": {
+                "x": 600,
+                "y": 150
+            },
+            "data": {
+                "sensor_id": "temp_sensor_1",
+                "sensor_type": "Temperature",
+                "unit": "F",
+                "min_value": -40,
+                "max_value": 185
+            }
+        },
+        {
+            "id": "output_telemetry",
+            "type": "output/telemetry",
+            "position": {
+                "x": 600,
+                "y": 300
+            },
+            "data": {
+                "topic": "/weather",
+                "field": "temperature_fahrenheit",
+                "sample_rate": 500
+            }
+        }
+    ],
+    "edges": [
+        {
+            "id": "edge_sensor_to_calib",
+            "source": {
+                "node_id": "sensor_temp",
+                "port": "raw_value"
+            },
+            "target": {
+                "node_id": "calib_to_fahrenheit",
+                "port": "input"
+            },
+            "data_type": "number"
+        },
+        {
+            "id": "edge_calib_to_status",
+            "source": {
+                "node_id": "calib_to_fahrenheit",
+                "port": "result"
+            },
+            "target": {
+                "node_id": "output_status",
+                "port": "value"
+            },
+            "data_type": "number"
+        },
+        {
+            "id": "edge_calib_to_telemetry",
+            "source": {
+                "node_id": "calib_to_fahrenheit",
+                "port": "result"
+            },
+            "target": {
+                "node_id": "output_telemetry",
+                "port": "value"
+            },
+            "data_type": "number"
+        }
+    ]
+}

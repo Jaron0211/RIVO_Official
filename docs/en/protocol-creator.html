@@ -1,0 +1,507 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Protocol Creator - RIVO Documentation</title>
+    <link rel="stylesheet" href="../style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@300;400;500;600;700&family=Noto+Sans+TC:wght@400;500;700&family=Space+Mono:wght@400;700&display=swap"
+        rel="stylesheet">
+    <style>
+        .protocol-form {
+            max-width: 800px;
+        }
+
+        .form-section {
+            background: #FAFAFA;
+            border: 1px solid #E5E5E5;
+            padding: 32px;
+            margin-bottom: 24px;
+        }
+
+        .form-section-title {
+            font-family: 'Space Mono', monospace;
+            font-size: 13px;
+            text-transform: uppercase;
+            color: #737373;
+            letter-spacing: 1px;
+            margin-bottom: 20px;
+            padding-bottom: 12px;
+            border-bottom: 1px solid #E5E5E5;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: #262626;
+            font-size: 14px;
+        }
+
+        .form-group input,
+        .form-group select {
+            width: 100%;
+            padding: 12px 16px;
+            border: 1px solid #D4D4D4;
+            background: #FFFFFF;
+            font-family: 'Public Sans', sans-serif;
+            font-size: 14px;
+            transition: all 0.3s ease;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: #000000;
+        }
+
+        .form-help {
+            font-size: 12px;
+            color: #737373;
+            margin-top: 4px;
+            font-family: 'Space Mono', monospace;
+        }
+
+        .data-point {
+            background: #FFFFFF;
+            border: 1px solid #E5E5E5;
+            padding: 20px;
+            margin-bottom: 16px;
+        }
+
+        .data-point-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 16px;
+            padding-bottom: 12px;
+            border-bottom: 1px solid #E5E5E5;
+        }
+
+        .data-point-title {
+            font-weight: 600;
+            font-size: 14px;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 12px 24px;
+            font-size: 13px;
+            font-weight: 600;
+            font-family: 'Space Mono', monospace;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            border: 2px solid transparent;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            background: #000000;
+            color: #FFFFFF;
+            text-decoration: none;
+        }
+
+        .btn:hover {
+            background: #262626;
+            opacity: 1;
+        }
+
+        .btn-outline {
+            background: transparent;
+            color: #000000;
+            border-color: #D4D4D4;
+        }
+
+        .btn-outline:hover {
+            border-color: #000000;
+        }
+
+        .btn-danger {
+            background: #EF4444;
+            color: #FFFFFF;
+            border-color: #EF4444;
+            padding: 8px 16px;
+            font-size: 12px;
+        }
+
+        .btn-danger:hover {
+            background: #DC2626;
+        }
+
+        .btn-add {
+            margin-top: 16px;
+        }
+
+        .yaml-preview {
+            background: #171717;
+            border: 1px solid #262626;
+            padding: 24px;
+            margin-top: 32px;
+        }
+
+        .yaml-preview-title {
+            font-family: 'Space Mono', monospace;
+            font-size: 13px;
+            text-transform: uppercase;
+            color: #FFFFFF;
+            letter-spacing: 1px;
+            margin-bottom: 16px;
+        }
+
+        .yaml-code {
+            font-family: 'Space Mono', monospace;
+            font-size: 13px;
+            line-height: 1.8;
+            color: #22C55E;
+            white-space: pre-wrap;
+            word-break: break-all;
+        }
+
+        .download-section {
+            margin-top: 24px;
+            text-align: center;
+        }
+
+        .checkbox-group {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 12px;
+        }
+
+        .checkbox-group input[type="checkbox"] {
+            width: auto;
+            margin: 0;
+        }
+
+        .mapping-fields {
+            margin-left: 28px;
+            padding-left: 16px;
+            border-left: 2px solid #E5E5E5;
+        }
+    </style>
+</head>
+
+<body>
+    <nav class="docs-nav">
+        <a href="../../index.html" class="nav-brand">
+            <img src="../../assets/logo-navbar.png" alt="RIVO">
+            <span>RIVO Documentation</span>
+        </a>
+        <div class="lang-switch">
+            <a href="protocol-creator.html" class="lang-btn active">EN</a>
+            <a href="../zh/protocol-creator.html" class="lang-btn">繁中</a>
+        </div>
+    </nav>
+
+    <div class="docs-container">
+        <aside class="sidebar">
+            <div class="sidebar-group">
+                <div class="sidebar-group-title">Introduction</div>
+                <a href="getting-started.html" class="sidebar-link">Getting Started</a>
+                <a href="deployment-config.html" class="sidebar-link">Deployment & Config</a>
+            </div>
+            <div class="sidebar-group">
+                <div class="sidebar-group-title">API Reference</div>
+                <a href="api-guide.html" class="sidebar-link">API Guide</a>
+                <a href="custom-schemas.html" class="sidebar-link">Custom Schemas</a>
+            </div>
+            <div class="sidebar-group">
+                <div class="sidebar-group-title">Tools</div>
+                <a href="protocol-creator.html" class="sidebar-link active">Protocol Creator</a>
+            </div>
+            <div class="sidebar-group">
+                <div class="sidebar-group-title">Operations</div>
+                <a href="advanced.html" class="sidebar-link">Security & Maintenance</a>
+                <a href="troubleshooting.html" class="sidebar-link">Troubleshooting</a>
+            </div>
+        </aside>
+
+        <main class="main-content">
+            <h1>RIVO Node Protocol Creator</h1>
+            <p>Create sensor protocol files through a friendly form interface without writing code. This tool
+                automatically generates YAML configuration files that comply with RIVO Node specifications.</p>
+
+            <div class="callout">
+                <strong>Instructions:</strong> Fill out the form below and the system will automatically generate a YAML
+                protocol file. Click "Download Protocol File" when complete to get your .yaml file.
+            </div>
+
+            <form class="protocol-form" id="protocolForm">
+                <!-- Step 1: Sensor Basics -->
+                <div class="form-section">
+                    <div class="form-section-title">Step 1: Sensor Basics</div>
+
+                    <div class="form-group">
+                        <label for="sensorId">Sensor Name / ID</label>
+                        <input type="text" id="sensorId" placeholder="e.g., my-custom-sensor" required>
+                        <div class="form-help">Unique identifier, recommended lowercase with hyphens</div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="busType">Bus Type</label>
+                        <select id="busType" required>
+                            <option value="i2c">I2C</option>
+                            <option value="uart">UART</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="address">Address</label>
+                        <input type="text" id="address" placeholder="e.g., 0x76" required>
+                        <div class="form-help">Hexadecimal format, e.g., 0x76</div>
+                    </div>
+                </div>
+
+                <!-- Step 2: Identification -->
+                <div class="form-section">
+                    <div class="form-section-title">Step 2: Device Identification (Handshake)</div>
+
+                    <div class="form-group">
+                        <label for="whoamiReg">Identification Register Address</label>
+                        <input type="text" id="whoamiReg" placeholder="e.g., 0xD0" required>
+                        <div class="form-help">Register used to confirm device identity</div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="whoamiValue">Expected Value</label>
+                        <input type="text" id="whoamiValue" placeholder="e.g., 0x60" required>
+                        <div class="form-help">Expected return value when reading this register</div>
+                    </div>
+                </div>
+
+                <!-- Step 3: Data Points -->
+                <div class="form-section">
+                    <div class="form-section-title">Step 3: Data Definitions</div>
+
+                    <div id="dataPointsContainer"></div>
+
+                    <button type="button" class="btn btn-outline btn-add" onclick="addDataPoint()">+ Add Data
+                        Point</button>
+                </div>
+
+                <!-- Step 4: Output Mapping -->
+                <div class="form-section">
+                    <div class="form-section-title">Step 4: Output Mapping</div>
+
+                    <div class="checkbox-group">
+                        <input type="checkbox" id="mapToStatus">
+                        <label for="mapToStatus">Map to Live Status</label>
+                    </div>
+
+                    <div class="mapping-fields" id="statusFields" style="display: none;">
+                        <div class="form-group">
+                            <label for="statusUnit">Unit</label>
+                            <input type="text" id="statusUnit" placeholder="e.g., C, F, %">
+                        </div>
+                    </div>
+
+                    <div class="checkbox-group">
+                        <input type="checkbox" id="mapToTelemetry">
+                        <label for="mapToTelemetry">Map to Telemetry Graph</label>
+                    </div>
+
+                    <div class="mapping-fields" id="telemetryFields" style="display: none;">
+                        <div class="form-group">
+                            <label for="telemetryTopic">Topic Name</label>
+                            <input type="text" id="telemetryTopic" placeholder="e.g., /weather">
+                        </div>
+                    </div>
+                </div>
+            </form>
+
+            <!-- YAML Preview -->
+            <div class="yaml-preview">
+                <div class="yaml-preview-title">YAML Preview</div>
+                <div class="yaml-code" id="yamlOutput"># Please fill out the form above to generate YAML configuration
+                </div>
+            </div>
+
+            <div class="download-section">
+                <button type="button" class="btn" onclick="downloadYAML()">Download Protocol File</button>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        let dataPointCounter = 0;
+
+        // Toggle mapping fields
+        document.getElementById('mapToStatus').addEventListener('change', function () {
+            document.getElementById('statusFields').style.display = this.checked ? 'block' : 'none';
+        });
+
+        document.getElementById('mapToTelemetry').addEventListener('change', function () {
+            document.getElementById('telemetryFields').style.display = this.checked ? 'block' : 'none';
+        });
+
+        // Add data point
+        function addDataPoint() {
+            dataPointCounter++;
+            const container = document.getElementById('dataPointsContainer');
+            const dataPoint = document.createElement('div');
+            dataPoint.className = 'data-point';
+            dataPoint.id = `dataPoint${dataPointCounter}`;
+
+            dataPoint.innerHTML = `
+                <div class="data-point-header">
+                    <div class="data-point-title">Data Point #${dataPointCounter}</div>
+                    <button type="button" class="btn btn-danger" onclick="removeDataPoint(${dataPointCounter})">Remove</button>
+                </div>
+                <div class="form-group">
+                    <label>Data Name</label>
+                    <input type="text" class="dp-name" placeholder="e.g., raw_temp" required>
+                    <div class="form-help">Internal variable name</div>
+                </div>
+                <div class="form-group">
+                    <label>Register Address</label>
+                    <input type="text" class="dp-reg" placeholder="e.g., 0xFA" required>
+                </div>
+                <div class="form-group">
+                    <label>Read Length (bytes)</label>
+                    <input type="number" class="dp-len" min="1" max="16" value="2" required>
+                </div>
+                <div class="form-group">
+                    <label>Data Type / Decoder</label>
+                    <select class="dp-decode" required>
+                        <option value="int8">int8</option>
+                        <option value="uint8">uint8</option>
+                        <option value="int16_le">int16_le (little-endian)</option>
+                        <option value="int16_be">int16_be (big-endian)</option>
+                        <option value="uint16_le">uint16_le (little-endian)</option>
+                        <option value="uint16_be">uint16_be (big-endian)</option>
+                        <option value="int32_le">int32_le (little-endian)</option>
+                        <option value="int32_be">int32_be (big-endian)</option>
+                        <option value="uint32_le">uint32_le (little-endian)</option>
+                        <option value="uint32_be">uint32_be (big-endian)</option>
+                        <option value="float32">float32</option>
+                        <option value="bme280_temp">bme280_temp (BME280 Temperature)</option>
+                        <option value="bme280_press">bme280_press (BME280 Pressure)</option>
+                        <option value="bme280_hum">bme280_hum (BME280 Humidity)</option>
+                    </select>
+                </div>
+            `;
+
+            container.appendChild(dataPoint);
+            updateYAML();
+        }
+
+        // Remove data point
+        function removeDataPoint(id) {
+            const element = document.getElementById(`dataPoint${id}`);
+            if (element) {
+                element.remove();
+                updateYAML();
+            }
+        }
+
+        // Update YAML preview
+        function updateYAML() {
+            const sensorId = document.getElementById('sensorId').value || 'my-custom-sensor';
+            const busType = document.getElementById('busType').value;
+            const address = document.getElementById('address').value || '0x76';
+            const whoamiReg = document.getElementById('whoamiReg').value || '0xD0';
+            const whoamiValue = document.getElementById('whoamiValue').value || '0x60';
+
+            let yaml = `id: "${sensorId}"\ntype: "sensor"\nbus: "${busType}"\naddress: "${address}"\n`;
+            yaml += `identify:\n  whoami_reg: "${whoamiReg}"\n  whoami_value: "${whoamiValue}"\n`;
+
+            // Read section
+            yaml += `read:\n  interval_ms: 500\n  registers:\n`;
+
+            const dataPoints = document.querySelectorAll('.data-point');
+            if (dataPoints.length === 0) {
+                yaml += `    # Please add at least one data point\n`;
+            } else {
+                dataPoints.forEach(dp => {
+                    const name = dp.querySelector('.dp-name').value || 'data_point';
+                    const reg = dp.querySelector('.dp-reg').value || '0x00';
+                    const len = dp.querySelector('.dp-len').value || '2';
+                    const decode = dp.querySelector('.dp-decode').value || 'uint16_le';
+
+                    yaml += `    - name: "${name}"\n`;
+                    yaml += `      reg: "${reg}"\n`;
+                    yaml += `      len: ${len}\n`;
+                    yaml += `      decode: "${decode}"\n`;
+                });
+            }
+
+            // Map section
+            yaml += `map:\n`;
+
+            const mapToStatus = document.getElementById('mapToStatus').checked;
+            const mapToTelemetry = document.getElementById('mapToTelemetry').checked;
+
+            if (mapToStatus) {
+                const unit = document.getElementById('statusUnit').value || 'C';
+                const firstDataPoint = document.querySelector('.dp-name');
+                const varName = firstDataPoint ? firstDataPoint.value : 'raw_data';
+
+                yaml += `  status:\n`;
+                yaml += `    sensor_overview:\n`;
+                yaml += `      - sensor_id: "${sensorId}_1"\n`;
+                yaml += `        sensor_type: "Sensor"\n`;
+                yaml += `        value: "\${${varName}}"\n`;
+                yaml += `        unit: "${unit}"\n`;
+            }
+
+            if (mapToTelemetry) {
+                const topic = document.getElementById('telemetryTopic').value || '/topic';
+                const firstDataPoint = document.querySelector('.dp-name');
+                const varName = firstDataPoint ? firstDataPoint.value : 'raw_data';
+
+                yaml += `  telemetry:\n`;
+                yaml += `    "${topic}":\n`;
+                yaml += `      data: "\${${varName}}"\n`;
+            }
+
+            if (!mapToStatus && !mapToTelemetry) {
+                yaml += `  # Please select at least one output mapping\n`;
+            }
+
+            document.getElementById('yamlOutput').textContent = yaml;
+        }
+
+        // Download YAML
+        function downloadYAML() {
+            const yaml = document.getElementById('yamlOutput').textContent;
+            const sensorId = document.getElementById('sensorId').value || 'my-custom-sensor';
+
+            if (yaml.includes('# Please fill out')) {
+                alert('Please fill out the form first');
+                return;
+            }
+
+            const blob = new Blob([yaml], { type: 'text/yaml' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `${sensorId}.yaml`;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+        }
+
+        // Listen to all form inputs
+        document.getElementById('protocolForm').addEventListener('input', updateYAML);
+        document.getElementById('mapToStatus').addEventListener('change', updateYAML);
+        document.getElementById('mapToTelemetry').addEventListener('change', updateYAML);
+
+        // Add first data point on load
+        window.addEventListener('load', function () {
+            addDataPoint();
+            updateYAML();
+        });
+    </script>
+</body>
+
+</html>
