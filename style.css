@@ -855,6 +855,50 @@ section {
     grid-template-columns: repeat(4, 1fr);
 }
 
+.pricing-grid.five-col {
+    grid-template-columns: repeat(5, 1fr);
+}
+
+.pricing-addons {
+    margin-top: 48px;
+    text-align: center;
+}
+
+.pricing-addons h3 {
+    font-size: 1.5rem;
+    margin-bottom: 24px;
+    color: var(--black);
+}
+
+.addons-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 16px;
+    max-width: 900px;
+    margin: 0 auto;
+}
+
+.addon-item {
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+    background: var(--gray-50);
+    border-radius: 8px;
+    border: 1px solid var(--gray-200);
+}
+
+.addon-name {
+    font-size: 0.9rem;
+    color: var(--gray-600);
+    margin-bottom: 8px;
+}
+
+.addon-price {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: var(--black);
+}
+
 .pricing-card {
     position: relative;
     padding: 48px 32px;
@@ -1545,6 +1589,14 @@ section {
         grid-template-columns: repeat(2, 1fr);
     }
 
+    .pricing-grid.five-col {
+        grid-template-columns: repeat(3, 1fr);
+    }
+
+    .addons-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
     .pricing-card {
         border-right: none;
         border-bottom: 1px solid var(--gray-200);
@@ -1656,9 +1708,14 @@ section {
     }
 
     .pricing-grid,
-    .pricing-grid.four-col {
+    .pricing-grid.four-col,
+    .pricing-grid.five-col {
         grid-template-columns: 1fr;
         border: none;
+    }
+
+    .addons-grid {
+        grid-template-columns: 1fr;
     }
 
     .pricing-card {
