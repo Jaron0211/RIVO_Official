@@ -1,0 +1,62 @@
+id: "bme280-i2c"
+type: "sensor"
+bus: "i2c"
+address: "0x76"  # Alternative: 0x77
+identify:
+  whoami_reg: "0xD0"
+  whoami_value: "0x60"
+read:
+  interval_ms: 1000
+  registers:
+    - name: "raw_temp"
+      reg: "0xFA"
+      len: 3
+      decode:
+        type: "raw_to_int"
+        byte_order: "big_endian"
+        signed: true
+        bits: 20
+        bit_shift: 4
+        scale: 0.01
+        offset: 0
+    - name: "raw_pressure"
+      reg: "0xF7"
+      len: 3
+      decode:
+        type: "raw_to_int"
+        byte_order: "big_endian"
+        signed: false
+        bits: 20
+        bit_shift: 4
+        scale: 0.01
+        offset: 0
+    - name: "raw_humidity"
+      reg: "0xFD"
+      len: 2
+      decode:
+        type: "raw_to_int"
+        byte_order: "big_endian"
+        signed: false
+        bits: 16
+        scale: 0.01
+        offset: 0
+map:
+  status:
+    sensor_overview:
+      - sensor_id: "temp_bme280"
+        sensor_type: "Temperature"
+        value: "${raw_temp}"
+        unit: "°C"
+      - sensor_id: "humidity_bme280"
+        sensor_type: "Humidity"
+        value: "${raw_humidity}"
+        unit: "%"
+      - sensor_id: "pressure_bme280"
+        sensor_type: "Pressure"
+        value: "${raw_pressure}"
+        unit: "hPa"
+  telemetry:
+    "/environmental":
+      temperature: "${raw_temp}"
+      humidity: "${raw_humidity}"
+      pressure: "${raw_pressure}"

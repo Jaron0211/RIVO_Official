@@ -1,0 +1,67 @@
+id: "ads1115-adc"
+type: "sensor"
+bus: "i2c"
+address: "0x48"  # Alternatives: 0x49, 0x4A, 0x4B
+identify:
+  # ADS1115 has no WHO_AM_I register, check config register instead
+  test_response: true
+read:
+  interval_ms: 100
+  registers:
+    - name: "adc_channel_0"
+      reg: "0x00"  # Conversion register
+      len: 2
+      decode:
+        type: "raw_to_int"
+        byte_order: "big_endian"
+        signed: true
+        bits: 16
+        scale: 0.000125  # For ±4.096V range: 4.096/32768
+        offset: 0
+    - name: "adc_channel_1"
+      reg: "0x00"
+      len: 2
+      decode:
+        type: "raw_to_int"
+        byte_order: "big_endian"
+        signed: true
+        bits: 16
+        scale: 0.000125
+        offset: 0
+    - name: "adc_channel_2"
+      reg: "0x00"
+      len: 2
+      decode:
+        type: "raw_to_int"
+        byte_order: "big_endian"
+        signed: true
+        bits: 16
+        scale: 0.000125
+        offset: 0
+    - name: "adc_channel_3"
+      reg: "0x00"
+      len: 2
+      decode:
+        type: "raw_to_int"
+        byte_order: "big_endian"
+        signed: true
+        bits: 16
+        scale: 0.000125
+        offset: 0
+map:
+  status:
+    sensor_overview:
+      - sensor_id: "adc_ch0"
+        sensor_type: "Voltage"
+        value: "${adc_channel_0}"
+        unit: "V"
+      - sensor_id: "adc_ch1"
+        sensor_type: "Voltage"
+        value: "${adc_channel_1}"
+        unit: "V"
+  telemetry:
+    "/adc/ads1115":
+      ch0: "${adc_channel_0}"
+      ch1: "${adc_channel_1}"
+      ch2: "${adc_channel_2}"
+      ch3: "${adc_channel_3}"

@@ -1,0 +1,59 @@
+id: "modbus-flow-sensor"
+type: "sensor"
+bus: "modbus-rtu"
+address: "0x02"  # Modbus slave address
+baud_rate: 9600
+parity: "even"  # Common for industrial Modbus
+stop_bits: 1
+data_bits: 8
+identify:
+  function_code: "0x03"
+  test_register: "0x0000"
+  expected_response: true
+read:
+  interval_ms: 1000
+  registers:
+    - name: "instantaneous_flow"
+      function_code: "0x03"  # Read Holding Registers
+      reg: "0x0064"  # Register 100
+      len: 2
+      decode:
+        type: "modbus_float32_be"
+        byte_order: "ABCD"
+    - name: "total_flow"
+      function_code: "0x03"
+      reg: "0x0066"  # Register 102
+      len: 2
+      decode:
+        type: "modbus_float32_be"
+        byte_order: "ABCD"
+    - name: "flow_rate_unit"
+      function_code: "0x03"
+      reg: "0x0070"
+      len: 1
+      decode:
+        type: "modbus_uint16_be"
+    - name: "sensor_status"
+      function_code: "0x01"  # Read Coils
+      reg: "0x0000"
+      len: 1
+      decode:
+        type: "bitmap"
+        bit_mask: "0x01"
+map:
+  status:
+    sensor_overview:
+      - sensor_id: "flow_modbus_1"
+        sensor_type: "Flow Rate"
+        value: "${instantaneous_flow}"
+        unit: "L/min"
+      - sensor_id: "flow_total_1"
+        sensor_type: "Total Flow"
+        value: "${total_flow}"
+        unit: "L"
+  telemetry:
+    "/industrial/flow":
+      instantaneous_flow: "${instantaneous_flow}"
+      total_flow: "${total_flow}"
+      unit_code: "${flow_rate_unit}"
+      status: "${sensor_status}"

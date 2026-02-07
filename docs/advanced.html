@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title data-i18n="advanced.pageTitle">Security & Maintenance - RIVO Documentation</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@300;400;500;600;700&family=Noto+Sans+TC:wght@400;500;700&family=Space+Mono:wght@400;700&display=swap"
+        rel="stylesheet">
+    <script src="i18n.js"></script>
+</head>
+
+<body>
+    <nav class="docs-nav">
+        <a href="../index.html" class="nav-brand">
+            <img src="../assets/logo-navbar.png" alt="RIVO">
+            <span data-i18n="nav.docCenter">RIVO Docs</span>
+        </a>
+        <div class="lang-switch">
+            <button onclick="setLang('en')" data-lang-switch="en" class="lang-btn">EN</button>
+            <button onclick="setLang('zh')" data-lang-switch="zh" class="lang-btn">繁中</button>
+        </div>
+    </nav>
+
+    <div class="docs-container">
+        <aside class="sidebar">
+            <div class="sidebar-group">
+                <div class="sidebar-group-title" data-i18n="sidebar.introduction">Introduction</div>
+                <a href="getting-started.html" class="sidebar-link" data-i18n="sidebar.gettingStarted">Getting
+                    Started</a>
+                <a href="deployment-config.html" class="sidebar-link" data-i18n="sidebar.deploymentConfig">Deployment &
+                    Config</a>
+            </div>
+            <div class="sidebar-group">
+                <div class="sidebar-group-title" data-i18n="sidebar.apiReference">API Reference</div>
+                <a href="api-guide.html" class="sidebar-link" data-i18n="sidebar.apiGuide">API Usage Guide</a>
+                <a href="custom-schemas.html" class="sidebar-link" data-i18n="sidebar.customSchemas">Custom Message
+                    Schemas</a>
+            </div>
+            <div class="sidebar-group">
+                <div class="sidebar-group-title" data-i18n="sidebar.tools">Tools</div>
+                <a href="protocol-creator.html" class="sidebar-link" data-i18n="sidebar.protocolCreator">Protocol
+                    Creator</a>
+            </div>
+            <div class="sidebar-group">
+                <div class="sidebar-group-title" data-i18n="sidebar.operations">Operations</div>
+                <a href="advanced.html" class="sidebar-link active" data-i18n="sidebar.advanced">Security &
+                    Maintenance</a>
+                <a href="troubleshooting.html" class="sidebar-link"
+                    data-i18n="sidebar.troubleshooting">Troubleshooting</a>
+            </div>
+        </aside>
+
+        <main class="main-content">
+            <h1 data-i18n="advanced.title">Security & Maintenance</h1>
+
+            <h2 data-i18n="advanced.securityTitle">9. Security Best Practices</h2>
+            <ul>
+                <li data-i18n="advanced.security1" data-i18n-html><strong>JWT Keys:</strong> Ensure
+                    <code>access_secret</code> and <code>refresh_secret</code> are at least 32 characters long.</li>
+                <li data-i18n="advanced.security2" data-i18n-html><strong>HTTPS:</strong> In production, use a reverse
+                    proxy (Nginx or Caddy) with TLS encryption.</li>
+                <li data-i18n="advanced.security3" data-i18n-html><strong>Rate Limiting:</strong> Enable built-in rate
+                    limiting to prevent brute-force attacks.</li>
+                <li data-i18n="advanced.security4" data-i18n-html><strong>Field Encryption:</strong> Use
+                    <code>security.encryption_key</code> to encrypt sensitive data in the database.</li>
+            </ul>
+
+            <h2 data-i18n="advanced.opsTitle">8. Operations & Maintenance</h2>
+            <h3 data-i18n="advanced.monitorTitle">System Monitoring</h3>
+            <p data-i18n="advanced.monitorDesc">Monitor system health via the <code>/health</code> endpoint.</p>
+            <h3 data-i18n="advanced.logTitle">Log Management</h3>
+            <p data-i18n="advanced.logDesc">Logs are automatically rotated daily and stored in the <code>logs/</code>
+                folder. Set <code>logging.level</code> to <code>debug</code> for detailed traces.</p>
+            <h3 data-i18n="advanced.backupTitle">Backup</h3>
+            <p data-i18n="advanced.backupDesc">For SQLite, directly backup the <code>data/rivo.db</code> file. For
+                PostgreSQL, use <code>pg_dump</code> for regular backups.</p>
+        </main>
+    </div>
+</body>
+
+</html>

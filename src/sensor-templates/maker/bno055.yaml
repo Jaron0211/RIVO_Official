@@ -1,0 +1,97 @@
+id: "bno055-imu"
+type: "sensor"
+bus: "i2c"
+address: "0x28"  # Alternative: 0x29
+identify:
+  whoami_reg: "0x00"
+  whoami_value: "0xA0"
+read:
+  interval_ms: 100
+  registers:
+    - name: "euler_heading"
+      reg: "0x1A"
+      len: 2
+      decode:
+        type: "raw_to_int"
+        byte_order: "little_endian"
+        signed: true
+        bits: 16
+        scale: 0.0625  # 1/16 degrees per LSB
+        offset: 0
+    - name: "euler_roll"
+      reg: "0x1C"
+      len: 2
+      decode:
+        type: "raw_to_int"
+        byte_order: "little_endian"
+        signed: true
+        bits: 16
+        scale: 0.0625
+        offset: 0
+    - name: "euler_pitch"
+      reg: "0x1E"
+      len: 2
+      decode:
+        type: "raw_to_int"
+        byte_order: "little_endian"
+        signed: true
+        bits: 16
+        scale: 0.0625
+        offset: 0
+    - name: "quat_w"
+      reg: "0x20"
+      len: 2
+      decode:
+        type: "raw_to_int"
+        byte_order: "little_endian"
+        signed: true
+        bits: 16
+        scale: 0.000061035  # 1/(2^14)
+        offset: 0
+    - name: "quat_x"
+      reg: "0x22"
+      len: 2
+      decode:
+        type: "raw_to_int"
+        byte_order: "little_endian"
+        signed: true
+        bits: 16
+        scale: 0.000061035
+        offset: 0
+    - name: "quat_y"
+      reg: "0x24"
+      len: 2
+      decode:
+        type: "raw_to_int"
+        byte_order: "little_endian"
+        signed: true
+        bits: 16
+        scale: 0.000061035
+        offset: 0
+    - name: "quat_z"
+      reg: "0x26"
+      len: 2
+      decode:
+        type: "raw_to_int"
+        byte_order: "little_endian"
+        signed: true
+        bits: 16
+        scale: 0.000061035
+        offset: 0
+map:
+  status:
+    sensor_overview:
+      - sensor_id: "orientation_bno055"
+        sensor_type: "Orientation"
+        value: "${euler_heading}"
+        unit: "°"
+  telemetry:
+    "/imu/bno055/euler":
+      heading: "${euler_heading}"
+      roll: "${euler_roll}"
+      pitch: "${euler_pitch}"
+    "/imu/bno055/quaternion":
+      w: "${quat_w}"
+      x: "${quat_x}"
+      y: "${quat_y}"
+      z: "${quat_z}"

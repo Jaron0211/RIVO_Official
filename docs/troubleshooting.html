@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title data-i18n="troubleshooting.pageTitle">Troubleshooting - RIVO Documentation</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@300;400;500;600;700&family=Noto+Sans+TC:wght@400;500;700&family=Space+Mono:wght@400;700&display=swap"
+        rel="stylesheet">
+    <script src="i18n.js"></script>
+</head>
+
+<body>
+    <nav class="docs-nav">
+        <a href="../index.html" class="nav-brand">
+            <img src="../assets/logo-navbar.png" alt="RIVO">
+            <span data-i18n="nav.docCenter">RIVO Docs</span>
+        </a>
+        <div class="lang-switch">
+            <button onclick="setLang('en')" data-lang-switch="en" class="lang-btn">EN</button>
+            <button onclick="setLang('zh')" data-lang-switch="zh" class="lang-btn">繁中</button>
+        </div>
+    </nav>
+
+    <div class="docs-container">
+        <aside class="sidebar">
+            <div class="sidebar-group">
+                <div class="sidebar-group-title" data-i18n="sidebar.introduction">Introduction</div>
+                <a href="getting-started.html" class="sidebar-link" data-i18n="sidebar.gettingStarted">Getting
+                    Started</a>
+                <a href="deployment-config.html" class="sidebar-link" data-i18n="sidebar.deploymentConfig">Deployment &
+                    Config</a>
+            </div>
+            <div class="sidebar-group">
+                <div class="sidebar-group-title" data-i18n="sidebar.apiReference">API Reference</div>
+                <a href="api-guide.html" class="sidebar-link" data-i18n="sidebar.apiGuide">API Usage Guide</a>
+                <a href="custom-schemas.html" class="sidebar-link" data-i18n="sidebar.customSchemas">Custom Message
+                    Schemas</a>
+            </div>
+            <div class="sidebar-group">
+                <div class="sidebar-group-title" data-i18n="sidebar.tools">Tools</div>
+                <a href="protocol-creator.html" class="sidebar-link" data-i18n="sidebar.protocolCreator">Protocol
+                    Creator</a>
+            </div>
+            <div class="sidebar-group">
+                <div class="sidebar-group-title" data-i18n="sidebar.operations">Operations</div>
+                <a href="advanced.html" class="sidebar-link" data-i18n="sidebar.advanced">Security & Maintenance</a>
+                <a href="troubleshooting.html" class="sidebar-link active"
+                    data-i18n="sidebar.troubleshooting">Troubleshooting</a>
+            </div>
+        </aside>
+
+        <main class="main-content">
+            <h1 data-i18n="troubleshooting.title">Troubleshooting</h1>
+
+            <h3 data-i18n="troubleshooting.faqTitle">Common Issues</h3>
+
+            <h4>"Invalid or expired token"</h4>
+            <p><strong data-i18n="troubleshooting.cause">Cause:</strong> <span
+                    data-i18n="troubleshooting.token.cause">Access Token has expired (default: 30 minutes).</span></p>
+            <p><strong data-i18n="troubleshooting.solution">Solution:</strong> <span
+                    data-i18n="troubleshooting.token.solution">Use the Refresh Token to obtain a new Access Token via
+                    <code>/api/v1/auth/refresh</code>.</span></p>
+
+            <h4>"Connection refused"</h4>
+            <p><strong data-i18n="troubleshooting.cause">Cause:</strong> <span
+                    data-i18n="troubleshooting.connection.cause">Server not running, wrong port, or firewall
+                    blocking.</span></p>
+            <p><strong data-i18n="troubleshooting.solution">Solution:</strong> <span
+                    data-i18n="troubleshooting.connection.solution">Check if the process is running and verify
+                    <code>server.port</code> in <code>config.yaml</code>.</span></p>
+
+            <h4>"Database connection failed"</h4>
+            <p><strong data-i18n="troubleshooting.cause">Cause:</strong> <span
+                    data-i18n="troubleshooting.database.cause">Database unreachable or invalid credentials.</span></p>
+            <p><strong data-i18n="troubleshooting.solution">Solution:</strong> <span
+                    data-i18n="troubleshooting.database.solution">Verify the database DSN and ensure the database
+                    service or file is accessible.</span></p>
+
+            <h4>"Rate limit exceeded"</h4>
+            <p><strong data-i18n="troubleshooting.cause">Cause:</strong> <span
+                    data-i18n="troubleshooting.ratelimit.cause">Too many requests from a single IP.</span></p>
+            <p><strong data-i18n="troubleshooting.solution">Solution:</strong> <span
+                    data-i18n="troubleshooting.ratelimit.solution">Implement exponential backoff retry on the client, or
+                    adjust <code>requests_per_second</code> in config.</span></p>
+        </main>
+    </div>
+</body>
+
+</html>

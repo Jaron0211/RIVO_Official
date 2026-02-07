@@ -1,0 +1,85 @@
+id: "mpu6050-imu"
+type: "sensor"
+bus: "i2c"
+address: "0x68"  # Alternative: 0x69
+identify:
+  whoami_reg: "0x75"
+  whoami_value: "0x68"
+read:
+  interval_ms: 100
+  registers:
+    - name: "accel_x"
+      reg: "0x3B"
+      len: 2
+      decode:
+        type: "raw_to_int"
+        byte_order: "big_endian"
+        signed: true
+        bits: 16
+        scale: 0.000061  # 1/16384 for ±2g range
+        offset: 0
+    - name: "accel_y"
+      reg: "0x3D"
+      len: 2
+      decode:
+        type: "raw_to_int"
+        byte_order: "big_endian"
+        signed: true
+        bits: 16
+        scale: 0.000061
+        offset: 0
+    - name: "accel_z"
+      reg: "0x3F"
+      len: 2
+      decode:
+        type: "raw_to_int"
+        byte_order: "big_endian"
+        signed: true
+        bits: 16
+        scale: 0.000061
+        offset: 0
+    - name: "gyro_x"
+      reg: "0x43"
+      len: 2
+      decode:
+        type: "raw_to_int"
+        byte_order: "big_endian"
+        signed: true
+        bits: 16
+        scale: 0.00763  # 1/131 for ±250°/s range
+        offset: 0
+    - name: "gyro_y"
+      reg: "0x45"
+      len: 2
+      decode:
+        type: "raw_to_int"
+        byte_order: "big_endian"
+        signed: true
+        bits: 16
+        scale: 0.00763
+        offset: 0
+    - name: "gyro_z"
+      reg: "0x47"
+      len: 2
+      decode:
+        type: "raw_to_int"
+        byte_order: "big_endian"
+        signed: true
+        bits: 16
+        scale: 0.00763
+        offset: 0
+map:
+  status:
+    sensor_overview:
+      - sensor_id: "imu_mpu6050"
+        sensor_type: "IMU"
+        value: "Active"
+        unit: ""
+  telemetry:
+    "/imu/mpu6050":
+      accel_x: "${accel_x}"
+      accel_y: "${accel_y}"
+      accel_z: "${accel_z}"
+      gyro_x: "${gyro_x}"
+      gyro_y: "${gyro_y}"
+      gyro_z: "${gyro_z}"

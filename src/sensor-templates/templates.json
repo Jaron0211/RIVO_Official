@@ -1,0 +1,247 @@
+{
+    "version": "1.0.0",
+    "categories": {
+        "maker": {
+            "name": "創客感測器",
+            "name_en": "Maker Sensors",
+            "description": "適合 Arduino、Raspberry Pi 等開發板使用的常見感測器",
+            "description_en": "Common sensors for Arduino, Raspberry Pi and maker projects"
+        },
+        "industrial": {
+            "name": "工業級感測器",
+            "name_en": "Industrial Sensors",
+            "description": "支援 Modbus、4-20mA 等工業標準協議的企業級感測器",
+            "description_en": "Enterprise-grade sensors with Modbus, 4-20mA and other industrial protocols"
+        }
+    },
+    "templates": [
+        {
+            "id": "bme280-i2c",
+            "name": "BME280 溫濕度氣壓感測器",
+            "name_en": "BME280 Temperature/Humidity/Pressure Sensor",
+            "category": "maker",
+            "protocols": [
+                "i2c"
+            ],
+            "file": "maker/bme280.yaml",
+            "tags": [
+                "temperature",
+                "humidity",
+                "pressure",
+                "environmental"
+            ],
+            "manufacturer": "Bosch",
+            "datasheet": "https://www.bosch-sensortec.com/media/boschsensortec/downloads/datasheets/bst-bme280-ds002.pdf",
+            "description": "精確的環境感測器，整合溫度、濕度與氣壓測量",
+            "i2c_addresses": [
+                "0x76",
+                "0x77"
+            ]
+        },
+        {
+            "id": "dht22",
+            "name": "DHT22 溫濕度感測器",
+            "name_en": "DHT22 Temperature/Humidity Sensor",
+            "category": "maker",
+            "protocols": [
+                "uart"
+            ],
+            "file": "maker/dht22.yaml",
+            "tags": [
+                "temperature",
+                "humidity",
+                "environmental"
+            ],
+            "manufacturer": "Aosong",
+            "datasheet": "https://www.sparkfun.com/datasheets/Sensors/Temperature/DHT22.pdf",
+            "description": "低成本數位溫濕度感測器，單線通訊協議"
+        },
+        {
+            "id": "sht31-i2c",
+            "name": "SHT31 高精度溫濕度感測器",
+            "name_en": "SHT31 High-Precision Temperature/Humidity Sensor",
+            "category": "maker",
+            "protocols": [
+                "i2c"
+            ],
+            "file": "maker/sht31.yaml",
+            "tags": [
+                "temperature",
+                "humidity",
+                "high-precision"
+            ],
+            "manufacturer": "Sensirion",
+            "datasheet": "https://www.sensirion.com/resource/datasheet/sht3x-d",
+            "description": "高精度溫濕度感測器，±0.2°C 溫度精度",
+            "i2c_addresses": [
+                "0x44",
+                "0x45"
+            ]
+        },
+        {
+            "id": "mpu6050-imu",
+            "name": "MPU6050 六軸慣性測量單元",
+            "name_en": "MPU6050 6-Axis IMU",
+            "category": "maker",
+            "protocols": [
+                "i2c"
+            ],
+            "file": "maker/mpu6050.yaml",
+            "tags": [
+                "imu",
+                "accelerometer",
+                "gyroscope",
+                "motion"
+            ],
+            "manufacturer": "InvenSense",
+            "datasheet": "https://invensense.tdk.com/wp-content/uploads/2015/02/MPU-6000-Datasheet1.pdf",
+            "description": "整合三軸加速度計與三軸陀螺儀",
+            "i2c_addresses": [
+                "0x68",
+                "0x69"
+            ]
+        },
+        {
+            "id": "bno055-imu",
+            "name": "BNO055 九軸絕對方向感測器",
+            "name_en": "BNO055 9-Axis Absolute Orientation Sensor",
+            "category": "maker",
+            "protocols": [
+                "i2c"
+            ],
+            "file": "maker/bno055.yaml",
+            "tags": [
+                "imu",
+                "accelerometer",
+                "gyroscope",
+                "magnetometer",
+                "orientation"
+            ],
+            "manufacturer": "Bosch",
+            "datasheet": "https://www.bosch-sensortec.com/media/boschsensortec/downloads/datasheets/bst-bno055-ds000.pdf",
+            "description": "內建感測器融合的九軸 IMU，提供四元數輸出",
+            "i2c_addresses": [
+                "0x28",
+                "0x29"
+            ]
+        },
+        {
+            "id": "vl53l0x-tof",
+            "name": "VL53L0X 雷射測距感測器",
+            "name_en": "VL53L0X Laser Distance Sensor",
+            "category": "maker",
+            "protocols": [
+                "i2c"
+            ],
+            "file": "maker/vl53l0x.yaml",
+            "tags": [
+                "distance",
+                "tof",
+                "ranging"
+            ],
+            "manufacturer": "STMicroelectronics",
+            "datasheet": "https://www.st.com/resource/en/datasheet/vl53l0x.pdf",
+            "description": "飛行時間 (ToF) 雷射測距感測器，範圍 2m",
+            "i2c_addresses": [
+                "0x29"
+            ]
+        },
+        {
+            "id": "ads1115-adc",
+            "name": "ADS1115 16位元 ADC",
+            "name_en": "ADS1115 16-bit ADC",
+            "category": "maker",
+            "protocols": [
+                "i2c"
+            ],
+            "file": "maker/ads1115.yaml",
+            "tags": [
+                "adc",
+                "analog",
+                "converter"
+            ],
+            "manufacturer": "Texas Instruments",
+            "datasheet": "https://www.ti.com/lit/ds/symlink/ads1115.pdf",
+            "description": "4通道 16位元類比數位轉換器，可程式增益放大器",
+            "i2c_addresses": [
+                "0x48",
+                "0x49",
+                "0x4A",
+                "0x4B"
+            ]
+        },
+        {
+            "id": "mcp3008-adc",
+            "name": "MCP3008 10位元 ADC",
+            "name_en": "MCP3008 10-bit ADC",
+            "category": "maker",
+            "protocols": [
+                "uart"
+            ],
+            "file": "maker/mcp3008.yaml",
+            "tags": [
+                "adc",
+                "analog",
+                "converter",
+                "spi"
+            ],
+            "manufacturer": "Microchip",
+            "datasheet": "https://ww1.microchip.com/downloads/en/DeviceDoc/21295d.pdf",
+            "description": "8通道 10位元 SPI ADC，適合類比感測器讀取"
+        },
+        {
+            "id": "modbus-temp-transmitter",
+            "name": "Modbus RTU 溫度傳送器",
+            "name_en": "Modbus RTU Temperature Transmitter",
+            "category": "industrial",
+            "protocols": [
+                "modbus-rtu"
+            ],
+            "file": "industrial/modbus-temp-transmitter.yaml",
+            "tags": [
+                "temperature",
+                "modbus",
+                "industrial",
+                "rs485"
+            ],
+            "manufacturer": "Generic",
+            "description": "工業級 Modbus RTU 溫度傳送器，支援標準 4-20mA 輸出"
+        },
+        {
+            "id": "pressure-4-20ma",
+            "name": "4-20mA 壓力傳送器",
+            "name_en": "4-20mA Pressure Transmitter",
+            "category": "industrial",
+            "protocols": [
+                "analog"
+            ],
+            "file": "industrial/pressure-4-20ma.yaml",
+            "tags": [
+                "pressure",
+                "analog",
+                "4-20ma",
+                "industrial"
+            ],
+            "manufacturer": "Generic",
+            "description": "工業標準 4-20mA 電流輸出壓力傳送器，需搭配 ADC"
+        },
+        {
+            "id": "modbus-flow-sensor",
+            "name": "Modbus RTU 流量計",
+            "name_en": "Modbus RTU Flow Sensor",
+            "category": "industrial",
+            "protocols": [
+                "modbus-rtu"
+            ],
+            "file": "industrial/modbus-flow-sensor.yaml",
+            "tags": [
+                "flow",
+                "modbus",
+                "industrial",
+                "rs485"
+            ],
+            "manufacturer": "Generic",
+            "description": "工業級 Modbus RTU 流量計，支援累積流量與瞬時流量"
+        }
+    ]
+}

@@ -1,0 +1,45 @@
+id: "dht22"
+type: "sensor"
+bus: "uart"
+baud_rate: 9600
+identify:
+  # DHT22 uses single-wire protocol, no standard identify
+  test_response: true
+read:
+  interval_ms: 2000  # DHT22 requires minimum 2 second interval
+  registers:
+    - name: "humidity"
+      reg: "0x00"
+      len: 2
+      decode:
+        type: "raw_to_int"
+        byte_order: "big_endian"
+        signed: false
+        bits: 16
+        scale: 0.1
+        offset: 0
+    - name: "temperature"
+      reg: "0x02"
+      len: 2
+      decode:
+        type: "raw_to_int"
+        byte_order: "big_endian"
+        signed: true
+        bits: 16
+        scale: 0.1
+        offset: 0
+map:
+  status:
+    sensor_overview:
+      - sensor_id: "temp_dht22"
+        sensor_type: "Temperature"
+        value: "${temperature}"
+        unit: "°C"
+      - sensor_id: "humidity_dht22"
+        sensor_type: "Humidity"
+        value: "${humidity}"
+        unit: "%"
+  telemetry:
+    "/environmental/dht22":
+      temperature: "${temperature}"
+      humidity: "${humidity}"

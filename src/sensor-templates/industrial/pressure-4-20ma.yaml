@@ -1,0 +1,44 @@
+id: "pressure-4-20ma"
+type: "sensor"
+bus: "analog"  # Through ADC like ADS1115
+address: "0x48"  # ADC I2C address
+adc_channel: 0
+current_range: "4-20mA"
+voltage_range: "0-5V"  # Voltage across 250Ω resistor
+read:
+  interval_ms: 500
+  registers:
+    - name: "raw_voltage"
+      reg: "0x00"  # ADC channel
+      len: 2
+      decode:
+        type: "raw_to_int"
+        byte_order: "big_endian"
+        signed: true
+        bits: 16
+        scale: 0.000125  # ADS1115: 4.096V/32768 for ±4.096V range
+        offset: 0
+    - name: "current_ma"
+      expression: "${raw_voltage} / 250 * 1000"
+      # V = I * R, so I = V / R
+      # 250Ω resistor, result in mA
+    - name: "pressure"
+      expression: "(${current_ma} - 4) / 16 * 100"
+      # 4-20mA maps to 0-100 bar
+      # pressure = (current - 4mA) / 16mA * full_scale
+map:
+  status:
+    sensor_overview:
+      - sensor_id: "pressure_4_20ma_1"
+        sensor_type: "Pressure"
+        value: "${pressure}"
+        unit: "bar"
+      - sensor_id: "current_loop_1"
+        sensor_type: "Current"
+        value: "${current_ma}"
+        unit: "mA"
+  telemetry:
+    "/industrial/pressure":
+      pressure_bar: "${pressure}"
+      current_ma: "${current_ma}"
+      raw_voltage: "${raw_voltage}"

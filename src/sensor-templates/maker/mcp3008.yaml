@@ -1,0 +1,64 @@
+id: "mcp3008-adc"
+type: "sensor"
+bus: "uart"  # SPI via UART bridge
+baud_rate: 1000000
+read:
+  interval_ms: 100
+  registers:
+    - name: "adc_ch0"
+      reg: "0x00"
+      len: 2
+      decode:
+        type: "raw_to_int"
+        byte_order: "big_endian"
+        signed: false
+        bits: 10
+        bit_mask: "0x3FF"
+        scale: 0.00322  # 3.3V / 1024
+        offset: 0
+    - name: "adc_ch1"
+      reg: "0x01"
+      len: 2
+      decode:
+        type: "raw_to_int"
+        byte_order: "big_endian"
+        signed: false
+        bits: 10
+        bit_mask: "0x3FF"
+        scale: 0.00322
+        offset: 0
+    - name: "adc_ch2"
+      reg: "0x02"
+      len: 2
+      decode:
+        type: "raw_to_int"
+        byte_order: "big_endian"
+        signed: false
+        bits: 10
+        bit_mask: "0x3FF"
+        scale: 0.00322
+        offset: 0
+    - name: "adc_ch3"
+      reg: "0x03"
+      len: 2
+      decode:
+        type: "raw_to_int"
+        byte_order: "big_endian"
+        signed: false
+        bits: 10
+        bit_mask: "0x3FF"
+        scale: 0.00322
+        offset: 0
+map:
+  status:
+    sensor_overview:
+      - sensor_id: "mcp3008_ch0"
+        sensor_type: "Voltage"
+        value: "${adc_ch0}"
+        unit: "V"
+  telemetry:
+    "/adc/mcp3008":
+      ch0: "${adc_ch0}"
+      ch1: "${adc_ch1}"
+      ch2: "${adc_ch2}"
+      ch3: "${adc_ch3}"

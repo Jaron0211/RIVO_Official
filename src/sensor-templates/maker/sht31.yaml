@@ -1,0 +1,49 @@
+id: "sht31-i2c"
+type: "sensor"
+bus: "i2c"
+address: "0x44"  # Alternative: 0x45
+identify:
+  whoami_reg: "0x00"
+  whoami_value: "0x31"
+read:
+  interval_ms: 500
+  registers:
+    - name: "raw_temp"
+      reg: "0x00"
+      len: 2
+      decode:
+        type: "raw_to_int"
+        byte_order: "big_endian"
+        signed: false
+        bits: 16
+        scale: 0.00267
+        offset: -45.0
+        # Formula: T = -45 + 175 * (raw / 65535)
+        # Simplified: T = -45 + raw * 0.00267
+    - name: "raw_humidity"
+      reg: "0x03"
+      len: 2
+      decode:
+        type: "raw_to_int"
+        byte_order: "big_endian"
+        signed: false
+        bits: 16
+        scale: 0.0015259
+        offset: 0
+        # Formula: RH = 100 * (raw / 65535)
+        # Simplified: RH = raw * 0.0015259
+map:
+  status:
+    sensor_overview:
+      - sensor_id: "temp_sht31"
+        sensor_type: "Temperature"
+        value: "${raw_temp}"
+        unit: "°C"
+      - sensor_id: "humidity_sht31"
+        sensor_type: "Humidity"
+        value: "${raw_humidity}"
+        unit: "%"
+  telemetry:
+    "/environmental/sht31":
+      temperature: "${raw_temp}"
+      humidity: "${raw_humidity}"

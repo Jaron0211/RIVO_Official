@@ -2,14 +2,12 @@
 <html>
 
 <head>
+    <meta charset="UTF-8">
+    <title>RIVO Documentation</title>
     <script>
-        // Simple language detection and redirect
-        const lang = navigator.language || navigator.userLanguage;
-        if (lang.startsWith('zh')) {
-            window.location.href = 'zh/getting-started.html';
-        } else {
-            window.location.href = 'en/getting-started.html';
-        }
+        // Redirect to unified i18n documentation
+        // The i18n.js will handle language detection
+        window.location.href = 'getting-started.html';
     </script>
 </head>
 

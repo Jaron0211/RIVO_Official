@@ -4,8 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description"
-        content="RIVO — IoT 機器人車隊管理平台。即時影像監控、遠端操控、多機管理一次搞定。讓您專注機器人開發，雲端交給我們。">
+    <meta name="description" content="RIVO — IoT 機器人車隊管理平台。即時影像監控、遠端操控、多機管理一次搞定。讓您專注機器人開發，雲端交給我們。">
     <meta name="keywords" content="RIVO, 機器人車隊管理, IoT 機器人, ROS 雲端, WebRTC 串流, 機器人監控, LiveKit, 機器人介面">
     <meta property="og:title" content="RIVO — Enterprise-Grade Robot Fleet Management">
     <meta property="og:description" content="RIVO — IoT 機器人車隊管理平台。即時影像監控、遠端操控、多機管理一次搞定。讓您專注機器人開發，雲端交給我們。">
@@ -18,6 +17,7 @@
     <link rel="icon" type="image/png" sizes="16x16" href="assets/favicon-16.png">
     <link rel="apple-touch-icon" sizes="180x180" href="assets/apple-touch-icon.png">
     <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="src/template-browser.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link
@@ -53,6 +53,7 @@
             <ul class="nav-links">
                 <li><a href="#problems">痛點</a></li>
                 <li><a href="#solution">解決方案</a></li>
+                <li><a href="#rivo-node">RIVO Node</a></li>
                 <li><a href="#features">功能</a></li>
                 <li><a href="#comparison">比較</a></li>
                 <li><a href="#pricing">方案</a></li>
@@ -251,6 +252,51 @@
                 <span class="feature-pill">3D/2D地圖顯示</span>
                 <span class="feature-pill">可調整顯示工具</span>
                 <span class="feature-pill">快速部屬</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- RIVO Node Protocol Generator Section -->
+    <section id="rivo-node" class="features" style="background: linear-gradient(135deg, #FAFAFA 0%, #F5F5F5 100%);">
+        <div class="container">
+            <span class="section-label fade-in">RIVO Node</span>
+            <h2 class="section-title fade-in">感測器協議產生器</h2>
+            <p class="section-subtitle fade-in">無需寫程式，3 分鐘建立感測器驅動配置</p>
+
+            <div class="fade-in" style="margin-top: 48px;">
+                <div
+                    style="background: white; border-radius: 16px; padding: 32px; box-shadow: 0 4px 24px rgba(0,0,0,0.08);">
+                    <div class="feature-pills" style="margin-bottom: 32px; justify-content: center;">
+                        <span class="feature-pill">11+ 內建範本</span>
+                        <span class="feature-pill">支援 I2C/UART/Modbus</span>
+                        <span class="feature-pill">視覺化編輯器</span>
+                        <span class="feature-pill">一鍵產生 YAML</span>
+                    </div>
+
+                    <!-- Template Browser Container -->
+                    <div id="template-browser-container"></div>
+
+                    <div style="text-align: center; margin-top: 32px;">
+                        <a href="docs/index.html" class="btn btn-outline" style="margin-right: 12px;">查看範本文檔</a>
+                        <a href="#contact" class="btn btn-primary">詢問企業客製</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Features Overview -->
+            <div class="features-grid" style="margin-top: 48px;">
+                <div class="feature-card stagger-child">
+                    <h3>豐富範本庫</h3>
+                    <p>內建 11 個常用感測器範本，包含 BME280、MPU6050、Modbus 溫度傳送器等，涵蓋創客與工業應用</p>
+                </div>
+                <div class="feature-card stagger-child">
+                    <h3>工控協議支援</h3>
+                    <p>支援 Modbus RTU/ASCII、4-20mA 類比訊號，完整支援工業級感測器與傳送器</p>
+                </div>
+                <div class="feature-card stagger-child">
+                    <h3>通用解碼器</h3>
+                    <p>可配置的解碼器架構，支援位元位移、縮放、偏移等運算，無需硬編碼特例</p>
+                </div>
             </div>
         </div>
     </section>
@@ -915,7 +961,37 @@
         }
         updateArrow();
         window.addEventListener('resize', updateArrow);
+
+        // Initialize RIVO Node Template Browser
+        window.addEventListener('DOMContentLoaded', async function () {
+            const templateManager = new TemplateManager();
+            await templateManager.loadTemplates();
+
+            const templateBrowser = new TemplateBrowser('template-browser-container', templateManager);
+
+            // Listen for template selection
+            document.getElementById('template-browser-container').addEventListener('template-selected', function (e) {
+                console.log('Template selected:', e.detail.template.name);
+                console.log('YAML content:', e.detail.yamlContent);
+
+                // You can add download functionality here
+                const blob = new Blob([e.detail.yamlContent], { type: 'text/yaml' });
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = `${e.detail.template.id}.yaml`;
+                a.click();
+                URL.revokeObjectURL(url);
+            });
+        });
     </script>
+
+    <!-- RIVO Node JavaScript Modules -->
+    <script src="src/template-manager.js"></script>
+    <script src="src/template-browser.js"></script>
+    <script src="src/protocol-config.js"></script>
+    <script src="src/decoder-builder.js"></script>
+
 </body>
 
 </html>

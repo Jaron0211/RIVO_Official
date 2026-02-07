@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title data-i18n="apiGuide.pageTitle">API Usage Guide - RIVO Documentation</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@300;400;500;600;700&family=Noto+Sans+TC:wght@400;500;700&family=Space+Mono:wght@400;700&display=swap"
+        rel="stylesheet">
+    <script src="i18n.js"></script>
+</head>
+
+<body>
+    <nav class="docs-nav">
+        <a href="../index.html" class="nav-brand">
+            <img src="../assets/logo-navbar.png" alt="RIVO">
+            <span data-i18n="nav.docCenter">RIVO Docs</span>
+        </a>
+        <div class="lang-switch">
+            <button onclick="setLang('en')" data-lang-switch="en" class="lang-btn">EN</button>
+            <button onclick="setLang('zh')" data-lang-switch="zh" class="lang-btn">繁中</button>
+        </div>
+    </nav>
+
+    <div class="docs-container">
+        <aside class="sidebar">
+            <div class="sidebar-group">
+                <div class="sidebar-group-title" data-i18n="sidebar.introduction">Introduction</div>
+                <a href="getting-started.html" class="sidebar-link" data-i18n="sidebar.gettingStarted">Getting
+                    Started</a>
+                <a href="deployment-config.html" class="sidebar-link" data-i18n="sidebar.deploymentConfig">Deployment &
+                    Config</a>
+            </div>
+            <div class="sidebar-group">
+                <div class="sidebar-group-title" data-i18n="sidebar.apiReference">API Reference</div>
+                <a href="api-guide.html" class="sidebar-link active" data-i18n="sidebar.apiGuide">API Usage Guide</a>
+                <a href="custom-schemas.html" class="sidebar-link" data-i18n="sidebar.customSchemas">Custom Message
+                    Schemas</a>
+            </div>
+            <div class="sidebar-group">
+                <div class="sidebar-group-title" data-i18n="sidebar.tools">Tools</div>
+                <a href="protocol-creator.html" class="sidebar-link" data-i18n="sidebar.protocolCreator">Protocol
+                    Creator</a>
+            </div>
+            <div class="sidebar-group">
+                <div class="sidebar-group-title" data-i18n="sidebar.operations">Operations</div>
+                <a href="advanced.html" class="sidebar-link" data-i18n="sidebar.advanced">Security & Maintenance</a>
+                <a href="troubleshooting.html" class="sidebar-link"
+                    data-i18n="sidebar.troubleshooting">Troubleshooting</a>
+            </div>
+        </aside>
+
+        <main class="main-content">
+            <h1 data-i18n="apiGuide.title">API Usage Guide</h1>
+            <p data-i18n="apiGuide.intro">All protected API endpoints require an Authorization header with a Bearer
+                Token.</p>
+            <pre><code>Authorization: Bearer &lt;access_token&gt;</code></pre>
+
+            <h2 data-i18n="apiGuide.authTitle">6.1 Authentication</h2>
+            <p data-i18n="apiGuide.authDesc">Obtain Access Token and Refresh Token via the login API.</p>
+            <pre><code>curl -X POST http://localhost:8080/api/v1/auth/login \
+  -H "Content-Type: application/json" \
+  -d '{"username": "user@example.com", "password": "password"}'</code></pre>
+
+            <h2 data-i18n="apiGuide.robotTitle">6.2 Robot Management</h2>
+            <p data-i18n="apiGuide.robotDesc">Register a new robot to the fleet.</p>
+            <pre><code>curl -X POST http://localhost:8080/api/v1/robots \
+  -H "Authorization: Bearer $TOKEN" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "robot_id": "turtlebot-001",
+    "robot_type": "turtlebot3",
+    "robot_name": "Warehouse Robot #1"
+  }'</code></pre>
+
+            <h2 data-i18n="apiGuide.statusTitle">6.3 Status & Telemetry</h2>
+            <p data-i18n="apiGuide.statusDesc">Periodically update robot status (heartbeat, position, battery).</p>
+            <pre><code>curl -X POST http://localhost:8080/api/v1/robots/{robotId}/status \
+  -H "Authorization: Bearer $TOKEN" \
+  -d '{"status": "active", "battery_level": 85}'</code></pre>
+
+            <h2 data-i18n="apiGuide.controlTitle">6.8 Command & Control</h2>
+            <p data-i18n="apiGuide.controlDesc">Send action commands to robots via REST.</p>
+            <pre><code>curl -X POST http://localhost:8080/api/v1/robots/{robotId}/control \
+  -H "Authorization: Bearer $TOKEN" \
+  -d '{"action": "gripper_open", "parameters": {"force": 10}}'</code></pre>
+        </main>
+    </div>
+</body>
+
+</html>

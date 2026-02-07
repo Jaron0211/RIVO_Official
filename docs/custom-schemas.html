@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title data-i18n="customSchemas.pageTitle">Custom Message Schemas - RIVO Documentation</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@300;400;500;600;700&family=Noto+Sans+TC:wght@400;500;700&family=Space+Mono:wght@400;700&display=swap"
+        rel="stylesheet">
+    <script src="i18n.js"></script>
+</head>
+
+<body>
+    <nav class="docs-nav">
+        <a href="../index.html" class="nav-brand">
+            <img src="../assets/logo-navbar.png" alt="RIVO">
+            <span data-i18n="nav.docCenter">RIVO Docs</span>
+        </a>
+        <div class="lang-switch">
+            <button onclick="setLang('en')" data-lang-switch="en" class="lang-btn">EN</button>
+            <button onclick="setLang('zh')" data-lang-switch="zh" class="lang-btn">繁中</button>
+        </div>
+    </nav>
+
+    <div class="docs-container">
+        <aside class="sidebar">
+            <div class="sidebar-group">
+                <div class="sidebar-group-title" data-i18n="sidebar.introduction">Introduction</div>
+                <a href="getting-started.html" class="sidebar-link" data-i18n="sidebar.gettingStarted">Getting
+                    Started</a>
+                <a href="deployment-config.html" class="sidebar-link" data-i18n="sidebar.deploymentConfig">Deployment &
+                    Config</a>
+            </div>
+            <div class="sidebar-group">
+                <div class="sidebar-group-title" data-i18n="sidebar.apiReference">API Reference</div>
+                <a href="api-guide.html" class="sidebar-link" data-i18n="sidebar.apiGuide">API Usage Guide</a>
+                <a href="custom-schemas.html" class="sidebar-link active" data-i18n="sidebar.customSchemas">Custom
+                    Message Schemas</a>
+            </div>
+            <div class="sidebar-group">
+                <div class="sidebar-group-title" data-i18n="sidebar.tools">Tools</div>
+                <a href="protocol-creator.html" class="sidebar-link" data-i18n="sidebar.protocolCreator">Protocol
+                    Creator</a>
+            </div>
+            <div class="sidebar-group">
+                <div class="sidebar-group-title" data-i18n="sidebar.operations">Operations</div>
+                <a href="advanced.html" class="sidebar-link" data-i18n="sidebar.advanced">Security & Maintenance</a>
+                <a href="troubleshooting.html" class="sidebar-link"
+                    data-i18n="sidebar.troubleshooting">Troubleshooting</a>
+            </div>
+        </aside>
+
+        <main class="main-content">
+            <h1 data-i18n="customSchemas.title">Custom Message Schemas</h1>
+            <p data-i18n="customSchemas.intro">RIVO allows you to extend the API interface via JSON Schema. This enables
+                robots to send custom-format data without modifying server code.</p>
+
+            <h2 data-i18n="customSchemas.dirTitle">7.1 Schema Directory Structure</h2>
+            <p data-i18n="customSchemas.dirDesc">All schema files are stored in the <code>custom_msg/</code> directory.
+                The manifest file determines which schemas are loaded.</p>
+            <pre><code>custom_msg/
+├── _manifest.txt          # Active schema list
+├── control_input.json     
+└── sensor_reading.json    # Your custom schema</code></pre>
+
+            <h2 data-i18n="customSchemas.manifestTitle">7.2 Manifest File</h2>
+            <p data-i18n="customSchemas.manifestDesc"><code>_manifest.txt</code> example:</p>
+            <pre><code># Built-in
+control_input.json
+
+# Custom
+sensor_reading.json</code></pre>
+
+            <h2 data-i18n="customSchemas.addTitle">7.3 Adding a Schema</h2>
+            <ol>
+                <li data-i18n="customSchemas.step1">Create a JSON file (following JSON Schema Draft-07 format).</li>
+                <li data-i18n="customSchemas.step2">Add the filename to <code>_manifest.txt</code>.</li>
+                <li data-i18n="customSchemas.step3">Restart RIVO Server.</li>
+            </ol>
+            <p data-i18n="customSchemas.result">The new API endpoint will automatically map to
+                <code>/api/v1/robots/{id}/&lt;schema_id&gt;</code>.</p>
+        </main>
+    </div>
+</body>
+
+</html>

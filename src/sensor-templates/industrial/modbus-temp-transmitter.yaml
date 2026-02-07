@@ -1,0 +1,43 @@
+id: "modbus-temp-transmitter"
+type: "sensor"
+bus: "modbus-rtu"
+address: "0x01"  # Modbus slave address (1-247)
+baud_rate: 9600
+parity: "none"  # none, even, odd
+stop_bits: 1
+data_bits: 8
+identify:
+  function_code: "0x03"  # Read Holding Registers
+  test_register: "0x0000"
+  expected_response: true
+read:
+  interval_ms: 1000
+  registers:
+    - name: "temperature"
+      function_code: "0x03"  # Read Holding Registers
+      reg: "0x0001"  # Starting register address
+      len: 2  # Number of registers (2 registers = 32 bits)
+      decode:
+        type: "modbus_float32_be"
+        byte_order: "ABCD"  # Big-endian word order
+    - name: "temp_status"
+      function_code: "0x03"
+      reg: "0x0010"
+      len: 1
+      decode:
+        type: "modbus_uint16_be"
+map:
+  status:
+    sensor_overview:
+      - sensor_id: "temp_modbus_1"
+        sensor_type: "Temperature"
+        value: "${temperature}"
+        unit: "°C"
+      - sensor_id: "temp_status_1"
+        sensor_type: "Status"
+        value: "${temp_status}"
+        unit: ""
+  telemetry:
+    "/industrial/temperature":
+      temperature: "${temperature}"
+      status: "${temp_status}"

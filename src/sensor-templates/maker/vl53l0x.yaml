@@ -1,0 +1,30 @@
+id: "vl53l0x-tof"
+type: "sensor"
+bus: "i2c"
+address: "0x29"
+identify:
+  whoami_reg: "0xC0"
+  whoami_value: "0xEE"
+read:
+  interval_ms: 100
+  registers:
+    - name: "distance_mm"
+      reg: "0x14"  # RESULT_RANGE_STATUS + RESULT_RANGE_VAL
+      len: 2
+      decode:
+        type: "raw_to_int"
+        byte_order: "big_endian"
+        signed: false
+        bits: 16
+        scale: 1.0
+        offset: 0
+map:
+  status:
+    sensor_overview:
+      - sensor_id: "distance_vl53l0x"
+        sensor_type: "Distance"
+        value: "${distance_mm}"
+        unit: "mm"
+  telemetry:
+    "/sensors/distance":
+      distance_mm: "${distance_mm}"
