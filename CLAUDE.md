@@ -151,3 +151,9 @@ Manages sensor template loading and filtering.
 - Static site, no build step required
 - Refresh browser to see changes (use Ctrl+Shift+R for cache clear)
 - Contact form uses Formspree (`https://formspree.io/f/mqakvjzd`)
+
+## Sync Checklist
+
+- If the node YAML protocol schema changes, update `src/protocol-config.js`, `src/yaml-generator.js`, and `src/protocol-schema-docs.md`, then sync with `RIVO_Node/RIVO_CUSTOM_PROTOCOL_SKILL.md`.
+- If server REST payloads change, update the relevant docs pages in `docs/` and the root `CLAUDE.md`.
+- If new node types or decoders are added, update `src/simple-node-editor.js`, `src/template-manager.js`, and `src/protocol-schema-docs.md`.

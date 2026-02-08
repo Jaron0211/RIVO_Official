@@ -256,46 +256,85 @@
         </div>
     </section>
 
-    <!-- RIVO Node Protocol Generator Section -->
+    <!-- RIVO Node Hardware Edge Node Section -->
     <section id="rivo-node" class="features" style="background: linear-gradient(135deg, #FAFAFA 0%, #F5F5F5 100%);">
         <div class="container">
             <span class="section-label fade-in">RIVO Node</span>
-            <h2 class="section-title fade-in">感測器協議產生器</h2>
-            <p class="section-subtitle fade-in">無需寫程式，3 分鐘建立感測器驅動配置</p>
+            <h2 class="section-title fade-in">智能資料採集節點</h2>
+            <p class="section-subtitle fade-in">讓您的設備即刻連上雲端，開始收集與分析數據</p>
 
             <div class="fade-in" style="margin-top: 48px;">
                 <div
                     style="background: white; border-radius: 16px; padding: 32px; box-shadow: 0 4px 24px rgba(0,0,0,0.08);">
-                    <div class="feature-pills" style="margin-bottom: 32px; justify-content: center;">
-                        <span class="feature-pill">11+ 內建範本</span>
-                        <span class="feature-pill">支援 I2C/UART/Modbus</span>
-                        <span class="feature-pill">視覺化編輯器</span>
-                        <span class="feature-pill">一鍵產生 YAML</span>
+
+                    <!-- Key Features Grid -->
+                    <div
+                        style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 24px; margin-bottom: 32px;">
+                        <div
+                            style="padding: 24px; background: #FAFAFA; border-radius: 12px; border: 1px solid #E5E5E5;">
+                            <h4 style="margin: 0 0 12px 0; font-size: 16px; font-weight: 600; color: #000;">即插即用
+                            </h4>
+                            <p style="font-size: 14px; color: #525252; line-height: 1.5; margin: 0;">
+                                相容各類工業感測器與控制器，無需複雜配置</p>
+                        </div>
+
+                        <div
+                            style="padding: 24px; background: #FAFAFA; border-radius: 12px; border: 1px solid #E5E5E5;">
+                            <h4 style="margin: 0 0 12px 0; font-size: 16px; font-weight: 600; color: #000;">即時監控
+                            </h4>
+                            <p style="font-size: 14px; color: #525252; line-height: 1.5; margin: 0;">低延遲影像與數據回傳，遠端掌握現場狀況
+                            </p>
+                        </div>
+
+                        <div
+                            style="padding: 24px; background: #FAFAFA; border-radius: 12px; border: 1px solid #E5E5E5;">
+                            <h4 style="margin: 0 0 12px 0; font-size: 16px; font-weight: 600; color: #000;">彈性調整
+                            </h4>
+                            <p style="font-size: 14px; color: #525252; line-height: 1.5; margin: 0;">即時更新設定，無需停機重啟</p>
+                        </div>
+
+                        <div
+                            style="padding: 24px; background: #FAFAFA; border-radius: 12px; border: 1px solid #E5E5E5;">
+                            <h4 style="margin: 0 0 12px 0; font-size: 16px; font-weight: 600; color: #000;">自動連線</h4>
+                            <p style="font-size: 14px; color: #525252; line-height: 1.5; margin: 0;">開機自動連接至雲端平台，免除繁瑣設定
+                            </p>
+                        </div>
+
+                        <div
+                            style="padding: 24px; background: #FAFAFA; border-radius: 12px; border: 1px solid #E5E5E5;">
+                            <h4 style="margin: 0 0 12px 0; font-size: 16px; font-weight: 600; color: #000;">斷線續傳</h4>
+                            <p style="font-size: 14px; color: #525252; line-height: 1.5; margin: 0;">網路中斷時自動暫存數據，恢復後主動上傳
+                            </p>
+                        </div>
+
+                        <div
+                            style="padding: 24px; background: #FAFAFA; border-radius: 12px; border: 1px solid #E5E5E5;">
+                            <h4 style="margin: 0 0 12px 0; font-size: 16px; font-weight: 600; color: #000;">穩定可靠</h4>
+                            <p style="font-size: 14px; color: #525252; line-height: 1.5; margin: 0;">專為工業環境設計，確保長期穩定運行
+                            </p>
+                        </div>
                     </div>
 
-                    <!-- Template Browser Container -->
-                    <div id="template-browser-container"></div>
-
-                    <div style="text-align: center; margin-top: 32px;">
-                        <a href="docs/index.html" class="btn btn-outline" style="margin-right: 12px;">查看範本文檔</a>
-                        <a href="#contact" class="btn btn-primary">詢問企業客製</a>
+                    <div style="text-align: center;">
+                        <a href="docs/index.html" class="btn btn-outline" style="margin-right: 12px;">查看技術文件</a>
+                        <a href="#contact" class="btn btn-primary">立即諮詢</a>
                     </div>
                 </div>
             </div>
 
-            <!-- Features Overview -->
+            <!-- Use Cases -->
             <div class="features-grid" style="margin-top: 48px;">
                 <div class="feature-card stagger-child">
-                    <h3>豐富範本庫</h3>
-                    <p>內建 11 個常用感測器範本，包含 BME280、MPU6050、Modbus 溫度傳送器等，涵蓋創客與工業應用</p>
+                    <h3>工廠產線</h3>
+                    <p>即時監控機台狀態與產能數據，快速反應異常狀況</p>
                 </div>
                 <div class="feature-card stagger-child">
-                    <h3>工控協議支援</h3>
-                    <p>支援 Modbus RTU/ASCII、4-20mA 類比訊號，完整支援工業級感測器與傳送器</p>
+                    <h3>環境監測</h3>
+                    <p>長時間收集溫濕度、空氣品質等環境數據，雲端統計分析</p>
                 </div>
                 <div class="feature-card stagger-child">
-                    <h3>通用解碼器</h3>
-                    <p>可配置的解碼器架構，支援位元位移、縮放、偏移等運算，無需硬編碼特例</p>
+                    <h3>智能載具</h3>
+                    <p>機器人、無人機、AGV 等移動裝置的資料回傳與遠端控制</p>
                 </div>
             </div>
         </div>
