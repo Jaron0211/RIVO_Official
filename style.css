@@ -1541,6 +1541,11 @@ section {
     justify-content: center;
     font-size: 32px;
     transition: var(--transition);
+    color: var(--gray-700);
+}
+
+.flow-node-icon svg {
+    flex-shrink: 0;
 }
 
 .flow-node-icon.center {
@@ -1672,6 +1677,14 @@ section {
 .flow-feature-icon {
     font-size: 24px;
     margin-bottom: 8px;
+    color: var(--gray-700);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.flow-feature-icon svg {
+    flex-shrink: 0;
 }
 
 .flow-feature-text {
