@@ -255,6 +255,148 @@
         </div>
     </section>
 
+    <!-- Data Flow Section -->
+    <section id="dataflow" class="dataflow">
+        <div class="container">
+            <span class="section-label fade-in">Smart Data Collection</span>
+            <h2 class="section-title fade-in">兩種連接方式，同樣簡單</h2>
+            <p class="section-subtitle fade-in">不管是實體接線還是網路連結，只需微量修改即可將資料傳送到雲端</p>
+
+            <div class="dataflow-container fade-in">
+                <!-- Hardware Path -->
+                <div class="dataflow-path hardware-path">
+                    <div class="path-header">
+                        <span class="path-icon">🔌</span>
+                        <h3>實體接線模式</h3>
+                        <p>適合感測器、馬達控制、嵌入式系統</p>
+                    </div>
+
+                    <div class="flow-diagram">
+                        <div class="flow-node sensor-node">
+                            <div class="node-icon">📡</div>
+                            <span>感測器</span>
+                            <div class="protocol-tags">
+                                <span class="protocol-tag">I2C</span>
+                                <span class="protocol-tag">UART</span>
+                                <span class="protocol-tag">SPI</span>
+                            </div>
+                        </div>
+
+                        <div class="flow-arrow">
+                            <div class="arrow-line">
+                                <div class="data-packet"></div>
+                                <div class="data-packet delay-1"></div>
+                                <div class="data-packet delay-2"></div>
+                            </div>
+                        </div>
+
+                        <div class="flow-node rivo-node">
+                            <div class="node-icon">⚡</div>
+                            <span>RIVO Node</span>
+                            <div class="node-badge">自動協議轉換</div>
+                        </div>
+
+                        <div class="flow-arrow">
+                            <div class="arrow-line">
+                                <div class="data-packet"></div>
+                                <div class="data-packet delay-1"></div>
+                                <div class="data-packet delay-2"></div>
+                            </div>
+                        </div>
+
+                        <div class="flow-node cloud-node">
+                            <div class="node-icon">☁️</div>
+                            <span>RIVO Cloud</span>
+                        </div>
+                    </div>
+
+                    <div class="path-features">
+                        <div class="path-feature">
+                            <span class="check-icon">✓</span>
+                            <span>200+ 感測器支援</span>
+                        </div>
+                        <div class="path-feature">
+                            <span class="check-icon">✓</span>
+                            <span>即插即用自動偵測</span>
+                        </div>
+                        <div class="path-feature">
+                            <span class="check-icon">✓</span>
+                            <span>無需編寫驅動程式</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Network Path -->
+                <div class="dataflow-path network-path">
+                    <div class="path-header">
+                        <span class="path-icon">📶</span>
+                        <h3>網路連結模式</h3>
+                        <p>適合 ROS 機器人、現有系統整合</p>
+                    </div>
+
+                    <div class="flow-diagram">
+                        <div class="flow-node device-node">
+                            <div class="node-icon">🤖</div>
+                            <span>機器人/設備</span>
+                            <div class="protocol-tags">
+                                <span class="protocol-tag">ROS</span>
+                                <span class="protocol-tag">MQTT</span>
+                                <span class="protocol-tag">HTTP</span>
+                            </div>
+                        </div>
+
+                        <div class="flow-arrow network">
+                            <div class="arrow-line wifi">
+                                <div class="wifi-wave"></div>
+                                <div class="wifi-wave delay-1"></div>
+                                <div class="wifi-wave delay-2"></div>
+                            </div>
+                        </div>
+
+                        <div class="flow-node bridge-node">
+                            <div class="node-icon">🌐</div>
+                            <span>RIVO Bridge</span>
+                            <div class="node-badge">一行指令安裝</div>
+                        </div>
+
+                        <div class="flow-arrow network">
+                            <div class="arrow-line wifi">
+                                <div class="wifi-wave"></div>
+                                <div class="wifi-wave delay-1"></div>
+                                <div class="wifi-wave delay-2"></div>
+                            </div>
+                        </div>
+
+                        <div class="flow-node cloud-node">
+                            <div class="node-icon">☁️</div>
+                            <span>RIVO Cloud</span>
+                        </div>
+                    </div>
+
+                    <div class="path-features">
+                        <div class="path-feature">
+                            <span class="check-icon">✓</span>
+                            <span>ROS1/ROS2 原生支援</span>
+                        </div>
+                        <div class="path-feature">
+                            <span class="check-icon">✓</span>
+                            <span>Topics 自動偵測</span>
+                        </div>
+                        <div class="path-feature">
+                            <span class="check-icon">✓</span>
+                            <span>既有程式碼零修改</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="dataflow-cta fade-in">
+                <p>不確定哪種方式適合你？</p>
+                <a href="#contact" class="btn btn-primary">免費諮詢</a>
+            </div>
+        </div>
+    </section>
+
     <!-- Features Grid Section -->
     <section id="features" class="features">
         <div class="container">

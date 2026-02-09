@@ -678,6 +678,250 @@ section {
     letter-spacing: 0.5px;
 }
 
+/* ===== Data Flow Section ===== */
+.dataflow {
+    background: var(--gray-50);
+    padding: 100px 0;
+    border-top: 1px solid var(--gray-200);
+}
+
+.dataflow-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 40px;
+    margin-top: 60px;
+}
+
+.dataflow-path {
+    background: var(--white);
+    border-radius: 16px;
+    padding: 40px;
+    border: 1px solid var(--gray-200);
+    transition: var(--transition);
+}
+
+.dataflow-path:hover {
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.08);
+    transform: translateY(-4px);
+}
+
+.path-header {
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+.path-icon {
+    font-size: 3rem;
+    display: block;
+    margin-bottom: 16px;
+}
+
+.path-header h3 {
+    font-size: 1.5rem;
+    margin-bottom: 8px;
+    color: var(--black);
+}
+
+.path-header p {
+    color: var(--gray-600);
+    font-size: 0.95rem;
+}
+
+/* Flow Diagram */
+.flow-diagram {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 30px 0;
+    margin-bottom: 30px;
+}
+
+.flow-node {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    min-width: 80px;
+}
+
+.node-icon {
+    font-size: 2.5rem;
+    margin-bottom: 8px;
+}
+
+.flow-node span {
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--black);
+}
+
+.protocol-tags {
+    display: flex;
+    gap: 4px;
+    margin-top: 8px;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.protocol-tag {
+    font-size: 0.65rem;
+    padding: 2px 6px;
+    background: var(--gray-100);
+    border-radius: 4px;
+    color: var(--gray-600);
+    font-family: var(--font-mono);
+}
+
+.node-badge {
+    font-size: 0.7rem;
+    padding: 4px 8px;
+    background: var(--black);
+    color: var(--white);
+    border-radius: 4px;
+    margin-top: 8px;
+}
+
+/* Flow Arrow with Animation */
+.flow-arrow {
+    flex: 1;
+    padding: 0 10px;
+    position: relative;
+    height: 40px;
+}
+
+.arrow-line {
+    position: relative;
+    height: 2px;
+    background: linear-gradient(90deg, var(--gray-300), var(--gray-200));
+    border-radius: 1px;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+.arrow-line::after {
+    content: '';
+    position: absolute;
+    right: -6px;
+    top: 50%;
+    transform: translateY(-50%);
+    border: 5px solid transparent;
+    border-left: 6px solid var(--gray-300);
+}
+
+/* Data Packet Animation */
+.data-packet {
+    position: absolute;
+    width: 8px;
+    height: 8px;
+    background: var(--black);
+    border-radius: 50%;
+    top: 50%;
+    transform: translateY(-50%);
+    animation: flowPacket 2s infinite ease-in-out;
+}
+
+.data-packet.delay-1 {
+    animation-delay: 0.6s;
+}
+
+.data-packet.delay-2 {
+    animation-delay: 1.2s;
+}
+
+@keyframes flowPacket {
+    0% {
+        left: 0;
+        opacity: 0;
+    }
+    10% {
+        opacity: 1;
+    }
+    90% {
+        opacity: 1;
+    }
+    100% {
+        left: calc(100% - 8px);
+        opacity: 0;
+    }
+}
+
+/* WiFi Wave Animation */
+.arrow-line.wifi {
+    background: transparent;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.arrow-line.wifi::after {
+    display: none;
+}
+
+.wifi-wave {
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    border: 2px solid var(--gray-400);
+    border-radius: 50%;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%) scale(0);
+    animation: wifiPulse 2s infinite ease-out;
+}
+
+.wifi-wave.delay-1 {
+    animation-delay: 0.4s;
+}
+
+.wifi-wave.delay-2 {
+    animation-delay: 0.8s;
+}
+
+@keyframes wifiPulse {
+    0% {
+        transform: translate(-50%, -50%) scale(0);
+        opacity: 1;
+    }
+    100% {
+        transform: translate(-50%, -50%) scale(2);
+        opacity: 0;
+    }
+}
+
+/* Path Features */
+.path-features {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    padding-top: 20px;
+    border-top: 1px solid var(--gray-200);
+}
+
+.path-feature {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 0.9rem;
+    color: var(--gray-700);
+}
+
+.check-icon {
+    color: #22C55E;
+    font-weight: bold;
+}
+
+/* Dataflow CTA */
+.dataflow-cta {
+    text-align: center;
+    margin-top: 48px;
+}
+
+.dataflow-cta p {
+    color: var(--gray-600);
+    margin-bottom: 16px;
+}
+
 /* ===== Features Grid Section ===== */
 .features {
     background: var(--white);
@@ -1627,6 +1871,21 @@ section {
         grid-template-columns: repeat(2, 1fr);
     }
 
+    .dataflow-container {
+        grid-template-columns: 1fr;
+        gap: 30px;
+    }
+
+    .flow-diagram {
+        flex-wrap: wrap;
+        gap: 20px;
+        justify-content: center;
+    }
+
+    .flow-arrow {
+        flex: 0 0 60px;
+    }
+
     .pricing-grid.four-col {
         grid-template-columns: repeat(2, 1fr);
     }
@@ -1727,6 +1986,29 @@ section {
     .features-grid,
     .testimonials-grid {
         grid-template-columns: 1fr;
+    }
+
+    .dataflow-path {
+        padding: 30px 20px;
+    }
+
+    .flow-diagram {
+        flex-direction: column;
+        gap: 15px;
+    }
+
+    .flow-arrow {
+        transform: rotate(90deg);
+        width: 60px;
+        height: 40px;
+    }
+
+    .flow-node {
+        min-width: auto;
+    }
+
+    .node-icon {
+        font-size: 2rem;
     }
 
     .problems-grid {
