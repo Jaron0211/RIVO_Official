@@ -44,6 +44,12 @@ body {
     padding: 0 1rem;
 }
 
+/* Layout variation for pages without TOC (like tools) */
+.main-content.wide {
+    grid-column: 2 / 4;
+    /* Span across middle and right (TOC) columns */
+}
+
 .sidebar {
     background: var(--bg-sidebar);
     border-right: 1px solid var(--border-color);
@@ -55,8 +61,6 @@ body {
 }
 
 .main-content {
-    flex: 1;
-    margin-left: var(--sidebar-width);
     padding: 3rem 4rem;
 }
 

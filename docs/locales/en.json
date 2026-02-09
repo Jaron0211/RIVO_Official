@@ -283,7 +283,7 @@
       }
     },
     "nodeTypes": {
-      "sensorInput": "Sensor Input (I2C/UART)",
+      "sensorInput": "Sensor Input",
       "modbusSensor": "Modbus Sensor",
       "analogSensor": "Analog Sensor (4-20mA)",
       "constant": "Constant",

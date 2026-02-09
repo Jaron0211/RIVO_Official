@@ -1256,47 +1256,11 @@
                                 <input type="hidden" id="busType" value="i2c" required>
 
                                 <div class="interface-categories">
-                                    <!-- Serial-Based Interfaces -->
-                                    <div class="interface-category">
-                                        <div class="interface-category-header">
-                                            <span class="category-icon">SERIAL</span>
-                                            <span>串列通訊介面</span>
-                                        </div>
-                                        <div class="interface-category-body">
-                                            <div class="bus-type-grid">
-                                                <div class="bus-type-card" data-bus="uart"
-                                                    onclick="selectBusType('uart')">
-                                                    <div class="bus-type-icon">TTL</div>
-                                                    <div class="bus-type-name">UART / TTL</div>
-                                                    <div class="bus-type-desc">通用非同步收發</div>
-                                                </div>
-                                                <div class="bus-type-card" data-bus="rs485"
-                                                    onclick="selectBusType('rs485')">
-                                                    <div class="bus-type-icon">485</div>
-                                                    <div class="bus-type-name">RS485</div>
-                                                    <div class="bus-type-desc">多點差分信號</div>
-                                                </div>
-                                                <div class="bus-type-card" data-bus="modbus-rtu"
-                                                    onclick="selectBusType('modbus-rtu')">
-                                                    <div class="bus-type-icon">RTU</div>
-                                                    <div class="bus-type-name">Modbus RTU</div>
-                                                    <div class="bus-type-desc">二進制串行協議</div>
-                                                </div>
-                                                <div class="bus-type-card" data-bus="modbus-ascii"
-                                                    onclick="selectBusType('modbus-ascii')">
-                                                    <div class="bus-type-icon">ASC</div>
-                                                    <div class="bus-type-name">Modbus ASCII</div>
-                                                    <div class="bus-type-desc">ASCII 文字協議</div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-
                                     <!-- Parallel/Bus Interfaces -->
                                     <div class="interface-category">
                                         <div class="interface-category-header">
                                             <span class="category-icon">BUS</span>
-                                            <span>匯流排介面</span>
+                                            <span>匯流排介面 (Parallel/Bus)</span>
                                         </div>
                                         <div class="interface-category-body">
                                             <div class="bus-type-grid">
@@ -1315,8 +1279,44 @@
                                                 <div class="bus-type-card" data-bus="analog"
                                                     onclick="selectBusType('analog')">
                                                     <div class="bus-type-icon">ADC</div>
-                                                    <div class="bus-type-name">Analog Input</div>
+                                                    <div class="bus-type-name">Analog (ADC)</div>
                                                     <div class="bus-type-desc">類比數位轉換</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- Serial-Based Interfaces -->
+                                    <div class="interface-category">
+                                        <div class="interface-category-header">
+                                            <span class="category-icon">SERIAL</span>
+                                            <span>串列通訊介面 (Serial)</span>
+                                        </div>
+                                        <div class="interface-category-body">
+                                            <div class="bus-type-grid">
+                                                <div class="bus-type-card" data-bus="uart"
+                                                    onclick="selectBusType('uart')">
+                                                    <div class="bus-type-icon">TTL</div>
+                                                    <div class="bus-type-name">UART</div>
+                                                    <div class="bus-type-desc">通用非同步收發</div>
+                                                </div>
+                                                <div class="bus-type-card" data-bus="rs485"
+                                                    onclick="selectBusType('rs485')">
+                                                    <div class="bus-type-icon">485</div>
+                                                    <div class="bus-type-name">RS485</div>
+                                                    <div class="bus-type-desc">多點差分信號</div>
+                                                </div>
+                                                <div class="bus-type-card" data-bus="modbus_rtu"
+                                                    onclick="selectBusType('modbus_rtu')">
+                                                    <div class="bus-type-icon">RTU</div>
+                                                    <div class="bus-type-name">Modbus RTU</div>
+                                                    <div class="bus-type-desc">二進制串行協議</div>
+                                                </div>
+                                                <div class="bus-type-card" data-bus="modbus_ascii"
+                                                    onclick="selectBusType('modbus_ascii')">
+                                                    <div class="bus-type-icon">ASC</div>
+                                                    <div class="bus-type-name">Modbus ASCII</div>
+                                                    <div class="bus-type-desc">ASCII 文字協議</div>
                                                 </div>
                                             </div>
                                         </div>
@@ -1954,7 +1954,11 @@
                     addressPlaceholder: '0x76',
                     addressHelp: '十六進位格式，例如 0x76',
                     showModbus: false,
-                    showAnalog: false
+                    showAnalog: false,
+                    info: {
+                        '電壓': '3.3V / 5V',
+                        '通訊': '兩線式 (SDA, SCL)'
+                    }
                 },
                 'spi': {
                     addressLabel: 'CS Pin',
@@ -1974,37 +1978,37 @@
                     showModbus: false,
                     showAnalog: false
                 },
-                'modbus-rtu': {
+                'modbus_rtu': {
                     addressLabel: '起始暫存器',
                     addressPlaceholder: '0x0001',
                     addressHelp: 'Modbus 暫存器起始位址',
                     showModbus: true,
                     showAnalog: false,
                     info: {
-                        'Function Codes': '03 (Read Holding), 04 (Read Input)',
-                        'Data Format': '16-bit / 32-bit Registers'
+                        '格式': 'Modbus RTU (Binary)',
+                        '功能碼': '03 (Read Holding), 04 (Read Input)'
                     }
                 },
-                'modbus-ascii': {
+                'modbus_ascii': {
                     addressLabel: '起始暫存器',
                     addressPlaceholder: '0x0001',
                     addressHelp: 'Modbus 暫存器起始位址 (ASCII 模式)',
                     showModbus: true,
                     showAnalog: false,
                     info: {
-                        'Format': 'ASCII 編碼',
-                        'Framing': ': (start) + CR LF (end)'
+                        '格式': 'Modbus ASCII (Text)',
+                        '框架': ': (start) + CR LF (end)'
                     }
                 },
                 'rs485': {
                     addressLabel: '裝置位址',
-                    addressPlaceholder: '0x01',
-                    addressHelp: 'RS485 多點傳輸裝置地址',
-                    showModbus: true,
+                    addressPlaceholder: '1',
+                    addressHelp: 'RS485 裝置 ID',
+                    showModbus: false,
                     showAnalog: false,
                     info: {
-                        'Topology': '多點差分傳輸',
-                        'Max Distance': '1200m'
+                        '電壓層級': '差分訊號',
+                        '配置': '兩線式 (Half-Duplex)'
                     }
                 },
                 'analog': {
@@ -2074,9 +2078,9 @@
                 { id: 'bme280', name: 'BME280', bus: 'I2C', desc: '溫濕度氣壓感測器' },
                 { id: 'dht22', name: 'DHT22', bus: 'UART', desc: '數位溫濕度感測器' },
                 { id: 'mpu6050', name: 'MPU6050', bus: 'I2C', desc: '六軸慣性測量單元' },
-                { id: 'modbus-temp', name: 'Modbus 溫度傳送器', bus: 'RTU', desc: '工業級溫度傳送器' },
-                { id: 'pressure-4-20', name: '4-20mA 壓力計', bus: 'ANALOG', desc: '工業級壓力傳送器' },
-                { id: 'flow-sensor', name: 'Modbus 流量計', bus: 'RTU', desc: '工業級流量感測器' }
+                { id: 'modbus-temp', name: 'Modbus 溫度傳送器', bus: 'Modbus RTU', desc: '工業級溫度傳送器' },
+                { id: 'pressure-4-20', name: '4-20mA 壓力計', bus: 'Analog (ADC)', desc: '工業級壓力傳送器' },
+                { id: 'flow-sensor', name: 'Modbus 流量計', bus: 'Modbus RTU', desc: '工業級流量感測器' }
             ];
 
             container.innerHTML = quickTemplates.map(t => `

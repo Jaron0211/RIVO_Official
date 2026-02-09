@@ -143,6 +143,43 @@ class NodePropertyEditor {
                 option.selected = op === value;
                 input.appendChild(option);
             });
+        } else if (key === 'bus') {
+            input = document.createElement('select');
+            const buses = [
+                { val: 'i2c', label: 'I2C' },
+                { val: 'uart', label: 'UART' },
+                { val: 'rs485', label: 'RS485' },
+                { val: 'modbus_rtu', label: 'Modbus RTU' },
+                { val: 'modbus_ascii', label: 'Modbus ASCII' },
+                { val: 'spi', label: 'SPI' },
+                { val: 'analog', label: 'Analog (ADC)' }
+            ];
+            buses.forEach(b => {
+                const option = document.createElement('option');
+                option.value = b.val;
+                option.textContent = b.label;
+                option.selected = b.val === value;
+                input.appendChild(option);
+            });
+
+            // Auto-update decoder based on bus type
+            input.addEventListener('change', (e) => {
+                const newBus = e.target.value;
+                const decoderInput = document.querySelector(`[data-property-key="decoder"]`);
+                if (decoderInput) {
+                    let suggestedDecoder = '';
+                    if (newBus === 'i2c' || newBus === 'spi') suggestedDecoder = 'int16_be';
+                    else if (newBus.startsWith('modbus_') || newBus === 'uart' || newBus === 'rs485') suggestedDecoder = 'modbus_int16_be';
+                    else if (newBus === 'analog') suggestedDecoder = 'raw_to_int';
+
+                    if (suggestedDecoder) {
+                        decoderInput.value = suggestedDecoder;
+                        // Manually trigger change for property sync
+                        const event = new Event('change');
+                        decoderInput.dispatchEvent(event);
+                    }
+                }
+            });
         } else if (key === 'decoder') {
             input = document.createElement('select');
             [

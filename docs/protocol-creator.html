@@ -1722,7 +1722,7 @@
         </div>
     </nav>
 
-    <div class="docs-container full-width">
+    <div class="docs-container">
         <aside class="sidebar">
             <div class="sidebar-group">
                 <div class="sidebar-group-title" data-i18n="sidebar.introduction">Introduction</div>
@@ -1751,7 +1751,7 @@
         </aside>
 
 
-        <main class="main-content" style="max-width: 100% !important;">
+        <main class="main-content wide">
 
 
             <!-- Visual Mode Container -->
@@ -1897,9 +1897,7 @@
                     </div>
                 </div>
             </div>
-    </div>
-    </div> <!-- End Visual Mode Container -->
-    </main>
+        </main>
     </div>
 
     <!-- Floating Template Toggle Button -->
@@ -1923,6 +1921,7 @@
         let visualEditor = null;
         let propertyEditor = null;
         let pendingTemplate = null;
+        let currentMode = 'visual';
 
         // Initialize on load
         document.addEventListener('DOMContentLoaded', () => {
@@ -2226,9 +2225,9 @@
                 { id: 'bme280', name: 'BME280', bus: 'I2C', desc: '溫濕度氣壓感測器' },
                 { id: 'dht22', name: 'DHT22', bus: 'UART', desc: '數位溫濕度感測器' },
                 { id: 'mpu6050', name: 'MPU6050', bus: 'I2C', desc: '六軸慣性測量單元' },
-                { id: 'modbus-temp', name: 'Modbus 溫度傳送器', bus: 'RTU', desc: '工業級溫度傳送器' },
-                { id: 'pressure-4-20', name: '4-20mA 壓力計', bus: 'ANALOG', desc: '工業級壓力傳送器' },
-                { id: 'flow-sensor', name: 'Modbus 流量計', bus: 'RTU', desc: '工業級流量感測器' }
+                { id: 'modbus-temp', name: 'Modbus 溫度傳送器', bus: 'Modbus RTU', desc: '工業級溫度傳送器' },
+                { id: 'pressure-4-20', name: '4-20mA 壓力計', bus: 'Analog (ADC)', desc: '工業級壓力傳送器' },
+                { id: 'flow-sensor', name: 'Modbus 流量計', bus: 'Modbus RTU', desc: '工業級流量感測器' }
             ];
 
             container.innerHTML = quickTemplates.map(t => `

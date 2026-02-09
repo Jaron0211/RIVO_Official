@@ -283,7 +283,7 @@
             }
         },
         "nodeTypes": {
-            "sensorInput": "感測器輸入 (I2C/UART)",
+            "sensorInput": "感測器輸入",
             "modbusSensor": "Modbus 感測器",
             "analogSensor": "類比感測器 (4-20mA)",
             "constant": "常數",
