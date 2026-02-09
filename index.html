@@ -322,6 +322,117 @@
                 </div>
             </div>
 
+            <!-- Data Flow Diagram -->
+            <div class="data-flow-container fade-in">
+                <h3 class="data-flow-title">靈活的資料傳輸路徑</h3>
+                <p class="data-flow-subtitle">無論實體接線或網路連接，僅需微量修改即可將資料傳送至雲端</p>
+
+                <div class="data-flow-diagram">
+                    <!-- Physical Wiring Path -->
+                    <div class="flow-section">
+                        <div class="flow-label">
+                            <span>實體硬體連接</span>
+                            <span class="flow-badge">硬體線路</span>
+                        </div>
+                        <div class="flow-row">
+                            <div class="flow-node">
+                                <div class="flow-node-icon">🔌</div>
+                                <div class="flow-node-label">工業感測器</div>
+                                <div class="flow-node-desc">RS485 / Modbus</div>
+                            </div>
+                            <div class="flow-arrow"></div>
+                            <div class="flow-node">
+                                <div class="flow-node-icon center">
+                                    <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2">
+                                        <rect x="2" y="3" width="20" height="14" rx="2" ry="2"/>
+                                        <line x1="8" y1="21" x2="16" y2="21"/>
+                                        <line x1="12" y1="17" x2="12" y2="21"/>
+                                    </svg>
+                                </div>
+                                <div class="flow-node-label">RIVO Node</div>
+                                <div class="flow-node-desc">資料採集節點</div>
+                            </div>
+                            <div class="flow-arrow"></div>
+                            <div class="flow-node">
+                                <div class="flow-node-icon cloud">☁️</div>
+                                <div class="flow-node-label" style="color: white;">RIVO Cloud</div>
+                                <div class="flow-node-desc" style="color: rgba(255,255,255,0.8);">雲端平台</div>
+                            </div>
+                        </div>
+                        <div class="flow-features">
+                            <div class="flow-feature-item">
+                                <div class="flow-feature-icon">⚡</div>
+                                <div class="flow-feature-text">超低延遲</div>
+                            </div>
+                            <div class="flow-feature-item">
+                                <div class="flow-feature-icon">🔒</div>
+                                <div class="flow-feature-text">穩定可靠</div>
+                            </div>
+                            <div class="flow-feature-item">
+                                <div class="flow-feature-icon">📊</div>
+                                <div class="flow-feature-text">高頻採樣</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Network Connection Path -->
+                    <div class="flow-section">
+                        <div class="flow-label">
+                            <span>網路連接</span>
+                            <span class="flow-badge">網路線路</span>
+                        </div>
+                        <div class="flow-row">
+                            <div class="flow-node">
+                                <div class="flow-node-icon">📡</div>
+                                <div class="flow-node-label">智能設備</div>
+                                <div class="flow-node-desc">WiFi / Ethernet</div>
+                            </div>
+                            <div class="flow-arrow network"></div>
+                            <div class="flow-node">
+                                <div class="flow-node-icon center">
+                                    <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2">
+                                        <rect x="2" y="3" width="20" height="14" rx="2" ry="2"/>
+                                        <line x1="8" y1="21" x2="16" y2="21"/>
+                                        <line x1="12" y1="17" x2="12" y2="21"/>
+                                    </svg>
+                                </div>
+                                <div class="flow-node-label">RIVO Node</div>
+                                <div class="flow-node-desc">資料採集節點</div>
+                            </div>
+                            <div class="flow-arrow network"></div>
+                            <div class="flow-node">
+                                <div class="flow-node-icon cloud">☁️</div>
+                                <div class="flow-node-label" style="color: white;">RIVO Cloud</div>
+                                <div class="flow-node-desc" style="color: rgba(255,255,255,0.8);">雲端平台</div>
+                            </div>
+                        </div>
+                        <div class="flow-features">
+                            <div class="flow-feature-item">
+                                <div class="flow-feature-icon">🌐</div>
+                                <div class="flow-feature-text">遠端存取</div>
+                            </div>
+                            <div class="flow-feature-item">
+                                <div class="flow-feature-icon">🔄</div>
+                                <div class="flow-feature-text">彈性部署</div>
+                            </div>
+                            <div class="flow-feature-item">
+                                <div class="flow-feature-icon">📱</div>
+                                <div class="flow-feature-text">無線連接</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Highlight Box -->
+                    <div class="flow-highlight">
+                        <div class="flow-highlight-title">✨ 僅需微量修改，輕鬆切換傳輸路徑</div>
+                        <div class="flow-highlight-text">
+                            RIVO Node 支援多種連接方式，無論是傳統的實體接線（RS485、Modbus）或是現代的網路連接（WiFi、Ethernet），<br>
+                            只需調整簡單的配置參數，即可將現場設備資料即時傳送至雲端平台，無需重新開發或更換硬體。
+                        </div>
+                    </div>
+                </div>
+            </div>
+
             <!-- Use Cases -->
             <div class="features-grid" style="margin-top: 48px;">
                 <div class="feature-card stagger-child">
