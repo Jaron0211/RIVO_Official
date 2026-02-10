@@ -1442,12 +1442,12 @@ section {
     min-height: 120px;
 }
 
-/* ===== Data Flow Diagram ===== */
-.data-flow-container {
+/* ===== Topology Data Flow ===== */
+.topo-wrap {
     margin: 48px 0;
     background: white;
     border-radius: 16px;
-    padding: 48px 32px;
+    padding: 48px 32px 40px;
     box-shadow: 0 4px 24px rgba(0,0,0,0.08);
 }
 
@@ -1463,290 +1463,240 @@ section {
     text-align: center;
     font-size: 14px;
     color: var(--gray-500);
-    margin-bottom: 48px;
+    margin-bottom: 36px;
 }
 
-.data-flow-diagram {
-    position: relative;
-    max-width: 1000px;
-    margin: 0 auto;
-    padding: 40px 0;
-}
-
-.flow-section {
-    margin-bottom: 80px;
-}
-
-.flow-section:last-child {
-    margin-bottom: 0;
-}
-
-.flow-label {
-    text-align: center;
-    font-family: var(--font-mono);
-    font-size: 12px;
-    color: var(--gray-500);
-    text-transform: uppercase;
-    letter-spacing: 2px;
-    margin-bottom: 32px;
+/* --- Tabs --- */
+.topo-tabs {
     display: flex;
-    align-items: center;
+    gap: 10px;
     justify-content: center;
-    gap: 12px;
+    margin-bottom: 28px;
+    flex-wrap: wrap;
 }
 
-.flow-label::before,
-.flow-label::after {
-    content: '';
-    height: 1px;
-    width: 60px;
-    background: var(--gray-200);
-}
-
-.flow-badge {
-    display: inline-block;
-    padding: 4px 12px;
-    background: var(--gray-100);
-    border-radius: 20px;
-    font-size: 11px;
-    color: var(--gray-600);
-    font-weight: 600;
-    margin-left: 8px;
-}
-
-.flow-row {
+.topo-tab {
     display: flex;
+    flex-direction: column;
     align-items: center;
-    justify-content: space-between;
-    gap: 40px;
-    position: relative;
+    padding: 10px 22px;
+    border: 1.5px solid #e5e5e5;
+    border-radius: 10px;
+    background: white;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    font-family: var(--font-body);
+    gap: 3px;
 }
 
-.flow-node {
-    flex: 1;
-    text-align: center;
-    position: relative;
-    z-index: 2;
+.topo-tab:hover {
+    border-color: #555;
+    background: #fafafa;
 }
 
-.flow-node-icon {
-    width: 80px;
-    height: 80px;
-    margin: 0 auto 16px;
-    background: var(--gray-50);
-    border: 2px solid var(--gray-200);
-    border-radius: 12px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 32px;
-    transition: var(--transition);
-    color: var(--gray-700);
+.topo-tab.topo-tab-active {
+    border-color: #000;
+    background: #000;
+    color: #fff;
 }
 
-.flow-node-icon svg {
-    flex-shrink: 0;
-}
-
-.flow-node-icon.center {
-    width: 100px;
-    height: 100px;
-    background: var(--black);
-    border-color: var(--black);
-    box-shadow: 0 8px 32px rgba(0,0,0,0.12);
-}
-
-.flow-node-icon.cloud {
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-    border: none;
-    color: white;
-}
-
-.flow-node:hover .flow-node-icon {
-    transform: translateY(-4px);
-    box-shadow: 0 12px 40px rgba(0,0,0,0.15);
-}
-
-.flow-node-label {
-    font-size: 14px;
-    font-weight: 600;
-    color: var(--gray-900);
-    margin-bottom: 4px;
-}
-
-.flow-node-desc {
-    font-size: 12px;
-    color: var(--gray-500);
-}
-
-.flow-arrow {
-    flex: 0 0 100px;
-    position: relative;
-    height: 2px;
-    background: var(--gray-200);
-    z-index: 1;
-}
-
-.flow-arrow::after {
-    content: '';
-    position: absolute;
-    right: -6px;
-    top: -4px;
-    width: 10px;
-    height: 10px;
-    border-right: 2px solid var(--gray-400);
-    border-bottom: 2px solid var(--gray-400);
-    transform: rotate(-45deg);
-}
-
-/* Animated data packets */
-.flow-arrow::before {
-    content: '';
-    position: absolute;
-    left: -10px;
-    top: -3px;
-    width: 8px;
-    height: 8px;
-    background: var(--green);
-    border-radius: 50%;
-    animation: flowPacket 2s infinite ease-in-out;
-    box-shadow: 0 0 12px rgba(34, 197, 94, 0.6);
-}
-
-.flow-arrow.network::before {
-    background: #667eea;
-    box-shadow: 0 0 12px rgba(102, 126, 234, 0.6);
-    animation: flowPacket 2.5s infinite ease-in-out;
-}
-
-@keyframes flowPacket {
-    0% {
-        left: -10px;
-        opacity: 0;
-    }
-    10% {
-        opacity: 1;
-    }
-    90% {
-        opacity: 1;
-    }
-    100% {
-        left: calc(100% + 10px);
-        opacity: 0;
-    }
-}
-
-.flow-highlight {
-    display: inline-block;
-    padding: 24px 32px;
-    background: var(--gray-50);
-    border-radius: 12px;
-    border: 2px dashed var(--gray-300);
-    text-align: center;
-    margin-top: 32px;
-    width: 100%;
-}
-
-.flow-highlight-title {
-    font-size: 16px;
-    font-weight: 600;
-    color: var(--black);
-    margin-bottom: 8px;
-}
-
-.flow-highlight-text {
-    font-size: 14px;
-    color: var(--gray-600);
-    line-height: 1.6;
-}
-
-.flow-features {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-    gap: 16px;
-    margin-top: 32px;
-}
-
-.flow-feature-item {
-    padding: 16px;
-    background: var(--gray-50);
-    border-radius: 8px;
-    text-align: center;
-}
-
-.flow-feature-icon {
-    font-size: 24px;
-    margin-bottom: 8px;
-    color: var(--gray-700);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-.flow-feature-icon svg {
-    flex-shrink: 0;
-}
-
-.flow-feature-text {
+.topo-tab-name {
     font-size: 13px;
-    color: var(--gray-600);
-    font-weight: 500;
+    font-weight: 600;
+    letter-spacing: 0.1px;
 }
 
-/* Responsive adjustments */
+.topo-tab-badge {
+    font-size: 10px;
+    opacity: 0.55;
+    font-family: var(--font-mono);
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+}
+
+/* --- SVG canvas --- */
+.topo-svg-wrap {
+    width: 100%;
+    max-width: 900px;
+    margin: 0 auto 24px;
+    border: 1.5px solid #e5e5e5;
+    border-radius: 12px;
+    overflow: hidden;
+    background: #fafafa;
+}
+
+.topo-svg {
+    display: block;
+    width: 100%;
+    height: auto;
+}
+
+/* SVG node styles */
+.topo-nd rect {
+    fill: #fff;
+    stroke: #222;
+    stroke-width: 1.5;
+}
+
+.topo-nd-server rect {
+    fill: #000;
+    stroke: #000;
+}
+
+.topo-nd-rivo rect {
+    fill: #111;
+    stroke: #111;
+}
+
+.nd-title {
+    font-family: var(--font-mono);
+    font-size: 13px;
+    font-weight: 700;
+    fill: #111;
+    text-anchor: middle;
+}
+
+.nd-sub {
+    font-family: var(--font-body);
+    font-size: 10px;
+    fill: #888;
+    text-anchor: middle;
+}
+
+.topo-nd-server .nd-title,
+.topo-nd-server .nd-sub,
+.topo-nd-rivo .nd-title,
+.topo-nd-rivo .nd-sub {
+    fill: #fff;
+}
+
+.topo-nd-server .nd-sub,
+.topo-nd-rivo .nd-sub {
+    fill: rgba(255,255,255,0.6);
+}
+
+/* SVG edge styles */
+.topo-edge {
+    stroke: #333;
+    stroke-width: 1.5;
+    fill: none;
+    stroke-dasharray: 5 3;
+    animation: topoFlow 0.75s linear infinite;
+}
+
+.topo-edge-main {
+    stroke-width: 2;
+    stroke-dasharray: 5 3;
+}
+
+.topo-edge-ret {
+    stroke: #bbb;
+    stroke-width: 1;
+    stroke-dasharray: 3 5;
+    animation: topoFlowRet 0.9s linear infinite;
+}
+
+@keyframes topoFlow {
+    to { stroke-dashoffset: -8; }
+}
+
+@keyframes topoFlowRet {
+    to { stroke-dashoffset: 8; }
+}
+
+/* Animated packets */
+.topo-pkt {
+    fill: #000;
+}
+
+.topo-pkt-ret {
+    fill: #aaa;
+}
+
+/* Edge labels */
+.edge-lbl {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    fill: #888;
+    text-anchor: middle;
+}
+
+/* Scenario annotations */
+.topo-anno {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    fill: #aaa;
+    text-anchor: start;
+}
+
+/* --- Info card --- */
+.topo-info {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    flex-wrap: wrap;
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 18px 24px;
+    border: 1.5px solid #e5e5e5;
+    border-radius: 10px;
+}
+
+.topo-info-badge {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    padding: 5px 14px;
+    border: 1.5px solid #000;
+    border-radius: 100px;
+    white-space: nowrap;
+    color: #000;
+}
+
+.topo-info p {
+    font-size: 14px;
+    color: var(--gray-500);
+    flex: 1;
+    margin: 0;
+    line-height: 1.65;
+}
+
+.topo-tags {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+
+.topo-tags span {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    padding: 4px 10px;
+    background: #f5f5f5;
+    border-radius: 100px;
+    color: #555;
+}
+
+/* Responsive */
 @media (max-width: 768px) {
-    .data-flow-container {
-        padding: 32px 20px;
+    .topo-wrap {
+        padding: 32px 20px 28px;
     }
 
-    .flow-row {
+    .topo-tabs {
         flex-direction: column;
-        gap: 20px;
+        align-items: stretch;
     }
 
-    .flow-arrow {
-        width: 2px;
-        height: 60px;
-        flex: 0 0 60px;
-        background: var(--gray-200);
+    .topo-tab {
+        flex-direction: row;
+        justify-content: space-between;
     }
 
-    .flow-arrow::after {
-        right: -4px;
-        bottom: -6px;
-        top: auto;
-        transform: rotate(45deg);
-    }
-
-    .flow-arrow::before {
-        left: -3px;
-        top: -10px;
-        animation: flowPacketVertical 2s infinite ease-in-out;
-    }
-
-    .flow-arrow.network::before {
-        animation: flowPacketVertical 2.5s infinite ease-in-out;
-    }
-
-    @keyframes flowPacketVertical {
-        0% {
-            top: -10px;
-            opacity: 0;
-        }
-        10% {
-            opacity: 1;
-        }
-        90% {
-            opacity: 1;
-        }
-        100% {
-            top: calc(100% + 10px);
-            opacity: 0;
-        }
-    }
-
-    .flow-features {
-        grid-template-columns: 1fr;
+    .topo-info {
+        flex-direction: column;
+        align-items: flex-start;
     }
 }
 
@@ -2203,211 +2153,4 @@ section {
     display: block;
 }
 /* ===== New Data Flow Schematic ===== */
-.flow-schematic-grid {
-    position: relative;
-    max-width: 1000px;
-    margin: 0 auto;
-    padding: 24px 0;
-}
-
-.flow-server-node {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    background: #0f172aea;
-    /* Dark slate background */
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    border-radius: 16px;
-    padding: 24px 48px;
-    width: fit-content;
-    margin: 0 auto 48px;
-    backdrop-filter: blur(12px);
-    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
-    z-index: 10;
-    position: relative;
-}
-
-.flow-connectors {
-    position: absolute;
-    top: 60px;
-    /* Adjust based on server node height */
-    left: 0;
-    width: 100%;
-    height: 100%;
-    pointer-events: none;
-    z-index: 0;
-    overflow: visible;
-}
-
-.connector-lines {
-    width: 100%;
-    height: 100%;
-    overflow: visible;
-}
-
-.flow-path-line {
-    opacity: 0.6;
-    animation: dash 1s linear infinite;
-}
-
-@keyframes dash {
-    to {
-        stroke-dashoffset: -20;
-    }
-}
-
-.flow-paths-row {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 32px;
-    position: relative;
-    z-index: 5;
-}
-
-.flow-card {
-    background: #ffffff;
-    border: 1px solid #e2e8f0;
-    border-radius: 12px;
-    padding: 24px;
-    transition: all 0.3s ease;
-    display: flex;
-    flex-direction: column;
-    height: 100%;
-    position: relative;
-}
-
-.flow-card:hover {
-    transform: translateY(-8px);
-    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.08);
-    border-color: #cbd5e1;
-}
-
-.flow-card-header {
-    text-align: center;
-    margin-bottom: 24px;
-}
-
-.flow-card-badge {
-    display: inline-block;
-    padding: 4px 12px;
-    font-size: 11px;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-    color: #fff;
-    background: #3b82f6;
-    border-radius: 100px;
-    margin-bottom: 12px;
-}
-
-.flow-card-badge.success {
-    background: #10b981;
-}
-
-.flow-card-badge.warning {
-    background: #8b5cf6;
-}
-
-.flow-card h4 {
-    font-size: 18px;
-    font-weight: 700;
-    color: #1e293b;
-    margin: 0;
-}
-
-.flow-step-list {
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-    flex-grow: 1;
-}
-
-.flow-step {
-    display: flex;
-    align-items: center;
-    padding: 12px;
-    background: #f8fafc;
-    border: 1px solid #e2e8f0;
-    border-radius: 8px;
-}
-
-.flow-step.highlight {
-    background: #eff6ff;
-    border-color: #bfdbfe;
-}
-
-.flow-step.transparent {
-    background: transparent;
-    border: none;
-    justify-content: center;
-    color: #64748b;
-    font-size: 13px;
-    font-style: italic;
-    padding: 4px;
-}
-
-.step-icon {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 32px;
-    height: 32px;
-    color: #475569;
-    margin-right: 12px;
-}
-
-.step-content {
-    display: flex;
-    flex-direction: column;
-}
-
-.step-content strong {
-    font-size: 14px;
-    color: #334155;
-    margin-bottom: 2px;
-}
-
-.step-content span {
-    font-size: 12px;
-    color: #64748b;
-}
-
-.step-arrow {
-    text-align: center;
-    color: #cbd5e1;
-    font-size: 14px;
-    line-height: 1;
-}
-
-.flow-capability {
-    margin-top: 24px;
-    padding-top: 16px;
-    border-top: 1px dashed #e2e8f0;
-    text-align: center;
-    font-size: 13px;
-    color: #64748b;
-    font-weight: 500;
-}
-
-.cap-icon {
-    font-size: 16px;
-    vertical-align: middle;
-    margin-right: 4px;
-}
-
-/* Responsive */
-@media (max-width: 900px) {
-    .flow-paths-row {
-        grid-template-columns: 1fr;
-        gap: 48px;
-    }
-
-    .flow-connectors {
-        display: none;
-        /* Hide complex SVG lines on mobile */
-    }
-
-    .flow-server-node {
-        margin-bottom: 32px;
-    }
-}
+/* (old schematic styles removed — replaced by .topo-* above) */
