@@ -1583,34 +1583,47 @@ section {
     fill: rgba(255,255,255,0.6);
 }
 
-/* SVG edge styles */
-.topo-edge {
-    stroke: #333;
+/* SVG edge styles — three semantic types */
+/* Network / Internet: long dashes, thicker */
+.topo-edge-net {
+    stroke: #000;
+    stroke-width: 2;
+    fill: none;
+    stroke-dasharray: 10 5;
+    animation: topoFlowNet 1s linear infinite;
+}
+
+/* Physical Wire: fine dots */
+.topo-edge-wire {
+    stroke: #222;
     stroke-width: 1.5;
     fill: none;
-    stroke-dasharray: 5 3;
-    animation: topoFlow 0.75s linear infinite;
+    stroke-dasharray: 2 5;
+    animation: topoFlowWire 0.7s linear infinite;
 }
 
-.topo-edge-main {
-    stroke-width: 2;
-    stroke-dasharray: 5 3;
+/* Protocol Bus: dash-dot */
+.topo-edge-bus {
+    stroke: #555;
+    stroke-width: 1.5;
+    fill: none;
+    stroke-dasharray: 7 3 2 3;
+    animation: topoFlowBus 1.3s linear infinite;
 }
 
+/* Return paths (bidirectional, always gray) */
 .topo-edge-ret {
-    stroke: #bbb;
+    stroke: #ccc;
     stroke-width: 1;
-    stroke-dasharray: 3 5;
-    animation: topoFlowRet 0.9s linear infinite;
+    fill: none;
+    stroke-dasharray: 4 6;
+    animation: topoFlowRet 1s linear infinite;
 }
 
-@keyframes topoFlow {
-    to { stroke-dashoffset: -8; }
-}
-
-@keyframes topoFlowRet {
-    to { stroke-dashoffset: 8; }
-}
+@keyframes topoFlowNet  { to { stroke-dashoffset: -15; } }
+@keyframes topoFlowWire { to { stroke-dashoffset: -7;  } }
+@keyframes topoFlowBus  { to { stroke-dashoffset: -15; } }
+@keyframes topoFlowRet  { to { stroke-dashoffset:  10; } }
 
 /* Animated packets */
 .topo-pkt {
@@ -1685,6 +1698,33 @@ section {
     background: #f5f5f5;
     border-radius: 100px;
     color: #555;
+}
+
+/* --- Legend --- */
+.topo-legend {
+    display: flex;
+    gap: 20px;
+    justify-content: center;
+    flex-wrap: wrap;
+    max-width: 900px;
+    margin: 0 auto 16px;
+    padding: 10px 20px;
+    border: 1px solid #e5e5e5;
+    border-radius: 8px;
+    background: #fafafa;
+}
+
+.legend-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.legend-row span {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: #555;
+    white-space: nowrap;
 }
 
 /* Responsive */
