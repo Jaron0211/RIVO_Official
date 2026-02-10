@@ -1482,11 +1482,16 @@ section {
     padding: 10px 22px;
     border: 1.5px solid #e5e5e5;
     border-radius: 10px;
-    background: white;
+    background: #fff;
     cursor: pointer;
     transition: all 0.2s ease;
     font-family: var(--font-body);
     gap: 3px;
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    outline: none;
+    line-height: 1;
 }
 
 .topo-tab:hover {
@@ -1521,13 +1526,16 @@ section {
     margin: 0 auto 24px;
     border: 1.5px solid #e5e5e5;
     border-radius: 12px;
-    overflow: hidden;
+    overflow-x: auto;
+    overflow-y: hidden;
+    -webkit-overflow-scrolling: touch;
     background: #fafafa;
 }
 
 .topo-svg {
     display: block;
     width: 100%;
+    min-width: 680px;
     height: auto;
 }
 
@@ -1548,9 +1556,10 @@ section {
     stroke: #111;
 }
 
+/* font-size is set as SVG presentation attributes on each element
+   so it scales correctly with the SVG viewport */
 .nd-title {
     font-family: var(--font-mono);
-    font-size: 13px;
     font-weight: 700;
     fill: #111;
     text-anchor: middle;
@@ -1558,7 +1567,6 @@ section {
 
 .nd-sub {
     font-family: var(--font-body);
-    font-size: 10px;
     fill: #888;
     text-anchor: middle;
 }
@@ -1613,18 +1621,16 @@ section {
     fill: #aaa;
 }
 
-/* Edge labels */
+/* Edge labels — font-size set as SVG attribute */
 .edge-lbl {
     font-family: var(--font-mono);
-    font-size: 10px;
     fill: #888;
     text-anchor: middle;
 }
 
-/* Scenario annotations */
+/* Scenario annotations — font-size set as SVG attribute */
 .topo-anno {
     font-family: var(--font-mono);
-    font-size: 10px;
     fill: #aaa;
     text-anchor: start;
 }
@@ -1638,11 +1644,13 @@ section {
     max-width: 900px;
     margin: 0 auto;
     padding: 18px 24px;
-    border: 1.5px solid #e5e5e5;
+    border: 1.5px solid #d0d0d0;
     border-radius: 10px;
+    background: #fafafa;
 }
 
 .topo-info-badge {
+    display: inline-block;
     font-family: var(--font-mono);
     font-size: 11px;
     font-weight: 700;
@@ -1653,6 +1661,7 @@ section {
     border-radius: 100px;
     white-space: nowrap;
     color: #000;
+    flex-shrink: 0;
 }
 
 .topo-info p {
