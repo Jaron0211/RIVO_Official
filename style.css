@@ -2237,3 +2237,1113 @@ section {
 
 /* ===== New Data Flow Schematic ===== */
 /* (old schematic styles removed — replaced by .topo-* above) */
+
+/* ===== Integration Architecture Section ===== */
+.integration-section {
+    margin: 48px 0;
+    background: white;
+    border-radius: 16px;
+    padding: 64px 40px;
+    box-shadow: 0 4px 24px rgba(0, 0, 0, 0.06);
+}
+
+.integration-section .section-title {
+    margin-bottom: 16px;
+}
+
+.integration-section .section-subtitle {
+    margin-bottom: 56px;
+}
+
+/* Architecture Diagram */
+.arch-diagram {
+    display: grid;
+    grid-template-columns: 1fr 80px 1.2fr 80px 1fr;
+    gap: 0;
+    max-width: 1200px;
+    margin: 0 auto 64px;
+    position: relative;
+    align-items: start;
+}
+
+.arch-column {
+    position: relative;
+    padding: 0 24px;
+}
+
+.arch-column-header {
+    text-align: center;
+    margin-bottom: 32px;
+    padding-bottom: 16px;
+    border-bottom: 1px solid var(--gray-200);
+}
+
+.arch-column-label {
+    display: block;
+    font-family: var(--font-mono);
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    color: var(--gray-400);
+    margin-bottom: 4px;
+}
+
+.arch-column-title {
+    display: block;
+    font-family: var(--font-heading);
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--black);
+}
+
+/* Source Nodes */
+.arch-node {
+    background: var(--white);
+    border: 1px solid var(--gray-200);
+    border-radius: 8px;
+    padding: 20px;
+    margin-bottom: 0;
+    transition: all 0.3s ease;
+    position: relative;
+}
+
+.arch-node:hover {
+    border-color: var(--gray-400);
+    transform: translateX(4px);
+}
+
+.arch-node-source {
+    display: grid;
+    grid-template-columns: 40px 1fr;
+    grid-template-rows: auto auto;
+    gap: 0 16px;
+}
+
+.arch-node-icon {
+    grid-row: 1 / 3;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--gray-600);
+}
+
+.arch-node-icon svg {
+    width: 28px;
+    height: 28px;
+}
+
+.arch-node-content h4 {
+    font-family: var(--font-heading);
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--black);
+    margin: 0 0 4px 0;
+}
+
+.arch-node-content p {
+    font-size: 12px;
+    color: var(--gray-500);
+    margin: 0;
+    line-height: 1.4;
+}
+
+.arch-node-tag {
+    grid-column: 2;
+    display: inline-block;
+    font-family: var(--font-mono);
+    font-size: 9px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: var(--gray-500);
+    background: var(--gray-100);
+    padding: 2px 8px;
+    border-radius: 3px;
+    margin-top: 8px;
+    width: fit-content;
+}
+
+/* Combined Sources Node */
+.arch-node-sources-combined {
+    background: var(--white);
+    border: 1px solid var(--gray-200);
+    border-radius: 8px;
+    padding: 0;
+    width: 100%;
+    max-width: 400px;
+    display: flex;
+    flex-direction: column;
+    min-height: 380px;
+    /* Match NodeWare/Center height */
+}
+
+.arch-node-sources-combined:hover {
+    border-color: var(--gray-400);
+}
+
+.arch-source-item {
+    display: grid;
+    grid-template-columns: 40px 1fr;
+    grid-template-rows: auto auto;
+    gap: 0 16px;
+    padding: 24px;
+    flex: 1;
+    align-content: center;
+}
+
+.arch-source-item .arch-node-icon {
+    grid-row: 1 / 3;
+}
+
+.arch-source-item .arch-node-tag {
+    grid-column: 2;
+}
+
+.arch-source-divider {
+    height: 1px;
+    background: var(--gray-200);
+    margin: 0 24px;
+    flex-shrink: 0;
+}
+
+/* Primary Node (NodeWare) */
+.arch-node-primary {
+    background: var(--black);
+    border-color: var(--black);
+    color: var(--white);
+    padding: 32px 24px;
+    text-align: center;
+    margin-bottom: 24px;
+}
+
+.arch-node-primary:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 32px rgba(0, 0, 0, 0.15);
+}
+
+.arch-node-badge {
+    display: inline-block;
+    font-family: var(--font-mono);
+    font-size: 9px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    background: rgba(255, 255, 255, 0.15);
+    color: var(--white);
+    padding: 4px 12px;
+    border-radius: 20px;
+    margin-bottom: 16px;
+}
+
+.arch-node-icon-large {
+    width: 48px;
+    height: 48px;
+    margin: 0 auto 16px;
+    color: var(--white);
+}
+
+.arch-node-icon-large svg {
+    width: 100%;
+    height: 100%;
+}
+
+.arch-node-primary h3 {
+    font-family: var(--font-heading);
+    font-size: 20px;
+    font-weight: 700;
+    margin: 0 0 8px 0;
+    color: var(--white);
+}
+
+.arch-node-desc {
+    font-size: 13px;
+    color: var(--gray-400);
+    margin: 0 0 20px 0;
+}
+
+.arch-node-features {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    text-align: left;
+}
+
+.arch-node-features li {
+    font-size: 12px;
+    color: var(--gray-300);
+    padding: 6px 0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.arch-node-features li:last-child {
+    border-bottom: none;
+}
+
+.arch-node-features li::before {
+    content: '';
+    width: 4px;
+    height: 4px;
+    background: var(--green);
+    border-radius: 50%;
+    flex-shrink: 0;
+}
+
+/* Alternative Node */
+.arch-node-alt {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 16px 20px;
+    background: var(--gray-50);
+    border: 1px dashed var(--gray-300);
+    border-radius: 8px;
+}
+
+.arch-alt-label {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--gray-400);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.arch-alt-content strong {
+    display: block;
+    font-size: 13px;
+    color: var(--black);
+    margin-bottom: 2px;
+}
+
+.arch-alt-content p {
+    font-size: 11px;
+    color: var(--gray-500);
+    margin: 0;
+}
+
+/* Cloud Node */
+.arch-node-cloud {
+    background: linear-gradient(135deg, var(--gray-50) 0%, var(--white) 100%);
+    border: 2px solid var(--black);
+    padding: 32px 24px;
+    text-align: center;
+}
+
+.arch-node-cloud:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 32px rgba(0, 0, 0, 0.1);
+}
+
+.arch-badge-cloud {
+    background: var(--black);
+    color: var(--white);
+}
+
+.arch-node-cloud .arch-node-icon-large {
+    color: var(--black);
+}
+
+.arch-node-cloud h3 {
+    font-family: var(--font-heading);
+    font-size: 20px;
+    font-weight: 700;
+    color: var(--black);
+    margin: 0 0 8px 0;
+}
+
+.arch-node-cloud .arch-node-desc {
+    color: var(--gray-600);
+}
+
+.arch-node-cloud .arch-node-features li {
+    color: var(--gray-600);
+    border-bottom-color: var(--gray-200);
+}
+
+.arch-node-cloud .arch-node-features li::before {
+    background: var(--black);
+}
+
+/* Deploy Options */
+.arch-deploy-options {
+    display: flex;
+    flex-direction: row;
+    gap: 8px;
+    margin-bottom: 20px;
+    justify-content: center;
+}
+
+.arch-deploy-option {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 1px;
+    padding: 8px 12px;
+    background: transparent;
+    border: none;
+    border-right: 1px solid var(--gray-200);
+    white-space: nowrap;
+}
+
+.arch-deploy-option:last-child {
+    border-right: none;
+}
+
+.arch-deploy-option .deploy-label {
+    font-family: var(--font-heading);
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--gray-500);
+}
+
+.arch-deploy-option .deploy-tag {
+    font-family: var(--font-mono);
+    font-size: 9px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: var(--gray-400);
+}
+
+.arch-deploy-option svg {
+    color: var(--gray-500);
+    flex-shrink: 0;
+}
+
+/* Connection Lines - Refined Design */
+.arch-connections {
+    display: none;
+    /* Hide SVG connections, use CSS-based approach */
+}
+
+
+/* Refined Data Flow Arrows */
+.arch-flow-arrow {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 0 8px;
+    min-width: 80px;
+    align-self: center;
+    margin-top: 240px;
+}
+
+.arch-flow-arrow .flow-line {
+    width: 100%;
+    height: 2px;
+    background: linear-gradient(90deg,
+            transparent 0%,
+            var(--gray-300) 15%,
+            var(--gray-400) 50%,
+            var(--gray-300) 85%,
+            transparent 100%);
+    position: relative;
+    margin-bottom: 8px;
+}
+
+/* Starting dot */
+.arch-flow-arrow .flow-line::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 6px;
+    height: 6px;
+    background: var(--gray-400);
+    border-radius: 50%;
+}
+
+/* Arrow head */
+.arch-flow-arrow .flow-line::after {
+    content: '';
+    position: absolute;
+    right: -3px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 0;
+    height: 0;
+    border-left: 6px solid var(--gray-400);
+    border-top: 4px solid transparent;
+    border-bottom: 4px solid transparent;
+}
+
+.arch-flow-arrow .flow-label {
+    font-family: var(--font-mono);
+    font-size: 9px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: var(--gray-400);
+    white-space: nowrap;
+    text-align: center;
+}
+
+/* Flow pulse animation */
+@keyframes flow-pulse {
+    0%, 100% {
+        opacity: 0.6;
+    }
+    50% {
+        opacity: 1;
+    }
+}
+
+.arch-flow-arrow .flow-line {
+    animation: flow-pulse 2s ease-in-out infinite;
+}
+
+/* Flow arrow fade-in animation */
+.arch-flow-arrow {
+    opacity: 0;
+    transform: scale(0.9);
+}
+
+.integration-section.visible .arch-flow-arrow {
+    animation: flow-arrow-appear 0.5s ease forwards;
+}
+
+.integration-section.visible .arch-flow-left {
+    animation-delay: 0.3s;
+}
+
+.integration-section.visible .arch-flow-right {
+    animation-delay: 0.6s;
+}
+
+@keyframes flow-arrow-appear {
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+/* Column Alignment - All columns use same flex structure */
+.arch-sources,
+.arch-processing,
+.arch-cloud {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    padding: 0 20px;
+}
+
+.arch-sources .arch-column-header,
+.arch-processing .arch-column-header,
+.arch-cloud .arch-column-header {
+    width: 100%;
+}
+
+/* Sources column - align nodes with processing node */
+.arch-sources {
+    padding-top: 0;
+}
+
+.arch-sources .arch-node {
+    width: 100%;
+    max-width: 320px;
+}
+
+/* Spacer to align with option tabs / deploy options */
+.arch-spacer {
+    height: 52px;
+    /* Match option tabs height */
+    margin-bottom: 20px;
+    /* Match option tabs margin-bottom */
+}
+
+.arch-placeholder-tabs {
+    height: 54px;
+    margin-bottom: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 1px;
+    width: 100%;
+    max-width: 320px;
+    border: 1px solid var(--gray-200);
+    border-radius: 8px;
+    background: var(--gray-50);
+    box-sizing: border-box;
+}
+
+.arch-placeholder-tabs .placeholder-label {
+    font-family: var(--font-heading);
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--gray-500);
+}
+
+.arch-placeholder-tabs .placeholder-tag {
+    font-family: var(--font-mono);
+    font-size: 9px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: var(--gray-400);
+}
+
+/* Add spacing wrapper to align source nodes with the main processing node */
+.arch-sources .arch-nodes-wrapper {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    gap: 16px;
+}
+
+/* Processing column nodes */
+.arch-processing .arch-node-primary,
+.arch-processing .arch-node-software {
+    width: 100%;
+    margin-bottom: 0;
+}
+
+/* Cloud column nodes */
+.arch-cloud .arch-node-cloud {
+    width: 100%;
+    max-width: 320px;
+}
+
+.arch-cloud .arch-deploy-options {
+    width: 100%;
+    max-width: 320px;
+    height: 54px;
+    /* Match option tabs height */
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    gap: 0;
+    margin-bottom: 20px;
+    /* Match option tabs margin-bottom */
+    flex-wrap: nowrap;
+    box-sizing: border-box;
+    border: 1px solid var(--gray-200);
+    border-radius: 8px;
+    background: var(--gray-50);
+    overflow: hidden;
+}
+
+/* Option Tabs for Processing Column */
+.arch-option-tabs {
+    display: flex;
+    gap: 0;
+    margin-bottom: 20px;
+    width: 100%;
+    max-width: 320px;
+    height: 54px;
+    border: 1px solid var(--gray-200);
+    border-radius: 8px;
+    overflow: hidden;
+    background: var(--gray-50);
+    box-sizing: border-box;
+}
+
+.arch-option-tab {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 1px;
+    padding: 8px 16px;
+    border: none;
+    background: transparent;
+    cursor: pointer;
+    transition: all 0.15s ease-out;
+    position: relative;
+}
+
+.arch-option-tab:first-child {
+    border-right: 1px solid var(--gray-200);
+}
+
+.arch-option-tab .tab-label {
+    font-family: var(--font-heading);
+    font-size: 13 px;
+    font-weight: 600;
+    color: var(--gray-500);
+    transition: color 0.15s ease-out;
+}
+
+.arch-option-tab .tab-tag {
+    font-family: var(--font-mono);
+    font-size: 9px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: var(--gray-400);
+    transition: color 0.15s ease-out;
+}
+
+.arch-option-tab:hover .tab-label {
+    color: var(--gray-700);
+}
+
+.arch-option-tab.active {
+    background: var(--black);
+}
+
+.arch-option-tab.active .tab-label {
+    color: var(--white);
+}
+
+.arch-option-tab.active .tab-tag {
+    color: var(--gray-400);
+}
+
+/* Option Content */
+.arch-option-content {
+    display: none;
+    width: 100%;
+    max-width: 320px;
+}
+
+.arch-option-content.active {
+    display: block;
+}
+
+@keyframes option-fade-in {
+    from {
+        opacity: 0;
+        transform: translateY(4px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Software Node Styling */
+.arch-node-software {
+    background: var(--gray-800);
+    border: 2px solid var(--gray-700);
+    padding: 32px 24px;
+    text-align: center;
+    color: var(--white);
+}
+
+.arch-node-software:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 32px rgba(0, 0, 0, 0.2);
+}
+
+.arch-node-software .arch-node-badge {
+    background: rgba(255, 255, 255, 0.1);
+    color: var(--white);
+}
+
+.arch-node-software .arch-node-icon-large {
+    width: 48px;
+    height: 48px;
+    color: var(--white);
+    margin: 0 auto 16px;
+}
+
+.arch-node-software h3 {
+    font-family: var(--font-heading);
+    font-size: 20px;
+    font-weight: 700;
+    color: var(--white);
+    margin: 0 0 8px 0;
+}
+
+.arch-node-software .arch-node-desc {
+    font-size: 13px;
+    color: var(--gray-400);
+    margin: 0 0 20px 0;
+}
+
+.arch-node-software .arch-node-features li {
+    font-size: 12px;
+    color: var(--gray-300);
+    padding: 6px 0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.arch-node-software .arch-node-features li:last-child {
+    border-bottom: none;
+}
+
+.arch-node-software .arch-node-features li::before {
+    background: var(--green);
+}
+
+/* Deployment Scenarios */
+.integration-scenarios {
+    margin-top: 64px;
+    padding-top: 48px;
+    border-top: 1px solid var(--gray-200);
+}
+
+.scenarios-title {
+    font-family: var(--font-heading);
+    font-size: 20px;
+    font-weight: 600;
+    color: var(--black);
+    text-align: center;
+    margin-bottom: 32px;
+}
+
+.scenarios-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+}
+
+.scenario-card {
+    background: var(--gray-50);
+    border: 1px solid var(--gray-200);
+    border-radius: 8px;
+    padding: 24px;
+    transition: all 0.3s ease;
+}
+
+.scenario-card:hover {
+    border-color: var(--black);
+    background: var(--white);
+}
+
+.scenario-number {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--gray-400);
+    margin-bottom: 12px;
+}
+
+.scenario-content h4 {
+    font-family: var(--font-heading);
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--black);
+    margin: 0 0 8px 0;
+}
+
+.scenario-content p {
+    font-size: 13px;
+    color: var(--gray-600);
+    line-height: 1.6;
+    margin: 0 0 16px 0;
+}
+
+.scenario-flow {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 4px;
+    font-family: var(--font-mono);
+    font-size: 10px;
+}
+
+.scenario-flow span {
+    padding: 4px 8px;
+    background: var(--white);
+    border: 1px solid var(--gray-200);
+    border-radius: 4px;
+    color: var(--gray-700);
+}
+
+.scenario-flow .scenario-arrow {
+    background: transparent;
+    border: none;
+    color: var(--gray-400);
+    padding: 4px;
+}
+
+.scenario-flow .scenario-arrow::before {
+    content: '\2192';
+    margin-right: 4px;
+}
+
+/* Integration CTA */
+.integration-cta {
+    display: flex;
+    justify-content: center;
+    gap: 16px;
+    margin-top: 48px;
+}
+
+/* Responsive Styles */
+@media (max-width: 991px) {
+    .arch-diagram {
+        grid-template-columns: 1fr;
+        gap: 24px;
+    }
+
+    .arch-column {
+        padding: 0;
+    }
+
+    .arch-sources .arch-nodes-wrapper {
+        padding-top: 0;
+    }
+
+    .arch-spacer {
+        display: none;
+    }
+
+    .arch-placeholder-tabs {
+        display: none;
+    }
+
+    .arch-flow-arrow {
+        width: 100%;
+        min-width: unset;
+        padding: 16px 0;
+        margin-top: 0;
+    }
+
+    .arch-flow-arrow .flow-line {
+        width: 2px;
+        height: 40px;
+        background: linear-gradient(180deg,
+                transparent 0%,
+                var(--gray-300) 15%,
+                var(--gray-400) 50%,
+                var(--gray-300) 85%,
+                transparent 100%);
+        margin-bottom: 0;
+        margin-right: 12px;
+    }
+
+    .arch-flow-arrow .flow-line::before {
+        top: 0;
+        left: 50%;
+        transform: translateX(-50%);
+    }
+
+    .arch-flow-arrow .flow-line::after {
+        top: auto;
+        bottom: -3px;
+        left: 50%;
+        right: auto;
+        transform: translateX(-50%) rotate(90deg);
+    }
+
+    .arch-flow-arrow .flow-label {
+        writing-mode: horizontal-tb;
+    }
+
+    .arch-flow-arrow {
+        flex-direction: row;
+        justify-content: center;
+    }
+
+    .arch-node:hover {
+        transform: none;
+    }
+
+    .arch-node-primary:hover,
+    .arch-node-cloud:hover,
+    .arch-node-software:hover {
+        transform: none;
+    }
+
+    .scenarios-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .integration-section {
+        padding: 48px 24px;
+    }
+}
+
+@media (max-width: 768px) {
+    .integration-cta {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .integration-cta .btn {
+        width: 100%;
+        max-width: 280px;
+    }
+
+    .arch-processing .arch-node-primary,
+    .arch-processing .arch-node-software {
+        max-width: 100%;
+    }
+
+    .arch-option-tabs {
+        max-width: 100%;
+    }
+
+    .arch-option-content {
+        max-width: 100%;
+    }
+}
+
+/* Animation: Fade in on scroll */
+.arch-column {
+    opacity: 0;
+    transform: translateY(20px);
+    animation: arch-fade-in 0.6s ease forwards;
+}
+
+.arch-sources {
+    animation-delay: 0.1s;
+}
+
+.arch-processing {
+    animation-delay: 0.3s;
+}
+
+.arch-cloud {
+    animation-delay: 0.5s;
+}
+
+@keyframes arch-fade-in {
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Animation: Node highlight on scroll */
+.arch-node,
+.arch-node-sources-combined {
+    opacity: 0;
+    transform: translateY(10px);
+}
+
+.integration-section.visible .arch-node,
+.integration-section.visible .arch-node-sources-combined {
+    animation: node-appear 0.4s ease forwards;
+}
+
+.integration-section.visible .arch-sources .arch-nodes-wrapper .arch-node-sources-combined {
+    animation-delay: 0.15s;
+}
+
+/* Processing nodes - initial animation only, not on tab switch */
+.integration-section.visible .arch-processing .arch-option-content .arch-node {
+    animation: node-appear 0.4s ease forwards;
+    animation-delay: 0.45s;
+}
+
+/* After initial load, disable animation for tab switching */
+.integration-section.visible.animated .arch-processing .arch-option-content .arch-node {
+    animation: none;
+    opacity: 1;
+    transform: none;
+}
+
+.integration-section.visible .arch-cloud .arch-deploy-options {
+    animation-delay: 0.5s;
+}
+
+.integration-section.visible .arch-cloud .arch-node-cloud {
+    animation-delay: 0.55s;
+}
+
+/* Option tabs animation */
+.arch-option-tabs {
+    opacity: 0;
+    transform: translateY(10px);
+}
+
+.integration-section.visible .arch-option-tabs {
+    animation: node-appear 0.4s ease forwards;
+    animation-delay: 0.4s;
+}
+
+/* Nodes wrapper animation */
+.arch-nodes-wrapper {
+    opacity: 0;
+    transform: translateY(10px);
+}
+
+.integration-section.visible .arch-nodes-wrapper {
+    animation: node-appear 0.4s ease forwards;
+    animation-delay: 0.1s;
+}
+
+/* Placeholder tabs animation */
+.arch-placeholder-tabs {
+    opacity: 0;
+    transform: translateY(10px);
+}
+
+.integration-section.visible .arch-placeholder-tabs {
+    animation: node-appear 0.4s ease forwards;
+    animation-delay: 0.4s;
+}
+
+/* Deploy options animation */
+.arch-deploy-options {
+    opacity: 0;
+    transform: translateY(10px);
+}
+
+.integration-section.visible .arch-deploy-options {
+    animation: node-appear 0.4s ease forwards;
+}
+
+@keyframes node-appear {
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Scenario cards animation */
+.scenario-card {
+    opacity: 0;
+    transform: translateY(15px);
+}
+
+.integration-section.visible .scenario-card {
+    animation: scenario-appear 0.5s ease forwards;
+}
+
+.integration-section.visible .scenario-card:nth-child(1) {
+    animation-delay: 0.7s;
+}
+
+.integration-section.visible .scenario-card:nth-child(2) {
+    animation-delay: 0.8s;
+}
+
+.integration-section.visible .scenario-card:nth-child(3) {
+    animation-delay: 0.9s;
+}
+
+@keyframes scenario-appear {
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Pulse animation for connection dots */
+@keyframes dot-pulse {
+
+    0%,
+    100% {
+        opacity: 0.3;
+    }
+
+    50% {
+        opacity: 1;
+    }
+}
+
+.arch-dot {
+    animation: dot-pulse 1.5s ease-in-out infinite;
+}
+
+.arch-dot-1 {
+    animation-delay: 0s;
+}
+
+.arch-dot-2 {
+    animation-delay: 0.5s;
+}
+
+.arch-dot-3 {
+    animation-delay: 1s;
+}
