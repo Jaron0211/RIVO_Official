@@ -72,7 +72,10 @@ img {
 }
 
 /* ===== Typography ===== */
-h1, h2, h3, h4 {
+h1,
+h2,
+h3,
+h4 {
     font-family: var(--font-heading);
     font-weight: 700;
     letter-spacing: -0.02em;
@@ -350,9 +353,17 @@ h1, h2, h3, h4 {
     border-radius: 50%;
 }
 
-.dot.red { background: #ff5f57; }
-.dot.yellow { background: #febc2e; }
-.dot.green { background: #28c840; }
+.dot.red {
+    background: #ff5f57;
+}
+
+.dot.yellow {
+    background: #febc2e;
+}
+
+.dot.green {
+    background: #28c840;
+}
 
 .preview-content {
     padding: 20px;
@@ -427,24 +438,29 @@ section {
 }
 
 .section-title {
-    font-size: 44px;
-    font-weight: 700;
+    font-size: 48px;
+    font-weight: 800;
     color: var(--black);
     text-align: center;
-    margin-bottom: 20px;
-    letter-spacing: -0.03em;
+    margin-bottom: 24px;
+    letter-spacing: -0.04em;
     line-height: 1.1;
+    background: linear-gradient(180deg, var(--black) 0%, var(--gray-600) 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
 }
 
 .section-subtitle {
-    font-size: 18px;
+    font-size: 20px;
     color: var(--gray-500);
     text-align: center;
-    margin-bottom: 64px;
-    max-width: 600px;
+    margin-bottom: 72px;
+    max-width: 700px;
     margin-left: auto;
     margin-right: auto;
-    line-height: 1.7;
+    line-height: 1.6;
+    font-weight: 500;
 }
 
 /* ===== Problem Section ===== */
@@ -562,8 +578,16 @@ section {
 }
 
 @keyframes blink {
-    0%, 50% { opacity: 1; }
-    51%, 100% { opacity: 0; }
+
+    0%,
+    50% {
+        opacity: 1;
+    }
+
+    51%,
+    100% {
+        opacity: 0;
+    }
 }
 
 /* Arrow */
@@ -653,9 +677,17 @@ section {
 }
 
 @keyframes pulse {
-    0% { box-shadow: 0 0 0 0 rgba(0, 0, 0, 0.3); }
-    70% { box-shadow: 0 0 0 12px rgba(0, 0, 0, 0); }
-    100% { box-shadow: 0 0 0 0 rgba(0, 0, 0, 0); }
+    0% {
+        box-shadow: 0 0 0 0 rgba(0, 0, 0, 0.3);
+    }
+
+    70% {
+        box-shadow: 0 0 0 12px rgba(0, 0, 0, 0);
+    }
+
+    100% {
+        box-shadow: 0 0 0 0 rgba(0, 0, 0, 0);
+    }
 }
 
 /* Feature Pills */
@@ -1448,7 +1480,7 @@ section {
     background: white;
     border-radius: 16px;
     padding: 48px 32px 40px;
-    box-shadow: 0 4px 24px rgba(0,0,0,0.08);
+    box-shadow: 0 4px 24px rgba(0, 0, 0, 0.08);
 }
 
 .data-flow-title {
@@ -1515,102 +1547,149 @@ section {
 }
 
 /* --- SVG canvas --- */
-.topo-svg-wrap {
-    width: 100%;
-    max-width: 900px;
-    margin: 0 auto 24px;
-    border: 1.5px solid #e5e5e5;
-    border-radius: 12px;
+/* --- Modern Horizontal Architecture Styles --- */
+.topo-wrap {
+    padding: 80px 0;
+    position: relative;
     overflow: hidden;
-    background: #fafafa;
 }
 
-.topo-svg {
-    display: block;
+.topo-arch-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 1100px;
+    margin: 0 auto;
+    position: relative;
+    padding: 40px 20px;
+    gap: 40px;
+}
+
+/* Background SVG for Connections */
+.topo-svg-bg {
+    position: absolute;
+    top: 0;
+    left: 0;
     width: 100%;
-    height: auto;
+    height: 100%;
+    z-index: 1;
+    pointer-events: none;
 }
 
-/* SVG node styles */
-.topo-nd rect {
-    fill: #fff;
-    stroke: #222;
-    stroke-width: 1.5;
+/* Architecture Tiers */
+.arch-tier {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    position: relative;
+    z-index: 2;
+    flex: 1;
 }
 
-.topo-nd-server rect {
-    fill: #000;
-    stroke: #000;
+.arch-tier-edge {
+    align-items: flex-start;
 }
 
-.topo-nd-rivo rect {
-    fill: #111;
-    stroke: #111;
+.arch-tier-mid {
+    align-items: center;
 }
 
-.nd-title {
-    font-family: var(--font-mono);
-    font-size: 13px;
+.arch-tier-cloud {
+    align-items: flex-end;
+}
+
+/* Premium Component Cards */
+.arch-card {
+    background: rgba(255, 255, 255, 0.03);
+    backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 12px;
+    padding: 20px;
+    width: 100%;
+    max-width: 280px;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 24px rgba(0, 0, 0, 0.2);
+}
+
+.arch-card:hover {
+    border-color: rgba(255, 255, 255, 0.3);
+    background: rgba(255, 255, 255, 0.05);
+    transform: translateY(-5px);
+}
+
+.arch-card-hero {
+    border: 2px solid rgba(255, 255, 255, 0.2);
+    background: rgba(255, 255, 255, 0.08);
+}
+
+.card-icon {
+    width: 40px;
+    height: 40px;
+    margin-bottom: 16px;
+    color: var(--primary-color);
+}
+
+.card-title {
+    font-size: 18px;
     font-weight: 700;
-    fill: #111;
-    text-anchor: middle;
+    margin-bottom: 8px;
+    color: #fff;
 }
 
-.nd-sub {
-    font-family: var(--font-body);
+.card-desc {
+    font-size: 13px;
+    color: #999;
+    line-height: 1.5;
+}
+
+.card-tag {
+    display: inline-block;
     font-size: 10px;
-    fill: #888;
-    text-anchor: middle;
+    color: #fff;
+    background: rgba(255, 255, 255, 0.1);
+    padding: 2px 8px;
+    border-radius: 4px;
+    margin-top: 12px;
+    text-transform: uppercase;
+    font-weight: 700;
 }
 
-.topo-nd-server .nd-title,
-.topo-nd-server .nd-sub,
-.topo-nd-rivo .nd-title,
-.topo-nd-rivo .nd-sub {
-    fill: #fff;
-}
-
-.topo-nd-server .nd-sub,
-.topo-nd-rivo .nd-sub {
-    fill: rgba(255,255,255,0.6);
-}
-
-/* SVG edge styles */
-.topo-edge {
-    stroke: #333;
-    stroke-width: 1.5;
-    fill: none;
-    stroke-dasharray: 5 3;
-    animation: topoFlow 0.75s linear infinite;
-}
-
-.topo-edge-main {
+/* SVG Path Pulsing */
+.arch-path {
+    stroke: rgba(255, 255, 255, 0.1);
     stroke-width: 2;
-    stroke-dasharray: 5 3;
+    fill: none;
 }
 
-.topo-edge-ret {
-    stroke: #bbb;
-    stroke-width: 1;
-    stroke-dasharray: 3 5;
-    animation: topoFlowRet 0.9s linear infinite;
+.arch-pulse {
+    stroke: var(--primary-color);
+    stroke-width: 2;
+    fill: none;
+    stroke-dasharray: 10 30;
+    animation: signal-dash 3s linear infinite;
 }
 
-@keyframes topoFlow {
-    to { stroke-dashoffset: -8; }
+@keyframes signal-dash {
+    to {
+        stroke-dashoffset: -40;
+    }
 }
 
-@keyframes topoFlowRet {
-    to { stroke-dashoffset: 8; }
-}
+/* Responsive Stacking */
+@media (max-width: 991px) {
+    .topo-arch-container {
+        flex-direction: column;
+        gap: 60px;
+    }
 
-/* Animated packets */
-.topo-pkt {
-    fill: #000;
-}
+    .arch-tier {
+        width: 100%;
+        align-items: center;
+    }
 
-.topo-pkt-ret {
-    fill: #aaa;
+    .topo-svg-bg {
+        display: none;
+    }
 }
 
 /* Edge labels */
@@ -1672,10 +1751,13 @@ section {
 .topo-tags span {
     font-family: var(--font-mono);
     font-size: 10px;
-    padding: 4px 10px;
-    background: #f5f5f5;
-    border-radius: 100px;
-    color: #555;
+    padding: 3px 10px;
+    background: transparent;
+    border: 1px solid #e5e5e5;
+    border-radius: 4px;
+    color: #666;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
 }
 
 /* Responsive */
@@ -2152,5 +2234,6 @@ section {
 .flow-section {
     display: block;
 }
+
 /* ===== New Data Flow Schematic ===== */
 /* (old schematic styles removed — replaced by .topo-* above) */

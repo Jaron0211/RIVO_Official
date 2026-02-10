@@ -323,244 +323,126 @@
             </div>
 
             <!-- Topology Data Flow -->
+            <!-- Modern Horizontal Architecture -->
             <div class="topo-wrap fade-in">
-                <h3 class="data-flow-title">靈活的資料傳輸路徑</h3>
-                <p class="data-flow-subtitle">滿足不同層級的硬體與軟體整合需求</p>
+                <h2 class="section-title fade-in">多元整合方案</h2>
+                <p class="section-subtitle fade-in">從端點感測器到集成嵌入式 Linux，建構完整的 OT-to-IT 數據橋接</p>
 
-                <!-- Scenario Tabs -->
-                <div class="topo-tabs">
-                    <button class="topo-tab topo-tab-active" onclick="setTopoScenario(0)">
-                        <span class="topo-tab-name">Physical Integration</span>
-                        <span class="topo-tab-badge">Local Deploy</span>
-                    </button>
-                    <button class="topo-tab" onclick="setTopoScenario(1)">
-                        <span class="topo-tab-name">Pure Rivo-node</span>
-                        <span class="topo-tab-badge">Direct</span>
-                    </button>
-                    <button class="topo-tab" onclick="setTopoScenario(2)">
-                        <span class="topo-tab-name">Embedded Linux</span>
-                        <span class="topo-tab-badge">Software Only</span>
-                    </button>
-                </div>
-
-                <!-- SVG Topology Graph -->
-                <div class="topo-svg-wrap">
-                    <svg viewBox="0 0 800 500" xmlns="http://www.w3.org/2000/svg" class="topo-svg">
+                <div class="topo-arch-container">
+                    <svg class="topo-svg-bg" viewBox="0 0 1000 400" preserveAspectRatio="none">
                         <defs>
-                            <marker id="arrowB" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto">
-                                <polygon points="0 0, 8 3, 0 6" fill="#000"/>
-                            </marker>
-                            <marker id="arrowG" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto">
-                                <polygon points="0 0, 8 3, 0 6" fill="#aaa"/>
-                            </marker>
+                            <linearGradient id="path-grad" x1="0%" y1="0%" x2="100%" y2="0%">
+                                <stop offset="0%" style="stop-color:var(--primary-color);stop-opacity:0.2" />
+                                <stop offset="100%" style="stop-color:var(--primary-color);stop-opacity:0.6" />
+                            </linearGradient>
                         </defs>
+                        <!-- Connection Lines -->
+                        <path d="M250,80 L375,150" class="arch-path" />
+                        <path d="M250,200 L375,200" class="arch-path" />
+                        <path d="M250,320 L375,250" class="arch-path" />
+                        <path d="M625,150 L750,200" class="arch-path" />
+                        <path d="M625,250 L750,200" class="arch-path" />
 
-                        <!-- ===== rivo-server (always visible) ===== -->
-                        <g class="topo-nd topo-nd-server">
-                            <rect x="300" y="20" width="200" height="64" rx="8"/>
-                            <text x="400" y="45" class="nd-title">rivo-server</text>
-                            <text x="400" y="65" class="nd-sub">Central Control Hub</text>
-                        </g>
-
-                        <!-- ===== SCENARIO 0: Physical Integration ===== -->
-                        <g id="topo-s0" class="topo-scenario">
-                            <!-- Edges (drawn before nodes so nodes render on top) -->
-                            <!-- Server ↔ Rivo-node -->
-                            <line x1="400" y1="84" x2="400" y2="160" class="topo-edge topo-edge-main" marker-end="url(#arrowB)"/>
-                            <line x1="392" y1="84" x2="392" y2="160" class="topo-edge topo-edge-ret" marker-start="url(#arrowG)"/>
-                            <text x="414" y="127" class="edge-lbl">WiFi / Ethernet</text>
-                            <circle class="topo-pkt" r="4">
-                                <animateMotion dur="1.8s" repeatCount="indefinite" path="M400,84 L400,160"/>
-                            </circle>
-                            <circle class="topo-pkt topo-pkt-ret" r="3">
-                                <animateMotion dur="2s" repeatCount="indefinite" begin="-1s" path="M392,160 L392,84"/>
-                            </circle>
-
-                            <!-- Rivo-node ↔ USB -->
-                            <path d="M370,220 Q 295,258 215,290" fill="none" class="topo-edge" marker-end="url(#arrowB)"/>
-                            <path d="M365,220 Q 290,260 212,292" fill="none" class="topo-edge topo-edge-ret" marker-start="url(#arrowG)"/>
-                            <text x="276" y="252" class="edge-lbl">USB Serial</text>
-                            <circle class="topo-pkt" r="4">
-                                <animateMotion dur="1.5s" repeatCount="indefinite" path="M370,220 Q295,258 215,290"/>
-                            </circle>
-                            <circle class="topo-pkt topo-pkt-ret" r="3">
-                                <animateMotion dur="1.7s" repeatCount="indefinite" begin="-0.8s" path="M212,292 Q290,260 365,220"/>
-                            </circle>
-
-                            <!-- USB ↔ MCU -->
-                            <line x1="215" y1="346" x2="215" y2="390" class="topo-edge" marker-end="url(#arrowB)"/>
-                            <line x1="223" y1="346" x2="223" y2="390" class="topo-edge topo-edge-ret" marker-start="url(#arrowG)"/>
-                            <text x="237" y="372" class="edge-lbl">UART / TTL</text>
-                            <circle class="topo-pkt" r="4">
-                                <animateMotion dur="1.2s" repeatCount="indefinite" path="M215,346 L215,390"/>
-                            </circle>
-                            <circle class="topo-pkt topo-pkt-ret" r="3">
-                                <animateMotion dur="1.3s" repeatCount="indefinite" begin="-0.6s" path="M223,390 L223,346"/>
-                            </circle>
-
-                            <!-- Nodes -->
-                            <g class="topo-nd topo-nd-rivo">
-                                <rect x="320" y="160" width="160" height="60" rx="8"/>
-                                <text x="400" y="185" class="nd-title">Rivo-node</text>
-                                <text x="400" y="205" class="nd-sub">Edge Processing</text>
-                            </g>
-                            <g class="topo-nd">
-                                <rect x="140" y="290" width="150" height="56" rx="8"/>
-                                <text x="215" y="315" class="nd-title">USB Interface</text>
-                                <text x="215" y="334" class="nd-sub">Serial Bridge</text>
-                            </g>
-                            <g class="topo-nd">
-                                <rect x="140" y="390" width="150" height="54" rx="8"/>
-                                <text x="215" y="415" class="nd-title">Microcontroller</text>
-                                <text x="215" y="434" class="nd-sub">SPI / I²C / UART</text>
-                            </g>
-
-                            <!-- Scenario annotation -->
-                            <text x="570" y="295" class="topo-anno">↕ 雙向控制</text>
-                            <text x="570" y="315" class="topo-anno">本地端推論</text>
-                            <text x="570" y="335" class="topo-anno">Local Storage</text>
-                        </g>
-
-                        <!-- ===== SCENARIO 1: Pure Rivo-node ===== -->
-                        <g id="topo-s1" class="topo-scenario" style="display:none">
-                            <!-- Server ↔ Rivo-node -->
-                            <line x1="400" y1="84" x2="400" y2="160" class="topo-edge topo-edge-main" marker-end="url(#arrowB)"/>
-                            <line x1="392" y1="84" x2="392" y2="160" class="topo-edge topo-edge-ret" marker-start="url(#arrowG)"/>
-                            <text x="414" y="127" class="edge-lbl">Video Stream</text>
-                            <circle class="topo-pkt" r="4">
-                                <animateMotion dur="1.4s" repeatCount="indefinite" path="M400,84 L400,160"/>
-                            </circle>
-                            <circle class="topo-pkt topo-pkt-ret" r="3">
-                                <animateMotion dur="1.8s" repeatCount="indefinite" begin="-0.9s" path="M392,160 L392,84"/>
-                            </circle>
-
-                            <!-- Rivo-node → Camera -->
-                            <path d="M360,220 Q 268,272 155,320" fill="none" class="topo-edge" marker-end="url(#arrowB)"/>
-                            <text x="238" y="268" class="edge-lbl">CSI / MIPI</text>
-                            <circle class="topo-pkt" r="4">
-                                <animateMotion dur="1.6s" repeatCount="indefinite" path="M360,220 Q268,272 155,320"/>
-                            </circle>
-
-                            <!-- Rivo-node → Modbus -->
-                            <line x1="400" y1="220" x2="400" y2="350" class="topo-edge" marker-end="url(#arrowB)"/>
-                            <text x="414" y="290" class="edge-lbl">RS-485</text>
-                            <circle class="topo-pkt" r="4">
-                                <animateMotion dur="1.9s" repeatCount="indefinite" path="M400,220 L400,350"/>
-                            </circle>
-
-                            <!-- Rivo-node → SPI Sensor -->
-                            <path d="M440,220 Q 534,272 645,320" fill="none" class="topo-edge" marker-end="url(#arrowB)"/>
-                            <text x="562" y="268" class="edge-lbl">SPI / GPIO</text>
-                            <circle class="topo-pkt" r="4">
-                                <animateMotion dur="1.7s" repeatCount="indefinite" path="M440,220 Q534,272 645,320"/>
-                            </circle>
-
-                            <!-- Nodes -->
-                            <g class="topo-nd topo-nd-rivo">
-                                <rect x="320" y="160" width="160" height="60" rx="8"/>
-                                <text x="400" y="185" class="nd-title">Rivo-node</text>
-                                <text x="400" y="205" class="nd-sub">Direct Processing</text>
-                            </g>
-                            <g class="topo-nd">
-                                <rect x="80" y="320" width="150" height="54" rx="8"/>
-                                <text x="155" y="345" class="nd-title">Camera</text>
-                                <text x="155" y="363" class="nd-sub">MIPI / USB</text>
-                            </g>
-                            <g class="topo-nd">
-                                <rect x="325" y="350" width="150" height="54" rx="8"/>
-                                <text x="400" y="375" class="nd-title">Modbus Sensor</text>
-                                <text x="400" y="393" class="nd-sub">RS-485</text>
-                            </g>
-                            <g class="topo-nd">
-                                <rect x="570" y="320" width="150" height="54" rx="8"/>
-                                <text x="645" y="345" class="nd-title">SPI Sensor</text>
-                                <text x="645" y="363" class="nd-sub">SPI / GPIO</text>
-                            </g>
-                        </g>
-
-                        <!-- ===== SCENARIO 2: Embedded Linux ===== -->
-                        <g id="topo-s2" class="topo-scenario" style="display:none">
-                            <!-- Server ↔ Bridge -->
-                            <line x1="400" y1="84" x2="400" y2="160" class="topo-edge topo-edge-main" marker-end="url(#arrowB)"/>
-                            <line x1="392" y1="84" x2="392" y2="160" class="topo-edge topo-edge-ret" marker-start="url(#arrowG)"/>
-                            <text x="414" y="127" class="edge-lbl">WebSocket / MQTT</text>
-                            <circle class="topo-pkt" r="4">
-                                <animateMotion dur="1.5s" repeatCount="indefinite" path="M400,84 L400,160"/>
-                            </circle>
-                            <circle class="topo-pkt topo-pkt-ret" r="3">
-                                <animateMotion dur="1.8s" repeatCount="indefinite" begin="-0.9s" path="M392,160 L392,84"/>
-                            </circle>
-
-                            <!-- Bridge → Linux System -->
-                            <line x1="400" y1="220" x2="400" y2="310" class="topo-edge" marker-end="url(#arrowB)"/>
-                            <line x1="392" y1="220" x2="392" y2="310" class="topo-edge topo-edge-ret" marker-start="url(#arrowG)"/>
-                            <text x="414" y="270" class="edge-lbl">Local IPC</text>
-                            <circle class="topo-pkt" r="4">
-                                <animateMotion dur="1.2s" repeatCount="indefinite" path="M400,220 L400,310"/>
-                            </circle>
-                            <circle class="topo-pkt topo-pkt-ret" r="3">
-                                <animateMotion dur="1.3s" repeatCount="indefinite" begin="-0.6s" path="M392,310 L392,220"/>
-                            </circle>
-
-                            <!-- Linux → ROS2 App -->
-                            <path d="M350,368 Q 261,396 185,420" fill="none" class="topo-edge" marker-end="url(#arrowB)"/>
-                            <text x="250" y="394" class="edge-lbl">ROS2 DDS</text>
-                            <circle class="topo-pkt" r="4">
-                                <animateMotion dur="1.8s" repeatCount="indefinite" path="M350,368 Q261,396 185,420"/>
-                            </circle>
-
-                            <!-- Linux → SDK -->
-                            <path d="M450,368 Q 539,396 615,420" fill="none" class="topo-edge" marker-end="url(#arrowB)"/>
-                            <text x="552" y="394" class="edge-lbl">Python SDK</text>
-                            <circle class="topo-pkt" r="4">
-                                <animateMotion dur="2s" repeatCount="indefinite" path="M450,368 Q539,396 615,420"/>
-                            </circle>
-
-                            <!-- Nodes -->
-                            <g class="topo-nd topo-nd-rivo">
-                                <rect x="310" y="160" width="180" height="60" rx="8"/>
-                                <text x="400" y="185" class="nd-title">Rivo-bridge</text>
-                                <text x="400" y="205" class="nd-sub">Software Agent</text>
-                            </g>
-                            <g class="topo-nd">
-                                <rect x="300" y="310" width="200" height="58" rx="8"/>
-                                <text x="400" y="337" class="nd-title">Linux System</text>
-                                <text x="400" y="355" class="nd-sub">Customer Hardware</text>
-                            </g>
-                            <g class="topo-nd">
-                                <rect x="100" y="420" width="170" height="50" rx="8"/>
-                                <text x="185" y="443" class="nd-title">ROS2 App</text>
-                                <text x="185" y="461" class="nd-sub">Robotics Stack</text>
-                            </g>
-                            <g class="topo-nd">
-                                <rect x="530" y="420" width="170" height="50" rx="8"/>
-                                <text x="615" y="443" class="nd-title">SDK / API</text>
-                                <text x="615" y="461" class="nd-sub">Custom Integration</text>
-                            </g>
-                        </g>
+                        <!-- Animated Pulses -->
+                        <path d="M250,80 L375,150" class="arch-pulse" />
+                        <path d="M250,200 L375,200" class="arch-pulse" />
+                        <path d="M250,320 L375,250" class="arch-pulse" />
+                        <path d="M625,150 L750,200" class="arch-pulse" />
+                        <path d="M625,250 L750,200" class="arch-pulse" />
                     </svg>
-                </div>
 
-                <!-- Scenario Info Cards -->
-                <div class="topo-info" id="topo-info0">
-                    <span class="topo-info-badge">Local Deploy</span>
-                    <p>透過 Rivo-node 作為邊緣閘道器，連接微控制器設備，支援完整的雙向控制與本地端推論能力。</p>
-                    <div class="topo-tags">
-                        <span>雙向控制</span><span>Edge AI</span><span>本地部署</span>
+                    <!-- Layer 1: Edge Computing -->
+                    <div class="arch-tier arch-tier-edge">
+                        <div class="arch-card">
+                            <div class="card-icon">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                    stroke-linecap="round" stroke-linejoin="round">
+                                    <circle cx="12" cy="12" r="3" />
+                                    <path
+                                        d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z" />
+                                </svg>
+                            </div>
+                            <div class="card-title">工業感測器陣列</div>
+                            <div class="card-desc">支援 I²C / SPI / ADC 原生訊號採集，毫秒級同步更新。</div>
+                            <span class="card-tag">Physical Edge</span>
+                        </div>
+                        <div class="arch-card">
+                            <div class="card-icon">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                    stroke-linecap="round" stroke-linejoin="round">
+                                    <rect x="2" y="2" width="20" height="8" rx="2" ry="2" />
+                                    <rect x="2" y="14" width="20" height="8" rx="2" ry="2" />
+                                    <line x1="6" y1="6" x2="6" y2="6" />
+                                    <line x1="6" y1="18" x2="6" y2="18" />
+                                </svg>
+                            </div>
+                            <div class="card-title">第三方硬體設備</div>
+                            <div class="card-desc">UART / TTL 協議解析，快速橋接既有工業機台與 PLC。</div>
+                            <span class="card-tag">Bridge Layer</span>
+                        </div>
+                        <div class="arch-card">
+                            <div class="card-icon">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                    stroke-linecap="round" stroke-linejoin="round">
+                                    <rect x="4" y="4" width="16" height="16" rx="2" ry="2" />
+                                    <rect x="9" y="9" width="6" height="6" />
+                                    <line x1="9" y1="1" x2="9" y2="4" />
+                                    <line x1="15" y1="1" x2="15" y2="4" />
+                                    <line x1="9" y1="20" x2="9" y2="23" />
+                                    <line x1="15" y1="20" x2="15" y2="23" />
+                                    <line x1="20" y1="9" x2="23" y2="9" />
+                                    <line x1="20" y1="15" x2="23" y2="15" />
+                                    <line x1="1" y1="9" x2="4" y2="9" />
+                                    <line x1="1" y1="15" x2="4" y2="15" />
+                                </svg>
+                            </div>
+                            <div class="card-title">嵌入式 Linux 機器</div>
+                            <div class="card-desc">高運算效能設備整合，支援多通訊模式並行處理。</div>
+                            <span class="card-tag">Soft Definition</span>
+                        </div>
                     </div>
-                </div>
-                <div class="topo-info" id="topo-info1" style="display:none">
-                    <span class="topo-info-badge">Direct Integration</span>
-                    <p>感測器直接接入 Rivo-node，無需額外控制器，最精簡的架構實現多感測器融合與影像串流。</p>
-                    <div class="topo-tags">
-                        <span>多感測器融合</span><span>影像串流</span><span>低延遲</span>
+
+                    <!-- Layer 2: Processing Hub -->
+                    <div class="arch-tier arch-tier-mid">
+                        <div class="arch-card arch-card-hero">
+                            <div class="card-icon">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                    stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" />
+                                </svg>
+                            </div>
+                            <div class="card-title">RIVO-NodeWare</div>
+                            <div class="card-desc">邊緣運算核心。自動封裝、斷網續傳與 SSL 安全傳輸。</div>
+                            <span class="card-tag">Edge Computing</span>
+                        </div>
+                        <div class="arch-card arch-card-hero">
+                            <div class="card-icon">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                    stroke-linecap="round" stroke-linejoin="round">
+                                    <polygon points="12 2 2 7 12 12 22 7 12 2" />
+                                    <polyline points="2 17 12 22 22 17" />
+                                    <polyline points="2 12 12 17 22 12" />
+                                </svg>
+                            </div>
+                            <div class="card-title">RIVO-Node Software</div>
+                            <div class="card-desc">軟體定義控制器。跨平台 C++/Go 整合，極致效能訊息交換。</div>
+                            <span class="card-tag">Soft-Node Hub</span>
+                        </div>
                     </div>
-                </div>
-                <div class="topo-info" id="topo-info2" style="display:none">
-                    <span class="topo-info-badge">Software Only</span>
-                    <p>純軟體方案，在現有 Linux 硬體上安裝 Rivo-bridge，無需額外購買硬體即可接入 RIVO 平台。</p>
-                    <div class="topo-tags">
-                        <span>無需額外硬體</span><span>ROS2 支援</span><span>快速部署</span>
+
+                    <!-- Layer 3: Cloud Intelligence -->
+                    <div class="arch-tier arch-tier-cloud">
+                        <div class="arch-card arch-card-hero" style="border-color:var(--primary-color)">
+                            <div class="card-icon" style="color:var(--primary-color)">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                    stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M18 10h-1.26A8 8 0 1 0 9 20h9a5 5 0 0 0 0-10z" />
+                                </svg>
+                            </div>
+                            <div class="card-title">RIVO-Center</div>
+                            <div class="card-desc">統一雲端管理平台。實時視覺化、大規模節點監控與遠端配置。</div>
+                            <span class="card-tag" style="background:var(--primary-color)">Cloud Control</span>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -1213,16 +1095,16 @@
         // Topology scenario switcher
         function setTopoScenario(idx) {
             // Update tab active state
-            document.querySelectorAll('.topo-tab').forEach(function(tab, i) {
+            document.querySelectorAll('.topo-tab').forEach(function (tab, i) {
                 tab.classList.toggle('topo-tab-active', i === idx);
             });
             // Show/hide scenario SVG groups
-            ['topo-s0', 'topo-s1', 'topo-s2'].forEach(function(id, i) {
+            ['topo-s0', 'topo-s1', 'topo-s2'].forEach(function (id, i) {
                 var el = document.getElementById(id);
                 if (el) el.style.display = i === idx ? '' : 'none';
             });
             // Show/hide info cards
-            ['topo-info0', 'topo-info1', 'topo-info2'].forEach(function(id, i) {
+            ['topo-info0', 'topo-info1', 'topo-info2'].forEach(function (id, i) {
                 var el = document.getElementById(id);
                 if (el) el.style.display = i === idx ? '' : 'none';
             });
