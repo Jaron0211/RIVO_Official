@@ -4,15 +4,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="RIVO — IoT 機器人車隊管理平台。即時影像監控、遠端操控、多機管理一次搞定。讓您專注機器人開發，雲端交給我們。">
-    <meta name="keywords" content="RIVO, 機器人車隊管理, IoT 機器人, ROS 雲端, WebRTC 串流, 機器人監控, LiveKit, 機器人介面">
-    <meta property="og:title" content="RIVO — Enterprise-Grade Robot Fleet Management">
-    <meta property="og:description" content="RIVO — IoT 機器人車隊管理平台。即時影像監控、遠端操控、多機管理一次搞定。讓您專注機器人開發，雲端交給我們。">
+    <meta name="description" content="RIVO 是面向企業的機器人與 IoT 營運平台，整合即時監控、遠端控制、資料治理與車隊調度，協助團隊快速規模化部署。">
+    <meta name="keywords" content="RIVO, 企業機器人平台, 機器人車隊管理, IoT 營運平台, ROS 雲端, 遠端監控, 邊緣運算, 企業資安">
+    <meta property="og:title" content="RIVO — Enterprise Robotics Operations Platform">
+    <meta property="og:description" content="RIVO 是面向企業的機器人與 IoT 營運平台，整合即時監控、遠端控制、資料治理與車隊調度，協助團隊快速規模化部署。">
     <meta property="og:image"
         content="https://raw.githubusercontent.com/Jaron0211/rivo-server/main/docs/assets/og-image.png">
     <meta property="og:type" content="website">
     <meta name="twitter:card" content="summary_large_image">
-    <title>RIVO — The Future of Robot Fleet Management</title>
+    <title>RIVO — Enterprise Robotics Operations Platform</title>
     <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32.png">
     <link rel="icon" type="image/png" sizes="16x16" href="assets/favicon-16.png">
     <link rel="apple-touch-icon" sizes="180x180" href="assets/apple-touch-icon.png">
@@ -56,14 +56,20 @@
                 <li><a href="#rivo-node">RIVO Node</a></li>
                 <li><a href="#features">功能</a></li>
                 <li><a href="#comparison">比較</a></li>
-                <li><a href="#pricing">方案</a></li>
+                <li><a href="#pricing">定價</a></li>
                 <li><a href="#faq">FAQ</a></li>
+                <li class="lang-switch-item">
+                    <div class="lang-switch" role="group" aria-label="語言切換">
+                        <button type="button" class="lang-btn active" data-lang="zh">中</button>
+                        <button type="button" class="lang-btn" data-lang="en">EN</button>
+                    </div>
+                </li>
                 <li><a href="docs/index.html" class="btn btn-outline"
-                        style="padding: 0.6rem 1.2rem; margin-right: 0.5rem; font-size: 0.85rem;">技術文件 / Resource</a>
+                        style="padding: 0.6rem 1.2rem; margin-right: 0.5rem; font-size: 0.85rem;">技術文件 / Resources</a>
                 </li>
                 <li>
                     <div class="nav-cta">
-                        <a href="#contact" class="btn btn-primary">詢問試用</a>
+                        <a href="#contact" class="btn btn-primary">預約諮詢</a>
                     </div>
                 </li>
             </ul>
@@ -77,66 +83,22 @@
 
     <!-- Hero Section -->
     <section class="hero">
+        <canvas class="hero-wave-canvas" data-wave-bg aria-hidden="true"></canvas>
         <div class="container">
             <div class="hero-content fade-in">
-                <span class="hero-label">RIVO — IoT Robot Fleet management platform</span>
-                <h1>打造您的<br>專業機器人產品</h1>
+                <div class="hero-topline"></div>
+                <span class="hero-label">Enterprise Robotics Cloud Platform</span>
+                <p class="hero-intro">Scale robotics operations with confidence</p>
+                <h1>Build Faster.<br>Operate Smarter.<br>Scale Securely.</h1>
                 <p class="hero-description">
-                    即時高畫質影像串流、遠端操控、多機車隊管理。讓您專注開發機器人核心功能，雲端後台交給 RIVO。
+                    從 PoC 到量產，RIVO 提供即時影像、遠端控制、車隊營運與資安治理。工程團隊專注演算法與硬體，平台能力由 RIVO 提供。
                 </p>
                 <div class="hero-buttons">
-                    <a href="#contact" class="btn btn-primary">詢問試用</a>
-                    <a href="#solution" class="btn btn-secondary">觀看 Demo</a>
-                </div>
-                <div class="hero-stats">
-                    <div class="hero-stat">
-                        <span class="hero-stat-value">10 min</span>
-                        <span class="hero-stat-label">快速部屬</span>
-                    </div>
-                    <div class="hero-stat">
-                        <span class="hero-stat-value">200+</span>
-                        <span class="hero-stat-label">支援元件</span>
-                    </div>
-                    <div class="hero-stat">
-                        <span class="hero-stat-value">6x</span>
-                        <span class="hero-stat-label">更快上市</span>
-                    </div>
+                    <a href="#contact" class="btn btn-primary">預約產品諮詢</a>
+                    <a href="#solution" class="btn btn-secondary">查看平台示範</a>
                 </div>
             </div>
-            <div class="hero-visual fade-in-right">
-                <div class="dashboard-preview">
-                    <div class="preview-header">
-                        <span class="dot red"></span>
-                        <span class="dot yellow"></span>
-                        <span class="dot green"></span>
-                        <span
-                            style="margin-left: auto; color: #737373; font-size: 12px; font-family: 'Space Mono', monospace;">app.rivo.dev</span>
-                    </div>
-                    <div class="preview-content">
-                        <div class="robot-card">
-                            <div class="robot-status online"></div>
-                            <div class="robot-info">
-                                <span class="robot-name">Patrol-Bot #001</span>
-                                <span class="robot-battery">85%</span>
-                            </div>
-                        </div>
-                        <div class="robot-card" style="opacity: 0.8;">
-                            <div class="robot-status warning"></div>
-                            <div class="robot-info">
-                                <span class="robot-name">Delivery-Bot #002</span>
-                                <span class="robot-battery">23%</span>
-                            </div>
-                        </div>
-                        <div class="robot-card" style="opacity: 0.6;">
-                            <div class="robot-status offline"></div>
-                            <div class="robot-info">
-                                <span class="robot-name">Cleaner-Bot #003</span>
-                                <span class="robot-battery">--</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            <div class="hero-follow fade-in-right">Connect - Lk. / Yt. / Gh.</div>
         </div>
     </section>
 
@@ -144,32 +106,32 @@
     <section id="problems" class="problems">
         <div class="container">
             <span class="section-label fade-in">Pain Points</span>
-            <h2 class="section-title fade-in">你遇到這些問題嗎？</h2>
-            <p class="section-subtitle fade-in">機器人做好了，但離「產品」還有一大段距離</p>
+            <h2 class="section-title fade-in">機器人專案卡在商用化階段？</h2>
+            <p class="section-subtitle fade-in">技術驗證完成後，真正挑戰是可營運、可擴展、可維運</p>
 
             <div class="problems-grid">
                 <div class="problem-card stagger-child">
                     <div class="problem-icon">01</div>
-                    <h3>募資簡報時投影 RViz，投資人完全看不懂</h3>
-                    <p class="problem-need">需要一個「正常人看得懂」的監控介面</p>
+                    <h3>Demo 成功，但缺少對外展示等級的監控介面</h3>
+                    <p class="problem-need">需要可讓客戶與管理層一眼理解的可視化儀表板</p>
                 </div>
 
                 <div class="problem-card stagger-child">
                     <div class="problem-icon">02</div>
-                    <h3>客戶要看 Demo，但機器人在實驗室無法遠端展示</h3>
-                    <p class="problem-need">需要隨時隨地都能展示的雲端系統</p>
+                    <h3>設備分散多地，遠端維運成本快速上升</h3>
+                    <p class="problem-need">需要隨時可連線的雲端監控與遠端控制能力</p>
                 </div>
 
                 <div class="problem-card stagger-child">
                     <div class="problem-icon">03</div>
-                    <h3>花了 3 個月開發雲端後台，核心功能還沒做完</h3>
-                    <p class="problem-need">需要專注在機器人本身，不是雲端架構</p>
+                    <h3>團隊把大量時間花在後台基礎建設</h3>
+                    <p class="problem-need">需要現成平台，將研發資源集中在核心產品</p>
                 </div>
 
                 <div class="problem-card stagger-child">
                     <div class="problem-icon">04</div>
-                    <h3>管理 5 台以上機器人，開始力不從心</h3>
-                    <p class="problem-need">需要專業的 Fleet 管理系統</p>
+                    <h3>節點數量成長後，管理與權限控管變複雜</h3>
+                    <p class="problem-need">需要具備多租戶與分級權限的 Fleet 管理系統</p>
                 </div>
             </div>
         </div>
@@ -179,8 +141,8 @@
     <section id="solution" class="solution">
         <div class="container">
             <span class="section-label fade-in">How It Works</span>
-            <h2 class="section-title fade-in">2 分鐘快速上線</h2>
-            <p class="section-subtitle fade-in">從安裝到上線，只需要一行指令</p>
+            <h2 class="section-title fade-in">2 分鐘完成平台接入</h2>
+            <p class="section-subtitle fade-in">以標準 API 與節點代理，快速連線並開始營運監控</p>
 
             <div class="solution-grid">
                 <!-- Terminal -->
@@ -248,10 +210,10 @@
 
             <!-- Feature Pills -->
             <div class="feature-pills fade-in">
-                <span class="feature-pill">ROS1/2 Topics自動偵測</span>
-                <span class="feature-pill">3D/2D地圖顯示</span>
-                <span class="feature-pill">可調整顯示工具</span>
-                <span class="feature-pill">快速部屬</span>
+                <span class="feature-pill">ROS1/ROS2 Topic 自動探索</span>
+                <span class="feature-pill">2D/3D 地圖與狀態可視化</span>
+                <span class="feature-pill">可配置控制元件與工作流</span>
+                <span class="feature-pill">快速部署與擴展</span>
             </div>
         </div>
     </section>
@@ -260,8 +222,8 @@
     <section id="rivo-node" class="features" style="background: linear-gradient(135deg, #FAFAFA 0%, #F5F5F5 100%);">
         <div class="container">
             <span class="section-label fade-in">RIVO Node</span>
-            <h2 class="section-title fade-in">智能資料採集節點</h2>
-            <p class="section-subtitle fade-in">讓您的設備即刻連上雲端，開始收集與分析數據</p>
+            <h2 class="section-title fade-in">企業級邊緣資料節點</h2>
+            <p class="section-subtitle fade-in">以標準化方式接入現場設備，穩定上傳可用數據</p>
 
             <div class="fade-in" style="margin-top: 48px;">
                 <div
@@ -272,60 +234,60 @@
                         style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 24px; margin-bottom: 32px;">
                         <div
                             style="padding: 24px; background: #FAFAFA; border-radius: 12px; border: 1px solid #E5E5E5;">
-                            <h4 style="margin: 0 0 12px 0; font-size: 16px; font-weight: 600; color: #000;">即插即用
+                            <h4 style="margin: 0 0 12px 0; font-size: 16px; font-weight: 600; color: #000;">多協議接入
                             </h4>
                             <p style="font-size: 14px; color: #525252; line-height: 1.5; margin: 0;">
-                                相容各類工業感測器與控制器，無需複雜配置</p>
+                                支援常見工業介面與控制器，降低導入與整合成本</p>
                         </div>
 
                         <div
                             style="padding: 24px; background: #FAFAFA; border-radius: 12px; border: 1px solid #E5E5E5;">
-                            <h4 style="margin: 0 0 12px 0; font-size: 16px; font-weight: 600; color: #000;">即時監控
+                            <h4 style="margin: 0 0 12px 0; font-size: 16px; font-weight: 600; color: #000;">低延遲回傳
                             </h4>
-                            <p style="font-size: 14px; color: #525252; line-height: 1.5; margin: 0;">低延遲影像與數據回傳，遠端掌握現場狀況
+                            <p style="font-size: 14px; color: #525252; line-height: 1.5; margin: 0;">影像與遙測資料低延遲回傳，支援遠端運維決策
                             </p>
                         </div>
 
                         <div
                             style="padding: 24px; background: #FAFAFA; border-radius: 12px; border: 1px solid #E5E5E5;">
-                            <h4 style="margin: 0 0 12px 0; font-size: 16px; font-weight: 600; color: #000;">彈性調整
+                            <h4 style="margin: 0 0 12px 0; font-size: 16px; font-weight: 600; color: #000;">遠端配置
                             </h4>
-                            <p style="font-size: 14px; color: #525252; line-height: 1.5; margin: 0;">即時更新設定，無需停機重啟</p>
+                            <p style="font-size: 14px; color: #525252; line-height: 1.5; margin: 0;">線上調整參數與策略，縮短維運迭代週期</p>
                         </div>
 
                         <div
                             style="padding: 24px; background: #FAFAFA; border-radius: 12px; border: 1px solid #E5E5E5;">
-                            <h4 style="margin: 0 0 12px 0; font-size: 16px; font-weight: 600; color: #000;">自動連線</h4>
-                            <p style="font-size: 14px; color: #525252; line-height: 1.5; margin: 0;">開機自動連接至雲端平台，免除繁瑣設定
+                            <h4 style="margin: 0 0 12px 0; font-size: 16px; font-weight: 600; color: #000;">開機自啟</h4>
+                            <p style="font-size: 14px; color: #525252; line-height: 1.5; margin: 0;">裝置開機自動連線平台，減少人工作業風險
                             </p>
                         </div>
 
                         <div
                             style="padding: 24px; background: #FAFAFA; border-radius: 12px; border: 1px solid #E5E5E5;">
-                            <h4 style="margin: 0 0 12px 0; font-size: 16px; font-weight: 600; color: #000;">斷線續傳</h4>
-                            <p style="font-size: 14px; color: #525252; line-height: 1.5; margin: 0;">網路中斷時自動暫存數據，恢復後主動上傳
+                            <h4 style="margin: 0 0 12px 0; font-size: 16px; font-weight: 600; color: #000;">離線緩存</h4>
+                            <p style="font-size: 14px; color: #525252; line-height: 1.5; margin: 0;">網路異常時本地緩存，連線恢復後自動補傳
                             </p>
                         </div>
 
                         <div
                             style="padding: 24px; background: #FAFAFA; border-radius: 12px; border: 1px solid #E5E5E5;">
-                            <h4 style="margin: 0 0 12px 0; font-size: 16px; font-weight: 600; color: #000;">穩定可靠</h4>
-                            <p style="font-size: 14px; color: #525252; line-height: 1.5; margin: 0;">專為工業環境設計，確保長期穩定運行
+                            <h4 style="margin: 0 0 12px 0; font-size: 16px; font-weight: 600; color: #000;">工業穩定性</h4>
+                            <p style="font-size: 14px; color: #525252; line-height: 1.5; margin: 0;">針對長時間運轉場景設計，確保服務連續性
                             </p>
                         </div>
                     </div>
 
                     <div style="text-align: center;">
                         <a href="docs/index.html" class="btn btn-outline" style="margin-right: 12px;">查看技術文件</a>
-                        <a href="#contact" class="btn btn-primary">立即諮詢</a>
+                        <a href="#contact" class="btn btn-primary">預約架構諮詢</a>
                     </div>
                 </div>
             </div>
 
             <!-- Integration Architecture Section -->
             <div class="integration-section fade-in">
-                <h2 class="section-title fade-in">多元整合方案</h2>
-                <p class="section-subtitle fade-in">從現場設備到雲端平台，三種部署模式滿足不同場景需求</p>
+                <h2 class="section-title fade-in">彈性整合架構</h2>
+                <p class="section-subtitle fade-in">支援既有設備、嵌入式系統與雲端管理平台的標準化串接</p>
 
                 <!-- Architecture Diagram -->
                 <div class="arch-diagram">
@@ -338,7 +300,7 @@
 
                         <!-- Placeholder tabs to align with option tabs -->
                         <div class="arch-placeholder-tabs">
-                            <span class="placeholder-label">外部數據輸入</span>
+                            <span class="placeholder-label">外部設備輸入</span>
                             <span class="placeholder-tag">Data Input</span>
                         </div>
 
@@ -355,8 +317,8 @@
                                         </svg>
                                     </div>
                                     <div class="arch-node-content">
-                                        <h4>既有硬體設備</h4>
-                                        <p>現有系統透過 UART 輸出即可整合</p>
+                                        <h4>既有設備系統</h4>
+                                        <p>透過 UART / RS-485 快速接入</p>
                                     </div>
                                     <span class="arch-node-tag">UART / RS-485</span>
                                 </div>
@@ -375,8 +337,8 @@
                                         </svg>
                                     </div>
                                     <div class="arch-node-content">
-                                        <h4>感測器模組</h4>
-                                        <p>I2C / SPI / ADC 直接連接採集</p>
+                                        <h4>感測與控制模組</h4>
+                                        <p>支援 I2C / SPI / ADC 即時採集</p>
                                     </div>
                                     <span class="arch-node-tag">Physical Interface</span>
                                 </div>
@@ -421,12 +383,12 @@
                                     </svg>
                                 </div>
                                 <h3>RIVO-NodeWare</h3>
-                                <p class="arch-node-desc">硬體邊緣閘道器，運行 RIVO-Node 軟體</p>
+                                <p class="arch-node-desc">工業級邊緣閘道器，內建 RIVO-Node Runtime</p>
                                 <ul class="arch-node-features">
-                                    <li>協議轉換與資料標準化</li>
-                                    <li>斷線緩存與自動重連</li>
-                                    <li>TLS 加密安全傳輸</li>
-                                    <li>支援本地與雲端連接</li>
+                                    <li>多協議轉換與資料標準化</li>
+                                    <li>斷線緩存與自動重連機制</li>
+                                    <li>端到端 TLS 加密傳輸</li>
+                                    <li>支援雲端與私有網路部署</li>
                                 </ul>
                             </div>
                         </div>
@@ -443,12 +405,12 @@
                                     </svg>
                                 </div>
                                 <h3>嵌入式 Linux + RIVO-Node</h3>
-                                <p class="arch-node-desc">您的 Linux 系統直接運行 RIVO-Node 軟體</p>
+                                <p class="arch-node-desc">在既有 Linux 裝置上部署 RIVO-Node Agent</p>
                                 <ul class="arch-node-features">
-                                    <li>無需額外硬體閘道器</li>
-                                    <li>直接與 RIVO-Center 通訊</li>
-                                    <li>支援 ARM / x86 架構</li>
-                                    <li>完整功能軟體定義節點</li>
+                                    <li>無需新增閘道器硬體</li>
+                                    <li>與 RIVO-Center 直接通訊</li>
+                                    <li>支援 ARM / x86 與容器化部署</li>
+                                    <li>完整軟體定義節點能力</li>
                                 </ul>
                             </div>
                         </div>
@@ -486,12 +448,12 @@
                                 </svg>
                             </div>
                             <h3>RIVO-Center</h3>
-                            <p class="arch-node-desc">統一管理與監控平台</p>
+                            <p class="arch-node-desc">企業級統一營運管理平台</p>
                             <ul class="arch-node-features">
-                                <li>即時資料視覺化儀表板</li>
-                                <li>多節點集中管理</li>
-                                <li>遠端配置與 OTA 更新</li>
-                                <li>API 整合與資料匯出</li>
+                                <li>即時儀表板與 KPI 監控</li>
+                                <li>多據點與多節點集中管理</li>
+                                <li>遠端配置、OTA 與版本治理</li>
+                                <li>API / Webhook 整合與資料匯出</li>
                             </ul>
                         </div>
                     </div>
@@ -499,15 +461,15 @@
 
                 <!-- Deployment Scenarios -->
                 <div class="integration-scenarios">
-                    <h3 class="scenarios-title">部署場景</h3>
+                    <h3 class="scenarios-title">典型部署情境</h3>
                     <div class="scenarios-grid">
                         <div class="scenario-card">
                             <div class="scenario-number">01</div>
                             <div class="scenario-content">
-                                <h4>協議轉換橋接</h4>
-                                <p>現有設備透過 UART 輸出連接 RIVO-NodeWare，自動轉換為標準格式，支援本地實體連接或網路傳輸至 RIVO-Center</p>
+                                <h4>既有設備協議橋接</h4>
+                                <p>將既有控制器輸出接入 RIVO-NodeWare，完成協議轉換與資料標準化，快速接入管理平台。</p>
                                 <div class="scenario-flow">
-                                    <span>既有硬體</span>
+                                    <span>既有控制器</span>
                                     <span class="scenario-arrow">UART</span>
                                     <span>NodeWare</span>
                                     <span class="scenario-arrow">ETH / WiFi</span>
@@ -519,10 +481,10 @@
                         <div class="scenario-card">
                             <div class="scenario-number">02</div>
                             <div class="scenario-content">
-                                <h4>感測器直連採集</h4>
-                                <p>RIVO-NodeWare 直接連接各類實體傳輸界面感測器，即時採集並上傳數據至 RIVO-Center 進行分析</p>
+                                <h4>工廠感測資料上雲</h4>
+                                <p>將現場感測器直接連入 NodeWare，持續上傳遙測資料，支援即時告警與追蹤分析。</p>
                                 <div class="scenario-flow">
-                                    <span>感測器</span>
+                                    <span>感測器網路</span>
                                     <span class="scenario-arrow">I2C / SPI</span>
                                     <span>NodeWare</span>
                                     <span class="scenario-arrow">HTTPS</span>
@@ -534,10 +496,10 @@
                         <div class="scenario-card">
                             <div class="scenario-number">03</div>
                             <div class="scenario-content">
-                                <h4>軟體定義節點</h4>
-                                <p>在您的 Linux 嵌入式系統上直接運行 RIVO-Node 軟體，無需額外硬體閘道器，直接與 RIVO-Center 進行訊息交換</p>
+                                <h4>嵌入式軟體節點</h4>
+                                <p>在既有 Linux SBC 內部署 RIVO-Node Agent，以軟體方式完成連線、監控與遠端維運。</p>
                                 <div class="scenario-flow">
-                                    <span>Linux SBC + RIVO-Node</span>
+                                    <span>Linux SBC + Agent</span>
                                     <span class="scenario-arrow">WebSocket / HTTPS</span>
                                     <span>Center</span>
                                 </div>
@@ -547,55 +509,56 @@
                 </div>
 
                 <div class="integration-cta">
-                    <a href="docs/index.html" class="btn btn-outline">查看整合文件</a>
+                    <a href="docs/index.html" class="btn btn-outline">閱讀整合文件</a>
                     <a href="#contact" class="btn btn-primary">預約技術諮詢</a>
                 </div>
             </div>
+        </div>
     </section>
 
     <!-- Features Grid Section -->
     <section id="features" class="features">
         <div class="container">
             <span class="section-label fade-in">Platform</span>
-            <h2 class="section-title fade-in">完整功能，開箱即用</h2>
-            <p class="section-subtitle fade-in">專為 ROS 機器人團隊打造的全方位雲端平台</p>
+            <h2 class="section-title fade-in">為企業營運打造的核心能力</h2>
+            <p class="section-subtitle fade-in">從連線、監控到治理，完整支援機器人商用落地</p>
 
             <div class="features-grid">
                 <div class="feature-card stagger-child">
-                    <h3>即時影像串流</h3>
-                    <p>超低延遲的機器人第一視角畫面，隨時隨地查看現場狀況，支援多機同時監控與錄影回放</p>
+                    <h3>多路即時影像串流</h3>
+                    <p>提供低延遲第一視角與多機畫面管理，支援錄影回放與事件追溯</p>
                 </div>
                 <div class="feature-card stagger-child">
-                    <h3>遠端指令控制</h3>
-                    <p>隨時新增自訂控制指令，從網頁或手機 App 安全下達操作命令，即時控制機器人行為</p>
+                    <h3>安全遠端指令控制</h3>
+                    <p>透過 Web 與行動端下達指令，搭配權限與審計機制保障操作安全</p>
                 </div>
                 <div class="feature-card stagger-child">
-                    <h3>自動生成控制面板</h3>
-                    <p>無需開發前端介面，系統自動根據您的機器人資料格式，生成專屬的監控與控制面板</p>
+                    <h3>動態控制面板生成</h3>
+                    <p>依裝置資料模型自動生成 UI，縮短前端開發與維護時間</p>
                 </div>
                 <div class="feature-card stagger-child">
-                    <h3>分級權限管理</h3>
-                    <p>管理者、操作員、觀看者三級權限。彈性控管團隊成員對不同機器人群組的存取權限</p>
+                    <h3>多層級權限管理</h3>
+                    <p>支援角色、群組與資源範圍控管，符合企業內部治理需求</p>
                 </div>
                 <div class="feature-card stagger-child">
-                    <h3>企業級資安防護</h3>
-                    <p>銀行等級的資料加密、完整操作紀錄追蹤，確保您的機器人資料安全無虞</p>
+                    <h3>企業級資安與稽核</h3>
+                    <p>TLS 傳輸、資料加密與完整操作軌跡，滿足資安與稽核要求</p>
                 </div>
                 <div class="feature-card stagger-child">
-                    <h3>異常自動告警</h3>
-                    <p>即時監控電量、連線狀態等關鍵指標，異常時自動發送通知，問題發生前就能預防</p>
+                    <h3>事件告警與通知</h3>
+                    <p>針對電量、連線與關鍵指標設定閾值，異常即時推送通知</p>
                 </div>
                 <div class="feature-card stagger-child">
-                    <h3>地圖與軌跡追蹤</h3>
-                    <p>上傳場地地圖，即時顯示每台機器人位置與移動軌跡，一目了然掌握車隊動態</p>
+                    <h3>地圖定位與軌跡追蹤</h3>
+                    <p>整合地圖與路徑資訊，快速掌握車隊位置與運行狀態</p>
                 </div>
                 <div class="feature-card stagger-child">
-                    <h3>在地技術支援</h3>
-                    <p>台灣在地團隊，提供完整中文文件、到府技術諮詢與客製化開發服務，溝通零障礙</p>
+                    <h3>導入與技術顧問</h3>
+                    <p>提供繁中技術文件、導入建議與客製整合服務，加速上線時程</p>
                 </div>
                 <div class="feature-card stagger-child">
-                    <h3>穩定高效能架構</h3>
-                    <p>專為大量機器人同時連線設計，即使管理數十台機器人也能保持流暢穩定的操作體驗</p>
+                    <h3>可擴展高可用架構</h3>
+                    <p>面向多機並發與長時間運行設計，維持穩定服務品質</p>
                 </div>
             </div>
         </div>
@@ -605,68 +568,68 @@
     <section id="comparison" class="comparison">
         <div class="container">
             <span class="section-label fade-in">Comparison</span>
-            <h2 class="section-title fade-in">為什麼選擇 RIVO？</h2>
-            <p class="section-subtitle fade-in">和其他方案的詳細比較</p>
+            <h2 class="section-title fade-in">為何企業選擇 RIVO</h2>
+            <p class="section-subtitle fade-in">以導入效率、可擴展性與維運成本進行比較</p>
 
             <div class="comparison-table-wrapper fade-in">
                 <table class="comparison-table">
                     <thead>
                         <tr>
-                            <th>需求</th>
-                            <th>自己開發</th>
-                            <th>rosbridge</th>
-                            <th>Formant / Viam</th>
+                            <th>評估項目</th>
+                            <th>自建平台</th>
+                            <th>開源組合</th>
+                            <th>國際 SaaS</th>
                             <th class="highlight-col">RIVO</th>
                         </tr>
                     </thead>
                     <tbody>
                         <tr>
-                            <td class="row-label">開發時間</td>
+                            <td class="row-label">導入時間</td>
                             <td>3-6 個月</td>
-                            <td>1-2 個月</td>
-                            <td>1-2 週學習</td>
-                            <td class="highlight-col"><strong>2 分鐘</strong></td>
+                            <td>4-10 週</td>
+                            <td>1-2 週設定</td>
+                            <td class="highlight-col"><strong>2 天啟動 PoC</strong></td>
                         </tr>
                         <tr>
-                            <td class="row-label">開發成本</td>
-                            <td>NT$ 300K+</td>
-                            <td>NT$ 80K+</td>
-                            <td>-</td>
-                            <td class="highlight-col"><strong>NT$ 50K</strong></td>
+                            <td class="row-label">初期建置成本</td>
+                            <td>高（人力 + 架構）</td>
+                            <td>中（需客製）</td>
+                            <td>低（授權為主）</td>
+                            <td class="highlight-col"><strong>可控（方案化）</strong></td>
                         </tr>
                         <tr>
-                            <td class="row-label">技術門檻</td>
-                            <td>需全端工程師</td>
-                            <td>需前端工程師</td>
-                            <td>需學英文文件</td>
-                            <td class="highlight-col"><strong>會 ROS 就會用</strong></td>
+                            <td class="row-label">內部技術負擔</td>
+                            <td>需平台團隊長期維護</td>
+                            <td>需整合與前端能力</td>
+                            <td>需熟悉英文流程</td>
+                            <td class="highlight-col"><strong>專注機器人應用開發</strong></td>
                         </tr>
                         <tr>
-                            <td class="row-label">手機 App</td>
+                            <td class="row-label">行動端支援</td>
                             <td>需另外開發</td>
                             <td>需另外開發</td>
-                            <td class="no-feature">-</td>
+                            <td>部分支援</td>
                             <td class="highlight-col has-feature">內建</td>
                         </tr>
                         <tr>
-                            <td class="row-label">中文支援</td>
+                            <td class="row-label">中文介面與文件</td>
                             <td>-</td>
-                            <td>-</td>
-                            <td class="no-feature">-</td>
+                            <td>有限</td>
+                            <td>有限</td>
                             <td class="highlight-col has-feature">完整</td>
                         </tr>
                         <tr>
-                            <td class="row-label">在地服務</td>
+                            <td class="row-label">在地導入服務</td>
                             <td>-</td>
                             <td>-</td>
-                            <td class="no-feature">&#10008;</td>
+                            <td>通常遠端</td>
                             <td class="highlight-col has-feature">台灣團隊</td>
                         </tr>
                         <tr>
-                            <td class="row-label">月費</td>
-                            <td>維護成本</td>
-                            <td>伺服器費用</td>
-                            <td>$100+ USD</td>
+                            <td class="row-label">月度營運成本</td>
+                            <td>維護與雲資源成本</td>
+                            <td>伺服器 + 維運</td>
+                            <td>$100+ USD / robot</td>
                             <td class="highlight-col"><strong>NT$ 3K 起</strong></td>
                         </tr>
                     </tbody>
@@ -674,13 +637,13 @@
             </div>
 
             <div class="fit-checklist fade-in">
-                <h3>適合你如果：</h3>
+                <h3>適合你的團隊，如果你：</h3>
                 <div class="fit-items">
-                    <div class="fit-item">你已經有 ROS / ROS2 機器人</div>
-                    <div class="fit-item">你需要展示給客戶或投資人</div>
-                    <div class="fit-item">你想快速產品化，不想花時間做雲端</div>
-                    <div class="fit-item">你需要管理多台機器人</div>
-                    <div class="fit-item">你需要中文技術支援</div>
+                    <div class="fit-item">已完成機器人原型並準備商業化</div>
+                    <div class="fit-item">需要對客戶與管理層提供即時營運視圖</div>
+                    <div class="fit-item">希望縮短雲端平台開發時程</div>
+                    <div class="fit-item">需要跨據點管理多台機器人</div>
+                    <div class="fit-item">重視資安治理與在地技術支援</div>
                 </div>
             </div>
         </div>
@@ -690,8 +653,8 @@
     <section id="pricing" class="pricing">
         <div class="container">
             <span class="section-label fade-in">Pricing</span>
-            <h2 class="section-title fade-in">透明定價，無隱藏費用</h2>
-            <p class="section-subtitle fade-in">以效能分級，不限制設備數量</p>
+            <h2 class="section-title fade-in">清晰分級，支援成長</h2>
+            <p class="section-subtitle fade-in">依場景與營運規模選擇，所有方案皆可升級</p>
 
             <div class="pricing-grid five-col">
                 <div class="pricing-card stagger-child">
@@ -702,14 +665,14 @@
                         </div>
                     </div>
                     <ul class="pricing-features">
-                        <li>最多 5 個感測器</li>
-                        <li>1 Hz 控制頻率</li>
-                        <li>30 分鐘串流/月</li>
-                        <li>7 天資料保留</li>
-                        <li>720p 畫質</li>
-                        <li>社群支援</li>
+                        <li>最多 5 個感測點</li>
+                        <li>1 Hz 指令頻率</li>
+                        <li>每月 30 分鐘串流</li>
+                        <li>7 天資料留存</li>
+                        <li>720p 視訊品質</li>
+                        <li>社群論壇支援</li>
                     </ul>
-                    <a href="#contact" class="btn btn-outline btn-block">開始免費試用</a>
+                    <a href="#contact" class="btn btn-outline btn-block">申請試用</a>
                 </div>
 
                 <div class="pricing-card stagger-child">
@@ -722,18 +685,18 @@
                         </div>
                     </div>
                     <ul class="pricing-features">
-                        <li>最多 15 個感測器</li>
-                        <li>10 Hz 控制頻率</li>
-                        <li>5 小時串流/月</li>
-                        <li>30 天資料保留</li>
-                        <li>1080p 畫質</li>
+                        <li>最多 15 個感測點</li>
+                        <li>10 Hz 指令頻率</li>
+                        <li>每月 5 小時串流</li>
+                        <li>30 天資料留存</li>
+                        <li>1080p 視訊品質</li>
                         <li>Email 支援（72hr）</li>
                     </ul>
-                    <a href="#contact" class="btn btn-outline btn-block">立即開始</a>
+                    <a href="#contact" class="btn btn-outline btn-block">選擇 Lite</a>
                 </div>
 
                 <div class="pricing-card featured stagger-child">
-                    <div class="pricing-badge">Most Popular</div>
+                    <div class="pricing-badge">Recommended</div>
                     <div class="pricing-header">
                         <h3>Pro</h3>
                         <div class="price">
@@ -743,14 +706,14 @@
                         </div>
                     </div>
                     <ul class="pricing-features">
-                        <li>最多 50 個感測器</li>
-                        <li>30 Hz 控制頻率</li>
-                        <li>20 小時串流/月</li>
-                        <li>90 天資料保留</li>
+                        <li>最多 50 個感測點</li>
+                        <li>30 Hz 指令頻率</li>
+                        <li>每月 20 小時串流</li>
+                        <li>90 天資料留存</li>
                         <li>自訂 Dashboard Widget</li>
                         <li>Email 支援（24hr）+ LINE 告警</li>
                     </ul>
-                    <a href="#contact" class="btn btn-outline btn-block">立即預約諮詢</a>
+                    <a href="#contact" class="btn btn-outline btn-block">預約顧問評估</a>
                 </div>
 
                 <div class="pricing-card stagger-child">
@@ -763,11 +726,11 @@
                         </div>
                     </div>
                     <ul class="pricing-features">
-                        <li>最多 200 個感測器</li>
-                        <li>100 Hz 控制頻率</li>
-                        <li>100 小時串流/月</li>
-                        <li>1 年資料保留</li>
-                        <li>白標服務內含</li>
+                        <li>最多 200 個感測點</li>
+                        <li>100 Hz 指令頻率</li>
+                        <li>每月 100 小時串流</li>
+                        <li>1 年資料留存</li>
+                        <li>白標與品牌化支援</li>
                         <li>專人支援 + SLA 99.5%</li>
                     </ul>
                     <a href="#contact" class="btn btn-outline btn-block">聯絡業務</a>
@@ -781,47 +744,47 @@
                         </div>
                     </div>
                     <ul class="pricing-features">
-                        <li>無限感測器</li>
-                        <li>無限控制頻率</li>
+                        <li>無上限感測點</li>
+                        <li>無上限指令頻率</li>
                         <li>無限串流時數</li>
-                        <li>私有部署可選</li>
+                        <li>支援私有部署</li>
                         <li>SLA 99.9%</li>
-                        <li>專屬客服經理</li>
+                        <li>專屬客戶成功經理</li>
                     </ul>
-                    <a href="#contact" class="btn btn-outline btn-block">聯絡我們</a>
+                    <a href="#contact" class="btn btn-outline btn-block">洽談企業方案</a>
                 </div>
             </div>
 
             <div class="pricing-academic fade-in">
                 <div class="academic-banner">
                     <div class="academic-info">
-                        <h3>🎓 Academic 教育方案</h3>
-                        <p>大學實驗室、研究計畫專屬優惠，等同 Pro 方案功能</p>
+                        <h3>Academic 研究教育方案</h3>
+                        <p>提供大學實驗室與研究團隊專屬折扣，功能等同 Pro 方案</p>
                     </div>
                     <div class="academic-price">
                         <span class="price-tag">NT$ 800/月</span>
-                        <span class="price-note">需 .edu 信箱驗證</span>
+                        <span class="price-note">需 .edu 或研究機構信箱驗證</span>
                     </div>
                 </div>
             </div>
 
             <div class="pricing-addons fade-in">
-                <h3>孵化服務（一次性費用）</h3>
+                <h3>企業導入加值服務（一次性）</h3>
                 <div class="addons-grid">
                     <div class="addon-item">
-                        <span class="addon-name">需求對接與 Schema 設計</span>
+                        <span class="addon-name">需求訪談與資料模型設計</span>
                         <span class="addon-price">NT$ 30,000 起</span>
                     </div>
                     <div class="addon-item">
-                        <span class="addon-name">客製化 Dashboard</span>
+                        <span class="addon-name">客製化營運儀表板</span>
                         <span class="addon-price">NT$ 50,000 起</span>
                     </div>
                     <div class="addon-item">
-                        <span class="addon-name">手機 App 白標</span>
+                        <span class="addon-name">行動端白標與品牌化</span>
                         <span class="addon-price">NT$ 30,000 起</span>
                     </div>
                     <div class="addon-item">
-                        <span class="addon-name">ROS Bridge 整合</span>
+                        <span class="addon-name">ROS Bridge / Legacy 系統整合</span>
                         <span class="addon-price">NT$ 40,000 起</span>
                     </div>
                 </div>
@@ -833,20 +796,20 @@
     <section id="testimonials" class="testimonials">
         <div class="container">
             <span class="section-label fade-in">Testimonials</span>
-            <h2 class="section-title fade-in">他們都在使用 RIVO</h2>
-            <p class="section-subtitle fade-in">來自台灣機器人社群的真實回饋</p>
+            <h2 class="section-title fade-in">客戶實際導入成果</h2>
+            <p class="section-subtitle fade-in">跨研究、製造與新創團隊的部署回饋</p>
 
             <div class="testimonials-grid">
                 <div class="testimonial-card stagger-child">
-                    <div class="testimonial-badge">學術研究</div>
+                    <div class="testimonial-badge">研究單位</div>
                     <blockquote>
-                        「原本要花 2 個月做的雲端系統，RIVO 3 天就搞定了。現在我們可以專注在研究本身。」
+                        「過去我們需要自行維護多套監控工具。導入 RIVO 後，一個平台就整合即時影像、告警與操作紀錄，團隊協作效率明顯提升。」
                     </blockquote>
                     <div class="testimonial-author">
                         <div class="author-avatar">林</div>
                         <div class="author-info">
                             <strong>林教授</strong>
-                            <span>國立台灣大學 機械系</span>
+                            <span>國立大學智慧機器人實驗室</span>
                         </div>
                     </div>
                 </div>
@@ -854,27 +817,27 @@
                 <div class="testimonial-card stagger-child">
                     <div class="testimonial-badge">機器人新創</div>
                     <blockquote>
-                        「募資路演時，投資人看到我們的手機 App 即時監控，直接問什麼時候可以投資。」
+                        「RIVO 讓我們在產品展示前完成遠端控制與儀表板上線，客戶能在同一介面看到機器人狀態與 KPI，溝通效率大幅提升。」
                     </blockquote>
                     <div class="testimonial-author">
                         <div class="author-avatar">陳</div>
                         <div class="author-info">
                             <strong>陳執行長</strong>
-                            <span>XX 機器人公司</span>
+                            <span>物流機器人新創團隊</span>
                         </div>
                     </div>
                 </div>
 
                 <div class="testimonial-card stagger-child">
-                    <div class="testimonial-badge">系統整合</div>
+                    <div class="testimonial-badge">智慧製造</div>
                     <blockquote>
-                        「客戶的工廠有 12 台 AGV，用 RIVO Fleet 管理，一個畫面就能掌握全局。」
+                        「工廠多機調度最大的痛點是可視性與異常回應。RIVO 提供集中監控與權限管理後，現場維運流程更標準化。」
                     </blockquote>
                     <div class="testimonial-author">
                         <div class="author-avatar">張</div>
                         <div class="author-info">
                             <strong>張技術總監</strong>
-                            <span>XX 智慧製造</span>
+                            <span>智慧製造系統整合商</span>
                         </div>
                     </div>
                 </div>
@@ -887,66 +850,66 @@
         <div class="container">
             <span class="section-label fade-in">FAQ</span>
             <h2 class="section-title fade-in">常見問題</h2>
-            <p class="section-subtitle fade-in">關於 RIVO 你想知道的一切</p>
+            <p class="section-subtitle fade-in">導入前最常被詢問的關鍵問題</p>
 
             <div class="faq-list">
                 <div class="faq-item">
                     <button class="faq-question" aria-expanded="false">
-                        <h3>我的機器人不是標準的 ROS package，可以用嗎？</h3>
+                        <h3>非標準 ROS 架構也能整合嗎？</h3>
                         <span class="faq-toggle">+</span>
                     </button>
                     <div class="faq-answer">
-                        <p>可以！只要你的機器人有發布 topics，RIVO 都能自動偵測並連接。我們支援自訂 topic 映射，也提供 3 天孵化服務協助整合。</p>
+                        <p>可以。只要可提供可讀取的資料通道（topic、API 或協議輸出），即可透過對映設定接入；若有 legacy 協議，我們可提供導入服務。</p>
                     </div>
                 </div>
 
                 <div class="faq-item">
                     <button class="faq-question" aria-expanded="false">
-                        <h3>我的資料會存在哪裡？安全嗎？</h3>
+                        <h3>資料存放位置與安全機制為何？</h3>
                         <span class="faq-toggle">+</span>
                     </button>
                     <div class="faq-answer">
-                        <p>資料儲存在台灣的資料中心。所有傳輸都經過 TLS 加密，敏感資料採用 AES-256 加密儲存。我們也提供私有部署選項給企業客戶。</p>
+                        <p>可選擇雲端或私有部署。傳輸採 TLS，加密儲存可支援 AES-256，並提供權限控管與操作稽核記錄。</p>
                     </div>
                 </div>
 
                 <div class="faq-item">
                     <button class="faq-question" aria-expanded="false">
-                        <h3>支援 ROS1 還是 ROS2？</h3>
+                        <h3>支援哪些 ROS 版本？</h3>
                         <span class="faq-toggle">+</span>
                     </button>
                     <div class="faq-answer">
-                        <p>兩者都支援！ROS1 支援 Kinetic、Melodic、Noetic；ROS2 支援 Foxy、Galactic、Humble、Iron。</p>
+                        <p>支援 ROS1 與 ROS2。常見版本包含 ROS1 Kinetic / Melodic / Noetic，以及 ROS2 Foxy / Humble / Iron。</p>
                     </div>
                 </div>
 
                 <div class="faq-item">
                     <button class="faq-question" aria-expanded="false">
-                        <h3>如果不滿意可以退款嗎？</h3>
+                        <h3>PoC 與正式上線流程需要多久？</h3>
                         <span class="faq-toggle">+</span>
                     </button>
                     <div class="faq-answer">
-                        <p>孵化服務完成後 7 天內，如果不滿意可以全額退款。訂閱制可隨時取消，按月計費不綁約。</p>
+                        <p>一般可在 2-5 個工作天完成 PoC 接入；正式上線時程會依節點數、資安需求與部署模式調整。</p>
                     </div>
                 </div>
 
                 <div class="faq-item">
                     <button class="faq-question" aria-expanded="false">
-                        <h3>你們跟 Formant、Viam 有什麼不同？</h3>
+                        <h3>與國際平台相比，RIVO 的差異是什麼？</h3>
                         <span class="faq-toggle">+</span>
                     </button>
                     <div class="faq-answer">
-                        <p>我們提供完整中文介面和文件、台灣本地團隊可到府服務、針對台灣市場的友善定價（約國際價格的 1/3）、3 天上線承諾而非自助式平台。</p>
+                        <p>RIVO 聚焦亞太導入場景，提供繁中介面、在地支援與彈性部署，同時維持企業級擴展與治理能力。</p>
                     </div>
                 </div>
 
                 <div class="faq-item">
                     <button class="faq-question" aria-expanded="false">
-                        <h3>可以私有部署嗎？</h3>
+                        <h3>可以做私有部署與客製整合嗎？</h3>
                         <span class="faq-toggle">+</span>
                     </button>
                     <div class="faq-answer">
-                        <p>可以！企業方案支援私有部署，可安裝在您自己的伺服器或私有雲環境中。我們的團隊會協助完成部署與設定。</p>
+                        <p>可以。企業方案支援 On-Premise / VPC 部署，並可依需求提供 SSO、權限模型與流程整合。</p>
                     </div>
                 </div>
             </div>
@@ -957,17 +920,17 @@
     <section class="cta-banner">
         <div class="container">
             <div class="fade-in">
-                <span class="cta-badge">Limited Offer</span>
-                <h2 class="section-title">準備好讓你的機器人上雲了嗎？</h2>
+                <span class="cta-badge">Enterprise Ready</span>
+                <h2 class="section-title">讓機器人專案進入可規模化營運</h2>
                 <div class="cta-offer-list">
-                    前 10 名客戶享有：<br>
-                    <span class="check">孵化服務 7 折優惠（NT$ 35,000）</span><br>
-                    <span class="check">前 3 個月訂閱 5 折</span><br>
-                    <span class="check">免費客製化 Dashboard</span>
+                    專業導入支援包含：<br>
+                    <span class="check">標準導入評估與架構建議</span><br>
+                    <span class="check">PoC 目標與 KPI 定義</span><br>
+                    <span class="check">技術顧問一對一諮詢</span>
                 </div>
                 <div class="cta-buttons">
-                    <a href="#contact" class="btn btn-primary btn-lg">立即預約免費諮詢</a>
-                    <a href="#solution" class="btn-ghost">觀看 Demo</a>
+                    <a href="#contact" class="btn btn-primary btn-lg">預約 30 分鐘諮詢</a>
+                    <a href="#solution" class="btn-ghost">查看平台示範</a>
                 </div>
             </div>
         </div>
@@ -978,7 +941,7 @@
         <div class="container">
             <span class="section-label fade-in">Contact</span>
             <h2 class="section-title fade-in">聯絡我們</h2>
-            <p class="section-subtitle fade-in">填寫表單，我們的技術顧問將與您預約免費諮詢</p>
+            <p class="section-subtitle fade-in">提交需求後，技術顧問將於 1 個工作天內與您聯繫</p>
 
             <div class="contact-grid">
                 <div class="contact-info">
@@ -999,7 +962,7 @@
                                 d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z" />
                         </svg>
                         <div>
-                            <h4>Line</h4>
+                            <h4>Business Chat</h4>
                             <span>@rivo.dev</span>
                         </div>
                     </div>
@@ -1021,31 +984,31 @@
                             <polyline points="12 6 12 12 16 14" />
                         </svg>
                         <div>
-                            <h4>Hours</h4>
-                            <span>Mon - Fri, 9:00 - 18:00</span>
+                            <h4>Service Hours</h4>
+                            <span>Mon - Fri, 09:00 - 18:00 (GMT+8)</span>
                         </div>
                     </div>
                 </div>
 
                 <form class="contact-form" action="https://formspree.io/f/mqakvjzd" method="POST">
                     <div class="form-group">
-                        <label for="name">您的姓名 / 專案負責人</label>
-                        <input type="text" id="name" name="name" placeholder="例如：林小明" required>
+                        <label for="name">姓名 / 職稱</label>
+                        <input type="text" id="name" name="name" placeholder="例如：王小明 / 技術經理" required>
                     </div>
                     <div class="form-group">
                         <label for="email">商務聯絡 Email</label>
                         <input type="email" id="email" name="email" placeholder="name@company.com" required>
                     </div>
                     <div class="form-group">
-                        <label for="company">公司 / 學校實驗室名稱</label>
-                        <input type="text" id="company" name="company" placeholder="例如：RIVO Robotics Lab">
+                        <label for="company">公司 / 單位名稱</label>
+                        <input type="text" id="company" name="company" placeholder="例如：RIVO Robotics Team">
                     </div>
                     <div class="form-group">
-                        <label for="message">您的需求與機器人平台</label>
+                        <label for="message">需求描述</label>
                         <textarea id="message" name="message" rows="4"
-                            placeholder="請告訴我們您的機器人類型（如 ROS 2 巡檢機器人）以及目前遇到的痛點..." required></textarea>
+                            placeholder="請描述您的機器人類型、部署場域、預期節點數，以及目前希望解決的問題。" required></textarea>
                     </div>
-                    <button type="submit" class="btn btn-primary btn-block">立即預約免費諮詢</button>
+                    <button type="submit" class="btn btn-primary btn-block">送出需求，預約諮詢</button>
                 </form>
             </div>
         </div>
@@ -1060,7 +1023,7 @@
                         <img src="assets/logo-white.png" srcset="assets/logo-white.png 1x, assets/logo-white@2x.png 2x"
                             alt="RIVO" class="logo-img logo-img-footer">
                     </a>
-                    <p>The robotics cloud platform built for speed and scale.</p>
+                    <p>Enterprise robotics operations platform for secure, scalable deployments.</p>
                     <div class="footer-social">
                         <a href="https://github.com/Jaron0211/rivo-server" target="_blank">GitHub</a>
                         <a href="#">LinkedIn</a>
@@ -1071,18 +1034,18 @@
                     <div class="footer-column">
                         <h4>Product</h4>
                         <ul>
-                            <li><a href="#features">功能介紹</a></li>
-                            <li><a href="#pricing">定價</a></li>
-                            <li><a href="docs/index.html">技術文件</a></li>
+                            <li><a href="#features">平台能力</a></li>
+                            <li><a href="#pricing">方案與定價</a></li>
+                            <li><a href="docs/index.html">整合文件</a></li>
                         </ul>
                     </div>
                     <div class="footer-column">
-                        <h4>Support</h4>
+                        <h4>Resources</h4>
                         <ul>
-                            <li><a href="#faq">常見問題</a></li>
+                            <li><a href="#faq">導入 FAQ</a></li>
                             <li><a href="docs/en/getting-started.html">English Docs</a></li>
-                            <li><a href="docs/zh/getting-started.html">繁體中文文件</a></li>
-                            <li><a href="#contact">聯絡我們</a></li>
+                            <li><a href="docs/zh/getting-started.html">繁體中文 Docs</a></li>
+                            <li><a href="#contact">預約諮詢</a></li>
                         </ul>
                     </div>
                     <div class="footer-column">
@@ -1091,7 +1054,7 @@
                             <li><a href="mailto:hello@rivo.dev">hello@rivo.dev</a></li>
                             <li><span>Line: @rivo.dev</span></li>
                             <li><span>台南市東區大學路1號</span></li>
-                            <li><span>Mon - Fri, 9:00 - 18:00</span></li>
+                            <li><span>Mon - Fri, 09:00 - 18:00 (GMT+8)</span></li>
                         </ul>
                     </div>
                 </div>
@@ -1103,9 +1066,12 @@
                     <a href="#">Terms of Service</a>
                 </div>
             </div>
-            <p class="footer-made" style="text-align: center; margin-top: 12px;">Made in Taiwan</p>
+            <p class="footer-made" style="text-align: center; margin-top: 12px;">Built in Taiwan</p>
         </div>
     </footer>
+
+    <script src="src/wave-background.js"></script>
+    <script src="src/i18n.js"></script>
 
     <script>
         // Mobile menu toggle
