@@ -3494,53 +3494,6 @@ section {
     border-bottom: 3px solid transparent;
 }
 
-/* ===== Audience Links ===== */
-.audience-links {
-    display: flex;
-    justify-content: center;
-    gap: 16px;
-    margin-bottom: 16px;
-    flex-wrap: wrap;
-}
-
-.audience-link {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    padding: 12px 20px;
-    background: white;
-    border: 1px solid var(--gray-200);
-    font-size: 14px;
-    color: var(--gray-700);
-    font-weight: 500;
-    transition: var(--transition);
-    text-decoration: none;
-}
-
-.audience-link:hover {
-    border-color: var(--black);
-    color: var(--black);
-    opacity: 1;
-}
-
-.audience-tag {
-    font-family: var(--font-mono);
-    font-size: 11px;
-    font-weight: 700;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    color: var(--black);
-    background: var(--gray-100);
-    border: 1px solid var(--gray-200);
-    padding: 4px 10px;
-    flex-shrink: 0;
-}
-
-.audience-text {
-    font-size: 14px;
-    color: var(--gray-600);
-}
-
 /* ===== Integration Toggle (Collapsible) ===== */
 .integration-toggle {
     display: flex;
@@ -3691,16 +3644,6 @@ section {
         top: auto;
         bottom: -2px;
         transform: translateX(50%) rotate(90deg);
-    }
-
-    .audience-links {
-        flex-direction: column;
-        align-items: center;
-    }
-
-    .audience-link {
-        width: 100%;
-        max-width: 360px;
     }
 
     .integration-toggle {
