@@ -441,7 +441,7 @@ h4 {
 .hero-content h1 {
     font-size: var(--hero-title-size);
     font-weight: 700;
-    color: #87db00;
+    color: #ffffff;
     line-height: var(--hero-title-line-height);
     margin-bottom: 24px;
     letter-spacing: var(--hero-title-letter-spacing);
