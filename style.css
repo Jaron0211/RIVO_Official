@@ -3434,7 +3434,6 @@ section {
     padding: 24px;
     background: white;
     border: 1px solid var(--gray-200);
-    border-radius: 12px;
     flex: 1;
     transition: var(--transition);
 }
@@ -3511,7 +3510,6 @@ section {
     padding: 12px 20px;
     background: white;
     border: 1px solid var(--gray-200);
-    border-radius: 8px;
     font-size: 14px;
     color: var(--gray-700);
     font-weight: 500;
@@ -3525,8 +3523,22 @@ section {
     opacity: 1;
 }
 
-.audience-icon {
-    font-size: 18px;
+.audience-tag {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--black);
+    background: var(--gray-100);
+    border: 1px solid var(--gray-200);
+    padding: 4px 10px;
+    flex-shrink: 0;
+}
+
+.audience-text {
+    font-size: 14px;
+    color: var(--gray-600);
 }
 
 /* ===== Integration Toggle (Collapsible) ===== */
@@ -3538,7 +3550,6 @@ section {
     padding: 24px 32px;
     background: var(--gray-50);
     border: 1px solid var(--gray-200);
-    border-radius: 12px;
     cursor: pointer;
     transition: var(--transition);
     text-align: left;
@@ -3590,7 +3601,6 @@ section {
     width: 200px;
     height: 6px;
     background: rgba(255, 255, 255, 0.15);
-    border-radius: 3px;
     margin: 0 auto 12px;
     overflow: hidden;
 }
@@ -3598,7 +3608,6 @@ section {
 .cta-progress-fill {
     height: 100%;
     background: var(--green);
-    border-radius: 3px;
     transition: width 0.5s ease;
 }
 
