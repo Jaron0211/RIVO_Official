@@ -80,9 +80,9 @@
         <div class="container">
             <div class="hero-content fade-in">
                 <span class="hero-label">RIVO — IoT Robot Fleet management platform</span>
-                <h1>打造您的<br>專業機器人產品</h1>
+                <h1>3 天讓您的機器人<br>原型變成完整產品</h1>
                 <p class="hero-description">
-                    即時高畫質影像串流、遠端操控、多機車隊管理。讓您專注開發機器人核心功能，雲端後台交給 RIVO。
+                    雲端後台 + 手機 App + 車隊管理，無需聘請全端工程師。讓您專注開發機器人核心功能，產品化交給 RIVO。
                 </p>
                 <div class="hero-buttons">
                     <a href="#contact" class="btn btn-primary">詢問試用</a>
@@ -150,26 +150,26 @@
             <div class="problems-grid">
                 <div class="problem-card stagger-child">
                     <div class="problem-icon">01</div>
-                    <h3>募資簡報時投影 RViz，投資人完全看不懂</h3>
-                    <p class="problem-need">需要一個「正常人看得懂」的監控介面</p>
-                </div>
-
-                <div class="problem-card stagger-child">
-                    <div class="problem-icon">02</div>
-                    <h3>客戶要看 Demo，但機器人在實驗室無法遠端展示</h3>
-                    <p class="problem-need">需要隨時隨地都能展示的雲端系統</p>
-                </div>
-
-                <div class="problem-card stagger-child">
-                    <div class="problem-icon">03</div>
                     <h3>花了 3 個月開發雲端後台，核心功能還沒做完</h3>
                     <p class="problem-need">需要專注在機器人本身，不是雲端架構</p>
                 </div>
 
                 <div class="problem-card stagger-child">
+                    <div class="problem-icon">02</div>
+                    <h3>募資簡報時投影 RViz（ROS 視覺化工具），投資人完全看不懂</h3>
+                    <p class="problem-need">需要一個「正常人看得懂」的監控介面</p>
+                </div>
+
+                <div class="problem-card stagger-child">
+                    <div class="problem-icon">03</div>
+                    <h3>客戶要看 Demo，但機器人在實驗室無法遠端展示</h3>
+                    <p class="problem-need">需要隨時隨地都能展示的雲端系統</p>
+                </div>
+
+                <div class="problem-card stagger-child">
                     <div class="problem-icon">04</div>
                     <h3>管理 5 台以上機器人，開始力不從心</h3>
-                    <p class="problem-need">需要專業的 Fleet 管理系統</p>
+                    <p class="problem-need">需要專業的 Fleet（車隊）管理系統</p>
                 </div>
             </div>
         </div>
@@ -263,6 +263,49 @@
             <h2 class="section-title fade-in">智能資料採集節點</h2>
             <p class="section-subtitle fade-in">讓您的設備即刻連上雲端，開始收集與分析數據</p>
 
+            <!-- Quick Start 3 Steps -->
+            <div class="quick-start-steps fade-in">
+                <div class="quick-step">
+                    <div class="quick-step-number">1</div>
+                    <div class="quick-step-content">
+                        <h4>在您的機器人上運行一行指令</h4>
+                        <p>安裝 RIVO Node，一行指令即可完成</p>
+                    </div>
+                </div>
+                <div class="quick-step-arrow"></div>
+                <div class="quick-step">
+                    <div class="quick-step-number">2</div>
+                    <div class="quick-step-content">
+                        <h4>系統自動偵測並連接</h4>
+                        <p>自動發現感測器與 ROS Topics</p>
+                    </div>
+                </div>
+                <div class="quick-step-arrow"></div>
+                <div class="quick-step">
+                    <div class="quick-step-number">3</div>
+                    <div class="quick-step-content">
+                        <h4>打開網頁或手機 App 即可監控</h4>
+                        <p>即時查看數據與影像串流</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Audience Quick Links -->
+            <div class="audience-links fade-in">
+                <a href="docs/index.html" class="audience-link">
+                    <span class="audience-icon">&#127891;</span>
+                    <span class="audience-text">學術研究人員 — 查看 ROS1/2 整合文件</span>
+                </a>
+                <a href="docs/index.html" class="audience-link">
+                    <span class="audience-icon">&#127981;</span>
+                    <span class="audience-text">系統整合商 — 查看工業設備整合方案</span>
+                </a>
+                <a href="docs/index.html" class="audience-link">
+                    <span class="audience-icon">&#128640;</span>
+                    <span class="audience-text">新創團隊 — 查看快速上線指南</span>
+                </a>
+            </div>
+
             <div class="fade-in" style="margin-top: 48px;">
                 <div
                     style="background: white; border-radius: 16px; padding: 32px; box-shadow: 0 4px 24px rgba(0,0,0,0.08);">
@@ -322,10 +365,16 @@
                 </div>
             </div>
 
-            <!-- Integration Architecture Section -->
+            <!-- Integration Architecture Section (Collapsible) -->
             <div class="integration-section fade-in">
-                <h2 class="section-title fade-in">多元整合方案</h2>
-                <p class="section-subtitle fade-in">從現場設備到雲端平台，三種部署模式滿足不同場景需求</p>
+                <button class="integration-toggle" id="integration-toggle" aria-expanded="false">
+                    <div>
+                        <h3 class="integration-toggle-title">進階整合方案</h3>
+                        <p class="integration-toggle-subtitle">從現場設備到雲端平台，三種部署模式滿足不同場景需求</p>
+                    </div>
+                    <span class="integration-toggle-icon">+</span>
+                </button>
+                <div class="integration-collapsible" id="integration-collapsible">
 
                 <!-- Architecture Diagram -->
                 <div class="arch-diagram">
@@ -550,6 +599,7 @@
                     <a href="docs/index.html" class="btn btn-outline">查看整合文件</a>
                     <a href="#contact" class="btn btn-primary">預約技術諮詢</a>
                 </div>
+                </div><!-- end integration-collapsible -->
             </div>
     </section>
 
@@ -614,60 +664,60 @@
                         <tr>
                             <th>需求</th>
                             <th>自己開發</th>
-                            <th>rosbridge</th>
-                            <th>Formant / Viam</th>
+                            <th>開源方案</th>
+                            <th>國際 SaaS</th>
                             <th class="highlight-col">RIVO</th>
                         </tr>
                     </thead>
                     <tbody>
                         <tr>
-                            <td class="row-label">開發時間</td>
+                            <td class="row-label">上線時間</td>
                             <td>3-6 個月</td>
                             <td>1-2 個月</td>
-                            <td>1-2 週學習</td>
+                            <td>1-2 週</td>
                             <td class="highlight-col"><strong>2 分鐘</strong></td>
                         </tr>
                         <tr>
-                            <td class="row-label">開發成本</td>
-                            <td>NT$ 300K+</td>
-                            <td>NT$ 80K+</td>
-                            <td>-</td>
-                            <td class="highlight-col"><strong>NT$ 50K</strong></td>
-                        </tr>
-                        <tr>
-                            <td class="row-label">技術門檻</td>
-                            <td>需全端工程師</td>
-                            <td>需前端工程師</td>
-                            <td>需學英文文件</td>
-                            <td class="highlight-col"><strong>會 ROS 就會用</strong></td>
+                            <td class="row-label">需要人力</td>
+                            <td>全端工程師</td>
+                            <td>前端工程師</td>
+                            <td>DevOps</td>
+                            <td class="highlight-col"><strong>現有團隊即可</strong></td>
                         </tr>
                         <tr>
                             <td class="row-label">手機 App</td>
-                            <td>需另外開發</td>
-                            <td>需另外開發</td>
-                            <td class="no-feature">-</td>
-                            <td class="highlight-col has-feature">內建</td>
+                            <td>需外包開發</td>
+                            <td>需自行開發</td>
+                            <td>有</td>
+                            <td class="highlight-col has-feature">內建且可白標</td>
                         </tr>
                         <tr>
-                            <td class="row-label">中文支援</td>
-                            <td>-</td>
-                            <td>-</td>
-                            <td class="no-feature">-</td>
-                            <td class="highlight-col has-feature">完整</td>
+                            <td class="row-label">技術支援</td>
+                            <td>自行維護</td>
+                            <td>社群討論</td>
+                            <td>英文 Ticket</td>
+                            <td class="highlight-col has-feature">中文 + 到府</td>
                         </tr>
                         <tr>
-                            <td class="row-label">在地服務</td>
-                            <td>-</td>
-                            <td>-</td>
-                            <td class="no-feature">&#10008;</td>
-                            <td class="highlight-col has-feature">台灣團隊</td>
+                            <td class="row-label">資料存放</td>
+                            <td>自建機房</td>
+                            <td>AWS / GCP</td>
+                            <td>美國</td>
+                            <td class="highlight-col has-feature">台灣</td>
                         </tr>
                         <tr>
-                            <td class="row-label">月費</td>
-                            <td>維護成本</td>
-                            <td>伺服器費用</td>
-                            <td>$100+ USD</td>
-                            <td class="highlight-col"><strong>NT$ 3K 起</strong></td>
+                            <td class="row-label">初期成本</td>
+                            <td>人力 + 時間</td>
+                            <td>伺服器費</td>
+                            <td>學習成本</td>
+                            <td class="highlight-col"><strong>免費試用</strong></td>
+                        </tr>
+                        <tr class="comparison-best-fit">
+                            <td class="row-label">最適合</td>
+                            <td>大型企業<br>特殊需求</td>
+                            <td>技術實力強<br>的團隊</td>
+                            <td>全球佈署需求</td>
+                            <td class="highlight-col"><strong>台灣中小型<br>機器人團隊</strong></td>
                         </tr>
                     </tbody>
                 </table>
@@ -676,11 +726,11 @@
             <div class="fit-checklist fade-in">
                 <h3>適合你如果：</h3>
                 <div class="fit-items">
-                    <div class="fit-item">你已經有 ROS / ROS2 機器人</div>
-                    <div class="fit-item">你需要展示給客戶或投資人</div>
+                    <div class="fit-item">你已經有 ROS（Robot Operating System）/ ROS2 機器人</div>
+                    <div class="fit-item">你需要讓客戶或投資人「看得懂」的展示介面</div>
                     <div class="fit-item">你想快速產品化，不想花時間做雲端</div>
                     <div class="fit-item">你需要管理多台機器人</div>
-                    <div class="fit-item">你需要中文技術支援</div>
+                    <div class="fit-item">你需要中文技術支援與在地服務</div>
                 </div>
             </div>
         </div>
@@ -696,7 +746,7 @@
             <div class="pricing-grid five-col">
                 <div class="pricing-card stagger-child">
                     <div class="pricing-header">
-                        <h3>Maker</h3>
+                        <h3>開發者試用版</h3>
                         <div class="price">
                             <span class="amount" style="font-size: 42px;">免費</span>
                         </div>
@@ -750,12 +800,18 @@
                         <li>自訂 Dashboard Widget</li>
                         <li>Email 支援（24hr）+ LINE 告警</li>
                     </ul>
+                    <div class="pricing-social-proof">
+                        <span>90% 新創團隊選擇此方案</span>
+                        <span>包含 3 次免費技術諮詢</span>
+                        <span>可隨時升級 Business 方案</span>
+                    </div>
                     <a href="#contact" class="btn btn-outline btn-block">立即預約諮詢</a>
                 </div>
 
                 <div class="pricing-card stagger-child">
                     <div class="pricing-header">
                         <h3>Business</h3>
+                        <p class="pricing-audience">適合系統整合商</p>
                         <div class="price">
                             <span class="currency">NT$</span>
                             <span class="amount">12,000</span>
@@ -776,6 +832,7 @@
                 <div class="pricing-card stagger-child">
                     <div class="pricing-header">
                         <h3>Enterprise</h3>
+                        <p class="pricing-audience">20+ 機器人車隊</p>
                         <div class="price">
                             <span class="amount" style="font-size: 32px;">客製化</span>
                         </div>
@@ -835,6 +892,21 @@
             <span class="section-label fade-in">Testimonials</span>
             <h2 class="section-title fade-in">他們都在使用 RIVO</h2>
             <p class="section-subtitle fade-in">來自台灣機器人社群的真實回饋</p>
+
+            <div class="social-proof-stats fade-in">
+                <div class="proof-stat">
+                    <span class="proof-stat-value">12+</span>
+                    <span class="proof-stat-label">團隊成功募資</span>
+                </div>
+                <div class="proof-stat">
+                    <span class="proof-stat-value">200+</span>
+                    <span class="proof-stat-label">台機器人運行中</span>
+                </div>
+                <div class="proof-stat">
+                    <span class="proof-stat-value">2,400+</span>
+                    <span class="proof-stat-label">小時開發時間節省</span>
+                </div>
+            </div>
 
             <div class="testimonials-grid">
                 <div class="testimonial-card stagger-child">
@@ -949,6 +1021,36 @@
                         <p>可以！企業方案支援私有部署，可安裝在您自己的伺服器或私有雲環境中。我們的團隊會協助完成部署與設定。</p>
                     </div>
                 </div>
+
+                <div class="faq-item">
+                    <button class="faq-question" aria-expanded="false">
+                        <h3>我們團隊只有 1 個軟體工程師，能用嗎？</h3>
+                        <span class="faq-toggle">+</span>
+                    </button>
+                    <div class="faq-answer">
+                        <p>可以！RIVO 就是為了解決人力不足問題而生。我們的客戶平均只有 1-2 名工程師，使用 RIVO 後可以專注在機器人核心演算法，不需要再分心處理雲端架構。</p>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <button class="faq-question" aria-expanded="false">
+                        <h3>如果中途不滿意，可以轉出數據嗎？</h3>
+                        <span class="faq-toggle">+</span>
+                    </button>
+                    <div class="faq-answer">
+                        <p>當然！您的所有歷史數據都可以透過 API 完整匯出為 CSV / JSON 格式，不綁定平台。我們相信好的服務不需要靠鎖定客戶來留住您。</p>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <button class="faq-question" aria-expanded="false">
+                        <h3>你們會倒閉嗎？我們的機器人會不會突然無法使用？</h3>
+                        <span class="faq-toggle">+</span>
+                    </button>
+                    <div class="faq-answer">
+                        <p>我們提供 Docker 映像檔，Enterprise 客戶可選擇私有部署。即使極端情況下服務中止，您仍可在自己的伺服器上繼續運行完整功能。您的機器人不會因為平台問題而停擺。</p>
+                    </div>
+                </div>
             </div>
         </div>
     </section>
@@ -957,14 +1059,20 @@
     <section class="cta-banner">
         <div class="container">
             <div class="fade-in">
-                <span class="cta-badge">Limited Offer</span>
+                <span class="cta-badge">早鳥優惠（限額倒數）</span>
                 <h2 class="section-title">準備好讓你的機器人上雲了嗎？</h2>
-                <div class="cta-offer-list">
-                    前 10 名客戶享有：<br>
-                    <span class="check">孵化服務 7 折優惠（NT$ 35,000）</span><br>
-                    <span class="check">前 3 個月訂閱 5 折</span><br>
-                    <span class="check">免費客製化 Dashboard</span>
+
+                <div class="cta-progress-bar">
+                    <div class="cta-progress-fill" style="width: 60%;"></div>
                 </div>
+                <p class="cta-progress-text">已有 6 個團隊搶先預約，僅剩 4 個名額</p>
+
+                <div class="cta-offer-list">
+                    <span class="check">孵化服務 7 折優惠（原價 NT$ 50,000）</span><br>
+                    <span class="check">前 3 個月訂閱 5 折</span><br>
+                    <span class="check">免費客製化 Dashboard（價值 NT$ 30,000）</span>
+                </div>
+                <p class="cta-deadline">優惠截止：2026 年 3 月 31 日</p>
                 <div class="cta-buttons">
                     <a href="#contact" class="btn btn-primary btn-lg">立即預約免費諮詢</a>
                     <a href="#solution" class="btn-ghost">觀看 Demo</a>
@@ -1039,6 +1147,25 @@
                     <div class="form-group">
                         <label for="company">公司 / 學校實驗室名稱</label>
                         <input type="text" id="company" name="company" placeholder="例如：RIVO Robotics Lab">
+                    </div>
+                    <div class="form-group">
+                        <label for="need">您的主要需求</label>
+                        <select id="need" name="need">
+                            <option value="" disabled selected>請選擇...</option>
+                            <option value="technical-consult">需要技術諮詢</option>
+                            <option value="demo">想預約 Demo</option>
+                            <option value="pricing">想了解定價</option>
+                            <option value="trial">想申請試用</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="robot-count">機器人數量</label>
+                        <select id="robot-count" name="robot-count">
+                            <option value="" disabled selected>請選擇...</option>
+                            <option value="1-3">1-3 台</option>
+                            <option value="4-10">4-10 台</option>
+                            <option value="10+">10 台以上</option>
+                        </select>
                     </div>
                     <div class="form-group">
                         <label for="message">您的需求與機器人平台</label>
@@ -1202,6 +1329,18 @@
         document.querySelectorAll('.problems-grid, .features-grid, .pricing-grid, .testimonials-grid').forEach(grid => {
             staggerObserver.observe(grid);
         });
+
+        // Integration section toggle (collapsible)
+        const integrationToggle = document.getElementById('integration-toggle');
+        const integrationCollapsible = document.getElementById('integration-collapsible');
+        if (integrationToggle && integrationCollapsible) {
+            integrationToggle.addEventListener('click', function () {
+                const isExpanded = this.getAttribute('aria-expanded') === 'true';
+                this.setAttribute('aria-expanded', !isExpanded);
+                integrationCollapsible.classList.toggle('expanded');
+                this.querySelector('.integration-toggle-icon').textContent = isExpanded ? '+' : '-';
+            });
+        }
 
         // Architecture Option Tabs
         document.querySelectorAll('.arch-option-tab').forEach(tab => {
