@@ -762,6 +762,11 @@ section {
     color: var(--green);
 }
 
+.terminal-body .term-comment {
+    color: #6b7280;
+    font-style: italic;
+}
+
 .terminal-body .cursor {
     display: inline-block;
     width: 8px;

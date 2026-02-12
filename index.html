@@ -156,15 +156,22 @@
                             <span class="dot green"></span>
                         </div>
                         <div class="terminal-body">
-                            <div><span class="prompt">$</span> <span class="command">curl -X POST
-                                    https://api.rivo.dev/v1/robots/register</span></div>
-                            <div><span class="prompt">$</span> <span class="command">rivo-bridge --token $AUTH_TOKEN
-                                    --discover</span></div>
+                            <div class="term-comment"># 1. 啟動伺服器</div>
+                            <div><span class="prompt">$</span> <span class="command">./rivo-server</span></div>
+                            <div><span class="output">✓ Database initialized</span></div>
+                            <div><span class="output">✓ Custom schemas loaded (custom_msg/)</span></div>
+                            <div><span class="output">✓ Server running on :8080</span></div>
                             <br>
-                            <div><span class="output">WebSocket Handshake Successful</span></div>
-                            <div><span class="output">LiveKit RTC Session Active</span></div>
-                            <div><span class="output">Loaded 12 custom JSON Schemas</span></div>
-                            <div><span class="output">Control Actions Ready</span></div>
+                            <div class="term-comment"># 2. 建立管理員帳號</div>
+                            <div><span class="prompt">$</span> <span class="command">./rivo-admin seed \</span></div>
+                            <div><span class="command">    --email admin@company.com --password ****</span></div>
+                            <div><span class="output">✓ Master account created</span></div>
+                            <br>
+                            <div class="term-comment"># 3. 註冊機器人</div>
+                            <div><span class="prompt">$</span> <span class="command">curl -X POST localhost:8080/api/v1/robots \</span></div>
+                            <div><span class="command">    -H "Authorization: Bearer $TOKEN" \</span></div>
+                            <div><span class="command">    -d '{"robot_id":"bot-001","robot_name":"Warehouse #1"}'</span></div>
+                            <div><span class="output">→ {"robot_id":"bot-001","status":"registered"}</span></div>
                             <span class="cursor"></span>
                         </div>
                     </div>
@@ -212,10 +219,10 @@
 
             <!-- Feature Pills -->
             <div class="feature-pills fade-in">
-                <span class="feature-pill">ROS1/ROS2 Topic 自動探索</span>
-                <span class="feature-pill">2D/3D 地圖與狀態可視化</span>
-                <span class="feature-pill">可配置控制元件與工作流</span>
-                <span class="feature-pill">快速部署與擴展</span>
+                <span class="feature-pill">Docker 一鍵部署</span>
+                <span class="feature-pill">自訂 Schema 自動產生 API</span>
+                <span class="feature-pill">WebRTC 即時影像</span>
+                <span class="feature-pill">WebSocket 雙向指令</span>
             </div>
         </div>
     </section>

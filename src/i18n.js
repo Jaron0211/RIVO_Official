@@ -49,10 +49,10 @@
                 title: '2 分鐘完成平台接入',
                 subtitle: '以標準 API 與節點代理，快速連線並開始營運監控',
                 pills: [
-                    'ROS1/ROS2 Topic 自動探索',
-                    '2D/3D 地圖與狀態可視化',
-                    '可配置控制元件與工作流',
-                    '快速部署與擴展'
+                    'Docker 一鍵部署',
+                    '自訂 Schema 自動產生 API',
+                    'WebRTC 即時影像',
+                    'WebSocket 雙向指令'
                 ],
                 widgets: ['電量', '速度', '狀態', '串流'],
                 status: '上線',
@@ -302,10 +302,10 @@
                 title: 'Go Live in 2 Minutes',
                 subtitle: 'Connect quickly through standard APIs and node agents, then start operating at scale.',
                 pills: [
-                    'ROS1/ROS2 Topic Auto Discovery',
-                    '2D/3D Map and Status Visualization',
-                    'Configurable Control Components',
-                    'Fast Deployment and Scaling'
+                    'One-Click Docker Deploy',
+                    'Custom Schema Auto-Generates API',
+                    'WebRTC Live Video',
+                    'WebSocket Bidirectional Commands'
                 ],
                 widgets: ['Battery', 'Speed', 'Status', 'Stream'],
                 status: 'Online',
