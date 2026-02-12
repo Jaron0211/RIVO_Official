@@ -98,28 +98,27 @@
             const amp3 = Math.min(30, h * 0.07);
             const amp4 = Math.min(20, h * 0.05);
 
-            // Top-filling wave: covers upper hero with a subtle lighter layer.
-            this.drawWave(
-                phase * 0.7,
-                ['rgba(60, 65, 70, 0.55)', 'rgba(40, 42, 45, 0.30)'],
-                h * 0.28, amp1, 1.2, 'top'
-            );
-
-            // Bottom-filling waves: cover middle and lower sections.
+            // All bottom-filling waves spread across full hero height.
+            // Top stays clean dark (#1a1a1a) so white text is readable.
             this.drawWave(
                 phase,
-                ['rgba(55, 58, 62, 0.45)', 'rgba(30, 32, 35, 0.50)'],
-                h * 0.38, amp2, 1.0, 'bottom'
+                ['rgba(75, 80, 85, 0.40)', 'rgba(40, 42, 45, 0.45)'],
+                h * 0.18, amp1, 1.0, 'bottom'
             );
             this.drawWave(
-                phase + Math.PI / 2,
-                ['rgba(65, 68, 72, 0.40)', 'rgba(35, 37, 40, 0.45)'],
-                h * 0.60, amp3, 1.5, 'bottom'
+                phase + Math.PI / 3,
+                ['rgba(65, 70, 75, 0.35)', 'rgba(35, 37, 40, 0.40)'],
+                h * 0.42, amp2, 1.3, 'bottom'
             );
             this.drawWave(
                 phase + Math.PI,
-                ['rgba(50, 53, 58, 0.35)', 'rgba(25, 27, 30, 0.40)'],
-                h * 0.82, amp4, 2.0, 'bottom'
+                ['rgba(70, 75, 80, 0.30)', 'rgba(38, 40, 43, 0.38)'],
+                h * 0.66, amp3, 1.6, 'bottom'
+            );
+            this.drawWave(
+                phase + Math.PI * 1.5,
+                ['rgba(55, 58, 62, 0.28)', 'rgba(30, 32, 35, 0.35)'],
+                h * 0.90, amp4, 2.0, 'bottom'
             );
 
             this._rafId = requestAnimationFrame(this.animate);
