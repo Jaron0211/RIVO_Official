@@ -98,27 +98,27 @@
             const amp3 = Math.min(30, h * 0.07);
             const amp4 = Math.min(20, h * 0.05);
 
-            // All bottom-filling waves spread across full hero height.
-            // Top stays clean dark (#1a1a1a) so white text is readable.
+            // All bottom-filling waves. Top 30% stays clean dark (#1a1a1a)
+            // so nav + label text remains readable on the dark background.
             this.drawWave(
                 phase,
                 ['rgba(75, 80, 85, 0.40)', 'rgba(40, 42, 45, 0.45)'],
-                h * 0.18, amp1, 1.0, 'bottom'
+                h * 0.30, amp1, 1.0, 'bottom'
             );
             this.drawWave(
                 phase + Math.PI / 3,
                 ['rgba(65, 70, 75, 0.35)', 'rgba(35, 37, 40, 0.40)'],
-                h * 0.42, amp2, 1.3, 'bottom'
+                h * 0.50, amp2, 1.3, 'bottom'
             );
             this.drawWave(
                 phase + Math.PI,
                 ['rgba(70, 75, 80, 0.30)', 'rgba(38, 40, 43, 0.38)'],
-                h * 0.66, amp3, 1.6, 'bottom'
+                h * 0.72, amp3, 1.6, 'bottom'
             );
             this.drawWave(
                 phase + Math.PI * 1.5,
                 ['rgba(55, 58, 62, 0.28)', 'rgba(30, 32, 35, 0.35)'],
-                h * 0.90, amp4, 2.0, 'bottom'
+                h * 0.93, amp4, 2.0, 'bottom'
             );
 
             this._rafId = requestAnimationFrame(this.animate);

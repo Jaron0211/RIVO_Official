@@ -398,6 +398,47 @@ h4 {
     transition: var(--transition);
 }
 
+/* --- Navbar on dark hero (before scroll) --- */
+.navbar:not(.scrolled) .logo-img {
+    filter: brightness(0) invert(1);
+}
+
+.navbar:not(.scrolled) .mobile-menu-btn span {
+    background: #ffffff;
+}
+
+.navbar:not(.scrolled) .nav-links a {
+    color: rgba(255, 255, 255, 0.85);
+}
+
+.navbar:not(.scrolled) .nav-links a:hover {
+    color: #ffffff;
+}
+
+.navbar:not(.scrolled) .btn-outline {
+    border-color: rgba(255, 255, 255, 0.3);
+    color: #ffffff;
+    background: rgba(255, 255, 255, 0.1);
+}
+
+.navbar:not(.scrolled) .lang-switch {
+    border-color: rgba(255, 255, 255, 0.25);
+    background: rgba(255, 255, 255, 0.1);
+}
+
+.navbar:not(.scrolled) .lang-btn {
+    color: rgba(255, 255, 255, 0.85);
+}
+
+.navbar:not(.scrolled) .lang-btn:hover {
+    background: rgba(255, 255, 255, 0.15);
+}
+
+.navbar:not(.scrolled) .lang-btn.active {
+    background: #ffffff;
+    color: #000000;
+}
+
 /* ===== Hero Section ===== */
 .hero {
     position: relative;
@@ -2163,6 +2204,12 @@ section {
         opacity: 0;
         visibility: hidden;
         transition: var(--transition);
+    }
+
+    /* Dark menu panel matching hero when not scrolled */
+    .navbar:not(.scrolled) .nav-links {
+        background: rgba(26, 26, 26, 0.97);
+        border-bottom-color: rgba(255, 255, 255, 0.1);
     }
 
     .lang-switch-item {
