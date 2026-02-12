@@ -12,7 +12,7 @@
                 ogDescription: 'RIVO 是面向企業的機器人與 IoT 營運平台，整合即時監控、遠端控制、資料治理與車隊調度，協助團隊快速規模化部署。'
             },
             nav: {
-                items: ['痛點', '解決方案', 'RIVO Node', '功能', '比較', '定價', 'FAQ'],
+                items: ['挑戰', '解決方案', 'RIVO Node', '功能', '比較', '定價', 'FAQ'],
                 docs: '技術文件 / Resources',
                 cta: '預約諮詢',
                 mobileMenu: '選單',
@@ -21,37 +21,37 @@
             hero: {
                 label: 'Enterprise Robotics Operations Cloud',
                 title: '機器人車隊的<br>營運控制中樞',
-                description: '從單一平台監控、指揮並治理整支機器人車隊——從 PoC 到量產，企業級安全與治理。',
+                description: '從單一平台監控、指揮並治理整支機器人車隊——從 PoC 到量產，具備企業級安全與資料治理能力。',
                 valueProps: [
-                    '2 天啟動 PoC — 標準 API 接入任何機器人',
-                    '即時影像、遙測與遠端控制，跨據點全覆蓋',
-                    'TLS 加密、分級權限、操作稽核、支援私有部署'
+                    '2 天啟動 PoC —— 標準化 API 快速接入任何機器人',
+                    '即時影像、遙測與遠端控制，跨據點全面覆蓋',
+                    'TLS 加密、分級授權、操作稽核，支援私有部署'
                 ],
                 primary: '預約架構評估',
                 secondary: '探索平台功能',
                 trustBadges: ['Docker-Ready', 'SLA 99.9%', 'On-Prem / Cloud', 'ROS 1 & 2']
             },
             problems: {
-                label: '痛點',
-                title: '機器人專案卡在商用化階段？',
-                subtitle: '技術驗證完成，真正挑戰是可營運、可擴展、可維運',
+                label: '企業挑戰',
+                title: '從原型到商用，您是否面臨這些挑戰？',
+                subtitle: '技術驗證完成，真正的考驗在於可營運、可擴展、可治理',
                 titles: [
-                    'Demo 可行，但缺乏面向客戶的營運介面',
-                    '設備散佈多地，遠端維運成本攀升',
-                    '研發資源耗在後台基礎建設',
-                    '節點規模成長，權限與管理複雜度劇增'
+                    '驗證成功，卻缺少可交付客戶的營運介面',
+                    '設備分佈多據點，遠端維運效率與成本失衡',
+                    '工程資源持續投入非核心的平台基礎建設',
+                    '裝置規模增長，權限管理與治理日趨複雜'
                 ],
                 needs: [
-                    '需要客戶與管理層可直接使用的可視化看板',
-                    '需要全時段雲端監控與遠端操控能力',
-                    '需要現成平台，聚焦核心產品研發',
-                    '需要多租戶、分級權限的車隊管理系統'
+                    '需要客戶與決策層可直接使用的可視化儀表板',
+                    '需要全天候雲端監控與遠端操控能力',
+                    '需要即用型平台，讓工程團隊聚焦核心研發',
+                    '需要支援多租戶與分級授權的車隊管理架構'
                 ]
             },
             solution: {
-                label: '運作方式',
-                title: '2 分鐘完成平台接入',
-                subtitle: '標準 API + 節點代理，快速接入即開始營運',
+                label: '快速導入',
+                title: '標準化流程，快速完成平台接入',
+                subtitle: '標準 API 搭配節點代理，從連線到上線一氣呵成',
                 pills: [
                     'Docker 一鍵部署',
                     '自訂 Schema 自動產生 API',
@@ -65,7 +65,7 @@
             rivoNode: {
                 label: 'RIVO Node',
                 title: '企業級邊緣資料節點',
-                subtitle: '標準化接入現場設備，穩定上傳結構化數據',
+                subtitle: '標準化接入現場設備，可靠上傳結構化數據',
                 keyTitles: ['多協議接入', '低延遲回傳', '遠端配置', '開機自啟', '離線緩存', '工業穩定性'],
                 keyDescriptions: [
                     '支援 UART / RS-485 / I2C 等常見工業介面',
@@ -79,7 +79,7 @@
             },
             integration: {
                 title: '彈性整合架構',
-                subtitle: '既有設備、嵌入式系統與雲端平台的標準化串接',
+                subtitle: '既有設備、嵌入式系統與雲端平台的標準化連接',
                 columnTitles: ['資料來源', '邊緣處理層', '管理平台'],
                 placeholder: '外部設備輸入',
                 sourceTitles: ['既有設備系統', '感測與控制模組'],
@@ -122,9 +122,9 @@
                 ctaButtons: ['閱讀整合文件', '預約技術諮詢']
             },
             features: {
-                label: '平台',
+                label: '平台能力',
                 title: '為企業營運打造的核心能力',
-                subtitle: '連線 → 監控 → 治理，完整支援商用落地',
+                subtitle: '從連線、監控到治理，完整支援商用部署',
                 titles: [
                     '多路即時影像串流',
                     '安全遠端指令控制',
@@ -133,7 +133,7 @@
                     '企業級資安與稽核',
                     '智慧告警與即時日誌',
                     '地圖定位與軌跡追蹤',
-                    '在地導入與技術顧問',
+                    '在地技術支援與導入服務',
                     '雲端或私有，彈性部署'
                 ],
                 descriptions: [
@@ -141,17 +141,17 @@
                     'Web 與行動端即時下達指令，角色權限搭配操作審計',
                     '定義裝置資料格式，平台自動產生 API，免改後端',
                     '依角色、群組與資源範圍精細控管，安全協作',
-                    '傳輸加密、落地加密、完整操作軌跡，滿足合規要求',
-                    '分級自動通知、確認解決流程，即時日誌快速排障',
+                    '傳輸加密、靜態加密、完整操作軌跡，滿足合規要求',
+                    '分級自動通知、確認與解決流程，即時日誌加速故障排除',
                     '導航地圖疊加即時軌跡，掌握車隊位置與路徑',
-                    '台灣團隊，繁中文件、導入規劃與客製整合，PoC 到量產陪跑',
+                    '台灣團隊提供中文文件、導入規劃與客製整合，從 PoC 到量產全程支援',
                     'SaaS 或私有部署，依營運規模靈活擴展'
                 ]
             },
             comparison: {
-                label: '比較',
+                label: '方案比較',
                 title: '為何企業選擇 RIVO',
-                subtitle: '導入效率、擴展性與維運成本比較',
+                subtitle: '導入效率、擴展彈性與營運成本的全面比較',
                 headers: ['評估項目', '自建平台', '開源組合', '國際 SaaS', 'RIVO'],
                 rows: [
                     ['導入時間', '3-6 個月', '4-10 週', '1-2 週設定', '<strong>2 天啟動 PoC</strong>'],
@@ -162,19 +162,19 @@
                     ['在地導入服務', '-', '-', '通常遠端', '台灣團隊'],
                     ['月度營運成本', '維護 + 雲資源', '伺服器 + 維運', '$100+ USD / robot', '<strong>NT$ 3K 起</strong>']
                 ],
-                fitTitle: '適合你的團隊，如果你：',
+                fitTitle: '適合您的團隊，如果您：',
                 fitItems: [
-                    '機器人原型已完成，準備商用化',
-                    '需向客戶或管理層展示營運狀態',
-                    '希望減少平台開發時間',
-                    '跨據點管理多台機器人',
-                    '重視資安治理與在地支援'
+                    '機器人原型已完成，正規劃商用化部署',
+                    '需向客戶或決策層即時展示營運狀態',
+                    '希望縮短平台開發週期，加速產品上市',
+                    '跨據點管理多台機器人，需統一調度',
+                    '重視資訊安全治理與在地技術支援'
                 ]
             },
             pricing: {
                 label: '定價',
-                title: '清晰分級，支援成長',
-                subtitle: '依場景與營運規模選擇，所有方案皆可升級',
+                title: '透明定價，隨需擴展',
+                subtitle: '依場景與營運規模彈性選擇，所有方案皆可無縫升級',
                 makerAmount: '免費',
                 enterpriseAmount: '客製化',
                 badge: '推薦方案',
@@ -193,9 +193,9 @@
                 addonNames: ['需求訪談與資料模型設計', '客製化營運儀表板', '行動端白標與品牌化', 'ROS Bridge / Legacy 系統整合']
             },
             testimonials: {
-                label: '客戶回饋',
-                title: '客戶實際導入成果',
-                subtitle: '研究、製造與新創團隊的導入回饋',
+                label: '客戶實績',
+                title: '客戶導入實績',
+                subtitle: '來自研究機構、製造業與科技新創的回饋',
                 badges: ['研究單位', '機器人新創', '智慧製造'],
                 quotes: [
                     '「原本維護多套監控工具。導入 RIVO 後，影像、告警與操作紀錄統一平台，協作效率明顯提升。」',
@@ -209,7 +209,7 @@
             faq: {
                 label: '常見問題',
                 title: '常見問題',
-                subtitle: '導入前常見關鍵問題',
+                subtitle: '導入前的關鍵評估問題',
                 questions: [
                     '非標準 ROS 架構也能整合嗎？',
                     '資料存放位置與安全機制為何？',
@@ -228,15 +228,15 @@
                 ]
             },
             cta: {
-                badge: '企業級就緒',
-                title: '讓機器人專案進入規模化營運',
-                listHtml: '導入支援包含：<br><span class="check">導入評估與架構建議</span><br><span class="check">PoC 目標與 KPI 定義</span><br><span class="check">一對一技術諮詢</span>',
+                badge: 'Enterprise Ready',
+                title: '加速您的機器人專案邁向規模化營運',
+                listHtml: '導入支援包含：<br><span class="check">專屬導入評估與架構建議</span><br><span class="check">PoC 目標與 KPI 定義</span><br><span class="check">一對一技術顧問諮詢</span>',
                 buttons: ['預約 30 分鐘諮詢', '查看平台示範']
             },
             contact: {
                 label: '聯絡',
                 title: '聯絡我們',
-                subtitle: '提交需求，技術顧問 1 個工作天內回覆',
+                subtitle: '提交需求，專屬技術顧問將於 1 個工作天內回覆',
                 itemTitles: ['Email', '商務聯繫', '地址', '服務時間'],
                 itemValues: ['@rivo.dev', '台南市東區大學路1號', '週一至週五 09:00 - 18:00 (GMT+8)'],
                 formLabels: ['姓名 / 職稱', '商務聯絡 Email', '公司 / 單位名稱', '需求描述'],
@@ -278,37 +278,37 @@
             hero: {
                 label: 'Enterprise Robotics Operations Cloud',
                 title: 'The Control Plane<br>for Robotics at Scale',
-                description: 'Monitor, command, and govern your entire robot fleet from a single platform — from PoC to production, with enterprise-grade security.',
+                description: 'Monitor, command, and govern your entire robot fleet from a single platform — from PoC to production, with enterprise-grade security and data governance.',
                 valueProps: [
-                    '2-day PoC onboarding — connect any robot via standard API',
-                    'Real-time video, telemetry & remote control across all sites',
-                    'TLS encryption, RBAC, audit logs & private deployment support'
+                    '2-day PoC onboarding — connect any robot via standardized APIs',
+                    'Real-time video, telemetry, and remote control across all sites',
+                    'TLS encryption, role-based access, audit trails, and private deployment'
                 ],
                 primary: 'Schedule Architecture Review',
                 secondary: 'Explore the Platform',
                 trustBadges: ['Docker-Ready', 'SLA 99.9%', 'On-Prem / Cloud', 'ROS 1 & 2']
             },
             problems: {
-                label: 'Pain Points',
-                title: 'Robotics Stuck Before Commercialization?',
-                subtitle: 'After technical validation, the real challenge is operations at scale.',
+                label: 'Challenges',
+                title: 'From Prototype to Production — Common Enterprise Barriers',
+                subtitle: 'After technical validation, the real challenge is operating, scaling, and governing at enterprise level.',
                 titles: [
-                    'Demo works, but no stakeholder-ready interface',
-                    'Devices spread across sites, remote ops costs rising',
-                    'Engineering time consumed by backend infrastructure',
-                    'Node count growing, access control getting complex'
+                    'Validated prototype, but no production-ready operations interface',
+                    'Devices distributed across sites, remote operations costs escalating',
+                    'Engineering resources consumed by non-core platform infrastructure',
+                    'Device fleet expanding, governance and access control growing complex'
                 ],
                 needs: [
-                    'Need dashboards customers and execs can use instantly',
-                    'Need 24/7 cloud monitoring and remote control',
-                    'Need a ready platform to focus on core product',
-                    'Need multi-tenant fleet management with RBAC'
+                    'Require stakeholder-ready dashboards for customers and decision-makers',
+                    'Require 24/7 cloud monitoring with remote operations capability',
+                    'Require a turnkey platform so engineering can focus on core R&D',
+                    'Require multi-tenant fleet management with role-based access control'
                 ]
             },
             solution: {
-                label: 'How It Works',
-                title: 'Go Live in 2 Minutes',
-                subtitle: 'Standard APIs + node agents — connect and start operating at scale.',
+                label: 'Quick Start',
+                title: 'Streamlined Onboarding, Rapid Integration',
+                subtitle: 'Standard APIs and node agents — connect, configure, and start operating.',
                 pills: [
                     'One-Click Docker Deploy',
                     'Custom Schema Auto-Generates API',
@@ -322,7 +322,7 @@
             rivoNode: {
                 label: 'RIVO Node',
                 title: 'Enterprise Edge Data Node',
-                subtitle: 'Standardized field device connectivity with reliable structured data upload.',
+                subtitle: 'Standardized field device connectivity with reliable, structured data uplink.',
                 keyTitles: ['Multi-Protocol', 'Low-Latency Uplink', 'Remote Config', 'Auto Startup', 'Offline Buffer', 'Industrial Grade'],
                 keyDescriptions: [
                     'Supports UART / RS-485 / I2C and common industrial interfaces.',
@@ -336,7 +336,7 @@
             },
             integration: {
                 title: 'Flexible Integration Architecture',
-                subtitle: 'Legacy equipment, embedded systems, and cloud platform — standardized connectivity.',
+                subtitle: 'Standardized connectivity between legacy equipment, embedded systems, and cloud platforms.',
                 columnTitles: ['Data Sources', 'Edge Processing', 'Management Platform'],
                 placeholder: 'External Device Input',
                 sourceTitles: ['Legacy Equipment Systems', 'Sensor and Control Modules'],
@@ -381,7 +381,7 @@
             features: {
                 label: 'Platform',
                 title: 'Core Capabilities for Enterprise Operations',
-                subtitle: 'Connectivity → monitoring → governance for commercial robotics.',
+                subtitle: 'From connectivity to monitoring to governance — full support for commercial deployment.',
                 titles: [
                     'Multi-Stream Real-Time Video',
                     'Secure Remote Command Control',
@@ -390,7 +390,7 @@
                     'Enterprise Security and Audit',
                     'Smart Alerts and Real-Time Logs',
                     'Map Positioning and Trajectory Tracking',
-                    'Local Onboarding and Technical Advisory',
+                    'Local Technical Support and Onboarding',
                     'Cloud or On-Premise, Flexible Deployment'
                 ],
                 descriptions: [
@@ -398,17 +398,17 @@
                     'Issue commands from web or mobile with role-based access and audit trails.',
                     'Define device data formats; platform auto-generates matching APIs — zero backend changes.',
                     'Fine-grained control by role, group, and resource scope for secure collaboration.',
-                    'E2E encryption, at-rest encryption, and full audit trails for compliance.',
-                    'Severity-based notifications with ack/resolve workflows; real-time log streaming.',
-                    'Upload nav maps with live trajectory overlay — fleet positions at a glance.',
-                    'Taiwan-based team, local docs, onboarding plans, and custom integrations — PoC to production.',
+                    'End-to-end encryption, at-rest encryption, and full audit trails for compliance.',
+                    'Severity-based notifications with acknowledge and resolve workflows; real-time log streaming.',
+                    'Upload navigation maps with live trajectory overlay — fleet positions at a glance.',
+                    'Taiwan-based team with local documentation, onboarding plans, and custom integrations — full support from PoC to production.',
                     'SaaS or on-premise — scale flexibly as operations grow.'
                 ]
             },
             comparison: {
                 label: 'Comparison',
                 title: 'Why Enterprises Choose RIVO',
-                subtitle: 'Delivery speed, scalability, and operating cost compared.',
+                subtitle: 'A comprehensive comparison of delivery speed, scalability, and operating cost.',
                 headers: ['Criteria', 'In-House Platform', 'Open-Source Stack', 'Global SaaS', 'RIVO'],
                 rows: [
                     ['Time to Launch', '3-6 months', '4-10 weeks', '1-2 weeks setup', '<strong>PoC in 2 days</strong>'],
@@ -421,17 +421,17 @@
                 ],
                 fitTitle: 'Best fit if your team:',
                 fitItems: [
-                    'Robot prototype ready, planning commercialization',
-                    'Need operational visibility for customers and management',
-                    'Want to reduce platform development time',
-                    'Managing multi-robot deployments across locations',
-                    'Require security governance and local support'
+                    'Robot prototype validated, planning commercial deployment',
+                    'Requires real-time operational visibility for customers and stakeholders',
+                    'Looking to shorten platform development cycles and accelerate time-to-market',
+                    'Managing multi-robot deployments across distributed locations',
+                    'Prioritizes security governance and local technical support'
                 ]
             },
             pricing: {
                 label: 'Pricing',
-                title: 'Clear Plans Built for Growth',
-                subtitle: 'Choose by scenario and scale, then upgrade anytime as operations expand.',
+                title: 'Transparent Pricing, Scalable Plans',
+                subtitle: 'Choose by scenario and operational scale — all plans upgrade seamlessly as you grow.',
                 makerAmount: 'Free',
                 enterpriseAmount: 'Custom',
                 badge: 'Recommended',
@@ -451,8 +451,8 @@
             },
             testimonials: {
                 label: 'Testimonials',
-                title: 'Proven Results Across Teams',
-                subtitle: 'Feedback from research, manufacturing, and startup teams.',
+                title: 'Customer Success Stories',
+                subtitle: 'Feedback from research institutions, manufacturers, and technology startups.',
                 badges: ['Research Lab', 'Robotics Startup', 'Smart Manufacturing'],
                 quotes: [
                     '"Previously maintained multiple monitoring tools. With RIVO, video, alerts, and logs unified on one platform — collaboration improved immediately."',
@@ -466,7 +466,7 @@
             faq: {
                 label: 'FAQ',
                 title: 'Frequently Asked Questions',
-                subtitle: 'Key questions before implementation.',
+                subtitle: 'Key evaluation questions before implementation.',
                 questions: [
                     'Can we integrate non-standard ROS architectures?',
                     'Where is data stored and how is it secured?',
@@ -486,14 +486,14 @@
             },
             cta: {
                 badge: 'Enterprise Ready',
-                title: 'Scale Your Robotics Program with Confidence',
-                listHtml: 'Onboarding support includes:<br><span class="check">Architecture assessment and deployment planning</span><br><span class="check">PoC goals and KPI definition</span><br><span class="check">1-on-1 technical advisory</span>',
+                title: 'Accelerate Your Robotics Program to Production Scale',
+                listHtml: 'Onboarding support includes:<br><span class="check">Dedicated architecture assessment and deployment planning</span><br><span class="check">PoC goals and KPI definition</span><br><span class="check">1-on-1 technical advisory</span>',
                 buttons: ['Book a 30-Min Consultation', 'View Platform Demo']
             },
             contact: {
                 label: 'Contact',
                 title: 'Contact Us',
-                subtitle: 'Submit requirements — our team responds within 1 business day.',
+                subtitle: 'Submit your requirements — a dedicated technical advisor will respond within 1 business day.',
                 itemTitles: ['Email', 'Business Chat', 'Address', 'Service Hours'],
                 itemValues: ['@rivo.dev', 'No.1 University Rd., East District, Tainan, Taiwan', 'Mon - Fri, 09:00 - 18:00 (GMT+8)'],
                 formLabels: ['Name / Role', 'Business Email', 'Company / Organization', 'Project Requirements'],
