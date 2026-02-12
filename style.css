@@ -2445,6 +2445,10 @@ section {
         margin-left: -20px;
         margin-right: -20px;
     }
+
+    .rivo-node-card {
+        padding: 20px !important;
+    }
 }
 
 /* ===== Data Flow Toggle ===== */
@@ -3405,11 +3409,36 @@ section {
     }
 
     .integration-section {
-        padding: 48px 24px;
+        padding: 48px 16px;
+    }
+
+    .arch-node-sources-combined {
+        max-width: 100%;
+        min-height: auto;
+    }
+
+    .arch-cloud .arch-node-cloud {
+        max-width: 100%;
+    }
+
+    .arch-cloud .arch-deploy-options {
+        max-width: 100%;
+    }
+
+    .arch-option-tabs {
+        max-width: 100%;
+    }
+
+    .scenario-flow {
+        flex-wrap: wrap;
     }
 }
 
 @media (max-width: 768px) {
+    .integration-section {
+        padding: 32px 12px;
+    }
+
     .integration-cta {
         flex-direction: column;
         align-items: center;
@@ -3418,6 +3447,10 @@ section {
     .integration-cta .btn {
         width: 100%;
         max-width: 280px;
+    }
+
+    .arch-column {
+        padding: 0 8px;
     }
 
     .arch-processing .arch-node-primary,
@@ -3431,6 +3464,28 @@ section {
 
     .arch-option-content {
         max-width: 100%;
+    }
+
+    .arch-node-sources-combined {
+        max-width: 100%;
+        min-height: auto;
+    }
+
+    .arch-cloud .arch-node-cloud {
+        max-width: 100%;
+    }
+
+    .arch-cloud .arch-deploy-options {
+        max-width: 100%;
+    }
+
+    .scenario-flow {
+        gap: 4px;
+        font-size: 9px;
+    }
+
+    .scenario-flow span {
+        padding: 3px 6px;
     }
 }
 
