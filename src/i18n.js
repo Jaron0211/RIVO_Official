@@ -274,7 +274,7 @@
             hero: {
                 label: 'Enterprise Robotics Operations Cloud',
                 intro: 'Built for secure and scalable robotics operations',
-                title: 'Deploy Faster.<br>Scale with Control.<br>Operate Securely.',
+                title: 'Rapidly Deploy.<br>Confidently Scale.<br>Securely Operate.',
                 description: 'From PoC to production — RIVO unifies video, control, fleet ops, and security governance so your team can focus on what matters.',
                 primary: 'Book Architecture Consultation',
                 secondary: 'View Platform Demo',
