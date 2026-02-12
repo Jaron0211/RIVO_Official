@@ -1,3 +1,5 @@
+@import url("https://font.emtech.cc/css/TaipeiSansTC");
+
 /* ===== Design Tokens ===== */
 :root {
     --black: #000000;
@@ -15,7 +17,7 @@
     --gray-900: #171717;
     --green: #22C55E;
     --red: #EF4444;
-    --font-heading: 'Space Grotesk', 'Noto Sans TC', sans-serif;
+    --font-heading: 'Space Grotesk', 'TaipeiSansTC', 'Noto Sans TC', sans-serif;
     --font-body: 'Public Sans', 'Noto Sans TC', -apple-system, sans-serif;
     --font-mono: 'Space Mono', 'SF Mono', 'Fira Code', monospace;
     --font-heading-active: var(--font-heading);
@@ -51,7 +53,7 @@
 /* ===== Language Typographic Controls ===== */
 html.lang-zh,
 body.lang-zh {
-    --font-heading-active: 'Noto Sans TC', 'Space Grotesk', sans-serif;
+    --font-heading-active: 'TaipeiSansTC', 'Space Grotesk', sans-serif;
     --font-body-active: 'Noto Sans TC', 'Public Sans', -apple-system, sans-serif;
     --letter-spacing-body: 0.012em;
     --heading-letter-spacing: 0.015em;
@@ -83,7 +85,7 @@ body.lang-zh {
 
 html.lang-en,
 body.lang-en {
-    --font-heading-active: 'Space Grotesk', 'Noto Sans TC', sans-serif;
+    --font-heading-active: 'Space Grotesk', 'TaipeiSansTC', 'Noto Sans TC', sans-serif;
     --font-body-active: 'Public Sans', 'Noto Sans TC', -apple-system, sans-serif;
     --letter-spacing-body: 0;
     --heading-letter-spacing: -0.02em;

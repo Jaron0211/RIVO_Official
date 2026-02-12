@@ -1,3 +1,5 @@
+@import url("https://font.emtech.cc/css/TaipeiSansTC");
+
 :root {
     --primary: #000000;
     --primary-dark: #171717;
@@ -23,6 +25,10 @@ body {
     line-height: 1.6;
     color: var(--text-main);
     background: var(--bg-main);
+}
+
+h1, h2, h3, h4, h5, h6 {
+    font-family: 'TaipeiSansTC', 'Public Sans', sans-serif;
 }
 
 /* Layout - Three Column Structure */
