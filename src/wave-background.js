@@ -47,25 +47,6 @@
             this.height = rect.height;
         }
 
-        getWaveColors() {
-            const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
-            const isDark = document.documentElement.classList.contains('dark') || prefersDark;
-
-            if (isDark) {
-                return {
-                    colors1: ['#202020', '#000000'],
-                    colors2: ['#303030', '#101010'],
-                    colors3: ['#404040', '#202020'],
-                };
-            }
-
-            return {
-                colors1: ['rgba(156, 163, 175, 0.55)', 'rgba(255, 255, 255, 0.96)'],
-                colors2: ['rgba(209, 213, 219, 0.50)', 'rgba(255, 255, 255, 0.92)'],
-                colors3: ['rgba(229, 231, 235, 0.46)', 'rgba(255, 255, 255, 0.88)'],
-            };
-        }
-
         drawWave(phase, colors, baseHeight, amplitude, frequency, fillMode = 'bottom') {
             const { ctx, width, height } = this;
             const gradient = ctx.createLinearGradient(0, 0, 0, height);
@@ -82,10 +63,9 @@
             }
 
             const step = Math.max(3, Math.round(width / 400));
-            const offset = height * 0.18;
             for (let x = 0; x <= width; x += step) {
                 const y = baseHeight + amplitude * Math.sin((x / width) * frequency * Math.PI * 2 + phase);
-                ctx.lineTo(x, y - offset);
+                ctx.lineTo(x, y);
             }
 
             if (fillMode === 'top') {
@@ -109,23 +89,38 @@
             }
 
             const phase = ((timestamp % this.options.duration) / this.options.duration) * Math.PI * 2;
-            const { colors1, colors2, colors3 } = this.getWaveColors();
+            const h = this.height;
 
             this.ctx.clearRect(0, 0, this.width, this.height);
 
-            const amp0 = Math.min(20, this.height * 0.05);
-            const amp1 = Math.min(30, this.height * 0.08);
-            const amp2 = Math.min(50, this.height * 0.12);
-            const amp3 = Math.min(40, this.height * 0.10);
+            const amp1 = Math.min(25, h * 0.06);
+            const amp2 = Math.min(35, h * 0.08);
+            const amp3 = Math.min(30, h * 0.07);
+            const amp4 = Math.min(20, h * 0.05);
 
-            // Background wave: subtle full-coverage layer behind hero content.
-            const bgColors = ['rgba(180, 190, 200, 0.18)', 'rgba(220, 225, 230, 0.22)'];
-            this.drawWave(phase * 0.6, bgColors, this.height * 0.12, amp0, 0.7, 'bottom');
+            // Top-filling wave: covers upper hero with a subtle lighter layer.
+            this.drawWave(
+                phase * 0.7,
+                ['rgba(60, 65, 70, 0.55)', 'rgba(40, 42, 45, 0.30)'],
+                h * 0.28, amp1, 1.2, 'top'
+            );
 
-            // Upper wave band: makes label/intro area react to wave motion.
-            this.drawWave(phase, colors1, this.height * 0.40, amp1, 1.0, 'bottom');
-            this.drawWave(phase + Math.PI / 2, colors2, this.height * 0.55, amp2, 1.5, 'bottom');
-            this.drawWave(phase + Math.PI, colors3, this.height * 0.8, amp3, 2.0, 'bottom');
+            // Bottom-filling waves: cover middle and lower sections.
+            this.drawWave(
+                phase,
+                ['rgba(55, 58, 62, 0.45)', 'rgba(30, 32, 35, 0.50)'],
+                h * 0.38, amp2, 1.0, 'bottom'
+            );
+            this.drawWave(
+                phase + Math.PI / 2,
+                ['rgba(65, 68, 72, 0.40)', 'rgba(35, 37, 40, 0.45)'],
+                h * 0.60, amp3, 1.5, 'bottom'
+            );
+            this.drawWave(
+                phase + Math.PI,
+                ['rgba(50, 53, 58, 0.35)', 'rgba(25, 27, 30, 0.40)'],
+                h * 0.82, amp4, 2.0, 'bottom'
+            );
 
             this._rafId = requestAnimationFrame(this.animate);
         }

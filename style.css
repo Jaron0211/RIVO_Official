@@ -407,7 +407,7 @@ h4 {
     align-items: center;
     overflow: hidden;
     isolation: isolate;
-    background: var(--gray);
+    background: #1a1a1a;
 }
 
 .hero::before {
@@ -425,7 +425,7 @@ h4 {
     height: 100%;
     pointer-events: none;
     z-index: 0;
-    background: #9b9b9b4b;
+    background: transparent;
 }
 
 .hero .container {
