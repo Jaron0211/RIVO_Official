@@ -19,13 +19,17 @@
                 langSwitch: '語言切換'
             },
             hero: {
-                label: '企業級機器人營運雲平台',
-                intro: 'Built for secure and scalable robotics operations',
-                title: '快速部署<br>規模擴展<br>安全運行',
-                description: '從 PoC 到量產，RIVO 整合影像、控制、調度與資安治理——讓團隊專注核心產品。',
-                primary: '預約架構諮詢',
-                secondary: '查看平台示範',
-                follow: '關注我們 - TW.'
+                label: 'Enterprise Robotics Operations Cloud',
+                title: '機器人車隊的<br>營運控制中樞',
+                description: '從單一平台監控、指揮並治理整支機器人車隊——從 PoC 到量產，企業級安全與治理。',
+                valueProps: [
+                    '2 天啟動 PoC — 標準 API 接入任何機器人',
+                    '即時影像、遙測與遠端控制，跨據點全覆蓋',
+                    'TLS 加密、分級權限、操作稽核、支援私有部署'
+                ],
+                primary: '預約架構評估',
+                secondary: '探索平台功能',
+                trustBadges: ['Docker-Ready', 'SLA 99.9%', 'On-Prem / Cloud', 'ROS 1 & 2']
             },
             problems: {
                 label: '痛點',
@@ -273,12 +277,16 @@
             },
             hero: {
                 label: 'Enterprise Robotics Operations Cloud',
-                intro: 'Built for secure and scalable robotics operations',
-                title: 'Faster Deploy.<br>Scalable Control.<br>Securely Operate.',
-                description: 'From PoC to production — RIVO unifies video, control, fleet ops, and security governance so your team can focus on what matters.',
-                primary: 'Book Architecture Consultation',
-                secondary: 'View Platform Demo',
-                follow: 'Follow Us - TW. '
+                title: 'The Control Plane<br>for Robotics at Scale',
+                description: 'Monitor, command, and govern your entire robot fleet from a single platform — from PoC to production, with enterprise-grade security.',
+                valueProps: [
+                    '2-day PoC onboarding — connect any robot via standard API',
+                    'Real-time video, telemetry & remote control across all sites',
+                    'TLS encryption, RBAC, audit logs & private deployment support'
+                ],
+                primary: 'Schedule Architecture Review',
+                secondary: 'Explore the Platform',
+                trustBadges: ['Docker-Ready', 'SLA 99.9%', 'On-Prem / Cloud', 'ROS 1 & 2']
             },
             problems: {
                 label: 'Pain Points',
@@ -645,12 +653,33 @@
         }
 
         setOne('.hero-label', t.hero.label);
-        setOne('.hero-intro', t.hero.intro);
         setOne('.hero-content h1', t.hero.title);
         setOne('.hero-description', t.hero.description);
-        setOne('.hero-buttons .btn-primary', t.hero.primary);
+
+        // Hero value propositions
+        var valuePropItems = qsa('.hero-value-props li > span:last-child');
+        if (t.hero.valueProps) {
+            t.hero.valueProps.forEach(function(val, idx) {
+                if (valuePropItems[idx]) valuePropItems[idx].textContent = val;
+            });
+        }
+
+        // Hero CTA buttons - preserve inner SVG for primary button
+        var heroPrimary = qs('.hero-buttons .btn-primary');
+        if (heroPrimary) {
+            var svg = heroPrimary.querySelector('svg');
+            heroPrimary.textContent = t.hero.primary;
+            if (svg) heroPrimary.appendChild(svg);
+        }
         setOne('.hero-buttons .btn-secondary', t.hero.secondary);
-        setOne('.hero-follow', t.hero.follow);
+
+        // Hero trust badges
+        var trustBadges = qsa('.hero-trust-badge');
+        if (t.hero.trustBadges) {
+            t.hero.trustBadges.forEach(function(val, idx) {
+                if (trustBadges[idx]) trustBadges[idx].textContent = val;
+            });
+        }
 
         setOne('#problems .section-label', t.problems.label);
         setOne('#problems .section-title', t.problems.title);

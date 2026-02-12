@@ -83,24 +83,144 @@
 
     <!-- Hero Section -->
     <section class="hero">
+        <div class="hero-grid-bg" aria-hidden="true"></div>
         <canvas class="hero-wave-canvas" data-wave-bg aria-hidden="true"></canvas>
         <div class="container">
             <div class="hero-content fade-in">
                 <img src="assets/logo-white.png" srcset="assets/logo-white.png 1x, assets/logo-white@2x.png 2x"
                     alt="RIVO" class="hero-logo">
-                <div class="hero-topline"></div>
-                <span class="hero-label">Enterprise Robotics Cloud Platform</span>
-                <p class="hero-intro">Scale robotics operations with confidence</p>
-                <h1>Faster Deploy.<br>Scalable Control.<br>Securely Operate.</h1>
+                <span class="hero-label">Enterprise Robotics Operations Cloud</span>
+                <h1>機器人車隊的<br>營運控制中樞</h1>
                 <p class="hero-description">
-                    從 PoC 到量產，RIVO 整合影像、控制、調度與資安治理——讓團隊專注核心產品。
+                    從單一平台監控、指揮並治理整支機器人車隊——從 PoC 到量產，企業級安全與治理。
                 </p>
+                <ul class="hero-value-props">
+                    <li>
+                        <span class="hero-value-icon">
+                            <svg viewBox="0 0 20 20" fill="currentColor" width="16" height="16"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/></svg>
+                        </span>
+                        <span>2 天啟動 PoC — 標準 API 接入任何機器人</span>
+                    </li>
+                    <li>
+                        <span class="hero-value-icon">
+                            <svg viewBox="0 0 20 20" fill="currentColor" width="16" height="16"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/></svg>
+                        </span>
+                        <span>即時影像、遙測與遠端控制，跨據點全覆蓋</span>
+                    </li>
+                    <li>
+                        <span class="hero-value-icon">
+                            <svg viewBox="0 0 20 20" fill="currentColor" width="16" height="16"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/></svg>
+                        </span>
+                        <span>TLS 加密、分級權限、操作稽核、支援私有部署</span>
+                    </li>
+                </ul>
                 <div class="hero-buttons">
-                    <a href="#contact" class="btn btn-primary">預約產品諮詢</a>
-                    <a href="#solution" class="btn btn-secondary">查看平台示範</a>
+                    <a href="#contact" class="btn btn-primary">預約架構評估
+                        <svg viewBox="0 0 20 20" fill="currentColor" width="16" height="16" style="margin-left:6px"><path fill-rule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clip-rule="evenodd"/></svg>
+                    </a>
+                    <a href="#solution" class="btn btn-secondary">探索平台功能</a>
+                </div>
+                <div class="hero-trust-badges">
+                    <span class="hero-trust-badge">Docker-Ready</span>
+                    <span class="hero-trust-badge">SLA 99.9%</span>
+                    <span class="hero-trust-badge">On-Prem / Cloud</span>
+                    <span class="hero-trust-badge">ROS 1 & 2</span>
                 </div>
             </div>
-            <div class="hero-follow fade-in-right">Connect - Lk. / Yt. / Gh.</div>
+            <div class="hero-dashboard-mockup fade-in-right">
+                <div class="hero-dash-window">
+                    <div class="hero-dash-header">
+                        <span class="dot red"></span>
+                        <span class="dot yellow"></span>
+                        <span class="dot green"></span>
+                        <span class="hero-dash-url">app.rivo.dev/fleet</span>
+                    </div>
+                    <div class="hero-dash-body">
+                        <div class="hero-dash-sidebar">
+                            <div class="hero-dash-nav-item active">
+                                <svg viewBox="0 0 20 20" fill="currentColor" width="14" height="14"><path d="M3 4a1 1 0 011-1h12a1 1 0 011 1v2a1 1 0 01-1 1H4a1 1 0 01-1-1V4zm0 6a1 1 0 011-1h12a1 1 0 011 1v2a1 1 0 01-1 1H4a1 1 0 01-1-1v-2zm0 6a1 1 0 011-1h12a1 1 0 011 1v2a1 1 0 01-1 1H4a1 1 0 01-1-1v-2z"/></svg>
+                                Fleet
+                            </div>
+                            <div class="hero-dash-nav-item">
+                                <svg viewBox="0 0 20 20" fill="currentColor" width="14" height="14"><path fill-rule="evenodd" d="M4 3a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V5a2 2 0 00-2-2H4zm12 12H4l4-8 3 6 2-4 3 6z" clip-rule="evenodd"/></svg>
+                                Video
+                            </div>
+                            <div class="hero-dash-nav-item">
+                                <svg viewBox="0 0 20 20" fill="currentColor" width="14" height="14"><path fill-rule="evenodd" d="M11.49 3.17c-.38-1.56-2.6-1.56-2.98 0a1.532 1.532 0 01-2.286.948c-1.372-.836-2.942.734-2.106 2.106.54.886.061 2.042-.947 2.287-1.561.379-1.561 2.6 0 2.978a1.532 1.532 0 01.947 2.287c-.836 1.372.734 2.942 2.106 2.106a1.532 1.532 0 012.287.947c.379 1.561 2.6 1.561 2.978 0a1.533 1.533 0 012.287-.947c1.372.836 2.942-.734 2.106-2.106a1.533 1.533 0 01.947-2.287c1.561-.379 1.561-2.6 0-2.978a1.532 1.532 0 01-.947-2.287c.836-1.372-.734-2.942-2.106-2.106a1.532 1.532 0 01-2.287-.947zM10 13a3 3 0 100-6 3 3 0 000 6z" clip-rule="evenodd"/></svg>
+                                Settings
+                            </div>
+                        </div>
+                        <div class="hero-dash-main">
+                            <div class="hero-dash-top-bar">
+                                <span class="hero-dash-fleet-label">Fleet Overview</span>
+                                <span class="hero-dash-live-badge">
+                                    <span class="hero-dash-live-dot"></span>
+                                    3 Online
+                                </span>
+                            </div>
+                            <div class="hero-dash-cards">
+                                <div class="hero-dash-card">
+                                    <div class="hero-dash-card-header">
+                                        <span class="hero-dash-robot-name">WH-Bot 001</span>
+                                        <span class="hero-dash-status online">Active</span>
+                                    </div>
+                                    <div class="hero-dash-card-metrics">
+                                        <div class="hero-dash-metric">
+                                            <span class="hero-dash-metric-label">Battery</span>
+                                            <span class="hero-dash-metric-value">92%</span>
+                                        </div>
+                                        <div class="hero-dash-metric">
+                                            <span class="hero-dash-metric-label">Speed</span>
+                                            <span class="hero-dash-metric-value">1.4 m/s</span>
+                                        </div>
+                                    </div>
+                                    <div class="hero-dash-progress-bar"><div class="hero-dash-progress" style="width:92%"></div></div>
+                                </div>
+                                <div class="hero-dash-card">
+                                    <div class="hero-dash-card-header">
+                                        <span class="hero-dash-robot-name">WH-Bot 002</span>
+                                        <span class="hero-dash-status online">Active</span>
+                                    </div>
+                                    <div class="hero-dash-card-metrics">
+                                        <div class="hero-dash-metric">
+                                            <span class="hero-dash-metric-label">Battery</span>
+                                            <span class="hero-dash-metric-value">78%</span>
+                                        </div>
+                                        <div class="hero-dash-metric">
+                                            <span class="hero-dash-metric-label">Speed</span>
+                                            <span class="hero-dash-metric-value">0.8 m/s</span>
+                                        </div>
+                                    </div>
+                                    <div class="hero-dash-progress-bar"><div class="hero-dash-progress" style="width:78%"></div></div>
+                                </div>
+                                <div class="hero-dash-card">
+                                    <div class="hero-dash-card-header">
+                                        <span class="hero-dash-robot-name">WH-Bot 003</span>
+                                        <span class="hero-dash-status idle">Charging</span>
+                                    </div>
+                                    <div class="hero-dash-card-metrics">
+                                        <div class="hero-dash-metric">
+                                            <span class="hero-dash-metric-label">Battery</span>
+                                            <span class="hero-dash-metric-value">34%</span>
+                                        </div>
+                                        <div class="hero-dash-metric">
+                                            <span class="hero-dash-metric-label">Speed</span>
+                                            <span class="hero-dash-metric-value">0 m/s</span>
+                                        </div>
+                                    </div>
+                                    <div class="hero-dash-progress-bar"><div class="hero-dash-progress charging" style="width:34%"></div></div>
+                                </div>
+                            </div>
+                            <div class="hero-dash-map-placeholder">
+                                <div class="hero-dash-map-grid"></div>
+                                <div class="hero-dash-map-dot" style="top:30%;left:25%"></div>
+                                <div class="hero-dash-map-dot" style="top:55%;left:60%"></div>
+                                <div class="hero-dash-map-dot pulse" style="top:40%;left:45%"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </section>
 
