@@ -96,12 +96,12 @@
                     '完整軟體定義節點能力'
                 ],
                 deployLabels: ['SaaS 雲端', '本地私有部署'],
-                cloudDesc: '高效能 Go 語言後端，支援車隊監控、影像串流與安全控制',
+                cloudDesc: '從監控到控制的一站式營運中樞，開箱即用',
                 cloudFeatures: [
-                    '車隊註冊、狀態監控與歷史遙測',
-                    'WebRTC 即時影像與 WebSocket 雙向指令',
-                    '多級告警系統與群組權限控管',
-                    'JSON Schema 自訂資料模型與 REST API'
+                    '即時掌握每台機器人狀態與歷史數據',
+                    '低延遲影像串流，遠端操控如同現場',
+                    '異常自動告警，分級通知不漏接',
+                    '自訂資料格式，平台自動擴展 API'
                 ],
                 scenariosTitle: '典型部署情境',
                 scenarioTitles: ['既有設備協議橋接', '工廠感測資料上雲', '嵌入式軟體節點'],
@@ -124,24 +124,24 @@
                 titles: [
                     '多路即時影像串流',
                     '安全遠端指令控制',
-                    '可擴展自訂資料模型',
+                    '自訂資料模型，零開發擴展',
                     '多層級權限管理',
                     '企業級資安與稽核',
-                    '多級告警與 SSE 日誌',
-                    '地圖管理與軌跡追蹤',
-                    '導入與技術顧問',
-                    '彈性部署架構'
+                    '智慧告警與即時日誌',
+                    '地圖定位與軌跡追蹤',
+                    '在地導入與技術顧問',
+                    '雲端或私有，彈性部署'
                 ],
                 descriptions: [
-                    '內建 LiveKit WebRTC 引擎，提供低延遲多機影像與第一視角串流',
-                    'REST API 與 WebSocket 雙向指令通道，支援 ROS Topic 發佈與動作註冊',
-                    '以 JSON Schema 定義裝置資料格式，伺服器自動產生對應 REST 端點',
-                    'Master / Manager / Viewer 三級角色搭配群組控管，符合企業治理需求',
-                    'JWT 認證、TLS 傳輸、欄位加密與完整稽核日誌，支援合規要求',
-                    '四級嚴重度告警搭配確認與解決流程，SSE 即時串流機器人日誌',
-                    '上傳 ROS 地圖（PGM/YAML），查詢軌跡與即時定位，掌握車隊動態',
-                    '提供繁中技術文件、導入建議與客製整合服務，加速上線時程',
-                    'Go 語言高效能後端，支援 Docker / systemd 部署與 PostgreSQL / SQLite 資料庫'
+                    '低延遲第一視角與多機畫面同步，隨時掌握現場狀況，支援錄影回放與事件追溯',
+                    '透過 Web 與行動端即時下達指令，搭配角色權限與操作審計，遠端操控如同現場',
+                    '定義裝置專屬資料格式，平台自動產生對應 API，無需修改後端程式碼',
+                    '依角色、群組與資源範圍精細控管，讓不同團隊各司其職、安全協作',
+                    '全程加密傳輸、資料落地加密與完整操作軌跡，滿足企業資安與合規要求',
+                    '依嚴重度分級自動通知，搭配確認與解決流程；即時串流機器人日誌，快速排障',
+                    '上傳導航地圖並疊加即時軌跡，一目瞭然掌握車隊位置與運行路徑',
+                    '台灣團隊提供繁中文件、導入規劃與客製整合，從 PoC 到量產全程陪跑',
+                    'SaaS 雲端快速啟用，或部署至企業私有環境，依營運規模靈活擴展'
                 ]
             },
             comparison: {
@@ -349,12 +349,12 @@
                     'Full software-defined node capabilities'
                 ],
                 deployLabels: ['SaaS Cloud', 'On-Premise Deployment'],
-                cloudDesc: 'High-performance Go backend for fleet monitoring, video streaming, and secure control.',
+                cloudDesc: 'All-in-one operations hub from monitoring to control — ready out of the box.',
                 cloudFeatures: [
-                    'Fleet registration, status monitoring, and historical telemetry',
-                    'WebRTC live video and WebSocket bidirectional commands',
-                    'Multi-level alert system and group-based access control',
-                    'JSON Schema custom data models and REST API'
+                    'Real-time visibility into every robot\'s status and history',
+                    'Low-latency video streaming — control remotely as if on-site',
+                    'Auto-escalating alerts so nothing slips through the cracks',
+                    'Define custom data formats and the platform extends the API automatically'
                 ],
                 scenariosTitle: 'Typical Deployment Scenarios',
                 scenarioTitles: ['Legacy Protocol Bridge', 'Factory Sensor Data Uplink', 'Embedded Software Node'],
@@ -377,24 +377,24 @@
                 titles: [
                     'Multi-Stream Real-Time Video',
                     'Secure Remote Command Control',
-                    'Extensible Custom Data Models',
+                    'Custom Data Models, Zero-Code Extension',
                     'Multi-Level Access Control',
                     'Enterprise Security and Audit',
-                    'Multi-Level Alerts and SSE Logs',
-                    'Map Management and Trajectory Tracking',
-                    'Implementation and Technical Advisory',
-                    'Flexible Deployment Architecture'
+                    'Smart Alerts and Real-Time Logs',
+                    'Map Positioning and Trajectory Tracking',
+                    'Local Onboarding and Technical Advisory',
+                    'Cloud or On-Premise, Flexible Deployment'
                 ],
                 descriptions: [
-                    'Built-in LiveKit WebRTC engine for low-latency multi-robot video and first-person streaming.',
-                    'REST API and WebSocket bidirectional command channels with ROS topic publishing and action registration.',
-                    'Define device data formats via JSON Schema — the server auto-generates corresponding REST endpoints.',
-                    'Master / Manager / Viewer three-tier roles with group-based controls for enterprise governance.',
-                    'JWT authentication, TLS transport, field-level encryption, and full audit logs for compliance.',
-                    'Four-severity alert system with acknowledge/resolve workflow and SSE real-time robot log streaming.',
-                    'Upload ROS maps (PGM/YAML), query trajectories and live positions to track fleet movement.',
-                    'Accelerate go-live with implementation guidance, docs, and custom integration support.',
-                    'High-performance Go backend with Docker / systemd deployment and PostgreSQL / SQLite support.'
+                    'Low-latency first-person and multi-robot views, always know what\'s happening on-site with playback and traceability.',
+                    'Issue commands instantly from web or mobile, with role-based access and audit trails — operate remotely as if on-site.',
+                    'Define device-specific data formats and the platform auto-generates matching APIs — no backend code changes needed.',
+                    'Fine-grained control by role, group, and resource scope so every team operates securely within their boundaries.',
+                    'End-to-end encrypted transport, at-rest encryption, and full operation trails for enterprise security and compliance.',
+                    'Severity-based auto-notifications with acknowledge/resolve workflows; real-time robot log streaming for fast troubleshooting.',
+                    'Upload navigation maps with live trajectory overlay — see fleet positions and routes at a glance.',
+                    'Taiwan-based team with local-language docs, onboarding plans, and custom integrations — from PoC to production, we\'re with you.',
+                    'Quick-start on SaaS cloud or deploy to your private environment — scale flexibly as your operations grow.'
                 ]
             },
             comparison: {
