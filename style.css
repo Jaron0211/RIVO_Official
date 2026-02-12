@@ -202,7 +202,6 @@ h4 {
     border-color: var(--gray-300);
     color: var(--white);
     opacity: 1;
-    font-style: italic;
 }
 
 .btn-secondary {
@@ -215,7 +214,6 @@ h4 {
     background: var(--gray-100);
     color: var(--black);
     opacity: 1;
-    font-style: italic;
 }
 
 .btn-outline {
@@ -227,7 +225,6 @@ h4 {
 .btn-outline:hover {
     border-color: var(--black);
     opacity: 1;
-    font-style: italic;
 }
 
 .btn-block {
@@ -271,11 +268,13 @@ h4 {
     display: flex;
     align-items: center;
     text-decoration: none;
+    flex-shrink: 0;
 }
 
 .logo-img {
     height: 32px;
     width: auto;
+    max-width: none;
     display: block;
     transition: var(--transition);
 }
@@ -300,6 +299,7 @@ h4 {
     display: flex;
     align-items: center;
     gap: 30px;
+    margin-left: clamp(28px, 4vw, 56px);
 }
 
 .nav-links a {
@@ -318,6 +318,11 @@ h4 {
 .nav-links a:hover {
     color: #020617;
     opacity: 1;
+}
+
+.nav-links a.btn-primary,
+.nav-links a.btn-primary:hover {
+    color: var(--white);
 }
 
 .nav-cta {
@@ -446,7 +451,6 @@ h4 {
     margin-bottom: 24px;
     letter-spacing: var(--hero-title-letter-spacing);
     width: auto;
-    max-width: 100%;
     white-space: nowrap;
 }
 
@@ -1460,7 +1464,7 @@ section {
 .cta-badge {
     display: inline-block;
     padding: 8px 20px;
-    background: rgba(255, 255, 255, 0.1);
+    background: rgba(0, 0, 0, 0.1);
     color: var(--white);
     font-size: 12px;
     font-weight: 600;
@@ -1520,7 +1524,6 @@ section {
 .cta-buttons .btn-ghost:hover {
     border-color: var(--white);
     color: var(--white);
-    font-style: italic;
     opacity: 1;
 }
 
@@ -2157,6 +2160,7 @@ section {
         background: rgba(255, 255, 255, 0.97);
         backdrop-filter: blur(10px);
         padding: 32px;
+        margin-left: 0;
         gap: 16px;
         border-bottom: 1px solid var(--gray-200);
         transform: translateY(-100%);
