@@ -82,9 +82,10 @@
             }
 
             const step = Math.max(3, Math.round(width / 400));
+            const offset = height * 0.18;
             for (let x = 0; x <= width; x += step) {
                 const y = baseHeight + amplitude * Math.sin((x / width) * frequency * Math.PI * 2 + phase);
-                ctx.lineTo(x, y-200);
+                ctx.lineTo(x, y - offset);
             }
 
             if (fillMode === 'top') {
@@ -112,10 +113,14 @@
 
             this.ctx.clearRect(0, 0, this.width, this.height);
 
-            const topWaveColors = ['rgba(255, 255, 255, 0.26)', 'rgba(56, 189, 248, 0.04)'];
+            const amp0 = Math.min(20, this.height * 0.05);
             const amp1 = Math.min(30, this.height * 0.08);
             const amp2 = Math.min(50, this.height * 0.12);
             const amp3 = Math.min(40, this.height * 0.10);
+
+            // Background wave: subtle full-coverage layer behind hero content.
+            const bgColors = ['rgba(180, 190, 200, 0.18)', 'rgba(220, 225, 230, 0.22)'];
+            this.drawWave(phase * 0.6, bgColors, this.height * 0.12, amp0, 0.7, 'bottom');
 
             // Upper wave band: makes label/intro area react to wave motion.
             this.drawWave(phase, colors1, this.height * 0.40, amp1, 1.0, 'bottom');

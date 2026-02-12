@@ -2198,7 +2198,7 @@ section {
 
     .hero {
         padding: 132px 0 72px;
-        min-height: 88vh;
+        min-height: 100vh;
     }
 
     .hero-content {
