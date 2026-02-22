@@ -50,37 +50,251 @@
 
         <main class="main-content">
             <h1>API 使用指南</h1>
-            <p>所有受保護的 API 終端（Endpoints）都需要在 HTTP 標頭中包含 <code>Authorization</code> 並攜帶 Bearer Token。</p>
-            <pre><code>Authorization: Bearer &lt;access_token&gt;</code></pre>
+            <p>RIVO 平台對所有已驗證的 API 端點採用端對端 AES-GCM 加密。所有受保護的請求必須在 HTTP 標頭中攜帶
+                <code>Authorization</code> Bearer Token，並傳送加密後的 JSON 請求體。
+            </p>
 
+            <!-- ─── 6.1 身份驗證 ──────────────────────────────────── -->
             <h2>6.1 身份驗證</h2>
-            <p>透過登入 API 取得 Access Token 與 Refresh Token。</p>
-            <pre><code>curl -X POST http://localhost:8080/api/v1/auth/login \
-  -H "Content-Type: application/json" \
-  -d '{"username": "user@example.com", "password": "password"}'</code></pre>
 
+            <h3>取得伺服器公鑰</h3>
+            <p>登入前，先取得伺服器的 RSA 公鑰：</p>
+            <pre><code>GET /api/v1/auth/key
+
+回應：
+{
+  "success": true,
+  "data": { "public_key": "-----BEGIN PUBLIC KEY-----\n..." }
+}</code></pre>
+
+            <h3>登入（E2E 加密）</h3>
+            <p>RIVO 採用混合式 RSA-OAEP + AES-GCM 登入流程：</p>
+            <ol>
+                <li>生成 32 位元組的隨機 AES Session Key。</li>
+                <li>以 RSA-OAEP-SHA256 加密 <code>{"username","password","session_key"}</code>。</li>
+                <li>POST 加密後的 Base64 密文。</li>
+                <li>以 AES Session Key 解密伺服器回應，取得 Token。</li>
+            </ol>
+            <pre><code>POST /api/v1/auth/login
+Content-Type: application/json
+
+{
+  "encrypted_data": "&lt;base64(RSA-OAEP(payload))&gt;"
+}
+
+解密後的回應 Payload：
+{
+  "access_token":     "eyJ...",
+  "refresh_token":    "eyJ...",
+  "certification_key": "ck_...",
+  "account_id":       "acc_...",
+  "expires_at":       "2026-01-01T00:00:00Z"
+}</code></pre>
+
+            <h3>更新 Token（Refresh）</h3>
+            <p>使用純 JSON（不加密）請求更新 Token：</p>
+            <pre><code>POST /api/v1/auth/refresh
+Content-Type: application/json
+
+{ "refresh_token": "eyJ..." }
+
+回應：
+{
+  "success": true,
+  "data": {
+    "access_token":  "eyJ...",
+    "refresh_token": "eyJ..."
+  }
+}</code></pre>
+
+            <div class="callout">
+                <strong>注意：</strong>後續所有請求以 <code>SHA-256(access_token)</code> 衍生 32 位元組 AES 金鑰，
+                並將請求體封裝為 <code>{"encrypted_data":"&lt;base64(nonce || ciphertext+tag)&gt;"}</code>。
+                RIVO Node SDK 會自動處理此加解密流程。
+            </div>
+
+            <!-- ─── 6.2 機器人管理 ─────────────────────────────────── -->
             <h2>6.2 機器人管理</h2>
-            <p>將新的機器人註冊到車隊中。</p>
-            <pre><code>curl -X POST http://localhost:8080/api/v1/robots \
-  -H "Authorization: Bearer $TOKEN" \
-  -H "Content-Type: application/json" \
-  -d '{
-    "robot_id": "turtlebot-001",
-    "robot_type": "turtlebot3",
-    "robot_name": "倉庫機器人 #1"
-  }'</code></pre>
 
+            <h3>註冊機器人</h3>
+            <p>將 Node 節點註冊到機器人車隊。每次啟動均可安全呼叫——若已存在則回傳 409（可忽略）。</p>
+            <pre><code>POST /api/v1/robots
+Authorization: Bearer &lt;access_token&gt;
+
+{
+  "robot_id":   "turtlebot-001",
+  "robot_type": "turtlebot3",
+  "robot_name": "倉庫機器人 #1",
+  "group_id":   "warehouse-a"    // 選填
+}
+
+回應 200: { "success": true }
+回應 409: 機器人已存在（啟動時可忽略）</code></pre>
+
+            <!-- ─── 6.3 狀態與遙測 ─────────────────────────────────── -->
             <h2>6.3 狀態與遙測</h2>
-            <p>定期更新機器人狀態（心跳、位置、電量）。</p>
-            <pre><code>curl -X POST http://localhost:8080/api/v1/robots/{robotId}/status \
-  -H "Authorization: Bearer $TOKEN" \
-  -d '{"status": "active", "battery_level": 85}'</code></pre>
 
-            <h2>6.8 指令與控制</h2>
-            <p>透過 REST 向機器人下發 Action 指令。</p>
-            <pre><code>curl -X POST http://localhost:8080/api/v1/robots/{robotId}/control \
-  -H "Authorization: Bearer $TOKEN" \
-  -d '{"action": "gripper_open", "parameters": {"force": 10}}'</code></pre>
+            <h3>更新機器人狀態</h3>
+            <p>心跳與狀態上報（RIVO Node 預設間隔：2 秒）。</p>
+            <pre><code>POST /api/v1/robots/{robotId}/status
+Authorization: Bearer &lt;access_token&gt;
+
+// 加密請求體（AES-GCM），明文 Payload 範例：
+{
+  "status": {
+    "battery_level": 85,
+    "cpu_usage":     12.4,
+    "state":         "active"
+  }
+}</code></pre>
+
+            <h3>上報感測器遙測</h3>
+            <p>推送感測器主題資料（RIVO Node 預設間隔：500 毫秒）。</p>
+            <pre><code>POST /api/v1/robots/{robotId}/telemetry
+Authorization: Bearer &lt;access_token&gt;
+
+// 明文 Payload 範例：
+{
+  "timestamp": "2026-01-01T00:00:00Z",
+  "topics": {
+    "temperature": { "value": 36.5, "unit": "°C" },
+    "humidity":    { "value": 62.1, "unit": "%" }
+  }
+}</code></pre>
+
+            <!-- ─── 6.4 警報 ──────────────────────────────────────── -->
+            <h2>6.4 警報（Alert）</h2>
+            <p>從機器人 Node 立即送出警報（不做批次彙整）。</p>
+            <pre><code>POST /api/v1/robots/{robotId}/alert
+Authorization: Bearer &lt;access_token&gt;
+
+{
+  "alert_type": "battery_low",
+  "severity":   "warning",       // info | warning | error
+  "message":    "電池僅剩 10%",
+  "action":     "return_to_base",
+  "timestamp":  "2026-01-01T00:00:00Z"
+}</code></pre>
+
+            <!-- ─── 6.5 相機串流 ──────────────────────────────────── -->
+            <h2>6.5 相機串流</h2>
+            <p>RIVO Node 透過 LiveKit WebRTC 發布 VP8 相機影像串流。Node 啟動後會自動取得 Room Token 並開始串流。</p>
+
+            <h3>取得串流 Token</h3>
+            <pre><code>GET /api/v1/robots/{robotId}/token?identity=camera
+Authorization: Bearer &lt;access_token&gt;
+
+// 解密後的回應 Payload：
+{
+  "token": "&lt;LiveKit JWT&gt;",
+  "host":  "wss://livekit.example.com",
+  "room":  "turtlebot-001"
+}</code></pre>
+
+            <p>RIVO Node 接著自動連線到 LiveKit，並以下列 GStreamer Pipeline 發布 <code>TrackLocalStaticRTP</code>
+                VP8 影像軌：</p>
+            <pre><code>gst-launch-1.0 v4l2src device=/dev/video0 \
+  ! image/jpeg,width=1280,height=720,framerate=30/1 \
+  ! jpegdec \
+  ! vp8enc error-resilient=partitions keyframe-max-dist=10 \
+            auto-alt-ref=true cpu-used=5 deadline=1 \
+  ! rtpvp8pay mtu=1100 \
+  ! udpsink host=127.0.0.1 port=&lt;自動分配&gt;</code></pre>
+
+            <p>可透過 <code>config.yaml</code> 的 <code>cameras[*].gst_pipeline</code> 欄位，指定自訂 GStreamer Pipeline。</p>
+
+            <!-- ─── 6.6 指令與控制 ─────────────────────────────────── -->
+            <h2>6.6 指令與控制</h2>
+            <p>透過加密 WebSocket 頻道向機器人發送指令。Node 啟動後即自動訂閱指令頻道，並對每條指令回傳確認。</p>
+
+            <h3>WebSocket 指令頻道</h3>
+            <pre><code>WS /api/v1/robots/{robotId}/commands?token=&lt;access_token&gt;
+
+// 伺服器 → Node（AES-GCM 加密 JSON）：
+{
+  "id":         "cmd-uuid",
+  "type":       "gripper_open",
+  "parameters": { "force": 10 },
+  "timestamp":  "2026-01-01T00:00:00Z"
+}
+
+// Node → 伺服器 ACK（AES-GCM 加密 JSON）：
+{
+  "command_id": "cmd-uuid",
+  "status":     "completed",   // received | in_progress | completed | failed
+  "message":    "夾爪已開啟"
+}</code></pre>
+
+            <!-- ─── 6.7 Node 設定檔參考 ──────────────────────────── -->
+            <h2>6.7 Node 設定檔參考（<code>config.yaml</code>）</h2>
+            <pre><code>node:
+  robot_id:   "my-robot-001"   # 未設定時自動由 machine-id 衍生
+  robot_type: "custom"
+  robot_name: "我的 RIVO Node"
+  group_id:   ""
+
+server:
+  url:             "http://server:8080"
+  timeout_seconds: 10
+
+auth:
+  mode:     "access_token"   # 或 "cert_key"
+  username: "admin@rivo.io"  # 設定即觸發自動登入
+  password: "password"
+  # 或直接填入預先核發的 Token：
+  # access_token:  "eyJ..."
+  # refresh_token: "eyJ..."
+
+cameras:
+  - name:      "main"
+    enabled:   true
+    device:    "/dev/video0"
+    width:     1280
+    height:    720
+    framerate: 30
+    # gst_pipeline: "" # 選填，完整自訂 Pipeline
+
+telemetry:
+  status_interval:    "2s"
+  telemetry_interval: "500ms"
+
+uarts:
+  mcu:
+    enabled:  true
+    port:     "/dev/ttyUSB0"
+    baud:     115200
+    framing:  "cobs"   # 或 slip
+    encoding: "json"   # 或 cbor
+    protocol: "bme280"
+
+i2c:
+  enabled: false
+  bus:     1
+
+spool:
+  enabled: false
+
+protocols:
+  dir: "protocols"
+
+logging:
+  level: "info"</code></pre>
+
+            <!-- ─── 6.8 E2E 加密細節 ──────────────────────────────── -->
+            <h2>6.8 端對端加密（E2E）細節</h2>
+            <p>所有已驗證的 API Payload 均採用 AES-256-GCM 加密。金鑰衍生方式如下：</p>
+            <pre><code>aes_key = SHA-256(raw_access_token_string)   // 32 位元組
+
+Wire Format：
+  encrypted_data = base64( nonce[12 bytes] || ciphertext || GCM-tag[16 bytes] )
+
+JSON 封裝：
+  { "encrypted_data": "&lt;base64&gt;" }</code></pre>
+
+            <p>RIVO Node SDK（<code>internal/server/crypto.go</code>）透過 <code>EncryptPayload</code> /
+                <code>DecryptPayload</code> 自動處理金鑰衍生、加密與解密，開發者無需手動操作。
+            </p>
+
         </main>
     </div>
 </body>

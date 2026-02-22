@@ -30,7 +30,7 @@
             <div class="sidebar-group">
                 <div class="sidebar-group-title">Introduction</div>
                 <a href="getting-started.html" class="sidebar-link">Getting Started</a>
-                <a href="deployment-config.html" class="sidebar-link">Deployment & Config</a>
+                <a href="deployment-config.html" class="sidebar-link">Deployment &amp; Config</a>
             </div>
             <div class="sidebar-group">
                 <div class="sidebar-group-title">API Reference</div>
@@ -43,44 +43,260 @@
             </div>
             <div class="sidebar-group">
                 <div class="sidebar-group-title">Operations</div>
-                <a href="advanced.html" class="sidebar-link">Security & Maintenance</a>
+                <a href="advanced.html" class="sidebar-link">Security &amp; Maintenance</a>
                 <a href="troubleshooting.html" class="sidebar-link">Troubleshooting</a>
             </div>
         </aside>
 
         <main class="main-content">
             <h1>API Usage Guide</h1>
-            <p>All protected endpoints require an <code>Authorization</code> header with a Bearer token.</p>
-            <pre><code>Authorization: Bearer &lt;access_token&gt;</code></pre>
+            <p>The RIVO platform uses end-to-end AES-GCM encryption on all authenticated endpoints. All protected
+                requests must carry an <code>Authorization</code> Bearer token and an encrypted JSON body.</p>
 
+            <!-- ─── 6.1 Authentication ─────────────────────────────── -->
             <h2>6.1 Authentication</h2>
-            <p>Login to receive an access and refresh token.</p>
-            <pre><code>curl -X POST http://localhost:8080/api/v1/auth/login \
-  -H "Content-Type: application/json" \
-  -d '{"username": "user@example.com", "password": "password"}'</code></pre>
 
+            <h3>Fetch Public Key</h3>
+            <p>Before login, retrieve the server's RSA public key:</p>
+            <pre><code>GET /api/v1/auth/key
+
+Response:
+{
+  "success": true,
+  "data": { "public_key": "-----BEGIN PUBLIC KEY-----\n..." }
+}</code></pre>
+
+            <h3>Login (E2E Encrypted)</h3>
+            <p>RIVO uses a hybrid RSA-OAEP + AES-GCM login handshake:</p>
+            <ol>
+                <li>Generate a 32-byte random AES session key.</li>
+                <li>RSA-OAEP-SHA256 encrypt <code>{"username","password","session_key"}</code> with the server public key.</li>
+                <li>POST the base64 ciphertext.</li>
+                <li>Decrypt the response with the AES session key to get tokens.</li>
+            </ol>
+            <pre><code>POST /api/v1/auth/login
+Content-Type: application/json
+
+{
+  "encrypted_data": "&lt;base64(RSA-OAEP(payload))&gt;"
+}
+
+Decrypted response payload:
+{
+  "access_token":  "eyJ...",
+  "refresh_token": "eyJ...",
+  "certification_key": "ck_...",
+  "account_id":    "acc_...",
+  "expires_at":    "2026-01-01T00:00:00Z"
+}</code></pre>
+
+            <h3>Refresh Token</h3>
+            <p>Use a plain JSON request (no encryption) to refresh:</p>
+            <pre><code>POST /api/v1/auth/refresh
+Content-Type: application/json
+
+{ "refresh_token": "eyJ..." }
+
+Response:
+{
+  "success": true,
+  "data": {
+    "access_token":  "eyJ...",
+    "refresh_token": "eyJ..."
+  }
+}</code></pre>
+
+            <div class="callout">
+                <strong>Note:</strong> All subsequent requests derive a 32-byte AES key from
+                <code>SHA-256(access_token)</code> and wrap the body as
+                <code>{"encrypted_data":"&lt;base64(nonce || ciphertext+tag)&gt;"}</code>.
+                The RIVO Node SDK handles this transparently.
+            </div>
+
+            <!-- ─── 6.2 Robot Management ───────────────────────────── -->
             <h2>6.2 Robot Management</h2>
-            <p>Register a new robot to the fleet.</p>
-            <pre><code>curl -X POST http://localhost:8080/api/v1/robots \
-  -H "Authorization: Bearer $TOKEN" \
-  -H "Content-Type: application/json" \
-  -d '{
-    "robot_id": "turtlebot-001",
-    "robot_type": "turtlebot3",
-    "robot_name": "Warehouse Bot #1"
-  }'</code></pre>
 
-            <h2>6.3 Status & Telemetry</h2>
-            <p>Update robot status periodically (heartbeat, position, battery).</p>
-            <pre><code>curl -X POST http://localhost:8080/api/v1/robots/{robotId}/status \
-  -H "Authorization: Bearer $TOKEN" \
-  -d '{"status": "active", "battery_level": 85}'</code></pre>
+            <h3>Register a Robot</h3>
+            <p>Register the node to your fleet. Safe to call on every startup — returns 409 if already registered.</p>
+            <pre><code>POST /api/v1/robots
+Authorization: Bearer &lt;access_token&gt;
 
-            <h2>6.8 Commands & Control</h2>
-            <p>Send actions to robots via REST.</p>
-            <pre><code>curl -X POST http://localhost:8080/api/v1/robots/{robotId}/control \
-  -H "Authorization: Bearer $TOKEN" \
-  -d '{"action": "gripper_open", "parameters": {"force": 10}}'</code></pre>
+{
+  "robot_id":   "turtlebot-001",
+  "robot_type": "turtlebot3",
+  "robot_name": "Warehouse Bot #1",
+  "group_id":   "warehouse-a"    // optional
+}
+
+Response 200: { "success": true }
+Response 409: robot already registered (safe to ignore)</code></pre>
+
+            <!-- ─── 6.3 Status & Telemetry ─────────────────────────── -->
+            <h2>6.3 Status &amp; Telemetry</h2>
+
+            <h3>Update Robot Status</h3>
+            <p>Heartbeat and status flush (default interval: 2 s from RIVO Node).</p>
+            <pre><code>POST /api/v1/robots/{robotId}/status
+Authorization: Bearer &lt;access_token&gt;
+
+// Encrypted body (AES-GCM). Plaintext payload example:
+{
+  "status": {
+    "battery_level": 85,
+    "cpu_usage": 12.4,
+    "state": "active"
+  }
+}</code></pre>
+
+            <h3>Post Telemetry</h3>
+            <p>Push sensor topic readings (default interval: 500 ms from RIVO Node).</p>
+            <pre><code>POST /api/v1/robots/{robotId}/telemetry
+Authorization: Bearer &lt;access_token&gt;
+
+// Plaintext payload example:
+{
+  "timestamp": "2026-01-01T00:00:00Z",
+  "topics": {
+    "temperature": { "value": 36.5, "unit": "°C" },
+    "humidity":    { "value": 62.1, "unit": "%" }
+  }
+}</code></pre>
+
+            <!-- ─── 6.4 Alerts ─────────────────────────────────────── -->
+            <h2>6.4 Alerts</h2>
+            <p>Submit an alert from a robot node. Alerts are sent immediately, not batched.</p>
+            <pre><code>POST /api/v1/robots/{robotId}/alert
+Authorization: Bearer &lt;access_token&gt;
+
+{
+  "alert_type": "battery_low",
+  "severity":   "warning",      // info | warning | error
+  "message":    "Battery at 10%",
+  "action":     "return_to_base",
+  "timestamp":  "2026-01-01T00:00:00Z"
+}</code></pre>
+
+            <!-- ─── 6.5 Camera Streaming ───────────────────────────── -->
+            <h2>6.5 Camera Streaming</h2>
+            <p>The RIVO Node publishes VP8 camera streams via LiveKit WebRTC. The node obtains a room token
+                automatically on startup.</p>
+
+            <h3>Get Streaming Token</h3>
+            <pre><code>GET /api/v1/robots/{robotId}/token?identity=camera
+Authorization: Bearer &lt;access_token&gt;
+
+// Decrypted response payload:
+{
+  "token": "&lt;LiveKit JWT&gt;",
+  "host":  "wss://livekit.example.com",
+  "room":  "turtlebot-001"
+}</code></pre>
+
+            <p>The RIVO Node then connects to LiveKit automatically and publishes a <code>TrackLocalStaticRTP</code>
+                VP8 track using the GStreamer pipeline:</p>
+            <pre><code>gst-launch-1.0 v4l2src device=/dev/video0 \
+  ! image/jpeg,width=1280,height=720,framerate=30/1 \
+  ! jpegdec \
+  ! vp8enc error-resilient=partitions keyframe-max-dist=10 \
+            auto-alt-ref=true cpu-used=5 deadline=1 \
+  ! rtpvp8pay mtu=1100 \
+  ! udpsink host=127.0.0.1 port=&lt;auto&gt;</code></pre>
+
+            <p>A custom GStreamer pipeline can be set via <code>cameras[*].gst_pipeline</code> in
+                <code>config.yaml</code>.</p>
+
+            <!-- ─── 6.6 Commands & Control ─────────────────────────── -->
+            <h2>6.6 Commands &amp; Control</h2>
+            <p>Send commands to robots via an encrypted WebSocket channel. The node subscribes to the channel on
+                startup and acknowledges every command.</p>
+
+            <h3>WebSocket Command Channel</h3>
+            <pre><code>WS /api/v1/robots/{robotId}/commands?token=&lt;access_token&gt;
+
+// Server → Node (AES-GCM encrypted JSON):
+{
+  "id":         "cmd-uuid",
+  "type":       "gripper_open",
+  "parameters": { "force": 10 },
+  "timestamp":  "2026-01-01T00:00:00Z"
+}
+
+// Node → Server ACK (AES-GCM encrypted JSON):
+{
+  "command_id": "cmd-uuid",
+  "status":     "completed",   // received | in_progress | completed | failed
+  "message":    "Gripper opened"
+}</code></pre>
+
+            <!-- ─── 6.7 Node Config Reference ─────────────────────── -->
+            <h2>6.7 Node Config Reference (<code>config.yaml</code>)</h2>
+            <pre><code>node:
+  robot_id:   "my-robot-001"   # auto-derived from machine-id if omitted
+  robot_type: "custom"
+  robot_name: "My RIVO Node"
+  group_id:   ""
+
+server:
+  url:             "http://server:8080"
+  timeout_seconds: 10
+
+auth:
+  mode:          "access_token"  # or "cert_key"
+  username:      "admin@rivo.io" # triggers auto-login
+  password:      "password"
+  # Or pre-issued tokens:
+  # access_token:  "eyJ..."
+  # refresh_token: "eyJ..."
+
+cameras:
+  - name:      "main"
+    enabled:   true
+    device:    "/dev/video0"
+    width:     1280
+    height:    720
+    framerate: 30
+    # gst_pipeline: "" # optional full pipeline override
+
+telemetry:
+  status_interval:    "2s"
+  telemetry_interval: "500ms"
+
+uarts:
+  mcu:
+    enabled:  true
+    port:     "/dev/ttyUSB0"
+    baud:     115200
+    framing:  "cobs"   # or slip
+    encoding: "json"   # or cbor
+    protocol: "bme280"
+
+i2c:
+  enabled: false
+  bus:     1
+
+spool:
+  enabled: false
+
+protocols:
+  dir: "protocols"
+
+logging:
+  level: "info"</code></pre>
+
+            <!-- ─── 6.8 E2E Encryption Details ────────────────────── -->
+            <h2>6.8 E2E Encryption Details</h2>
+            <p>All authenticated API payloads are AES-256-GCM encrypted. The key is derived as:</p>
+            <pre><code>aes_key = SHA-256(raw_access_token_string)   // 32 bytes
+
+Wire format:
+  encrypted_data = base64( nonce[12 bytes] || ciphertext || GCM-tag[16 bytes] )
+
+JSON wrapper:
+  { "encrypted_data": "&lt;base64&gt;" }</code></pre>
+
+            <p>The RIVO Node SDK (<code>internal/server/crypto.go</code>) handles key derivation, encryption, and
+                decryption automatically via <code>EncryptPayload</code> / <code>DecryptPayload</code>.</p>
+
         </main>
     </div>
 </body>
