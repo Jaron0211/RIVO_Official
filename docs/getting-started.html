@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title data-i18n="gettingStarted.pageTitle">Getting Started - RIVO Documentation</title>
+    <title>Getting Started - RIVO Documentation</title>
     <link rel="stylesheet" href="style.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -18,7 +18,7 @@
     <nav class="docs-nav">
         <a href="../index.html" class="nav-brand">
             <img src="../assets/logo-navbar.png" alt="RIVO">
-            <span data-i18n="nav.docCenter">RIVO Docs</span>
+            <span>RIVO Docs</span>
         </a>
         <div class="lang-switch">
             <button onclick="setLang('en')" data-lang-switch="en" class="lang-btn">EN</button>
@@ -29,89 +29,203 @@
     <div class="docs-container">
         <aside class="sidebar">
             <div class="sidebar-group">
-                <div class="sidebar-group-title" data-i18n="sidebar.introduction">Introduction</div>
-                <a href="getting-started.html" class="sidebar-link active" data-i18n="sidebar.gettingStarted">Getting
-                    Started</a>
-                <a href="deployment-config.html" class="sidebar-link" data-i18n="sidebar.deploymentConfig">Deployment &
-                    Config</a>
+                <div class="sidebar-group-title">Introduction</div>
+                <a href="getting-started.html" class="sidebar-link active">Getting Started</a>
+                <a href="deployment-config.html" class="sidebar-link">Deployment &amp; Config</a>
             </div>
             <div class="sidebar-group">
-                <div class="sidebar-group-title" data-i18n="sidebar.apiReference">API Reference</div>
-                <a href="api-guide.html" class="sidebar-link" data-i18n="sidebar.apiGuide">API Usage Guide</a>
-                <a href="custom-schemas.html" class="sidebar-link" data-i18n="sidebar.customSchemas">Custom Message
-                    Schemas</a>
+                <div class="sidebar-group-title">IO Definition</div>
+                <a href="io-definition.html" class="sidebar-link">Sensors &amp; Actuators</a>
             </div>
             <div class="sidebar-group">
-                <div class="sidebar-group-title" data-i18n="sidebar.tools">Tools</div>
-                <a href="protocol-creator.html" class="sidebar-link" data-i18n="sidebar.protocolCreator">Protocol
-                    Creator</a>
+                <div class="sidebar-group-title">API Reference</div>
+                <a href="api-guide.html" class="sidebar-link">API Usage Guide</a>
             </div>
             <div class="sidebar-group">
-                <div class="sidebar-group-title" data-i18n="sidebar.operations">Operations</div>
-                <a href="advanced.html" class="sidebar-link" data-i18n="sidebar.advanced">Security & Maintenance</a>
-                <a href="troubleshooting.html" class="sidebar-link"
-                    data-i18n="sidebar.troubleshooting">Troubleshooting</a>
+                <div class="sidebar-group-title">Operations</div>
+                <a href="advanced.html" class="sidebar-link">Security &amp; OTA</a>
+                <a href="troubleshooting.html" class="sidebar-link">Troubleshooting</a>
             </div>
         </aside>
 
         <main class="main-content">
-            <h1 data-i18n="gettingStarted.title">Getting Started</h1>
-            <p data-i18n="gettingStarted.intro">RIVO Server is a backend platform for IoT robot fleet management. It
-                provides a robust, high-performance Go-based backend to manage your robot fleet efficiently.</p>
+            <h1>Getting Started</h1>
+            <p>RIVO is an IoT robot fleet management platform consisting of three components that work together to connect physical hardware to a cloud management layer.</p>
 
-            <div class="callout" data-i18n="gettingStarted.note" data-i18n-html>
-                <strong>Note:</strong> This guide is for operators, DevOps engineers, and integration developers. It
-                covers deployment, configuration, and API usage.
+            <div class="callout">
+                <strong>Note:</strong> This guide is intended for operators, DevOps engineers, and integration developers. It covers system architecture, deployment, and integration.
             </div>
 
-            <h2 id="introduction" data-i18n="gettingStarted.section1Title">1. Introduction</h2>
-            <p data-i18n="gettingStarted.section1Intro">RIVO Server provides:</p>
-            <ul>
-                <li data-i18n="gettingStarted.feature1" data-i18n-html><strong>Robot Registration & Monitoring</strong>
-                    - Track status and monitor health.</li>
-                <li data-i18n="gettingStarted.feature2" data-i18n-html><strong>Real-time Telemetry</strong> - Stream
-                    robot telemetry data (odometry, battery, sensors).</li>
-                <li data-i18n="gettingStarted.feature3" data-i18n-html><strong>Log Management</strong> - Collect and
-                    stream logs from robots in real-time.</li>
-                <li data-i18n="gettingStarted.feature4" data-i18n-html><strong>Alert System</strong> - Receive,
-                    acknowledge, and resolve robot alerts.</li>
-                <li data-i18n="gettingStarted.feature5" data-i18n-html><strong>Map Management</strong> - Upload and
-                    manage ROS maps with trajectory tracking.</li>
-                <li data-i18n="gettingStarted.feature6" data-i18n-html><strong>Command & Control</strong> - Send
-                    commands to robots via REST or WebSocket.</li>
-            </ul>
+            <h2 id="architecture">1. System Architecture</h2>
+            <p>The RIVO platform has three components:</p>
 
-            <h2 id="package-contents" data-i18n="gettingStarted.section2Title">2. Package Contents</h2>
-            <p data-i18n="gettingStarted.section2Intro">The release package contains the following structure:</p>
-            <pre><code>release/
-├── rivo-server          # Main server executable
-├── rivo-admin           # Admin CLI tool
-├── config.yaml          # Configuration file
-├── custom_msg/          # Custom message schemas
-├── data/                # SQLite database (if used)
-└── logs/                # Server log files</code></pre>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Component</th>
+                        <th>Technology</th>
+                        <th>Role</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>RIVO Server</strong></td>
+                        <td>Go / PostgreSQL / LiveKit</td>
+                        <td>Cloud backend — robot registry, telemetry store, command dispatch, AI assistant, OTA update</td>
+                    </tr>
+                    <tr>
+                        <td><strong>RIVO Node</strong></td>
+                        <td>Go binary (ARM64 / amd64)</td>
+                        <td>Edge daemon — reads hardware sensors, streams camera video, enforces safety rules, executes actuator commands</td>
+                    </tr>
+                    <tr>
+                        <td><strong>RIVO Android App</strong></td>
+                        <td>Flutter</td>
+                        <td>Mobile client — real-time monitoring, live video, AI chat, remote command</td>
+                    </tr>
+                </tbody>
+            </table>
 
-            <h2 id="first-time-setup" data-i18n="gettingStarted.section3Title">3. First-Time Setup</h2>
-            <h3 id="step-1" data-i18n="gettingStarted.step1Title">Step 1: Start the Server</h3>
-            <p data-i18n="gettingStarted.step1Desc">For binary deployment, run:</p>
-            <pre><code>./rivo-server</code></pre>
-            <p data-i18n="gettingStarted.step1Note">The server will automatically create database tables and load
-                schemas.</p>
+            <pre><code>┌─────────────────────────────────────────────────────┐
+│                   Cloud / Server                    │
+│   RIVO Server (Go + PostgreSQL + LiveKit)           │
+│   REST API :8080  │  LiveKit :7880-7882             │
+└───────────────┬─────────────────────────────────────┘
+                │  HTTPS / WebSocket / WebRTC
+        ┌───────┴────────┐
+        │                │
+┌───────▼──────┐  ┌──────▼──────────┐
+│  RIVO Node   │  │  Android App    │
+│  (ARM64 SBC) │  │  (Flutter)      │
+│  UART/I2C/   │  │  Monitoring,    │
+│  Camera      │  │  AI Chat,       │
+│  Safety Gate │  │  LiveKit Video  │
+└──────────────┘  └─────────────────┘</code></pre>
 
-            <h3 id="step-2" data-i18n="gettingStarted.step2Title">Step 2: Verify Status</h3>
-            <p data-i18n="gettingStarted.step2Desc">Check if the server is healthy:</p>
-            <pre><code>curl http://localhost:8080/health</code></pre>
+            <h2 id="data-flow">2. Data Flow</h2>
+            <ol>
+                <li><strong>Sensor data</strong> — RIVO Node reads hardware (UART, I2C, GPIO) → pushes telemetry/status to Server via HTTP POST or persistent WebSocket.</li>
+                <li><strong>Video</strong> — Node captures camera via GStreamer (VP8/RTP) → publishes to LiveKit room. App subscribes to the same room and receives the video stream.</li>
+                <li><strong>Commands</strong> — App or AI issues commands via Server REST API → Server delivers to Node over WebSocket command channel → Node runs through Edge Safety Gate → executes actuator write.</li>
+                <li><strong>Realtime control</strong> — App connects to the same LiveKit room and sends DataChannel messages directly to Node for sub-20ms latency control.</li>
+            </ol>
 
-            <h3 id="step-3" data-i18n="gettingStarted.step3Title">Step 3: Create Master Account</h3>
-            <p data-i18n="gettingStarted.step3Desc">Use the admin tool to create your initial account:</p>
-            <pre><code>./rivo-admin seed --email admin@yourcompany.com --password "SecurePassword123!"</code></pre>
+            <h2 id="quick-start-server">3. Quick Start: RIVO Server</h2>
+            <h3>Step 1: Deploy with Docker Compose</h3>
+            <p>The recommended production deployment uses Docker Compose. See <a href="deployment-config.html">Deployment &amp; Config</a> for the full <code>docker-compose.yml</code>.</p>
+            <pre><code>cd deploy/docker
+cp .env.example .env          # fill in DB_PASSWORD and JWT secrets
+docker compose up -d</code></pre>
+
+            <h3>Step 2: Verify Health</h3>
+            <pre><code>curl http://localhost:8080/health
+# {"status":"healthy","timestamp":"..."}</code></pre>
+
+            <h3>Step 3: Create Master Account</h3>
+            <pre><code>./rivo-admin seed \
+  --email admin@yourcompany.com \
+  --password "SecurePassword123!"</code></pre>
+
+            <h3>Step 4: Login (RSA-Encrypted)</h3>
+            <p>All login credentials are RSA-encrypted before transmission. See <a href="api-guide.html">API Usage Guide</a> for the full authentication flow.</p>
+
+            <h2 id="quick-start-node">4. Quick Start: RIVO Node</h2>
+            <h3>Step 1: Install the Binary</h3>
+            <pre><code># Download latest release
+wget https://github.com/Jaron0211/RIVO-Node_release/releases/latest/download/rivo-node-linux-arm64.zip
+unzip rivo-node-linux-arm64.zip -d /opt/rivo-node
+chmod +x /opt/rivo-node/rivo-node</code></pre>
+
+            <h3>Step 2: Configure</h3>
+            <p>Edit <code>/opt/rivo-node/configs/config.yaml</code> — at minimum set the server URL and credentials:</p>
+            <pre><code>server:
+  url: "http://&lt;your-server-ip&gt;:8080"
+
+auth:
+  mode: "access_token"
+  username: "your-node-account@example.com"
+  password: "your-password"</code></pre>
+
+            <h3>Step 3: Define Your Hardware</h3>
+            <p>Place sensor protocol YAML files in <code>/opt/rivo-node/protocols/</code> and actuator JSON files in <code>/opt/rivo-node/interfaces/</code>. See <a href="io-definition.html">IO Definition</a> for the format.</p>
+
+            <h3>Step 4: Run</h3>
+            <pre><code># Direct run
+/opt/rivo-node/rivo-node --config /opt/rivo-node/configs/config.yaml
+
+# Or as systemd service (recommended)
+sudo systemctl enable rivo-node
+sudo systemctl start rivo-node</code></pre>
+
+            <p>On startup the Node will auto-register with the Server and begin streaming telemetry.</p>
+
+            <h2 id="capabilities">5. Platform Capabilities Summary</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Capability</th>
+                        <th>Component</th>
+                        <th>Details</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Declarative sensor protocols</td>
+                        <td>Node</td>
+                        <td>YAML files in <code>protocols/</code> — no recompile needed</td>
+                    </tr>
+                    <tr>
+                        <td>Declarative actuator interfaces</td>
+                        <td>Node</td>
+                        <td>JSON files in <code>interfaces/</code> — auto-exposed to AI</td>
+                    </tr>
+                    <tr>
+                        <td>Edge Safety Gate</td>
+                        <td>Node</td>
+                        <td>YAML rules block unsafe commands before execution</td>
+                    </tr>
+                    <tr>
+                        <td>Offline watchdog</td>
+                        <td>Node</td>
+                        <td>Auto stops actuators on network failure</td>
+                    </tr>
+                    <tr>
+                        <td>LiveKit video streaming</td>
+                        <td>Node + Server</td>
+                        <td>GStreamer → WebRTC VP8, low-latency</td>
+                    </tr>
+                    <tr>
+                        <td>DataChannel realtime control</td>
+                        <td>Node + App</td>
+                        <td>P2P control via LiveKit DataChannel, &lt;20ms latency</td>
+                    </tr>
+                    <tr>
+                        <td>AI natural language control</td>
+                        <td>Server</td>
+                        <td>LLM-powered assistant with safety validation and actuator awareness</td>
+                    </tr>
+                    <tr>
+                        <td>OTA update</td>
+                        <td>Server + Node</td>
+                        <td>Binary swap via rivo-updater agent, with rollback</td>
+                    </tr>
+                    <tr>
+                        <td>E2E encryption</td>
+                        <td>Server + Node</td>
+                        <td>RSA login + AES-GCM on all protected payloads</td>
+                    </tr>
+                    <tr>
+                        <td>Multi-UART / I2C / SPI / Modbus</td>
+                        <td>Node</td>
+                        <td>Simultaneous buses, named in config.yaml</td>
+                    </tr>
+                </tbody>
+            </table>
         </main>
 
         <aside class="toc-sidebar">
             <div class="toc-title">On this page</div>
-            <nav class="toc-links">
-                <!-- Auto-generated by toc.js -->
-            </nav>
+            <nav class="toc-links"></nav>
         </aside>
     </div>
 
