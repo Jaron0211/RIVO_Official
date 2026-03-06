@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Troubleshooting - RIVO Documentation</title>
+    <title data-i18n="troubleshooting.pageTitle">Troubleshooting - RIVO Documentation</title>
     <link rel="stylesheet" href="style.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -18,7 +18,7 @@
     <nav class="docs-nav">
         <a href="../index.html" class="nav-brand">
             <img src="../assets/logo-navbar.png" alt="RIVO">
-            <span>RIVO Docs</span>
+            <span data-i18n="nav.docCenter">RIVO Docs</span>
         </a>
         <div class="lang-switch">
             <button onclick="setLang('en')" data-lang-switch="en" class="lang-btn">EN</button>
@@ -29,81 +29,79 @@
     <div class="docs-container">
         <aside class="sidebar">
             <div class="sidebar-group">
-                <div class="sidebar-group-title">Introduction</div>
-                <a href="getting-started.html" class="sidebar-link">Getting Started</a>
-                <a href="deployment-config.html" class="sidebar-link">Deployment &amp; Config</a>
+                <div class="sidebar-group-title" data-i18n="sidebar.introduction">Introduction</div>
+                <a href="getting-started.html" class="sidebar-link" data-i18n="sidebar.gettingStarted">Getting Started</a>
+                <a href="deployment-config.html" class="sidebar-link" data-i18n="sidebar.deploymentConfig">Deployment &amp; Config</a>
             </div>
             <div class="sidebar-group">
-                <div class="sidebar-group-title">IO Definition</div>
-                <a href="io-definition.html" class="sidebar-link">Sensors &amp; Actuators</a>
+                <div class="sidebar-group-title" data-i18n="sidebar.ioDefinition">IO Definition</div>
+                <a href="io-definition.html" class="sidebar-link" data-i18n="sidebar.ioDefinitionLink">Sensors &amp; Actuators</a>
             </div>
             <div class="sidebar-group">
-                <div class="sidebar-group-title">API Reference</div>
-                <a href="api-guide.html" class="sidebar-link">API Usage Guide</a>
+                <div class="sidebar-group-title" data-i18n="sidebar.apiReference">API Reference</div>
+                <a href="api-guide.html" class="sidebar-link" data-i18n="sidebar.apiGuide">API Usage Guide</a>
             </div>
             <div class="sidebar-group">
-                <div class="sidebar-group-title">Operations</div>
-                <a href="advanced.html" class="sidebar-link">Security &amp; OTA</a>
-                <a href="troubleshooting.html" class="sidebar-link active">Troubleshooting</a>
+                <div class="sidebar-group-title" data-i18n="sidebar.operations">Operations</div>
+                <a href="advanced.html" class="sidebar-link" data-i18n="sidebar.securityOta">Security &amp; OTA</a>
+                <a href="troubleshooting.html" class="sidebar-link active" data-i18n="sidebar.troubleshooting">Troubleshooting</a>
             </div>
         </aside>
 
         <main class="main-content">
-            <h1>Troubleshooting</h1>
+            <h1 data-i18n="troubleshooting.title">Troubleshooting</h1>
 
-            <!-- ═══════════════════ SERVER ═══ -->
-            <h2 id="server-issues">Server Issues</h2>
+            <h2 id="server-issues" data-i18n="troubleshooting.serverTitle">Server Issues</h2>
 
-            <h4>"Invalid or expired token"</h4>
-            <p><strong>Cause:</strong> Access token has expired (default lifetime: 30 minutes).</p>
-            <p><strong>Solution:</strong> Use the refresh token to get a new access token via <code>POST /api/v1/auth/refresh</code>. If the refresh token has also expired (7 days), the user must log in again.</p>
+            <h4 data-i18n="troubleshooting.token.issue">"Invalid or expired token"</h4>
+            <p><strong data-i18n="troubleshooting.causeLabel">Cause:</strong> <span data-i18n="troubleshooting.token.cause">Access token has expired (default lifetime: 30 minutes).</span></p>
+            <p><strong data-i18n="troubleshooting.solutionLabel">Solution:</strong> <span data-i18n="troubleshooting.token.solution">Use the refresh token to get a new access token via POST /api/v1/auth/refresh. If the refresh token has also expired (7 days), the user must log in again.</span></p>
 
-            <h4>"Connection refused" on port 8080</h4>
-            <p><strong>Cause:</strong> Server not running, wrong port, or firewall blocking.</p>
-            <p><strong>Solution:</strong> Check <code>docker compose ps</code> or <code>systemctl status rivo-server</code>. Verify <code>server.port</code> in <code>config.yaml</code>. Check firewall rules with <code>iptables -L</code> or cloud security group settings.</p>
+            <h4 data-i18n="troubleshooting.refused.issue">"Connection refused" on port 8080</h4>
+            <p><strong data-i18n="troubleshooting.causeLabel">Cause:</strong> <span data-i18n="troubleshooting.refused.cause">Server not running, wrong port, or firewall blocking.</span></p>
+            <p><strong data-i18n="troubleshooting.solutionLabel">Solution:</strong> <span data-i18n="troubleshooting.refused.solution">Check docker compose ps or systemctl status rivo-server. Verify server.port in config.yaml. Check firewall rules with iptables -L or cloud security group settings.</span></p>
 
-            <h4>"Database connection failed" on startup</h4>
-            <p><strong>Cause:</strong> PostgreSQL not reachable, wrong DSN, or missing password.</p>
-            <p><strong>Solution:</strong> Verify <code>database.dsn</code> in <code>config.yaml</code>. Ensure <code>DB_PASSWORD</code> in <code>.env</code> matches the PostgreSQL user password. Test with: <code>psql "your-dsn"</code></p>
+            <h4 data-i18n="troubleshooting.dbFail.issue">"Database connection failed" on startup</h4>
+            <p><strong data-i18n="troubleshooting.causeLabel">Cause:</strong> <span data-i18n="troubleshooting.dbFail.cause">PostgreSQL not reachable, wrong DSN, or missing password.</span></p>
+            <p><strong data-i18n="troubleshooting.solutionLabel">Solution:</strong> <span data-i18n="troubleshooting.dbFail.solution">Verify database.dsn in config.yaml. Ensure DB_PASSWORD in .env matches the PostgreSQL user password. Test with: psql "your-dsn"</span></p>
 
-            <h4>"Failed to decrypt payload" / response is garbled</h4>
-            <p><strong>Cause:</strong> AES key mismatch — the client is using a different access token than the one used to derive the encryption key.</p>
-            <p><strong>Solution:</strong> Ensure the AES key is computed as <code>SHA-256(raw_access_token_string)</code> — the raw JWT string, not its decoded payload. Re-login to get a fresh token and recompute the key.</p>
+            <h4 data-i18n="troubleshooting.decrypt.issue">"Failed to decrypt payload" / response is garbled</h4>
+            <p><strong data-i18n="troubleshooting.causeLabel">Cause:</strong> <span data-i18n="troubleshooting.decrypt.cause">AES key mismatch — the client is using a different access token than the one used to derive the encryption key.</span></p>
+            <p><strong data-i18n="troubleshooting.solutionLabel">Solution:</strong> <span data-i18n="troubleshooting.decrypt.solution">Ensure the AES key is computed as SHA-256(raw_access_token_string) — the raw JWT string, not its decoded payload. Re-login to get a fresh token and recompute the key.</span></p>
 
-            <h4>LiveKit video not working (black screen or timeout)</h4>
-            <p><strong>Cause:</strong> UDP port 7882 is blocked, or <code>use_external_ip</code> is not set correctly on NAT environments.</p>
-            <p><strong>Solution:</strong></p>
+            <h4 data-i18n="troubleshooting.livekit.issue">LiveKit video not working (black screen or timeout)</h4>
+            <p><strong data-i18n="troubleshooting.causeLabel">Cause:</strong> <span data-i18n="troubleshooting.livekit.cause">UDP port 7882 is blocked, or use_external_ip is not set correctly on NAT environments.</span></p>
+            <p><strong data-i18n="troubleshooting.solutionLabel">Solution:</strong></p>
             <ul>
-                <li>Ensure UDP port 7882 is open inbound on your firewall / security group.</li>
-                <li>Set <code>livekit.use_external_ip: true</code> and optionally <code>livekit.node_ip: "&lt;public-ip&gt;"</code> in Server config.</li>
-                <li>Check Node logs for <code>connected to livekit room</code> — if absent, the Node failed to connect to the LiveKit signaling port (7880).</li>
-                <li>Never set <code>livekit.force_tcp: true</code> — it breaks WebRTC pairing with UDP clients.</li>
+                <li data-i18n="troubleshooting.livekit.sol1">Ensure UDP port 7882 is open inbound on your firewall / security group.</li>
+                <li data-i18n="troubleshooting.livekit.sol2">Set livekit.use_external_ip: true and optionally livekit.node_ip: "&lt;public-ip&gt;" in Server config.</li>
+                <li data-i18n="troubleshooting.livekit.sol3">Check Node logs for connected to livekit room — if absent, the Node failed to connect to the LiveKit signaling port (7880).</li>
+                <li data-i18n="troubleshooting.livekit.sol4">Never set livekit.force_tcp: true — it breaks WebRTC pairing with UDP clients.</li>
             </ul>
 
-            <!-- ═══════════════════ NODE ═══ -->
-            <h2 id="node-issues">Node Issues</h2>
+            <h2 id="node-issues" data-i18n="troubleshooting.nodeTitle">Node Issues</h2>
 
-            <h4>Node fails to register / "authentication failed"</h4>
-            <p><strong>Cause:</strong> Wrong <code>server.url</code>, wrong credentials, or server not reachable from Node network.</p>
-            <p><strong>Solution:</strong> Check <code>config.yaml</code> → <code>server.url</code> and <code>auth.username</code> / <code>auth.password</code>. Test connectivity: <code>curl http://&lt;server-ip&gt;:8080/health</code> from the Node.</p>
+            <h4 data-i18n="troubleshooting.nodeRegister.issue">Node fails to register / "authentication failed"</h4>
+            <p><strong data-i18n="troubleshooting.causeLabel">Cause:</strong> <span data-i18n="troubleshooting.nodeRegister.cause">Wrong server.url, wrong credentials, or server not reachable from Node network.</span></p>
+            <p><strong data-i18n="troubleshooting.solutionLabel">Solution:</strong> <span data-i18n="troubleshooting.nodeRegister.solution">Check config.yaml → server.url and auth.username / auth.password. Test connectivity: curl http://&lt;server-ip&gt;:8080/health from the Node.</span></p>
 
-            <h4>Sensor data not appearing in app / telemetry missing</h4>
-            <p><strong>Cause:</strong> Protocol YAML not loaded, UART/I2C bus error, or wrong protocol ID referenced in config.</p>
-            <p><strong>Solution:</strong></p>
+            <h4 data-i18n="troubleshooting.nodeTelemetry.issue">Sensor data not appearing in app / telemetry missing</h4>
+            <p><strong data-i18n="troubleshooting.causeLabel">Cause:</strong> <span data-i18n="troubleshooting.nodeTelemetry.cause">Protocol YAML not loaded, UART/I2C bus error, or wrong protocol ID referenced in config.</span></p>
+            <p><strong data-i18n="troubleshooting.solutionLabel">Solution:</strong></p>
             <ol>
                 <li>Check Node logs: <code>journalctl -u rivo-node | grep protocol</code> — look for <code>protocol loaded: &lt;id&gt;</code> or error messages.</li>
                 <li>Verify that <code>uarts.uart0.protocol</code> in <code>config.yaml</code> exactly matches the <code>id:</code> field in the protocol YAML file.</li>
-                <li>Check that the UART device exists: <code>ls /dev/ttyS0</code> and the Node process has permission to access it (<code>groups rivo-user | grep dialout</code>).</li>
+                <li>Check that the UART device exists: <code>ls /dev/ttyS0</code> and the Node process has permission to access it.</li>
                 <li>Enable debug logging: set <code>logging.level: debug</code> to see raw bytes received from the sensor.</li>
             </ol>
 
-            <h4>"Protocol validation failed: unknown bus"</h4>
-            <p><strong>Cause:</strong> The <code>bus:</code> field in a protocol YAML contains an unsupported value.</p>
-            <p><strong>Solution:</strong> Valid bus values: <code>uart</code>, <code>i2c</code>, <code>spi</code>, <code>modbus</code>, <code>gpio</code>, <code>onewire</code>, <code>can</code>. Check for typos.</p>
+            <h4 data-i18n="troubleshooting.nodeProtocol.issue">"Protocol validation failed: unknown bus"</h4>
+            <p><strong data-i18n="troubleshooting.causeLabel">Cause:</strong> <span data-i18n="troubleshooting.nodeProtocol.cause">The bus: field in a protocol YAML contains an unsupported value.</span></p>
+            <p><strong data-i18n="troubleshooting.solutionLabel">Solution:</strong> <span data-i18n="troubleshooting.nodeProtocol.solution">Valid bus values: uart, i2c, spi, modbus, gpio, onewire, can. Check for typos.</span></p>
 
-            <h4>Actuator command returns "blocked" / safety gate rejection</h4>
-            <p><strong>Cause:</strong> A safety rule condition was satisfied and the rule action is <code>block</code>.</p>
-            <p><strong>Solution:</strong></p>
+            <h4 data-i18n="troubleshooting.safetyBlock.issue">Actuator command returns "blocked" / safety gate rejection</h4>
+            <p><strong data-i18n="troubleshooting.causeLabel">Cause:</strong> <span data-i18n="troubleshooting.safetyBlock.cause">A safety rule condition was satisfied and the rule action is block.</span></p>
+            <p><strong data-i18n="troubleshooting.solutionLabel">Solution:</strong></p>
             <ul>
                 <li>The command response includes a <code>"reason"</code> field with the rule message — read it to identify which rule fired.</li>
                 <li>Check the current robot status (battery, obstacle distance, etc.) that triggered the rule.</li>
@@ -111,9 +109,9 @@
                 <li>Common causes: battery below 10%, obstacle sensor reading &lt;20 cm, actuator value outside declared range.</li>
             </ul>
 
-            <h4>Node goes to safe-stop / all actuators zero unexpectedly</h4>
-            <p><strong>Cause:</strong> Offline watchdog triggered — the Node lost connectivity to the Server for more than <code>offline_threshold</code> consecutive probe intervals.</p>
-            <p><strong>Solution:</strong></p>
+            <h4 data-i18n="troubleshooting.watchdogTrip.issue">Node goes to safe-stop / all actuators zero unexpectedly</h4>
+            <p><strong data-i18n="troubleshooting.causeLabel">Cause:</strong> <span data-i18n="troubleshooting.watchdogTrip.cause">Offline watchdog triggered — the Node lost connectivity to the Server for more than offline_threshold consecutive probe intervals.</span></p>
+            <p><strong data-i18n="troubleshooting.solutionLabel">Solution:</strong></p>
             <ul>
                 <li>Check network connectivity between Node and Server.</li>
                 <li>Review Node logs for <code>offline threshold reached — triggering fallback: stop</code>.</li>
@@ -121,21 +119,20 @@
                 <li>When connectivity restores, the Node automatically resumes normal operation.</li>
             </ul>
 
-            <h4>Camera not streaming / "failed to start camera"</h4>
-            <p><strong>Cause:</strong> GStreamer not installed, camera device not accessible, or wrong device path.</p>
-            <p><strong>Solution:</strong></p>
+            <h4 data-i18n="troubleshooting.camera.issue">Camera not streaming / "failed to start camera"</h4>
+            <p><strong data-i18n="troubleshooting.causeLabel">Cause:</strong> <span data-i18n="troubleshooting.camera.cause">GStreamer not installed, camera device not accessible, or wrong device path.</span></p>
+            <p><strong data-i18n="troubleshooting.solutionLabel">Solution:</strong></p>
             <ol>
                 <li>Verify GStreamer is installed: <code>gst-launch-1.0 --version</code></li>
                 <li>Check device exists: <code>ls /dev/video0</code></li>
                 <li>Test camera directly: <code>gst-launch-1.0 v4l2src device=/dev/video0 ! videoconvert ! autovideosink</code></li>
                 <li>Check Node logs for the exact GStreamer pipeline being executed.</li>
                 <li>Adjust <code>cameras[0].width</code> / <code>height</code> / <code>framerate</code> to values your camera supports.</li>
-                <li>If using a CSI camera, set <code>cameras[0].type: "csi"</code> and provide a custom <code>gst_pipeline</code> for your hardware.</li>
+                <li>If using a CSI camera, set <code>type: "csi"</code> and provide a custom <code>gst_pipeline</code>.</li>
             </ol>
 
-            <h4>I2C sensor not found / "identify check failed"</h4>
-            <p><strong>Cause:</strong> Wrong I2C address, wrong bus number, or sensor not connected.</p>
-            <p><strong>Solution:</strong></p>
+            <h4 data-i18n="troubleshooting.i2c.issue">I2C sensor not found / "identify check failed"</h4>
+            <p><strong data-i18n="troubleshooting.causeLabel">Cause:</strong> <span data-i18n="troubleshooting.i2c.cause">Wrong I2C address, wrong bus number, or sensor not connected.</span></p>
             <pre><code># Scan I2C bus for connected devices
 sudo i2cdetect -y 1
 
@@ -143,12 +140,11 @@ sudo i2cdetect -y 1
 # Protocol YAML: address: "0x76"
 # If sensor appears at 0x77 instead, update the YAML</code></pre>
 
-            <h4>WebSocket telemetry not connecting</h4>
-            <p><strong>Cause:</strong> <code>server.telemetry_ws: true</code> set but server WebSocket endpoint not reachable, or token expired during a long session.</p>
-            <p><strong>Solution:</strong> The Node automatically falls back to HTTP POST telemetry if the WebSocket fails. Check logs for <code>telemetry WS disconnected, falling back to HTTP</code>. Verify port 8080 allows WebSocket upgrades through any reverse proxy (set <code>proxy_http_version 1.1</code> and <code>proxy_set_header Upgrade $http_upgrade</code> in Nginx).</p>
+            <h4 data-i18n="troubleshooting.wsTelemetry.issue">WebSocket telemetry not connecting</h4>
+            <p><strong data-i18n="troubleshooting.causeLabel">Cause:</strong> <span data-i18n="troubleshooting.wsTelemetry.cause">server.telemetry_ws: true set but server WebSocket endpoint not reachable, or token expired during a long session.</span></p>
+            <p><strong data-i18n="troubleshooting.solutionLabel">Solution:</strong> <span data-i18n="troubleshooting.wsTelemetry.solution">The Node automatically falls back to HTTP POST telemetry if the WebSocket fails. Check logs for telemetry WS disconnected, falling back to HTTP. Verify port 8080 allows WebSocket upgrades through any reverse proxy.</span></p>
 
-            <!-- ═══════════════════ GENERAL ═══ -->
-            <h2 id="general">General Diagnostic Commands</h2>
+            <h2 id="general" data-i18n="troubleshooting.generalTitle">General Diagnostic Commands</h2>
             <pre><code># Server logs (Docker)
 docker compose logs --tail 100 rivo-server
 

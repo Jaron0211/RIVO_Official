@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Deployment &amp; Configuration - RIVO Documentation</title>
+    <title data-i18n="deploymentConfig.pageTitle">Deployment &amp; Configuration - RIVO Documentation</title>
     <link rel="stylesheet" href="style.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -18,7 +18,7 @@
     <nav class="docs-nav">
         <a href="../index.html" class="nav-brand">
             <img src="../assets/logo-navbar.png" alt="RIVO">
-            <span>RIVO Docs</span>
+            <span data-i18n="nav.docCenter">RIVO Docs</span>
         </a>
         <div class="lang-switch">
             <button onclick="setLang('en')" data-lang-switch="en" class="lang-btn">EN</button>
@@ -29,54 +29,69 @@
     <div class="docs-container">
         <aside class="sidebar">
             <div class="sidebar-group">
-                <div class="sidebar-group-title">Introduction</div>
-                <a href="getting-started.html" class="sidebar-link">Getting Started</a>
-                <a href="deployment-config.html" class="sidebar-link active">Deployment &amp; Config</a>
+                <div class="sidebar-group-title" data-i18n="sidebar.introduction">Introduction</div>
+                <a href="getting-started.html" class="sidebar-link" data-i18n="sidebar.gettingStarted">Getting Started</a>
+                <a href="deployment-config.html" class="sidebar-link active" data-i18n="sidebar.deploymentConfig">Deployment &amp; Config</a>
             </div>
             <div class="sidebar-group">
-                <div class="sidebar-group-title">IO Definition</div>
-                <a href="io-definition.html" class="sidebar-link">Sensors &amp; Actuators</a>
+                <div class="sidebar-group-title" data-i18n="sidebar.ioDefinition">IO Definition</div>
+                <a href="io-definition.html" class="sidebar-link" data-i18n="sidebar.ioDefinitionLink">Sensors &amp; Actuators</a>
             </div>
             <div class="sidebar-group">
-                <div class="sidebar-group-title">API Reference</div>
-                <a href="api-guide.html" class="sidebar-link">API Usage Guide</a>
+                <div class="sidebar-group-title" data-i18n="sidebar.apiReference">API Reference</div>
+                <a href="api-guide.html" class="sidebar-link" data-i18n="sidebar.apiGuide">API Usage Guide</a>
             </div>
             <div class="sidebar-group">
-                <div class="sidebar-group-title">Operations</div>
-                <a href="advanced.html" class="sidebar-link">Security &amp; OTA</a>
-                <a href="troubleshooting.html" class="sidebar-link">Troubleshooting</a>
+                <div class="sidebar-group-title" data-i18n="sidebar.operations">Operations</div>
+                <a href="advanced.html" class="sidebar-link" data-i18n="sidebar.securityOta">Security &amp; OTA</a>
+                <a href="troubleshooting.html" class="sidebar-link" data-i18n="sidebar.troubleshooting">Troubleshooting</a>
             </div>
         </aside>
 
         <main class="main-content">
-            <h1>Deployment &amp; Configuration</h1>
+            <h1 data-i18n="deploymentConfig.title">Deployment &amp; Configuration</h1>
 
-            <!-- ═══════════════════════════════════════ SERVER ═══ -->
-            <h2 id="server-docker">1. RIVO Server — Docker Compose (Recommended)</h2>
-            <p>The production deployment uses Docker Compose with two containers: <code>rivo-server</code> (API + LiveKit) and <code>rivo-updater</code> (OTA update agent).</p>
+            <h2 id="server-docker" data-i18n="deploymentConfig.serverDockerTitle">1. RIVO Server — Docker Compose (Recommended)</h2>
+            <p data-i18n="deploymentConfig.serverDockerIntro">The production deployment uses Docker Compose with two containers: rivo-server (API + LiveKit) and rivo-updater (OTA update agent).</p>
 
-            <h3>Directory layout</h3>
+            <h3 data-i18n="deploymentConfig.dirLayoutTitle">Directory layout</h3>
             <pre><code>deploy/docker/
 ├── docker-compose.yml
 ├── .env.example        # copy to .env and fill secrets
 ├── Dockerfile
 └── Dockerfile.updater</code></pre>
 
-            <h3>.env setup</h3>
+            <h3 data-i18n="deploymentConfig.dotenvTitle">.env setup</h3>
             <pre><code>cp deploy/docker/.env.example deploy/docker/.env</code></pre>
-            <p>Required variables in <code>.env</code>:</p>
+            <p data-i18n="deploymentConfig.dotenvTableIntro">Required variables in .env:</p>
             <table>
                 <thead>
-                    <tr><th>Variable</th><th>Example</th><th>Description</th></tr>
+                    <tr>
+                        <th data-i18n="deploymentConfig.colVar">Variable</th>
+                        <th data-i18n="deploymentConfig.colExample">Example</th>
+                        <th data-i18n="deploymentConfig.colDesc">Description</th>
+                    </tr>
                 </thead>
                 <tbody>
-                    <tr><td>DB_PASSWORD</td><td>change_me_strong</td><td>PostgreSQL password (also set in server config)</td></tr>
-                    <tr><td>JWT_ACCESS_SECRET</td><td>32+ random chars</td><td>JWT access token signing key</td></tr>
-                    <tr><td>JWT_REFRESH_SECRET</td><td>32+ random chars</td><td>JWT refresh token signing key</td></tr>
+                    <tr>
+                        <td>DB_PASSWORD</td>
+                        <td>change_me_strong</td>
+                        <td data-i18n="deploymentConfig.dbPasswordDesc">PostgreSQL password (also set in server config)</td>
+                    </tr>
+                    <tr>
+                        <td>JWT_ACCESS_SECRET</td>
+                        <td>32+ random chars</td>
+                        <td data-i18n="deploymentConfig.jwtAccessDesc">JWT access token signing key, min 32 chars</td>
+                    </tr>
+                    <tr>
+                        <td>JWT_REFRESH_SECRET</td>
+                        <td>32+ random chars</td>
+                        <td data-i18n="deploymentConfig.jwtRefreshDesc">JWT refresh token signing key, min 32 chars</td>
+                    </tr>
                 </tbody>
             </table>
 
-            <h3>docker-compose.yml (key sections)</h3>
+            <h3 data-i18n="deploymentConfig.composeTitle">docker-compose.yml (key sections)</h3>
             <pre><code>services:
   rivo-server:
     image: rivo-server:latest
@@ -99,23 +114,26 @@
       - /var/run/docker.sock:/var/run/docker.sock
     restart: unless-stopped</code></pre>
 
-            <div class="callout">
+            <div class="callout" data-i18n="deploymentConfig.awsNote" data-i18n-html>
                 <strong>AWS / Cloud NAT:</strong> Ensure UDP port <strong>7882</strong> is open inbound in your security group. Without it WebRTC video will fail to establish.
             </div>
 
-            <h3>Start</h3>
+            <h3 data-i18n="deploymentConfig.startTitle">Start</h3>
             <pre><code>cd deploy/docker
 docker compose up -d
 docker compose logs -f rivo-server   # watch startup</code></pre>
 
-            <!-- ═══════════════════════════════════════ SERVER CONFIG ═══ -->
-            <h2 id="server-config">2. RIVO Server — config.yaml Reference</h2>
-            <p>Generated by <code>make build</code>. LiveKit keys are auto-generated randomly at build time — never hardcode them.</p>
+            <h2 id="server-config" data-i18n="deploymentConfig.serverConfigTitle">2. RIVO Server — config.yaml Reference</h2>
+            <p data-i18n="deploymentConfig.serverConfigIntro">Generated by make build. LiveKit keys are auto-generated randomly at build time — never hardcode them.</p>
 
-            <h3>Core sections</h3>
+            <h3 data-i18n="deploymentConfig.coreSectionsTitle">Core sections</h3>
             <table>
                 <thead>
-                    <tr><th>Section / Key</th><th>Default</th><th>Description</th></tr>
+                    <tr>
+                        <th data-i18n="deploymentConfig.colKey">Section / Key</th>
+                        <th data-i18n="deploymentConfig.colDefault">Default</th>
+                        <th data-i18n="deploymentConfig.colDesc">Description</th>
+                    </tr>
                 </thead>
                 <tbody>
                     <tr><td>server.port</td><td>8080</td><td>HTTP listen port</td></tr>
@@ -135,16 +153,15 @@ docker compose logs -f rivo-server   # watch startup</code></pre>
                 </tbody>
             </table>
 
-            <!-- ═══════════════════════════════════════ NODE ═══ -->
-            <h2 id="node-install">3. RIVO Node — Installation</h2>
+            <h2 id="node-install" data-i18n="deploymentConfig.nodeInstallTitle">3. RIVO Node — Installation</h2>
 
-            <h3>Download binary</h3>
+            <h3 data-i18n="deploymentConfig.downloadTitle">Download binary</h3>
             <pre><code># ARM64 (Raspberry Pi 4/5, Jetson, Orange Pi, etc.)
 wget https://github.com/Jaron0211/RIVO-Node_release/releases/latest/download/rivo-node-linux-arm64.zip
 unzip rivo-node-linux-arm64.zip -d /opt/rivo-node
 chmod +x /opt/rivo-node/rivo-node</code></pre>
 
-            <h3>Directory structure after install</h3>
+            <h3 data-i18n="deploymentConfig.dirStructTitle">Directory structure after install</h3>
             <pre><code>/opt/rivo-node/
 ├── rivo-node              # main binary
 ├── configs/
@@ -154,7 +171,7 @@ chmod +x /opt/rivo-node/rivo-node</code></pre>
 ├── actuators/             # (legacy) actuator YAML files
 └── safety_rules.yaml      # edge safety gate rules</code></pre>
 
-            <h3>systemd service</h3>
+            <h3 data-i18n="deploymentConfig.systemdTitle">systemd service</h3>
             <pre><code># /etc/systemd/system/rivo-node.service
 [Unit]
 Description=RIVO Node
@@ -174,10 +191,9 @@ WantedBy=multi-user.target</code></pre>
 sudo systemctl enable --now rivo-node
 journalctl -u rivo-node -f   # follow logs</code></pre>
 
-            <!-- ═══════════════════════════════════════ NODE CONFIG ═══ -->
-            <h2 id="node-config">4. RIVO Node — config.yaml Full Reference</h2>
+            <h2 id="node-config" data-i18n="deploymentConfig.nodeConfigTitle">4. RIVO Node — config.yaml Full Reference</h2>
 
-            <h3>node</h3>
+            <h3 data-i18n="deploymentConfig.nodeSectionNode">node</h3>
             <pre><code>node:
   robot_id: ""            # leave empty to auto-derive from hardware MAC
   robot_type: "edge-node" # free text, shown in fleet list
@@ -185,14 +201,14 @@ journalctl -u rivo-node -f   # follow logs</code></pre>
   group_id: ""            # optional fleet group UUID
   firmware_version: "1.3.0"  # reported in status, cached by server</code></pre>
 
-            <h3>server</h3>
+            <h3 data-i18n="deploymentConfig.nodeSectionServer">server</h3>
             <pre><code>server:
   url: "http://192.168.1.104:8080"  # RIVO Server URL
   timeout_seconds: 10
   telemetry_ws: false   # set true for persistent WebSocket telemetry
                         # (reduces HTTP overhead for high-frequency sensors)</code></pre>
 
-            <h3>auth</h3>
+            <h3 data-i18n="deploymentConfig.nodeSectionAuth">auth</h3>
             <pre><code>auth:
   mode: "access_token"    # "access_token" or "cert_key"
   username: "node@example.com"
@@ -201,7 +217,7 @@ journalctl -u rivo-node -f   # follow logs</code></pre>
   access_token: ""        # auto-filled at runtime, do not set manually
   refresh_token: ""       # auto-filled at runtime</code></pre>
 
-            <h3>uarts — Multi-UART (named map)</h3>
+            <h3 data-i18n="deploymentConfig.nodeSectionUarts">uarts — Multi-UART (named map)</h3>
             <pre><code>uarts:
   uart0:
     enabled: true
@@ -218,13 +234,13 @@ journalctl -u rivo-node -f   # follow logs</code></pre>
     encoding: "binary"
     protocol: "my-sensor"</code></pre>
 
-            <h3>i2c</h3>
+            <h3 data-i18n="deploymentConfig.nodeSectionI2c">i2c</h3>
             <pre><code>i2c:
   enabled: false
   bus: 1        # /dev/i2c-1
   scan: true    # log detected addresses on startup</code></pre>
 
-            <h3>cameras</h3>
+            <h3 data-i18n="deploymentConfig.nodeSectionCameras">cameras</h3>
             <pre><code>cameras:
   - name: "main"
     enabled: true
@@ -235,7 +251,7 @@ journalctl -u rivo-node -f   # follow logs</code></pre>
     framerate: 30
     gst_pipeline: ""         # optional: override entire GStreamer pipeline string</code></pre>
 
-            <h3>ui (LCD1602)</h3>
+            <h3 data-i18n="deploymentConfig.nodeSectionUi">ui (LCD1602)</h3>
             <pre><code>ui:
   enabled: true
   display: "lcd1602"
@@ -244,32 +260,31 @@ journalctl -u rivo-node -f   # follow logs</code></pre>
   buttons: []
   leds: []</code></pre>
 
-            <h3>telemetry</h3>
+            <h3 data-i18n="deploymentConfig.nodeSectionTelemetry">telemetry</h3>
             <pre><code>telemetry:
   status_interval: "2s"      # how often to push robot status
   telemetry_interval: "500ms" # how often to push sensor telemetry</code></pre>
 
-            <h3>spool — Offline Buffering</h3>
+            <h3 data-i18n="deploymentConfig.nodeSectionSpool">spool — Offline Buffering</h3>
             <pre><code>spool:
   enabled: false
   dir: "/var/lib/rivo-node/spool"
   max_mb: 128        # disk cap for buffered telemetry when offline</code></pre>
 
-            <h3>protocols — IO File Locations</h3>
+            <h3 data-i18n="deploymentConfig.nodeSectionProtocols">protocols — IO File Locations</h3>
             <pre><code>protocols:
   dir: "/opt/rivo-node/protocols"          # sensor YAML files
   interfaces_dir: "/opt/rivo-node/interfaces"  # actuator JSON files
   actuators_dir: "/opt/rivo-node/actuators"    # legacy actuator YAML</code></pre>
 
-            <h3>safety — Edge Safety Gate</h3>
+            <h3 data-i18n="deploymentConfig.nodeSectionSafety">safety — Edge Safety Gate</h3>
             <pre><code>safety:
   watchdog_interval: "5s"    # connectivity probe interval
   offline_threshold: 3        # consecutive failures before fallback triggers
   fallback_policy: "stop"     # "stop" | "hold" | "none"
-                               # stop: zero all actuators; hold: keep last value
   rules_file: "/opt/rivo-node/safety_rules.yaml"</code></pre>
 
-            <h3>logging</h3>
+            <h3 data-i18n="deploymentConfig.nodeSectionLogging">logging</h3>
             <pre><code>logging:
   level: "info"   # "debug" | "info" | "warn" | "error"</code></pre>
         </main>

@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sensors &amp; Actuators IO Definition - RIVO Documentation</title>
+    <title data-i18n="ioDefinition.pageTitle">Sensors &amp; Actuators IO Definition - RIVO Documentation</title>
     <link rel="stylesheet" href="style.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -18,7 +18,7 @@
     <nav class="docs-nav">
         <a href="../index.html" class="nav-brand">
             <img src="../assets/logo-navbar.png" alt="RIVO">
-            <span>RIVO Docs</span>
+            <span data-i18n="nav.docCenter">RIVO Docs</span>
         </a>
         <div class="lang-switch">
             <button onclick="setLang('en')" data-lang-switch="en" class="lang-btn">EN</button>
@@ -29,45 +29,50 @@
     <div class="docs-container">
         <aside class="sidebar">
             <div class="sidebar-group">
-                <div class="sidebar-group-title">Introduction</div>
-                <a href="getting-started.html" class="sidebar-link">Getting Started</a>
-                <a href="deployment-config.html" class="sidebar-link">Deployment &amp; Config</a>
+                <div class="sidebar-group-title" data-i18n="sidebar.introduction">Introduction</div>
+                <a href="getting-started.html" class="sidebar-link" data-i18n="sidebar.gettingStarted">Getting Started</a>
+                <a href="deployment-config.html" class="sidebar-link" data-i18n="sidebar.deploymentConfig">Deployment &amp; Config</a>
             </div>
             <div class="sidebar-group">
-                <div class="sidebar-group-title">IO Definition</div>
-                <a href="io-definition.html" class="sidebar-link active">Sensors &amp; Actuators</a>
+                <div class="sidebar-group-title" data-i18n="sidebar.ioDefinition">IO Definition</div>
+                <a href="io-definition.html" class="sidebar-link active" data-i18n="sidebar.ioDefinitionLink">Sensors &amp; Actuators</a>
             </div>
             <div class="sidebar-group">
-                <div class="sidebar-group-title">API Reference</div>
-                <a href="api-guide.html" class="sidebar-link">API Usage Guide</a>
+                <div class="sidebar-group-title" data-i18n="sidebar.apiReference">API Reference</div>
+                <a href="api-guide.html" class="sidebar-link" data-i18n="sidebar.apiGuide">API Usage Guide</a>
             </div>
             <div class="sidebar-group">
-                <div class="sidebar-group-title">Operations</div>
-                <a href="advanced.html" class="sidebar-link">Security &amp; OTA</a>
-                <a href="troubleshooting.html" class="sidebar-link">Troubleshooting</a>
+                <div class="sidebar-group-title" data-i18n="sidebar.operations">Operations</div>
+                <a href="advanced.html" class="sidebar-link" data-i18n="sidebar.securityOta">Security &amp; OTA</a>
+                <a href="troubleshooting.html" class="sidebar-link" data-i18n="sidebar.troubleshooting">Troubleshooting</a>
             </div>
         </aside>
 
         <main class="main-content">
-            <h1>Sensors &amp; Actuators — IO Definition</h1>
-            <p>RIVO Node uses declarative configuration files to define hardware IO. No recompile is needed — simply add or edit a file and restart the node. All defined capabilities are automatically reported to the Server and made available to the AI assistant.</p>
+            <h1 data-i18n="ioDefinition.title">Sensors &amp; Actuators — IO Definition</h1>
+            <p data-i18n="ioDefinition.intro">RIVO Node uses declarative configuration files to define hardware IO. No recompile is needed — simply add or edit a file and restart the node. All defined capabilities are automatically reported to the Server and made available to the AI assistant.</p>
 
             <div class="callout">
-                <strong>Two file types:</strong>
-                <ul style="margin-top:0.5rem;padding-left:1.2rem">
-                    <li><strong>Sensor Protocols</strong> — YAML files in <code>protocols/</code>, define how to read raw data from UART, I2C, SPI, Modbus, GPIO, 1-Wire, CAN.</li>
-                    <li><strong>Actuator Interfaces</strong> — JSON files in <code>interfaces/</code>, define controllable outputs and expose them to the AI assistant and command API.</li>
-                </ul>
+                <strong data-i18n="ioDefinition.noteTitle">Two file types:</strong>
+                <span data-i18n="ioDefinition.noteBody" data-i18n-html>
+                    <ul style="margin-top:0.5rem;padding-left:1.2rem">
+                        <li><strong>Sensor Protocols</strong> — YAML files in <code>protocols/</code>, define how to read raw data from UART, I2C, SPI, Modbus, GPIO, 1-Wire, CAN.</li>
+                        <li><strong>Actuator Interfaces</strong> — JSON files in <code>interfaces/</code>, define controllable outputs and expose them to the AI assistant and command API.</li>
+                    </ul>
+                </span>
             </div>
 
-            <!-- ═══════════════════════════════════════ SENSOR ═══ -->
-            <h2 id="sensor-protocol">1. Sensor Protocol YAML</h2>
-            <p>Each file in <code>protocols/</code> describes one sensor or device. The filename is arbitrary; the <code>id:</code> field is what links it to the UART/I2C configuration in <code>config.yaml</code>.</p>
+            <h2 id="sensor-protocol" data-i18n="ioDefinition.sensorTitle">1. Sensor Protocol YAML</h2>
+            <p data-i18n="ioDefinition.sensorIntro">Each file in protocols/ describes one sensor or device. The filename is arbitrary; the id: field is what links it to the UART/I2C configuration in config.yaml.</p>
 
-            <h3>Top-level fields</h3>
+            <h3 data-i18n="ioDefinition.topLevelTitle">Top-level fields</h3>
             <table>
                 <thead>
-                    <tr><th>Field</th><th>Required</th><th>Description</th></tr>
+                    <tr>
+                        <th data-i18n="ioDefinition.colField">Field</th>
+                        <th data-i18n="ioDefinition.colRequired">Required</th>
+                        <th data-i18n="ioDefinition.colFieldDesc">Description</th>
+                    </tr>
                 </thead>
                 <tbody>
                     <tr><td>id</td><td>Yes</td><td>Unique protocol ID — referenced in <code>config.yaml uarts.&lt;name&gt;.protocol</code></td></tr>
@@ -83,8 +88,8 @@
                 </tbody>
             </table>
 
-            <h3>capabilities[ ] — Output Definitions</h3>
-            <p>Each capability describes one data output from the sensor:</p>
+            <h3 data-i18n="ioDefinition.capabilitiesTitle">capabilities[ ] — Output Definitions</h3>
+            <p data-i18n="ioDefinition.capabilitiesDesc">Each capability describes one data output from the sensor:</p>
             <pre><code>capabilities:
   - name: "pm25"                    # unique name within this protocol
     category: "sensor"              # "sensor" | "state" | "actuator"
@@ -96,7 +101,7 @@
     sample_interval_ms: 1000
     description: "PM2.5 particulate matter concentration"</code></pre>
 
-            <h3>read — Field Decode (UART / binary)</h3>
+            <h3 data-i18n="ioDefinition.readUartTitle">read — Field Decode (UART / binary)</h3>
             <pre><code>read:
   interval_ms: 1000   # polling interval
   fields:
@@ -107,7 +112,7 @@
       scale: 0.1       # optional multiplier after decode
       offset2: 0.0     # optional additive offset after scale</code></pre>
 
-            <h3>read — Register Read (I2C / SPI)</h3>
+            <h3 data-i18n="ioDefinition.readI2cTitle">read — Register Read (I2C / SPI)</h3>
             <pre><code>read:
   interval_ms: 500
   registers:
@@ -116,10 +121,14 @@
       len: 3           # bytes to read
       decode: "int20_be"  # see decode types table</code></pre>
 
-            <h3>Supported decode types</h3>
+            <h3 data-i18n="ioDefinition.decodeTitle">Supported decode types</h3>
             <table>
                 <thead>
-                    <tr><th>Decode Type</th><th>Bytes</th><th>Description</th></tr>
+                    <tr>
+                        <th data-i18n="ioDefinition.colDecodeType">Decode Type</th>
+                        <th data-i18n="ioDefinition.colBytes">Bytes</th>
+                        <th data-i18n="ioDefinition.colDecodeDesc">Description</th>
+                    </tr>
                 </thead>
                 <tbody>
                     <tr><td>uint8</td><td>1</td><td>Unsigned 8-bit integer</td></tr>
@@ -132,7 +141,7 @@
                 </tbody>
             </table>
 
-            <h3>map — Telemetry &amp; Status Mapping</h3>
+            <h3 data-i18n="ioDefinition.mapTitle">map — Telemetry &amp; Status Mapping</h3>
             <pre><code>map:
   status:
     sensor_overview:
@@ -149,8 +158,8 @@
         field: "pm10"
         unit: "ug/m3"</code></pre>
 
-            <h3>query — Command-Response Sensors</h3>
-            <p>For sensors that require a trigger command before each read (e.g. SDS011):</p>
+            <h3 data-i18n="ioDefinition.queryTitle">query — Command-Response Sensors</h3>
+            <p data-i18n="ioDefinition.queryDesc">For sensors that require a trigger command before each read (e.g. SDS011):</p>
             <pre><code>query:
   enabled: true
   command: [0xAA, 0xB4, 0x04]   # UART: bytes to send
@@ -160,7 +169,7 @@
     header: [0xAA]
     checksum: "sum_complement"   # "sum_complement" | "crc8" | "crc16_modbus" | "none"</code></pre>
 
-            <h3>Modbus RTU sensor</h3>
+            <h3 data-i18n="ioDefinition.modbusTitle">Modbus RTU sensor</h3>
             <pre><code>bus: "modbus"
 modbus:
   slave_id: 1
@@ -177,7 +186,7 @@ modbus:
       decode: "uint16"
       scale: 0.1</code></pre>
 
-            <h3>GPIO sensor (HC-SR04 ultrasonic)</h3>
+            <h3 data-i18n="ioDefinition.gpioTitle">GPIO sensor (HC-SR04 ultrasonic)</h3>
             <pre><code>bus: "gpio"
 gpio:
   mode: "echo_distance"
@@ -191,7 +200,7 @@ capabilities:
     range: [2, 400]
     telemetry_topic: "/distance"</code></pre>
 
-            <h3>Complete UART example — SEN0177 PM Sensor</h3>
+            <h3 data-i18n="ioDefinition.exampleTitle">Complete UART example — SEN0177 PM Sensor</h3>
             <pre><code>id: "uart-sen0177"
 type: "particulate_matter"
 bus: "uart"
@@ -235,11 +244,10 @@ map:
       pm25: { field: "pm25", unit: "ug/m3" }
       pm10: { field: "pm10", unit: "ug/m3" }</code></pre>
 
-            <!-- ═══════════════════════════════════════ ACTUATOR ═══ -->
-            <h2 id="actuator-interface">2. Actuator Interface JSON</h2>
-            <p>JSON files in <code>interfaces/</code> define controllable outputs. When the node starts, all interface controls are merged with sensor capabilities and uploaded to the Server — making them available to the AI assistant and the command API.</p>
+            <h2 id="actuator-interface" data-i18n="ioDefinition.actuatorTitle">2. Actuator Interface JSON</h2>
+            <p data-i18n="ioDefinition.actuatorIntro">JSON files in interfaces/ define controllable outputs. When the node starts, all interface controls are merged with sensor capabilities and uploaded to the Server — making them available to the AI assistant and the command API.</p>
 
-            <h3>File format</h3>
+            <h3 data-i18n="ioDefinition.actuatorFileTitle">File format</h3>
             <pre><code>{
   "name": "differential_drive",
   "description": "Two-wheel differential drive controller",
@@ -269,10 +277,14 @@ map:
   ]
 }</code></pre>
 
-            <h3>controls[ ] fields</h3>
+            <h3 data-i18n="ioDefinition.actuatorFieldsTitle">controls[ ] fields</h3>
             <table>
                 <thead>
-                    <tr><th>Field</th><th>Required</th><th>Description</th></tr>
+                    <tr>
+                        <th data-i18n="ioDefinition.colField">Field</th>
+                        <th data-i18n="ioDefinition.colRequired">Required</th>
+                        <th data-i18n="ioDefinition.colFieldDesc">Description</th>
+                    </tr>
                 </thead>
                 <tbody>
                     <tr><td>name</td><td>Yes</td><td>Actuator name — used in command API <code>"actuator"</code> field</td></tr>
@@ -285,14 +297,13 @@ map:
                 </tbody>
             </table>
 
-            <h3>How AI uses actuator definitions</h3>
-            <p>When a user types a natural language command (e.g. "move forward at 0.3 m/s") in the app, the AI assistant receives the full list of actuator capabilities including names, ranges, and units. It generates a structured command referencing the exact actuator name, which the Safety Gate then validates before execution.</p>
+            <h3 data-i18n="ioDefinition.actuatorAiTitle">How AI uses actuator definitions</h3>
+            <p data-i18n="ioDefinition.actuatorAiDesc">When a user types a natural language command (e.g. "move forward at 0.3 m/s") in the app, the AI assistant receives the full list of actuator capabilities including names, ranges, and units. It generates a structured command referencing the exact actuator name, which the Safety Gate then validates before execution.</p>
 
-            <!-- ═══════════════════════════════════════ SAFETY ═══ -->
-            <h2 id="safety-rules">3. Safety Rules YAML</h2>
-            <p>The file at <code>safety_rules.yaml</code> defines the Edge Safety Gate. Rules are evaluated before every actuator command. Matching rules can <strong>block</strong>, <strong>clamp</strong>, or <strong>warn</strong>.</p>
+            <h2 id="safety-rules" data-i18n="ioDefinition.safetyTitle">3. Safety Rules YAML</h2>
+            <p data-i18n="ioDefinition.safetyIntro">The file at safety_rules.yaml defines the Edge Safety Gate. Rules are evaluated before every actuator command. Matching rules can block, clamp, or warn.</p>
 
-            <h3>Format</h3>
+            <h3 data-i18n="ioDefinition.safetyFormatTitle">Format</h3>
             <pre><code>rules:
   - name: "low_battery_stop"
     condition: "battery_level < 10"
@@ -313,28 +324,30 @@ map:
     range: [-1.0, 1.0]          # values outside range are clamped, not blocked
     message: "linear_velocity clamped to [-1.0, 1.0] m/s"</code></pre>
 
-            <h3>Condition syntax</h3>
-            <p>Conditions reference live status fields from the robot status map. Multiple conditions can be chained with <code>AND</code>:</p>
+            <h3 data-i18n="ioDefinition.conditionTitle">Condition syntax</h3>
+            <p data-i18n="ioDefinition.conditionDesc">Conditions reference live status fields from the robot status map. Multiple conditions can be chained with AND:</p>
             <pre><code>condition: "battery_level &lt; 10"
 condition: "temperature_c &gt; 75 AND speed &gt; 0"
 condition: "distance_cm &lt; 20 AND linear_velocity &gt; 0"
 condition: "true"    # unconditional (always evaluates to match)</code></pre>
+            <p data-i18n="ioDefinition.conditionOps">Supported operators: <code>&lt;</code> <code>&gt;</code> <code>&lt;=</code> <code>&gt;=</code> <code>==</code> <code>!=</code></p>
 
-            <p>Supported operators: <code>&lt;</code> <code>&gt;</code> <code>&lt;=</code> <code>&gt;=</code> <code>==</code> <code>!=</code></p>
-
-            <h3>Action types</h3>
+            <h3 data-i18n="ioDefinition.actionTitle">Action types</h3>
             <table>
                 <thead>
-                    <tr><th>Action</th><th>Behaviour</th></tr>
+                    <tr>
+                        <th data-i18n="ioDefinition.colAction">Action</th>
+                        <th data-i18n="ioDefinition.colBehaviour">Behaviour</th>
+                    </tr>
                 </thead>
                 <tbody>
-                    <tr><td>block</td><td>Rejects the command entirely. Returns error to sender with the rule message.</td></tr>
-                    <tr><td>clamp</td><td>Allows command but clips value to <code>range: [min, max]</code>. No error returned.</td></tr>
-                    <tr><td>warn</td><td>Allows command, logs a warning, and sends alert to Server.</td></tr>
+                    <tr><td>block</td><td data-i18n="ioDefinition.blockDesc">Rejects the command entirely. Returns error to sender with the rule message.</td></tr>
+                    <tr><td>clamp</td><td data-i18n="ioDefinition.clampDesc">Allows command but clips value to range: [min, max]. No error returned.</td></tr>
+                    <tr><td>warn</td><td data-i18n="ioDefinition.warnDesc">Allows command, logs a warning, and sends alert to Server.</td></tr>
                 </tbody>
             </table>
 
-            <h3>Default safety_rules.yaml</h3>
+            <h3 data-i18n="ioDefinition.defaultRulesTitle">Default safety_rules.yaml</h3>
             <pre><code>rules:
   - name: "low_battery_stop"
     condition: "battery_level < 10"
@@ -368,27 +381,26 @@ condition: "true"    # unconditional (always evaluates to match)</code></pre>
     range: [-3.14159, 3.14159]
     message: "angular_velocity clamped to safe range"</code></pre>
 
-            <div class="callout">
+            <div class="callout" data-i18n="ioDefinition.dualLayerNote" data-i18n-html>
                 <strong>Dual-layer safety:</strong> The Safety Gate runs on the Node (edge). The AI assistant also performs its own safety evaluation on the Server before emitting commands. Both must pass for a command to reach the hardware.
             </div>
 
-            <!-- ═══════════════════════════════════════ WORKFLOW ═══ -->
-            <h2 id="workflow">4. Adding a New Sensor — Step by Step</h2>
+            <h2 id="workflow" data-i18n="ioDefinition.workflowTitle">4. Adding a New Sensor — Step by Step</h2>
             <ol>
-                <li>Create <code>/opt/rivo-node/protocols/my-sensor.yaml</code> with the protocol definition.</li>
-                <li>In <code>config.yaml</code>, add an entry under <code>uarts:</code> (or <code>i2c:</code>) referencing <code>protocol: "my-sensor"</code>.</li>
-                <li>Restart the Node: <code>sudo systemctl restart rivo-node</code></li>
-                <li>The Node logs should show <code>protocol loaded: my-sensor</code>.</li>
-                <li>Telemetry data will appear under the configured topic in the Server and App.</li>
+                <li data-i18n="ioDefinition.workflowStep1">Create /opt/rivo-node/protocols/my-sensor.yaml with the protocol definition.</li>
+                <li data-i18n="ioDefinition.workflowStep2">In config.yaml, add an entry under uarts: (or i2c:) referencing protocol: "my-sensor".</li>
+                <li data-i18n="ioDefinition.workflowStep3">Restart the Node: sudo systemctl restart rivo-node</li>
+                <li data-i18n="ioDefinition.workflowStep4">The Node logs should show protocol loaded: my-sensor.</li>
+                <li data-i18n="ioDefinition.workflowStep5">Telemetry data will appear under the configured topic in the Server and App.</li>
             </ol>
 
-            <h2 id="workflow-actuator">5. Adding a New Actuator — Step by Step</h2>
+            <h2 id="workflow-actuator" data-i18n="ioDefinition.workflowActuatorTitle">5. Adding a New Actuator — Step by Step</h2>
             <ol>
-                <li>Create <code>/opt/rivo-node/interfaces/my-actuator.json</code>.</li>
-                <li>Add safety rules in <code>safety_rules.yaml</code> if needed.</li>
-                <li>Restart the Node.</li>
-                <li>The actuator name will appear in the AI assistant's capability context automatically.</li>
-                <li>Send commands via the REST command API or directly via LiveKit DataChannel.</li>
+                <li data-i18n="ioDefinition.actuatorStep1">Create /opt/rivo-node/interfaces/my-actuator.json.</li>
+                <li data-i18n="ioDefinition.actuatorStep2">Add safety rules in safety_rules.yaml if needed.</li>
+                <li data-i18n="ioDefinition.actuatorStep3">Restart the Node.</li>
+                <li data-i18n="ioDefinition.actuatorStep4">The actuator name will appear in the AI assistant's capability context automatically.</li>
+                <li data-i18n="ioDefinition.actuatorStep5">Send commands via the REST command API or directly via LiveKit DataChannel.</li>
             </ol>
         </main>
 
