@@ -5,24 +5,24 @@
         zh: {
             htmlLang: 'zh-TW',
             meta: {
-                title: 'RIVO — 企業級機器人營運平台',
-                description: 'RIVO 是面向企業的機器人與 IoT 營運平台，整合即時監控、遠端控制、資料治理與車隊調度，協助團隊快速規模化部署。',
+                title: 'RIVO Server — 次世代機器人車隊管理後端',
+                description: 'RIVO Server 是高效能 Go 後端平台，整合即時資料串流、AI 任務推理與安全優先架構，提供企業級機器人車隊管理能力。',
                 keywords: 'RIVO, 企業機器人平台, 機器人車隊管理, IoT 營運平台, ROS 雲端, 遠端監控, 邊緣運算, 企業資安',
-                ogTitle: 'RIVO — 企業級機器人營運平台',
-                ogDescription: 'RIVO 是面向企業的機器人與 IoT 營運平台，整合即時監控、遠端控制、資料治理與車隊調度，協助團隊快速規模化部署。'
+                ogTitle: 'RIVO Server — 次世代機器人車隊管理後端',
+                ogDescription: 'RIVO Server 是高效能 Go 後端平台，整合即時資料串流、AI 任務推理與安全優先架構，提供企業級機器人車隊管理能力。'
             },
             nav: {
-                items: ['痛點', '解決方案', 'RIVO Node', '功能', '比較', '定價', 'FAQ'],
+                items: ['痛點', '為何選擇', '解決方案', 'RIVO Node（敬請期待）', '功能', '比較', '定價', 'FAQ'],
                 docs: '技術文件 / Resources',
                 cta: '預約諮詢',
                 mobileMenu: '選單',
                 langSwitch: '語言切換'
             },
             hero: {
-                label: '企業級機器人營運雲平台',
-                intro: 'Built for secure and scalable robotics operations',
-                title: '快速部署<br>規模擴展<br>安全運行',
-                description: '從 PoC 到正式上線，RIVO 整合即時影像、遠端控制、機隊調度與資安治理，協助團隊以標準化流程穩定擴展營運。',
+                label: 'RIVO Server',
+                intro: 'Next-Generation Robot Fleet Management Backend',
+                title: '即時可視化<br>AI 智能控制<br>企業級安全治理',
+                description: 'RIVO Server 以 Go 打造高效能後端，整合 WebSocket/SSE 即時通訊、LiveKit 視訊、AI 指令推理與多租戶安全架構，為現代機器人營運提供可擴展基礎。',
                 primary: '預約架構諮詢',
                 secondary: '查看平台示範',
                 follow: '關注我們 - TW.'
@@ -47,28 +47,28 @@
             whyRivo: {
                 label: 'Why RIVO',
                 title: '為何選擇 RIVO',
-                subtitle: '讓工程團隊專注核心技術，平台能力交給 RIVO',
+                subtitle: '以即時、智能、安全三大軸線，打造可商用的機器人營運後端',
                 titles: [
-                    '快速導入',
-                    '企業級資安',
-                    '即時串流監控',
-                    '在地技術支援',
-                    '彈性擴展架構',
-                    '零程式碼感測器接入'
+                    '統一車隊可視化',
+                    'AI 智能自治',
+                    '高可用 OTA 更新',
+                    '企業級安全模型',
+                    '可擴展後端架構',
+                    '開發者友善擴充'
                 ],
                 descriptions: [
-                    '2 天啟動 PoC，不需自建後端基礎設施',
-                    '端到端 TLS 加密傳輸，完整操作稽核紀錄',
-                    '低延遲影像與遙測資料回傳，支援遠端運維決策',
-                    '台灣團隊、繁中文件與專屬導入顧問服務',
-                    '從 1 台到數百台裝置，依營運規模按需成長',
-                    'YAML 宣告式定義即可支援 UART、I2C、SPI、Modbus、CAN 等主流協議，新增感測器無需重新編譯'
+                    '以次秒延遲掌握位置、電量與感測器狀態，支援多操作員同步監控。',
+                    '自然語言下達任務，結合能力與狀態上下文推理可執行動作。',
+                    '透過 updater 代理與健康檢查回滾機制，更新失敗可自動復原。',
+                    'JWT 雙 Token、即時 session 撤銷、HKDF-SHA256 與多租戶隔離。',
+                    '同時支援 SQLite(WAL) 與 PostgreSQL，從邊緣到雲端一致擴展。',
+                    '以動態 JSON schema 快速接入新機型與感測器，無需重新編譯。'
                 ]
             },
             solution: {
                 label: '運作方式',
                 title: '2 分鐘完成平台接入',
-                subtitle: '2 分鐘連上平台，立即呈現可營運的車隊視圖',
+                subtitle: '連線後即可啟用即時遙測、控制通道與營運觀測視圖',
                 terminalOutputs: [
                     'Registry loaded 3 UART protocols',
                     'loaded 2 actuator capabilities from actuators/',
@@ -86,12 +86,12 @@
                 widgets: ['機器人總數', '目前活動中', '系統警報', '已解決警報'],
                 widgetValues: ['12', '9', '3', '27'],
                 pills: [
-                    '2 天內啟動 PoC，快速向客戶展示成果',
-                    '單一儀表板掌握車隊狀態與告警',
-                    '異常即時通知，降低停機與維運成本',
-                    '遠端控制結合權限管理，操作全程可追溯',
-                    '即時影像與數據同步，跨據點也能穩定營運',
-                    '企業級安全防護，傳輸與存取雙重保障'
+                    'SSE 扇出架構，支援多操作員同時監看不中斷',
+                    'WebSocket 控制通道採 AES-GCM 端對端加密',
+                    'LiveKit WebRTC 低延遲影像，遠端作業可視化',
+                    'AI 指令皆經安全檢核，避免危險或未授權操作',
+                    'OTA 失敗可自動回滾，降低停機風險',
+                    '多租戶資料隔離與審計軌跡，滿足企業治理需求'
                 ]
             },
             rivoNode: {
@@ -155,29 +155,29 @@
             },
             features: {
                 label: '平台',
-                title: '為企業營運打造的核心能力',
-                subtitle: '從連線、監控到治理，完整支援機器人商用落地',
+                title: 'RIVO Server 核心能力',
+                subtitle: '從即時通訊到 AI 與資安治理，完整覆蓋企業級車隊運營需求',
                 titles: [
-                    '多路即時影像串流',
-                    '安全遠端指令控制',
-                    '動態控制面板生成',
-                    '多層級權限管理',
-                    '企業級資安與稽核',
-                    '事件告警與通知',
-                    '地圖定位與軌跡追蹤',
-                    '導入與技術顧問',
-                    '可擴展高可用架構'
+                    '即時車隊狀態追蹤',
+                    'E2E 加密控制通道',
+                    '高效能日誌串流',
+                    'LiveKit 低延遲影像',
+                    '自然語言任務解讀',
+                    '安全優先 AI 驗證',
+                    '安全 OTA 與自我修復',
+                    '身份治理與租戶隔離',
+                    'Go 高效能可擴展後端'
                 ],
                 descriptions: [
-                    '提供低延遲第一視角與多機畫面管理，支援錄影回放與事件追溯',
-                    '透過 Web 與行動端下達指令，搭配權限與審計機制保障操作安全',
-                    '依裝置資料模型自動生成 UI，縮短前端開發與維護時間',
-                    '支援角色、群組與資源範圍控管，符合企業內部治理需求',
-                    'TLS 傳輸、資料加密與完整操作軌跡，滿足資安與稽核要求',
-                    '針對電量、連線與關鍵指標設定閾值，異常即時推送通知',
-                    '整合地圖與路徑資訊，快速掌握車隊位置與運行狀態',
-                    '提供繁中技術文件、導入建議與客製整合服務，加速上線時程',
-                    '面向多機並發與長時間運行設計，維持穩定服務品質'
+                    '次秒級回傳機器人位置、電量與感測器資料，提升全域可視性。',
+                    '控制指令透過 AES-GCM 端對端保護，防止中間攔截與竄改。',
+                    'SSE fan-out 架構提供多訂閱者同時監看，維持穩定效能。',
+                    '內建 WebRTC 串流整合，支援遠端巡檢與操作決策。',
+                    '將操作員語意轉換為可執行動作，降低人機互動門檻。',
+                    '所有 AI 產生指令先過安全過濾，避免危險動作與越權操作。',
+                    'Server 與 updater 解耦，更新失敗自動回滾到穩定版本。',
+                    'JWT access/refresh 與即時撤銷機制，搭配資料庫層級租戶隔離。',
+                    '支援 Go 1.24+、SQLite WAL 與 PostgreSQL，兼顧邊緣與雲端規模。'
                 ]
             },
             comparison: {
@@ -261,8 +261,8 @@
             },
             cta: {
                 badge: '企業級就緒',
-                title: '讓機器人專案進入可規模化營運',
-                listHtml: '專業導入支援包含：<br><span class="check">標準導入評估與架構建議</span><br><span class="check">PoC 目標與 KPI 定義</span><br><span class="check">技術顧問一對一諮詢</span>',
+                title: '以 RIVO Server 建立新一代車隊管理基礎',
+                listHtml: '技術導入重點包含：<br><span class="check">即時通訊與控制通道安全設計</span><br><span class="check">AI 指令治理與風險控管流程</span><br><span class="check">OTA 更新與回滾策略規劃</span>',
                 buttons: ['預約 30 分鐘諮詢', '查看平台示範']
             },
             contact: {
@@ -284,7 +284,7 @@
                 brand: '企業級機器人營運平台，協助團隊安全且可擴展地部署服務。',
                 columnTitles: ['產品', '資源', '聯絡'],
                 productLinks: ['平台能力', '方案與定價', '整合文件'],
-                resourceLinks: ['導入 FAQ', 'English Docs', '繁體中文 Docs', '預約諮詢'],
+                resourceLinks: ['Developer Manual', 'English Docs', '繁體中文 Docs', '預約諮詢'],
                 contactSpans: ['Line: @rivo.dev', '台南市東區大學路1號', '週一至週五 09:00 - 18:00 (GMT+8)'],
                 copyright: '&copy; 2026 RIVO. 保留所有權利。',
                 policies: ['隱私權政策', '服務條款'],
@@ -294,24 +294,24 @@
         en: {
             htmlLang: 'en',
             meta: {
-                title: 'RIVO — Enterprise Robotics Operations Platform',
-                description: 'RIVO is an enterprise robotics and IoT operations platform that unifies real-time monitoring, remote control, data governance, and fleet orchestration for scalable deployments.',
+                title: 'RIVO Server — Next-Generation Robot Fleet Management',
+                description: 'RIVO Server is a high-performance Go backend that unifies real-time streaming, AI-assisted autonomy, and security-first architecture for enterprise robot fleets.',
                 keywords: 'RIVO, enterprise robotics platform, robot fleet management, IoT operations platform, ROS cloud, remote monitoring, edge computing, enterprise security',
-                ogTitle: 'RIVO — Enterprise Robotics Operations Platform',
-                ogDescription: 'RIVO is an enterprise robotics and IoT operations platform that unifies real-time monitoring, remote control, data governance, and fleet orchestration for scalable deployments.'
+                ogTitle: 'RIVO Server — Next-Generation Robot Fleet Management',
+                ogDescription: 'RIVO Server is a high-performance Go backend that unifies real-time streaming, AI-assisted autonomy, and security-first architecture for enterprise robot fleets.'
             },
             nav: {
-                items: ['Challenges', 'Solution', 'RIVO Node', 'Features', 'Comparison', 'Pricing', 'FAQ'],
+                items: ['Challenges', 'Why RIVO', 'Solution', 'RIVO Node (Coming Soon)', 'Features', 'Comparison', 'Pricing', 'FAQ'],
                 docs: 'Resources',
                 cta: 'Book a Call',
                 mobileMenu: 'Menu',
                 langSwitch: 'Language switcher'
             },
             hero: {
-                label: 'Enterprise Robotics Operations Cloud',
-                intro: 'Built for secure and scalable robotics operations',
-                title: 'Deploy Faster.<br>Scale with Control.<br>Operate Securely.',
-                description: 'From PoC to production, RIVO unifies live video, remote control, fleet orchestration, and security governance so your team can focus on product innovation and accelerate rollout.',
+                label: 'RIVO Server',
+                intro: 'Next-Generation Robot Fleet Management Backend',
+                title: 'Observe in Real Time.<br>Control with AI.<br>Operate Securely.',
+                description: 'Built with Go for performance and reliability, RIVO Server combines WebSocket/SSE streaming, LiveKit video, AI reasoning, and enterprise security controls into one operations backend.',
                 primary: 'Book Architecture Consultation',
                 secondary: 'View Platform Demo',
                 follow: 'Follow Us - TW. '
@@ -336,28 +336,28 @@
             whyRivo: {
                 label: 'Why RIVO',
                 title: 'Why Choose RIVO',
-                subtitle: 'Let your engineering team focus on core robotics while RIVO handles platform complexity.',
+                subtitle: 'A practical architecture for real-time, intelligent, and secure fleet operations.',
                 titles: [
-                    'Fast Deployment',
-                    'Enterprise Security',
-                    'Real-Time Stream Monitoring',
-                    'Local Technical Support',
-                    'Elastic Scalability',
-                    'Zero-Code Sensor Onboarding'
+                    'Unified Fleet Observability',
+                    'AI-Powered Autonomy',
+                    'Reliable OTA and Recovery',
+                    'Enterprise Security Model',
+                    'Scalable Backend Foundation',
+                    'Developer-Centric Flexibility'
                 ],
                 descriptions: [
-                    'Launch a PoC in 2 days without building backend infrastructure from scratch.',
-                    'End-to-end TLS transport with full operational audit trails.',
-                    'Low-latency video and telemetry uplink for remote operations decisions.',
-                    'Taiwan-based team with Traditional Chinese docs and guided onboarding support.',
-                    'Scale from 1 to hundreds of devices based on operational demand.',
-                    'Use YAML declarative definitions to support UART, I2C, SPI, Modbus, and CAN without recompiling.'
+                    'Track robot position, battery, and sensor telemetry with sub-second latency.',
+                    'Translate natural language intent into executable and context-aware robot actions.',
+                    'Use updater-proxy isolation, health checks, and automatic rollback on failed updates.',
+                    'Apply JWT token separation, immediate session revocation, HKDF-SHA256, and tenant isolation.',
+                    'Run from edge to cloud with SQLite (WAL) and PostgreSQL deployment options.',
+                    'Onboard new robot types through dynamic JSON schemas without recompilation.'
                 ]
             },
             solution: {
                 label: 'How It Works',
                 title: 'Go Live in 2 Minutes',
-                subtitle: 'Connect in minutes and present a production-ready fleet view to your stakeholders.',
+                subtitle: 'Connect once, then immediately enable telemetry, secure control, and operations visibility.',
                 terminalOutputs: [
                     'Registry loaded 3 UART protocols',
                     'loaded 2 actuator capabilities from actuators/',
@@ -375,12 +375,12 @@
                 widgets: ['Total Robots', 'Active Now', 'System Alerts', 'Resolved Alerts'],
                 widgetValues: ['12', '9', '3', '27'],
                 pills: [
-                    'Launch a customer-facing PoC in as little as 2 days',
-                    'See fleet health and alerts in one unified dashboard',
-                    'Respond to anomalies faster and reduce downtime cost',
-                    'Operate remotely with role-based control and full auditability',
-                    'Keep video and telemetry in sync across distributed sites',
-                    'Protect operations with enterprise-grade security by design'
+                    'Fan-out SSE log streaming for multiple concurrent operators',
+                    'WebSocket control path protected by AES-GCM end-to-end encryption',
+                    'Built-in LiveKit WebRTC for low-latency video operations',
+                    'AI-generated actions are always validated by a safety filter',
+                    'Secure OTA workflow with health-check rollback protection',
+                    'Multi-tenant isolation and auditable governance by default'
                 ]
             },
             rivoNode: {
@@ -444,29 +444,29 @@
             },
             features: {
                 label: 'Platform',
-                title: 'Core Capabilities for Enterprise Operations',
-                subtitle: 'From connectivity to governance, built for commercial robotics operations.',
+                title: 'Core Capabilities of RIVO Server',
+                subtitle: 'Designed for enterprise robotics teams that need speed, safety, and scalability.',
                 titles: [
-                    'Multi-Stream Real-Time Video',
-                    'Secure Remote Command Control',
-                    'Dynamic Control Panel Generation',
-                    'Multi-Level Access Control',
-                    'Enterprise Security and Audit',
-                    'Event Alerts and Notifications',
-                    'Map Localization and Trajectory Tracking',
-                    'Implementation and Technical Advisory',
-                    'Scalable High-Availability Architecture'
+                    'Real-Time Fleet State Tracking',
+                    'E2E Encrypted Command Dispatch',
+                    'High-Performance Log Streaming',
+                    'Live Video via LiveKit',
+                    'Natural Language Commanding',
+                    'Safety-First AI Validation',
+                    'Secure OTA with Self-Healing',
+                    'Identity and Tenant Isolation',
+                    'Go-Powered Scalable Runtime'
                 ],
                 descriptions: [
-                    'Low-latency first-person feeds with multi-robot view management, playback, and traceability.',
-                    'Send commands from web and mobile with role-based access and operation audit trails.',
-                    'Auto-generate interfaces from device schemas to reduce frontend development effort.',
-                    'Apply role, group, and resource-scoped permissions aligned with enterprise governance.',
-                    'TLS transport, encrypted storage, and complete operation traceability for compliance.',
-                    'Define thresholds for battery, connection, and KPIs with real-time notifications.',
-                    'Fuse map and route data to track fleet positions and movement status in one view.',
-                    'Accelerate go-live with implementation guidance, docs, and custom integration support.',
-                    'Designed for high concurrency and long-running workloads with stable service quality.'
+                    'Monitor location, battery, and sensor snapshots with sub-second responsiveness.',
+                    'Protect robot control traffic with AES-GCM so intercepted packets remain unreadable.',
+                    'Use SSE fan-out architecture to serve multiple real-time log subscribers efficiently.',
+                    'Deliver low-latency teleoperation visibility through integrated WebRTC streaming.',
+                    'Let operators issue intents in plain language and map them to executable actions.',
+                    'Require policy and hazard checks before any AI-generated command is executed.',
+                    'Decouple Docker socket access through rivo-updater and auto-rollback unhealthy releases.',
+                    'Support JWT access/refresh tokens, instant session revocation, and strict tenant boundaries.',
+                    'Built on Go 1.24+ for high throughput, low overhead, and container-friendly deployment.'
                 ]
             },
             comparison: {
@@ -550,8 +550,8 @@
             },
             cta: {
                 badge: 'Enterprise Ready',
-                title: 'Scale Your Robotics Program with Confidence',
-                listHtml: 'Implementation support includes:<br><span class="check">Architecture assessment and deployment planning</span><br><span class="check">PoC goals and KPI definition</span><br><span class="check">One-on-one technical advisory</span>',
+                title: 'Deploy RIVO Server as Your Fleet Operations Backbone',
+                listHtml: 'Implementation support includes:<br><span class="check">Secure real-time communication architecture</span><br><span class="check">AI safety guardrail and governance design</span><br><span class="check">OTA rollout and rollback strategy planning</span>',
                 buttons: ['Book a 30-Min Consultation', 'View Platform Demo']
             },
             contact: {
@@ -573,7 +573,7 @@
                 brand: 'Enterprise robotics operations platform for secure, scalable deployments.',
                 columnTitles: ['Product', 'Resources', 'Contact'],
                 productLinks: ['Features', 'Plans and Pricing', 'Integration Docs'],
-                resourceLinks: ['Implementation FAQ', 'English Docs', 'Traditional Chinese Docs', 'Book a Call'],
+                resourceLinks: ['Developer Manual', 'English Docs', 'Traditional Chinese Docs', 'Book a Call'],
                 contactSpans: ['Line: @rivo.dev', 'No.1 University Rd., East District, Tainan, Taiwan', 'Mon - Fri, 09:00 - 18:00 (GMT+8)'],
                 copyright: '&copy; 2026 RIVO. All rights reserved.',
                 policies: ['Privacy Policy', 'Terms of Service'],
@@ -700,8 +700,8 @@
                 navLinks[idx].textContent = value;
             }
         });
-        if (navLinks[7]) {
-            navLinks[7].textContent = t.nav.docs;
+        if (navLinks[t.nav.items.length]) {
+            navLinks[t.nav.items.length].textContent = t.nav.docs;
         }
 
         setOne('.nav-cta .btn', t.nav.cta);
@@ -741,13 +741,6 @@
         setOne('#solution .section-subtitle', t.solution.subtitle);
         setMany('#solution .terminal-body .output', t.solution.terminalOutputs);
         setOne('#solution .browser-url', t.solution.browserUrl);
-        setOne('#solution .map-widget .widget-label', t.solution.previewLabel);
-        setOne('#solution .map-widget .widget-value', t.solution.previewValue);
-        setOne('#solution .demo-video-title', t.solution.videoTitle);
-        setOne('#solution .demo-video-desc', t.solution.videoDescription);
-        setOne('#solution .demo-video-fallback', t.solution.videoFallback);
-        setMany('#solution .browser-content .browser-widget:not(.map-widget) .widget-label', t.solution.widgets);
-        setMany('#solution .browser-content .browser-widget:not(.map-widget) .widget-value', t.solution.widgetValues);
         setMany('#solution .feature-pill', t.solution.pills);
 
         setOne('#rivo-node > .container > .section-label', t.rivoNode.label);

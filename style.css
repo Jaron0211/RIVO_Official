@@ -802,10 +802,10 @@ section {
 
 .solution-grid {
     display: grid;
-    grid-template-columns: 1fr auto 1fr;
+    grid-template-columns: 0.9fr auto 1.25fr;
     gap: 40px;
     align-items: center;
-    max-width: 1000px;
+    max-width: 1160px;
     margin: 0 auto;
 }
 
@@ -913,78 +913,23 @@ section {
 }
 
 .browser-content {
-    padding: 16px;
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 12px;
+    padding: 0;
 }
 
-.browser-widget {
-    background: var(--gray-50);
-    padding: 16px;
-    text-align: center;
-    border: 1px solid var(--gray-200);
-}
-
-.browser-widget .widget-label {
-    font-size: 11px;
-    color: var(--gray-500);
-    margin-bottom: 6px;
-    font-family: var(--font-mono);
-    text-transform: uppercase;
-    letter-spacing: 1px;
-}
-
-.browser-widget .widget-value {
-    font-size: 22px;
-    font-weight: 700;
-    color: var(--black);
-    font-family: var(--font-heading);
-}
-
-.browser-widget.map-widget {
-    grid-column: 1 / -1;
-    min-height: 100px;
-    background: var(--gray-50);
+.inline-demo-video-frame {
     position: relative;
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    justify-content: center;
-    gap: 6px;
-}
-
-.map-dot {
-    width: 12px;
-    height: 12px;
+    aspect-ratio: 1728 / 1072;
     background: var(--black);
-    border-radius: 50%;
-    animation: pulse 2s infinite;
+    border-top: 1px solid var(--gray-200);
+    overflow: hidden;
 }
 
-.browser-widget.map-widget .widget-label {
-    margin-bottom: 0;
-}
-
-.browser-widget.map-widget .widget-value {
-    font-size: 14px;
-    color: var(--gray-700);
-    font-family: var(--font-mono);
-    font-weight: 600;
-}
-
-@keyframes pulse {
-    0% {
-        box-shadow: 0 0 0 0 rgba(0, 0, 0, 0.3);
-    }
-
-    70% {
-        box-shadow: 0 0 0 12px rgba(0, 0, 0, 0);
-    }
-
-    100% {
-        box-shadow: 0 0 0 0 rgba(0, 0, 0, 0);
-    }
+.inline-demo-video-frame video {
+    width: 100%;
+    height: 100%;
+    display: block;
+    object-fit: contain;
+    background: #000;
 }
 
 /* Feature Pills */
@@ -996,60 +941,6 @@ section {
     margin-top: 64px;
 }
 
-.demo-video-block {
-    max-width: 1000px;
-    margin: 56px auto 0;
-    padding: 24px;
-    background: var(--white);
-    border: 1px solid var(--gray-200);
-}
-
-.demo-video-head {
-    margin-bottom: 14px;
-}
-
-.demo-video-title {
-    font-size: 20px;
-    margin-bottom: 8px;
-}
-
-.demo-video-desc {
-    font-size: 14px;
-    color: var(--gray-600);
-}
-
-.demo-video-frame {
-    position: relative;
-    background: var(--black);
-    aspect-ratio: 16 / 9;
-    border: 1px solid var(--gray-200);
-    overflow: hidden;
-}
-
-.demo-video-frame video {
-    width: 100%;
-    height: 100%;
-    display: block;
-    background: #000;
-}
-
-.demo-video-fallback {
-    position: absolute;
-    inset: 0;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: rgba(255, 255, 255, 0.75);
-    font-family: var(--font-mono);
-    font-size: 13px;
-    letter-spacing: 0.08em;
-    pointer-events: none;
-}
-
-.demo-video-fallback.hidden {
-    display: none;
-}
-
 .feature-pill {
     padding: 8px 20px;
     background: var(--white);
@@ -1059,6 +950,21 @@ section {
     font-weight: 500;
     font-family: var(--font-mono);
     letter-spacing: 0.5px;
+}
+
+.coming-soon-badge {
+    display: inline-flex;
+    align-items: center;
+    margin: 12px 0 0;
+    padding: 6px 12px;
+    border: 1px solid #f59e0b;
+    color: #92400e;
+    background: #fffbeb;
+    font-family: var(--font-mono);
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
 }
 
 /* ===== Features Grid Section ===== */
@@ -2402,10 +2308,6 @@ section {
         transform: rotate(90deg);
     }
 
-    .demo-video-block {
-        margin-top: 44px;
-    }
-
     .features-grid {
         grid-template-columns: repeat(2, 1fr);
     }
@@ -2665,18 +2567,11 @@ section {
         padding-bottom: 8px;
     }
 
-    .demo-video-block {
-        padding: 16px;
-    }
-
     .cta-buttons .btn-primary {
         width: 100%;
         max-width: 320px;
     }
 
-    .browser-content {
-        grid-template-columns: 1fr;
-    }
 }
 
 @media (max-width: 480px) {
