@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title data-i18n="advanced.pageTitle">Security & Maintenance - RIVO Documentation</title>
+    <title data-i18n="advanced.pageTitle">Security &amp; OTA - RIVO Documentation</title>
     <link rel="stylesheet" href="style.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -30,57 +30,182 @@
         <aside class="sidebar">
             <div class="sidebar-group">
                 <div class="sidebar-group-title" data-i18n="sidebar.introduction">Introduction</div>
-                <a href="getting-started.html" class="sidebar-link" data-i18n="sidebar.gettingStarted">Getting
-                    Started</a>
-                <a href="deployment-config.html" class="sidebar-link" data-i18n="sidebar.deploymentConfig">Deployment &
-                    Config</a>
+                <a href="getting-started.html" class="sidebar-link" data-i18n="sidebar.gettingStarted">Getting Started</a>
+                <a href="deployment-config.html" class="sidebar-link" data-i18n="sidebar.deploymentConfig">Deployment &amp; Config</a>
+            </div>
+            <div class="sidebar-group">
+                <div class="sidebar-group-title" data-i18n="sidebar.ioDefinition">IO Definition</div>
+                <a href="io-definition.html" class="sidebar-link" data-i18n="sidebar.ioDefinitionLink">Sensors &amp; Actuators</a>
             </div>
             <div class="sidebar-group">
                 <div class="sidebar-group-title" data-i18n="sidebar.apiReference">API Reference</div>
                 <a href="api-guide.html" class="sidebar-link" data-i18n="sidebar.apiGuide">API Usage Guide</a>
-                <a href="custom-schemas.html" class="sidebar-link" data-i18n="sidebar.customSchemas">Custom Message
-                    Schemas</a>
-            </div>
-            <div class="sidebar-group">
-                <div class="sidebar-group-title" data-i18n="sidebar.tools">Tools</div>
-                <a href="protocol-creator.html" class="sidebar-link" data-i18n="sidebar.protocolCreator">Protocol
-                    Creator</a>
             </div>
             <div class="sidebar-group">
                 <div class="sidebar-group-title" data-i18n="sidebar.operations">Operations</div>
-                <a href="advanced.html" class="sidebar-link active" data-i18n="sidebar.advanced">Security &
-                    Maintenance</a>
-                <a href="troubleshooting.html" class="sidebar-link"
-                    data-i18n="sidebar.troubleshooting">Troubleshooting</a>
+                <a href="advanced.html" class="sidebar-link active" data-i18n="sidebar.securityOta">Security &amp; OTA</a>
+                <a href="troubleshooting.html" class="sidebar-link" data-i18n="sidebar.troubleshooting">Troubleshooting</a>
             </div>
         </aside>
 
         <main class="main-content">
-            <h1 data-i18n="advanced.title">Security & Maintenance</h1>
+            <h1 data-i18n="advanced.title">Security &amp; OTA</h1>
 
-            <h2 data-i18n="advanced.securityTitle">9. Security Best Practices</h2>
+            <h2 id="security" data-i18n="advanced.securityTitle">1. Security Architecture</h2>
+
+            <h3 data-i18n="advanced.encryptionSubTitle">Encryption model</h3>
             <ul>
-                <li data-i18n="advanced.security1" data-i18n-html><strong>JWT Keys:</strong> Ensure
-                    <code>access_secret</code> and <code>refresh_secret</code> are at least 32 characters long.</li>
-                <li data-i18n="advanced.security2" data-i18n-html><strong>HTTPS:</strong> In production, use a reverse
-                    proxy (Nginx or Caddy) with TLS encryption.</li>
-                <li data-i18n="advanced.security3" data-i18n-html><strong>Rate Limiting:</strong> Enable built-in rate
-                    limiting to prevent brute-force attacks.</li>
-                <li data-i18n="advanced.security4" data-i18n-html><strong>Field Encryption:</strong> Use
-                    <code>security.encryption_key</code> to encrypt sensitive data in the database.</li>
+                <li data-i18n="advanced.enc1" data-i18n-html><strong>Login:</strong> Credentials are RSA-OAEP encrypted with the server's ephemeral RSA public key before being sent. The session key negotiated during login derives the AES key for all subsequent requests.</li>
+                <li data-i18n="advanced.enc2" data-i18n-html><strong>API payloads:</strong> All protected request and response bodies are AES-256-GCM encrypted. The key is SHA-256(access_token). Plaintext is never transmitted after login.</li>
+                <li data-i18n="advanced.enc3" data-i18n-html><strong>JWT tokens:</strong> Access tokens expire in 30 minutes. Refresh tokens expire in 7 days. Sessions are stored server-side and can be revoked individually or all at once.</li>
+                <li data-i18n="advanced.enc4" data-i18n-html><strong>Command channel:</strong> The Node's WebSocket command channel uses the same AES-GCM encryption. Commands arriving over the LiveKit DataChannel are also validated by the Edge Safety Gate before execution.</li>
             </ul>
 
-            <h2 data-i18n="advanced.opsTitle">8. Operations & Maintenance</h2>
-            <h3 data-i18n="advanced.monitorTitle">System Monitoring</h3>
-            <p data-i18n="advanced.monitorDesc">Monitor system health via the <code>/health</code> endpoint.</p>
-            <h3 data-i18n="advanced.logTitle">Log Management</h3>
-            <p data-i18n="advanced.logDesc">Logs are automatically rotated daily and stored in the <code>logs/</code>
-                folder. Set <code>logging.level</code> to <code>debug</code> for detailed traces.</p>
-            <h3 data-i18n="advanced.backupTitle">Backup</h3>
-            <p data-i18n="advanced.backupDesc">For SQLite, directly backup the <code>data/rivo.db</code> file. For
-                PostgreSQL, use <code>pg_dump</code> for regular backups.</p>
+            <h3 data-i18n="advanced.bestPracticesTitle">Security best practices</h3>
+            <ul>
+                <li data-i18n="advanced.bp1" data-i18n-html><strong>JWT secrets:</strong> Use at least 32 random characters for access_secret and refresh_secret. Generate with: <code>openssl rand -hex 32</code></li>
+                <li data-i18n="advanced.bp2" data-i18n-html><strong>HTTPS in production:</strong> Place Nginx or Caddy as a reverse proxy with TLS termination in front of :8080.</li>
+                <li data-i18n="advanced.bp3" data-i18n-html><strong>Network isolation:</strong> Only expose ports 8080, 7880, 7881 (TCP) and 7882 (UDP) to the internet. All internal services should be on a private network.</li>
+                <li data-i18n="advanced.bp4" data-i18n-html><strong>Node credentials:</strong> Use a dedicated low-privilege account for each Node. Do not use the master account credentials on edge devices.</li>
+                <li data-i18n="advanced.bp5" data-i18n-html><strong>Database:</strong> Never use the default DB_PASSWORD placeholder. Use a randomly generated password and store it only in the .env file.</li>
+            </ul>
+
+            <h2 id="edge-safety" data-i18n="advanced.edgeSafetyTitle">2. Edge Safety Gate</h2>
+            <p data-i18n="advanced.edgeSafetyIntro">Every actuator command received by the Node — whether from the REST command channel or the LiveKit DataChannel — passes through the Edge Safety Gate before any hardware is touched.</p>
+
+            <h3 data-i18n="advanced.gateOrderTitle">Gate evaluation order</h3>
+            <ol>
+                <li data-i18n="advanced.gateStep1">Receive command (actuator name + value)</li>
+                <li data-i18n="advanced.gateStep2">Check all rules in safety_rules.yaml that applies_to this actuator (or "*")</li>
+                <li data-i18n="advanced.gateStep3">Evaluate each rule's condition against the latest robot status snapshot</li>
+                <li data-i18n="advanced.gateStep4">On first matching block rule → reject command, return reason to sender</li>
+                <li data-i18n="advanced.gateStep5">Apply all matching clamp rules → adjust value within range</li>
+                <li data-i18n="advanced.gateStep6">Log matching warn rules and send alert to Server</li>
+                <li data-i18n="advanced.gateStep7">Execute the (possibly clamped) actuator write</li>
+            </ol>
+            <p data-i18n="advanced.gateLink" data-i18n-html>See <a href="io-definition.html#safety-rules">IO Definition → Safety Rules</a> for the full rule format.</p>
+
+            <h2 id="watchdog" data-i18n="advanced.watchdogTitle">3. Offline Watchdog</h2>
+            <p data-i18n="advanced.watchdogIntro">The Node continuously monitors server connectivity. When connectivity is lost, the watchdog triggers the configured fallback policy to keep the robot in a safe state.</p>
+
+            <h3 data-i18n="advanced.watchdogConfigTitle">Config</h3>
+            <pre><code>safety:
+  watchdog_interval: "5s"    # probe interval
+  offline_threshold: 3        # consecutive probe failures before fallback
+  fallback_policy: "stop"     # "stop" | "hold" | "none"</code></pre>
+
+            <h3 data-i18n="advanced.watchdogPoliciesTitle">Fallback policies</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th data-i18n="advanced.colPolicy">Policy</th>
+                        <th data-i18n="advanced.colBehaviour">Behaviour on disconnect</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr><td>stop</td><td data-i18n="advanced.stopDesc">Zeroes all actuator outputs immediately. Safe default for mobile robots.</td></tr>
+                    <tr><td>hold</td><td data-i18n="advanced.holdDesc">Keeps the last commanded value. Suitable for stationary equipment (e.g. conveyor speed).</td></tr>
+                    <tr><td>none</td><td data-i18n="advanced.noneDesc">No automatic action. Commands simply stop arriving — hardware coasts.</td></tr>
+                </tbody>
+            </table>
+            <p data-i18n="advanced.watchdogRecovery">When connectivity recovers, the Node resumes normal operation and logs a reconnection alert.</p>
+
+            <h2 id="ota-server" data-i18n="advanced.otaServerTitle">4. OTA Update — RIVO Server</h2>
+            <p data-i18n="advanced.otaServerIntro">The Server supports in-place binary updates without SSH access. Updates are pulled from GitHub Releases and applied by the rivo-updater companion process.</p>
+
+            <h3 data-i18n="advanced.otaArchTitle">Architecture</h3>
+            <pre><code>RIVO Server (API)
+    │
+    ├── GET  /api/v1/system/versions   → list GitHub Releases (5-min cache)
+    ├── POST /api/v1/system/update     → trigger update (master only)
+    ├── GET  /api/v1/system/update/status → poll progress
+    │
+    ▼
+rivo-updater (companion, port 8090)
+    │
+    ├── Downloads new binary from GitHub Release asset URL
+    ├── Validates integrity
+    ├── Writes to /opt/rivo-server/rivo-server (bind-mounted into container)
+    ├── Runs: docker restart rivo-server
+    └── Rolls back on failure</code></pre>
+
+            <h3 data-i18n="advanced.otaStatesTitle">Update states</h3>
+            <pre><code>idle → downloading → applying → health_check → success
+                                          └──→ rolled_back
+                                          └──→ rollback_failed</code></pre>
+
+            <h3 data-i18n="advanced.otaTriggerTitle">Trigger an update (API)</h3>
+            <pre><code># 1. List available versions
+GET /api/v1/system/versions
+
+# 2. Trigger update (requires master role)
+POST /api/v1/system/update
+# Encrypted body:
+{ "version": "v1.3.0" }
+
+# 3. Poll progress
+GET /api/v1/system/update/status
+# Returns: { "state": "applying", "target_version": "v1.3.0", ... }</code></pre>
+
+            <div class="callout" data-i18n="advanced.otaNote" data-i18n-html>
+                <strong>Note:</strong> The rivo-updater binary itself is NOT updated via OTA — it is baked into its own Docker image. To update the updater, re-run the install.sh script on the host.
+            </div>
+
+            <h2 id="ota-node" data-i18n="advanced.otaNodeTitle">5. OTA Update — RIVO Node</h2>
+            <p data-i18n="advanced.otaNodeIntro">RIVO Node supports remote binary update via commands delivered over the WebSocket command channel.</p>
+
+            <h3 data-i18n="advanced.otaNodeCmdTitle">Command format</h3>
+            <pre><code>POST /api/v1/robots/{robotId}/commands
+{
+  "id": "ota-001",
+  "type": "ota_update",
+  "parameters": {
+    "asset_url": "https://github.com/.../rivo-node-linux-arm64.zip",
+    "version": "v1.3.0"
+  }
+}</code></pre>
+
+            <h3 data-i18n="advanced.otaNodeStepsTitle">What happens on the Node</h3>
+            <ol>
+                <li data-i18n="advanced.otaNodeStep1">Node downloads the zip from asset_url (SSRF-validated, only HTTPS GitHub URLs allowed)</li>
+                <li data-i18n="advanced.otaNodeStep2">Validates ZIP contents (path traversal and zip bomb protection)</li>
+                <li data-i18n="advanced.otaNodeStep3">Extracts binary to a temp path</li>
+                <li data-i18n="advanced.otaNodeStep4">Calls syscall.Exec to replace itself with the new binary</li>
+                <li data-i18n="advanced.otaNodeStep5">New binary starts, re-registers with Server, resumes telemetry</li>
+            </ol>
+
+            <h2 id="maintenance" data-i18n="advanced.maintenanceTitle">6. Operations &amp; Maintenance</h2>
+
+            <h3 data-i18n="advanced.healthTitle">Health check</h3>
+            <pre><code>curl http://localhost:8080/health
+# {"status":"healthy","timestamp":"..."}</code></pre>
+
+            <h3 data-i18n="advanced.sysInfoTitle">System info</h3>
+            <pre><code>GET /api/v1/system/info
+# {"version":"v1.3.0","git_commit":"abc123","build_time":"...","uptime":3600}</code></pre>
+
+            <h3 data-i18n="advanced.sessionTitle">Session management</h3>
+            <pre><code>POST /api/v1/auth/logout       # revoke current session
+POST /api/v1/auth/logout-all   # revoke all sessions (e.g. after credential exposure)</code></pre>
+
+            <h3 data-i18n="advanced.backupTitle">Database backup</h3>
+            <pre><code># PostgreSQL
+pg_dump rivo &gt; backup-$(date +%Y%m%d).sql
+
+# SQLite (hot backup)
+sqlite3 data/rivo.db "VACUUM INTO 'backup.db'"</code></pre>
+
+            <h3 data-i18n="advanced.logTitle">Log management</h3>
+            <p data-i18n="advanced.logDesc">Server logs are written to stdout by default (Docker captures them). Set logging.level: debug in config.yaml for detailed traces during development. Use docker compose logs --since 1h rivo-server to review recent logs.</p>
         </main>
+
+        <aside class="toc-sidebar">
+            <div class="toc-title">On this page</div>
+            <nav class="toc-links"></nav>
+        </aside>
     </div>
+
+    <script src="toc.js"></script>
 </body>
 
 </html>

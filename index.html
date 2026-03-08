@@ -3,9 +3,15 @@
 
 <head>
     <meta charset="UTF-8">
+    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
+    <script>
+        if (location.protocol !== 'https:' && location.hostname !== 'localhost' && location.hostname !== '127.0.0.1') {
+            location.replace(`https:${location.href.substring(location.protocol.length)}`);
+        }
+    </script>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="RIVO 是面向企業的機器人與 IoT 營運平台，整合即時監控、遠端控制、資料治理與車隊調度，協助團隊快速規模化部署。">
-    <meta name="keywords" content="RIVO, 企業機器人平台, 機器人車隊管理, IoT 營運平台, ROS 雲端, 遠端監控, 邊緣運算, 企業資安">
+    <meta name="keywords" content="RIVO, 企業機器人平台, 機器人車隊管理, IoT 營運平台, AI 機器人控制, 遠端監控, 邊緣運算, 企業資安, UART I2C SPI Modbus, 即時影像串流">
     <meta property="og:title" content="RIVO — Enterprise Robotics Operations Platform">
     <meta property="og:description" content="RIVO 是面向企業的機器人與 IoT 營運平台，整合即時監控、遠端控制、資料治理與車隊調度，協助團隊快速規模化部署。">
     <meta property="og:image"
@@ -207,8 +213,8 @@
                                 d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z" />
                         </svg>
                     </div>
-                    <h3>無縫協議整合</h3>
-                    <p>支援 ROS1/ROS2、UART、I2C、SPI 等主流協議</p>
+                    <h3>零程式碼感測器接入</h3>
+                    <p>YAML 宣告式定義即可支援 UART、I2C、SPI、Modbus、CAN 等主流協議，新增感測器無需重新編譯</p>
                 </div>
             </div>
         </div>
@@ -231,15 +237,14 @@
                             <span class="dot green"></span>
                         </div>
                         <div class="terminal-body">
-                            <div><span class="prompt">$</span> <span class="command">curl -X POST
-                                    https://api.rivo.dev/v1/robots/register</span></div>
-                            <div><span class="prompt">$</span> <span class="command">rivo-bridge --token $AUTH_TOKEN
-                                    --discover</span></div>
+                            <div><span class="prompt">$</span> <span class="command">./rivo-node --config config.yaml</span></div>
                             <br>
-                            <div><span class="output">WebSocket Handshake Successful</span></div>
-                            <div><span class="output">LiveKit RTC Session Active</span></div>
-                            <div><span class="output">Loaded 12 custom JSON Schemas</span></div>
-                            <div><span class="output">Control Actions Ready</span></div>
+                            <div><span class="output">Registry loaded 3 UART protocols</span></div>
+                            <div><span class="output">loaded 2 actuator capabilities from actuators/</span></div>
+                            <div><span class="output">UART source 'uart0' registered</span></div>
+                            <div><span class="output">starting command receiver for robot node-a1b2c3</span></div>
+                            <div><span class="output">status update successful (sensors: 6)</span></div>
+                            <div><span class="output">[client] telemetry WebSocket connected</span></div>
                             <span class="cursor"></span>
                         </div>
                     </div>
@@ -262,35 +267,53 @@
                         </div>
                         <div class="browser-content">
                             <div class="browser-widget map-widget">
-                                <div class="map-dot"></div>
+                                <div class="widget-label">Dashboard Scope</div>
+                                <div class="widget-value">Group: All robots</div>
                             </div>
                             <div class="browser-widget">
-                                <div class="widget-label">Battery</div>
-                                <div class="widget-value">85%</div>
+                                <div class="widget-label">Total Robots</div>
+                                <div class="widget-value">12</div>
                             </div>
                             <div class="browser-widget">
-                                <div class="widget-label">Speed</div>
-                                <div class="widget-value">1.2 m/s</div>
+                                <div class="widget-label">Active Now</div>
+                                <div class="widget-value">9</div>
                             </div>
                             <div class="browser-widget">
-                                <div class="widget-label">Status</div>
-                                <div class="widget-value" style="color: #22C55E;">Online</div>
+                                <div class="widget-label">System Alerts</div>
+                                <div class="widget-value">3</div>
                             </div>
                             <div class="browser-widget">
-                                <div class="widget-label">Stream</div>
-                                <div class="widget-value" style="font-size: 14px;">Live</div>
+                                <div class="widget-label">Resolved Alerts</div>
+                                <div class="widget-value">27</div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
 
+            <!-- Demo Video Slot -->
+            <div class="demo-video-block fade-in">
+                <div class="demo-video-head">
+                    <h3 class="demo-video-title">實際 Demo 影片</h3>
+                    <p class="demo-video-desc">此區預留給產品實拍或客戶導入展示影片。將影片檔案放到 <code>assets/demo/rivo-demo.mp4</code> 即可替換。</p>
+                </div>
+                <div class="demo-video-frame">
+                    <video id="solution-demo-video" controls playsinline preload="metadata">
+                        <source src="assets/demo/rivo-demo.mp4" type="video/mp4">
+                        Your browser does not support the video tag.
+                    </video>
+                    <div class="demo-video-fallback">Demo Video Placeholder (16:9)</div>
+                </div>
+            </div>
+
             <!-- Feature Pills -->
             <div class="feature-pills fade-in">
-                <span class="feature-pill">ROS1/ROS2 Topic 自動探索</span>
-                <span class="feature-pill">2D/3D 地圖與狀態可視化</span>
-                <span class="feature-pill">可配置控制元件與工作流</span>
-                <span class="feature-pill">快速部署與擴展</span>
+                <span class="feature-pill">2 天內啟動 PoC，快速向客戶展示成果</span>
+                <span class="feature-pill">單一儀表板掌握車隊狀態與告警</span>
+                <span class="feature-pill">異常即時通知，降低停機與維運成本</span>
+                <span class="feature-pill">遠端控制結合權限管理，操作全程可追溯</span>
+                <span class="feature-pill">即時影像與數據同步，跨據點也能穩定營運</span>
+                <span class="feature-pill">企業級安全防護，傳輸與存取雙重保障</span>
             </div>
         </div>
     </section>
@@ -352,6 +375,27 @@
                             style="padding: 24px; background: #FAFAFA; border-radius: 12px; border: 1px solid #E5E5E5;">
                             <h4 style="margin: 0 0 12px 0; font-size: 16px; font-weight: 600; color: #000;">工業穩定性</h4>
                             <p style="font-size: 14px; color: #525252; line-height: 1.5; margin: 0;">針對長時間運轉場景設計，確保服務連續性
+                            </p>
+                        </div>
+
+                        <div
+                            style="padding: 24px; background: #FAFAFA; border-radius: 12px; border: 1px solid #E5E5E5;">
+                            <h4 style="margin: 0 0 12px 0; font-size: 16px; font-weight: 600; color: #000;">邊緣安全閘道</h4>
+                            <p style="font-size: 14px; color: #525252; line-height: 1.5; margin: 0;">所有指令在執行前於設備本地驗證安全規則，低電量、障礙物偵測等條件自動攔截危險操作，無需依賴伺服器即時回應
+                            </p>
+                        </div>
+
+                        <div
+                            style="padding: 24px; background: #FAFAFA; border-radius: 12px; border: 1px solid #E5E5E5;">
+                            <h4 style="margin: 0 0 12px 0; font-size: 16px; font-weight: 600; color: #000;">斷線自動停機</h4>
+                            <p style="font-size: 14px; color: #525252; line-height: 1.5; margin: 0;">Watchdog 持續偵測伺服器連線狀態，失聯超過閾值自動執行 stop / hold 策略，恢復連線後無縫繼續運作
+                            </p>
+                        </div>
+
+                        <div
+                            style="padding: 24px; background: #FAFAFA; border-radius: 12px; border: 1px solid #E5E5E5;">
+                            <h4 style="margin: 0 0 12px 0; font-size: 16px; font-weight: 600; color: #000;">宣告式致動器整合</h4>
+                            <p style="font-size: 14px; color: #525252; line-height: 1.5; margin: 0;">與感測器相同的 YAML 宣告流程即可新增馬達、繼電器、伺服機等致動器，AI 自動識別可控裝置，無需修改程式碼
                             </p>
                         </div>
                     </div>
@@ -441,11 +485,11 @@
                         <!-- Option Tabs -->
                         <div class="arch-option-tabs">
                             <button class="arch-option-tab active" data-option="hardware">
-                                <span class="tab-label">硬體閘道器</span>
-                                <span class="tab-tag">NodeWare</span>
+                                <span class="tab-label">整合閘道器</span>
+                                <span class="tab-tag">Gateway</span>
                             </button>
                             <button class="arch-option-tab" data-option="software">
-                                <span class="tab-label">軟體節點</span>
+                                <span class="tab-label">直接部署</span>
                                 <span class="tab-tag">RIVO-Node</span>
                             </button>
                         </div>
@@ -461,13 +505,13 @@
                                         <path d="M2 12l10 5 10-5" />
                                     </svg>
                                 </div>
-                                <h3>RIVO-NodeWare</h3>
-                                <p class="arch-node-desc">工業級邊緣閘道器，內建 RIVO-Node Runtime</p>
+                                <h3>協議閘道器 + RIVO-Node</h3>
+                                <p class="arch-node-desc">在閘道器設備上部署 RIVO-Node，橋接下游控制器與感測器</p>
                                 <ul class="arch-node-features">
-                                    <li>多協議轉換與資料標準化</li>
+                                    <li>UART / RS-485 / Modbus 協議轉換</li>
                                     <li>斷線緩存與自動重連機制</li>
-                                    <li>端到端 TLS 加密傳輸</li>
-                                    <li>支援雲端與私有網路部署</li>
+                                    <li>端到端 AES-GCM 加密傳輸</li>
+                                    <li>支援任何執行 Linux 的閘道硬體</li>
                                 </ul>
                             </div>
                         </div>
@@ -546,11 +590,11 @@
                             <div class="scenario-number">01</div>
                             <div class="scenario-content">
                                 <h4>既有設備協議橋接</h4>
-                                <p>將既有控制器輸出接入 RIVO-NodeWare，完成協議轉換與資料標準化，快速接入管理平台。</p>
+                                <p>將既有控制器輸出接入閘道器並部署 RIVO Node，完成協議轉換與資料標準化，快速接入管理平台。</p>
                                 <div class="scenario-flow">
                                     <span>既有控制器</span>
                                     <span class="scenario-arrow">UART</span>
-                                    <span>NodeWare</span>
+                                    <span>RIVO Node</span>
                                     <span class="scenario-arrow">ETH / WiFi</span>
                                     <span>Center</span>
                                 </div>
@@ -561,11 +605,11 @@
                             <div class="scenario-number">02</div>
                             <div class="scenario-content">
                                 <h4>工廠感測資料上雲</h4>
-                                <p>將現場感測器直接連入 NodeWare，持續上傳遙測資料，支援即時告警與追蹤分析。</p>
+                                <p>將現場感測器直接連入 RIVO Node，持續上傳遙測資料，支援即時告警與追蹤分析。</p>
                                 <div class="scenario-flow">
                                     <span>感測器網路</span>
                                     <span class="scenario-arrow">I2C / SPI</span>
-                                    <span>NodeWare</span>
+                                    <span>RIVO Node</span>
                                     <span class="scenario-arrow">HTTPS</span>
                                     <span>Center</span>
                                 </div>
@@ -608,12 +652,12 @@
                     <p>提供低延遲第一視角與多機畫面管理，支援錄影回放與事件追溯</p>
                 </div>
                 <div class="feature-card stagger-child">
-                    <h3>安全遠端指令控制</h3>
-                    <p>透過 Web 與行動端下達指令，搭配權限與審計機制保障操作安全</p>
+                    <h3>低延遲即時控制</h3>
+                    <p>透過 LiveKit WebRTC DataChannel 實現 &lt;20ms 端對端指令延遲，同時支援 Web、行動端與 API 多管道控制</p>
                 </div>
                 <div class="feature-card stagger-child">
-                    <h3>動態控制面板生成</h3>
-                    <p>依裝置資料模型自動生成 UI，縮短前端開發與維護時間</p>
+                    <h3>AI 自然語言指令控制</h3>
+                    <p>以對話方式下達指令，AI 解析意圖並生成致動器控制指令，同時分析感測器數據提供操作建議</p>
                 </div>
                 <div class="feature-card stagger-child">
                     <h3>多層級權限管理</h3>
@@ -684,11 +728,25 @@
                             <td class="highlight-col"><strong>專注機器人應用開發</strong></td>
                         </tr>
                         <tr>
+                            <td class="row-label">AI 自然語言控制</td>
+                            <td>需自行整合 LLM</td>
+                            <td>無</td>
+                            <td>有限</td>
+                            <td class="highlight-col has-feature">內建</td>
+                        </tr>
+                        <tr>
+                            <td class="row-label">邊緣安全規則</td>
+                            <td>需自行開發</td>
+                            <td>無</td>
+                            <td>有限</td>
+                            <td class="highlight-col has-feature">內建</td>
+                        </tr>
+                        <tr>
                             <td class="row-label">行動端支援</td>
                             <td>需另外開發</td>
                             <td>需另外開發</td>
                             <td>部分支援</td>
-                            <td class="highlight-col has-feature">內建</td>
+                            <td class="highlight-col has-feature">Android App 內建</td>
                         </tr>
                         <tr>
                             <td class="row-label">中文介面與文件</td>
@@ -734,6 +792,12 @@
             <span class="section-label fade-in">Pricing</span>
             <h2 class="section-title fade-in">清晰分級，支援成長</h2>
             <p class="section-subtitle fade-in">依場景與營運規模選擇，所有方案皆可升級</p>
+
+            <div class="pricing-carousel-nav fade-in" aria-label="Pricing Plan Navigation">
+                <button class="pricing-nav-btn pricing-nav-prev" type="button" aria-label="Previous plan">&larr;</button>
+                <div class="pricing-carousel-dots" aria-hidden="true"></div>
+                <button class="pricing-nav-btn pricing-nav-next" type="button" aria-label="Next plan">&rarr;</button>
+            </div>
 
             <div class="pricing-grid five-col">
                 <div class="pricing-card stagger-child">
@@ -863,7 +927,7 @@
                         <span class="addon-price">NT$ 30,000 起</span>
                     </div>
                     <div class="addon-item">
-                        <span class="addon-name">ROS Bridge / Legacy 系統整合</span>
+                        <span class="addon-name">感測器 / 致動器協議客製整合</span>
                         <span class="addon-price">NT$ 40,000 起</span>
                     </div>
                 </div>
@@ -934,11 +998,11 @@
             <div class="faq-list">
                 <div class="faq-item">
                     <button class="faq-question" aria-expanded="false">
-                        <h3>非標準 ROS 架構也能整合嗎？</h3>
+                        <h3>不用 ROS 也能用 RIVO 嗎？</h3>
                         <span class="faq-toggle">+</span>
                     </button>
                     <div class="faq-answer">
-                        <p>可以。只要可提供可讀取的資料通道（topic、API 或協議輸出），即可透過對映設定接入；若有 legacy 協議，我們可提供導入服務。</p>
+                        <p>是的，這正是 RIVO 的核心設計。RIVO Node 採用宣告式 YAML 協議，直接對接 UART、I2C、SPI、Modbus、CAN 等硬體介面，不依賴 ROS 中介層。適合自製控制器、嵌入式系統與非標準硬體場景，新增感測器或致動器只需撰寫 YAML 設定檔，無需修改程式碼。</p>
                     </div>
                 </div>
 
@@ -954,11 +1018,21 @@
 
                 <div class="faq-item">
                     <button class="faq-question" aria-expanded="false">
-                        <h3>支援哪些 ROS 版本？</h3>
+                        <h3>AI 指令控制是否安全？如何防止誤操作？</h3>
                         <span class="faq-toggle">+</span>
                     </button>
                     <div class="faq-answer">
-                        <p>支援 ROS1 與 ROS2。常見版本包含 ROS1 Kinetic / Melodic / Noetic，以及 ROS2 Foxy / Humble / Iron。</p>
+                        <p>RIVO 採用雙層安全架構：伺服器端的 AI 在生成指令前會評估電量、障礙物距離等條件並標記安全旗標；指令送達後，設備本地的邊緣安全閘道（Edge Safety Gate）再次依據自訂規則進行驗證，不符合條件的指令會在接觸硬體前被攔截。兩層防護相互獨立，即使伺服器離線，本地規則仍持續保護設備安全。</p>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <button class="faq-question" aria-expanded="false">
+                        <h3>如何新增自訂感測器或致動器？需要改程式嗎？</h3>
+                        <span class="faq-toggle">+</span>
+                    </button>
+                    <div class="faq-answer">
+                        <p>不需要。RIVO Node 採用宣告式 YAML 設定，在 protocols/ 或 actuators/ 目錄下新增一個 YAML 檔案，描述通訊協議、暫存器位址、資料解碼規則與遙測主題，重啟 Node 後立即生效。設備能力會自動上傳至伺服器，AI 控制系統也會即時識別新增的可控裝置。</p>
                     </div>
                 </div>
 
@@ -1244,7 +1318,7 @@
         }, { threshold: 0.1 });
 
         // Observe parent containers of stagger children
-        document.querySelectorAll('.problems-grid, .features-grid, .pricing-grid, .testimonials-grid').forEach(grid => {
+        document.querySelectorAll('.problems-grid, .why-rivo-grid, .features-grid, .pricing-grid, .testimonials-grid').forEach(grid => {
             staggerObserver.observe(grid);
         });
 
@@ -1298,6 +1372,105 @@
         }
         updateArrow();
         window.addEventListener('resize', updateArrow);
+
+        // Demo video placeholder visibility
+        const demoVideo = document.getElementById('solution-demo-video');
+        const demoFallback = document.querySelector('.demo-video-fallback');
+        if (demoVideo && demoFallback) {
+            demoVideo.addEventListener('loadeddata', () => {
+                demoFallback.classList.add('hidden');
+            });
+            demoVideo.addEventListener('error', () => {
+                demoFallback.classList.remove('hidden');
+            });
+        }
+
+        // Pricing carousel controls for tablet/mobile
+        (function initPricingCarousel() {
+            const pricingSection = document.getElementById('pricing');
+            if (!pricingSection) return;
+
+            const grid = pricingSection.querySelector('.pricing-grid');
+            const cards = Array.from(pricingSection.querySelectorAll('.pricing-card'));
+            const prevBtn = pricingSection.querySelector('.pricing-nav-prev');
+            const nextBtn = pricingSection.querySelector('.pricing-nav-next');
+            const dotsWrap = pricingSection.querySelector('.pricing-carousel-dots');
+            const mq = window.matchMedia('(max-width: 1024px)');
+
+            if (!grid || !cards.length || !prevBtn || !nextBtn || !dotsWrap) return;
+
+            let currentIndex = 0;
+            let scrollRaf = null;
+
+            function nearestIndex() {
+                let idx = 0;
+                let min = Number.POSITIVE_INFINITY;
+                const left = grid.scrollLeft;
+                cards.forEach((card, i) => {
+                    const d = Math.abs(card.offsetLeft - left);
+                    if (d < min) {
+                        min = d;
+                        idx = i;
+                    }
+                });
+                return idx;
+            }
+
+            function updateControls() {
+                currentIndex = nearestIndex();
+                prevBtn.disabled = currentIndex <= 0;
+                nextBtn.disabled = currentIndex >= cards.length - 1;
+                dotsWrap.querySelectorAll('.pricing-dot').forEach((dot, i) => {
+                    dot.classList.toggle('active', i === currentIndex);
+                });
+            }
+
+            function goTo(index) {
+                const target = Math.max(0, Math.min(index, cards.length - 1));
+                grid.scrollTo({
+                    left: cards[target].offsetLeft,
+                    behavior: 'smooth'
+                });
+            }
+
+            dotsWrap.innerHTML = '';
+            cards.forEach((card, idx) => {
+                const dot = document.createElement('button');
+                dot.type = 'button';
+                dot.className = 'pricing-dot' + (idx === 0 ? ' active' : '');
+                dot.setAttribute('aria-label', `Go to ${card.querySelector('h3')?.textContent || `plan ${idx + 1}`}`);
+                dot.addEventListener('click', () => goTo(idx));
+                dotsWrap.appendChild(dot);
+            });
+
+            prevBtn.addEventListener('click', () => goTo(currentIndex - 1));
+            nextBtn.addEventListener('click', () => goTo(currentIndex + 1));
+
+            grid.addEventListener('scroll', () => {
+                if (scrollRaf) return;
+                scrollRaf = requestAnimationFrame(() => {
+                    updateControls();
+                    scrollRaf = null;
+                });
+            });
+
+            function onModeChange() {
+                if (!mq.matches) {
+                    grid.scrollLeft = 0;
+                    currentIndex = 0;
+                }
+                updateControls();
+            }
+
+            if (typeof mq.addEventListener === 'function') {
+                mq.addEventListener('change', onModeChange);
+            } else {
+                mq.addListener(onModeChange);
+            }
+
+            window.addEventListener('resize', updateControls);
+            updateControls();
+        })();
 
         // Initialize RIVO Node Template Browser
         window.addEventListener('DOMContentLoaded', async function () {

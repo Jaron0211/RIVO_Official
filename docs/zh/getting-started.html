@@ -78,18 +78,31 @@
 └── logs/                # 伺服器日誌檔案</code></pre>
 
             <h2>3. 首次設定</h2>
-            <h3>步驟 1：啟動伺服器</h3>
-            <p>若使用二進位檔案部署，請執行：</p>
-            <pre><code>./rivo-server</code></pre>
-            <p>伺服器將自動建立資料庫資料表並載入 Schema。</p>
+            <h3>步驟 1：安裝</h3>
+            <p><strong>Docker（推薦）：</strong>解壓縮 Docker 發行套件後執行安裝腳本：</p>
+            <pre><code>unzip rivo-server-docker-&lt;version&gt;.zip
+cd rivo-server-docker-&lt;version&gt;
+./install.sh</code></pre>
+            <p>安裝腳本會自動生成密鑰、建立 <code>.env</code>，並啟動 Docker 容器。完成後會印出管理員帳號資訊。</p>
+            <p><strong>Binary（systemd）：</strong>解壓縮 Binary 發行套件後以 root 執行安裝腳本：</p>
+            <pre><code>unzip rivo-server-linux-amd64-&lt;version&gt;.zip
+cd rivo-server-linux-amd64-&lt;version&gt;
+sudo ./install.sh</code></pre>
+            <p>安裝腳本會將程式安裝至 <code>/opt/rivo-server/</code>，自動注入 JWT 密鑰，並設定 systemd 服務。</p>
 
             <h3>步驟 2：驗證狀態</h3>
             <p>檢查伺服器是否正常運行：</p>
             <pre><code>curl http://localhost:8080/health</code></pre>
 
-            <h3>步驟 3：建立 Master 帳號</h3>
-            <p>使用 admin 工具建立初始帳號：</p>
-            <pre><code>./rivo-admin seed --email admin@yourcompany.com --password "SecurePassword123!"</code></pre>
+            <h3>步驟 3：預設帳號與使用者管理</h3>
+            <p>安裝腳本完成後會印出預設管理員帳號資訊。使用 <code>rivo-admin</code> 新增使用者或變更密碼：</p>
+            <pre><code># 互動模式
+./rivo-admin
+
+# 常用指令：
+#   user add -u &lt;email&gt; -p &lt;password&gt; -l master
+#   user reset-password -u &lt;email&gt; -p &lt;newpass&gt;
+#   user list</code></pre>
         </main>
     </div>
 </body>

@@ -30,66 +30,342 @@
         <aside class="sidebar">
             <div class="sidebar-group">
                 <div class="sidebar-group-title" data-i18n="sidebar.introduction">Introduction</div>
-                <a href="getting-started.html" class="sidebar-link" data-i18n="sidebar.gettingStarted">Getting
-                    Started</a>
-                <a href="deployment-config.html" class="sidebar-link" data-i18n="sidebar.deploymentConfig">Deployment &
-                    Config</a>
+                <a href="getting-started.html" class="sidebar-link" data-i18n="sidebar.gettingStarted">Getting Started</a>
+                <a href="deployment-config.html" class="sidebar-link" data-i18n="sidebar.deploymentConfig">Deployment &amp; Config</a>
+            </div>
+            <div class="sidebar-group">
+                <div class="sidebar-group-title" data-i18n="sidebar.ioDefinition">IO Definition</div>
+                <a href="io-definition.html" class="sidebar-link" data-i18n="sidebar.ioDefinitionLink">Sensors &amp; Actuators</a>
             </div>
             <div class="sidebar-group">
                 <div class="sidebar-group-title" data-i18n="sidebar.apiReference">API Reference</div>
                 <a href="api-guide.html" class="sidebar-link active" data-i18n="sidebar.apiGuide">API Usage Guide</a>
-                <a href="custom-schemas.html" class="sidebar-link" data-i18n="sidebar.customSchemas">Custom Message
-                    Schemas</a>
-            </div>
-            <div class="sidebar-group">
-                <div class="sidebar-group-title" data-i18n="sidebar.tools">Tools</div>
-                <a href="protocol-creator.html" class="sidebar-link" data-i18n="sidebar.protocolCreator">Protocol
-                    Creator</a>
             </div>
             <div class="sidebar-group">
                 <div class="sidebar-group-title" data-i18n="sidebar.operations">Operations</div>
-                <a href="advanced.html" class="sidebar-link" data-i18n="sidebar.advanced">Security & Maintenance</a>
-                <a href="troubleshooting.html" class="sidebar-link"
-                    data-i18n="sidebar.troubleshooting">Troubleshooting</a>
+                <a href="advanced.html" class="sidebar-link" data-i18n="sidebar.securityOta">Security &amp; OTA</a>
+                <a href="troubleshooting.html" class="sidebar-link" data-i18n="sidebar.troubleshooting">Troubleshooting</a>
             </div>
         </aside>
 
         <main class="main-content">
             <h1 data-i18n="apiGuide.title">API Usage Guide</h1>
-            <p data-i18n="apiGuide.intro">All protected API endpoints require an Authorization header with a Bearer
-                Token.</p>
-            <pre><code>Authorization: Bearer &lt;access_token&gt;</code></pre>
+            <p data-i18n="apiGuide.intro">All RIVO Server API communication uses end-to-end encryption. This page explains the encryption model and documents the key API endpoints.</p>
 
-            <h2 data-i18n="apiGuide.authTitle">6.1 Authentication</h2>
-            <p data-i18n="apiGuide.authDesc">Obtain Access Token and Refresh Token via the login API.</p>
-            <pre><code>curl -X POST http://localhost:8080/api/v1/auth/login \
-  -H "Content-Type: application/json" \
-  -d '{"username": "user@example.com", "password": "password"}'</code></pre>
+            <h2 id="encryption" data-i18n="apiGuide.encryptionTitle">1. End-to-End Encryption</h2>
+            <p data-i18n="apiGuide.encryptionIntro">RIVO uses a two-layer encryption model:</p>
+            <table>
+                <thead>
+                    <tr>
+                        <th data-i18n="apiGuide.colLayer">Layer</th>
+                        <th data-i18n="apiGuide.colAppliesTo">Applies to</th>
+                        <th data-i18n="apiGuide.colAlgorithm">Algorithm</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td data-i18n="apiGuide.loginLayer">Login</td>
+                        <td data-i18n="apiGuide.loginApplies">POST /api/v1/auth/login only</td>
+                        <td>RSA-OAEP (server's public key)</td>
+                    </tr>
+                    <tr>
+                        <td data-i18n="apiGuide.protectedLayer">All protected endpoints</td>
+                        <td data-i18n="apiGuide.protectedApplies">Every request/response body after login</td>
+                        <td>AES-256-GCM, key = SHA-256(access_token)</td>
+                    </tr>
+                </tbody>
+            </table>
+            <p data-i18n="apiGuide.encryptionWrap">Every protected request body must be wrapped as:</p>
+            <pre><code>{ "encrypted_data": "&lt;base64(AES-GCM-ciphertext)&gt;" }</code></pre>
+            <p data-i18n="apiGuide.aesKeyNote">And every response is returned in the same wrapper. The AES key is derived at runtime by taking the SHA-256 hash of the raw JWT access token string.</p>
 
-            <h2 data-i18n="apiGuide.robotTitle">6.2 Robot Management</h2>
-            <p data-i18n="apiGuide.robotDesc">Register a new robot to the fleet.</p>
-            <pre><code>curl -X POST http://localhost:8080/api/v1/robots \
-  -H "Authorization: Bearer $TOKEN" \
-  -H "Content-Type: application/json" \
-  -d '{
-    "robot_id": "turtlebot-001",
-    "robot_type": "turtlebot3",
-    "robot_name": "Warehouse Robot #1"
-  }'</code></pre>
+            <h2 id="auth" data-i18n="apiGuide.authTitle">2. Authentication Flow</h2>
 
-            <h2 data-i18n="apiGuide.statusTitle">6.3 Status & Telemetry</h2>
-            <p data-i18n="apiGuide.statusDesc">Periodically update robot status (heartbeat, position, battery).</p>
-            <pre><code>curl -X POST http://localhost:8080/api/v1/robots/{robotId}/status \
-  -H "Authorization: Bearer $TOKEN" \
-  -d '{"status": "active", "battery_level": 85}'</code></pre>
+            <h3 data-i18n="apiGuide.step1Title">Step 1 — Fetch RSA public key</h3>
+            <pre><code>GET /api/v1/auth/key
 
-            <h2 data-i18n="apiGuide.controlTitle">6.8 Command & Control</h2>
-            <p data-i18n="apiGuide.controlDesc">Send action commands to robots via REST.</p>
-            <pre><code>curl -X POST http://localhost:8080/api/v1/robots/{robotId}/control \
-  -H "Authorization: Bearer $TOKEN" \
-  -d '{"action": "gripper_open", "parameters": {"force": 10}}'</code></pre>
+Response:
+{
+  "public_key": "-----BEGIN PUBLIC KEY-----\n..."
+}</code></pre>
+
+            <h3 data-i18n="apiGuide.step2Title">Step 2 — Generate session key &amp; encrypt credentials</h3>
+            <pre><code># Pseudocode
+session_key = random_bytes(32)          # 32-byte random key
+session_key_b64 = base64(session_key)
+
+plaintext = JSON.stringify({
+  "username": "admin@example.com",
+  "password": "SecurePassword123!",
+  "session_key": session_key_b64
+})
+
+encrypted = RSA_OAEP_encrypt(public_key, plaintext)</code></pre>
+
+            <h3 data-i18n="apiGuide.step3Title">Step 3 — Login</h3>
+            <pre><code>POST /api/v1/auth/login
+Content-Type: application/json
+
+{ "encrypted_data": "&lt;base64(RSA ciphertext)&gt;" }
+
+Response (decrypt with session_key):
+{
+  "access_token": "eyJ...",
+  "refresh_token": "eyJ...",
+  "expires_at": "2026-03-07T12:30:00Z"
+}</code></pre>
+
+            <h3 data-i18n="apiGuide.step4Title">Step 4 — Use access token</h3>
+            <p data-i18n="apiGuide.step4Desc">All subsequent requests:</p>
+            <pre><code>Authorization: Bearer &lt;access_token&gt;
+Content-Type: application/json
+
+# Body: AES-GCM encrypt with key = SHA256(access_token)
+{ "encrypted_data": "&lt;base64(AES-GCM ciphertext)&gt;" }</code></pre>
+
+            <h3 data-i18n="apiGuide.refreshTitle">Token refresh</h3>
+            <pre><code>POST /api/v1/auth/refresh
+Content-Type: application/json
+
+{ "refresh_token": "eyJ..." }
+
+Response (plaintext — refresh endpoint is NOT encrypted):
+{
+  "access_token": "eyJ...",
+  "refresh_token": "eyJ...",
+  "expires_at": "..."
+}</code></pre>
+
+            <h2 id="robots" data-i18n="apiGuide.robotsTitle">3. Robot Management</h2>
+
+            <h3 data-i18n="apiGuide.registerTitle">Register a robot</h3>
+            <p data-i18n="apiGuide.registerDesc">RIVO Node auto-registers on startup. Manual registration (for testing):</p>
+            <pre><code>POST /api/v1/robots
+Authorization: Bearer &lt;token&gt;
+
+# Encrypted body:
+{
+  "robot_id": "node-001",
+  "robot_type": "edge-node",
+  "robot_name": "Warehouse Bot #1",
+  "group_id": ""
+}
+
+Response:
+{ "robot_id": "&lt;uuid&gt;" }</code></pre>
+
+            <h3 data-i18n="apiGuide.listRobotsTitle">List robots</h3>
+            <pre><code>GET /api/v1/robots
+Authorization: Bearer &lt;token&gt;
+
+Response:
+{
+  "robots": [
+    {
+      "id": "...",
+      "robot_id": "node-001",
+      "robot_name": "Warehouse Bot #1",
+      "robot_type": "edge-node",
+      "online": true,
+      "battery_level": 85.0,
+      "firmware_version": "1.3.0"
+    }
+  ],
+  "count": 1
+}</code></pre>
+
+            <h2 id="status" data-i18n="apiGuide.statusTitle">4. Status &amp; Telemetry</h2>
+
+            <h3 data-i18n="apiGuide.pushStatusTitle">Push status (Node → Server)</h3>
+            <pre><code>POST /api/v1/robots/{robotId}/status
+Authorization: Bearer &lt;token&gt;
+
+# Encrypted body:
+{
+  "status": {
+    "online": true,
+    "uptime": 3600.5,
+    "status": "Operating",
+    "battery_level": 85.0,
+    "cpu_load": 0.45,
+    "memory_usage": 4500000,
+    "firmware_version": "1.3.0",
+    "sensor_overview": [
+      { "sensor_id": "PM2.5", "sensor_type": "Particulate Matter", "value": 35, "unit": "ug/m3" }
+    ]
+  }
+}</code></pre>
+
+            <h3 data-i18n="apiGuide.pushTelemetryTitle">Push telemetry (Node → Server)</h3>
+            <pre><code>POST /api/v1/robots/{robotId}/telemetry
+
+# Encrypted body:
+{
+  "timestamp": "2026-03-07T10:00:00Z",
+  "topics": {
+    "/air_quality": { "pm25": 35.2, "pm10": 48.1 },
+    "/environment": { "temperature": 26.5, "humidity": 65.0 }
+  }
+}</code></pre>
+
+            <h3 data-i18n="apiGuide.wsTelemetryTitle">High-frequency WebSocket telemetry</h3>
+            <p data-i18n="apiGuide.wsTelemetryDesc">When server.telemetry_ws: true is set in Node config, the Node uses a persistent WebSocket instead of HTTP POST for telemetry. This reduces connection overhead for high-frequency sensors (&gt;2 Hz).</p>
+            <pre><code>WebSocket: ws://&lt;server&gt;/api/v1/robots/{robotId}/telemetry/ws
+Authorization: Bearer &lt;token&gt;
+
+# Frames sent by Node (JSON):
+{ "t": "/air_quality", "d": { "pm25": 35.2 }, "ts": 1709808000 }</code></pre>
+
+            <h2 id="commands" data-i18n="apiGuide.commandsTitle">5. Command &amp; Control</h2>
+
+            <h3 data-i18n="apiGuide.wsCommandTitle">WebSocket command channel (Node listens)</h3>
+            <pre><code>WebSocket: ws://&lt;server&gt;/api/v1/robots/{robotId}/commands
+Authorization: Bearer &lt;token&gt;
+
+# Server pushes commands to Node (AES-GCM encrypted):
+{
+  "id": "cmd-uuid",
+  "type": "actuator_write",
+  "parameters": {
+    "linear_velocity": 0.3,
+    "angular_velocity": 0.0
+  },
+  "timestamp": "2026-03-07T10:00:00Z"
+}
+
+# Node ACKs:
+{ "command_id": "cmd-uuid", "status": "applied" }
+# or rejected by safety gate:
+{ "command_id": "cmd-uuid", "status": "blocked", "reason": "obstacle within 20cm" }</code></pre>
+
+            <h3 data-i18n="apiGuide.restCommandTitle">Publish command (REST → Node)</h3>
+            <pre><code>POST /api/v1/robots/{robotId}/commands
+Authorization: Bearer &lt;token&gt;
+
+# Encrypted body:
+{
+  "id": "cmd-uuid",
+  "type": "actuator_write",
+  "parameters": { "linear_velocity": 0.3 }
+}</code></pre>
+
+            <h3 data-i18n="apiGuide.datachanTitle">LiveKit DataChannel realtime control</h3>
+            <p data-i18n="apiGuide.datachanDesc">For latency-sensitive control (&lt;20ms), the Android App sends control commands directly through the LiveKit room's DataChannel — bypassing the REST API entirely:</p>
+            <pre><code># DataChannel message format (JSON, sent by App):
+{
+  "type": "actuator_write",
+  "params": { "linear_velocity": 0.5, "angular_velocity": -0.1 },
+  "seq": 42
+}
+
+# Node ACK (via DataChannel):
+{ "type": "ack", "seq": 42, "applied": true, "reason": "" }</code></pre>
+            <p data-i18n="apiGuide.datachanNote">All DataChannel commands also pass through the Edge Safety Gate before reaching hardware.</p>
+
+            <h2 id="capabilities" data-i18n="apiGuide.capabilitiesTitle">6. Robot Capabilities (IO Query)</h2>
+            <p data-i18n="apiGuide.capabilitiesIntro">Query a robot's declared sensors and actuators — this is what the AI assistant uses:</p>
+            <pre><code>GET /api/v1/robots/{robotId}/capabilities
+Authorization: Bearer &lt;token&gt;
+
+Response:
+{
+  "capabilities": [
+    {
+      "name": "pm25",
+      "category": "sensor",
+      "data_type": "float",
+      "unit": "ug/m3",
+      "range": [0, 999],
+      "telemetry_topic": "/air_quality",
+      "description": "PM2.5 particulate matter"
+    },
+    {
+      "name": "linear_velocity",
+      "category": "actuator",
+      "data_type": "float",
+      "unit": "m/s",
+      "range": [-1.0, 1.0],
+      "command_topic": "/cmd_vel",
+      "description": "Forward/backward speed"
+    }
+  ]
+}</code></pre>
+
+            <h2 id="video" data-i18n="apiGuide.videoTitle">7. Live Video Streaming</h2>
+            <pre><code>GET /api/v1/robots/{robotId}/token
+Authorization: Bearer &lt;token&gt;
+
+Response:
+{
+  "token": "eyJ...",
+  "host": "ws://&lt;server-ip&gt;:7880",
+  "room": "&lt;robotId&gt;"
+}
+
+# Use token to connect via LiveKit SDK — robot's camera track will be available</code></pre>
+
+            <h2 id="alerts" data-i18n="apiGuide.alertsTitle">8. Alerts</h2>
+            <pre><code># Push alert from Node
+POST /api/v1/robots/{robotId}/alert
+
+# Encrypted body:
+{
+  "alert_type": "stream_error",
+  "severity": "high",
+  "message": "Camera disconnected",
+  "timestamp": "2026-03-07T10:00:00Z"
+}
+
+# List alerts
+GET /api/v1/alerts?robot_id={id}&severity=high&limit=50
+
+# Acknowledge / Resolve
+POST /api/v1/alerts/{alertId}/acknowledge
+POST /api/v1/alerts/{alertId}/resolve</code></pre>
+
+            <h2 id="endpoint-reference" data-i18n="apiGuide.endpointRefTitle">9. Endpoint Quick Reference</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th data-i18n="apiGuide.colMethod">Method</th>
+                        <th data-i18n="apiGuide.colPath">Path</th>
+                        <th data-i18n="apiGuide.colEndpointDesc">Description</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr><td>GET</td><td>/health</td><td>Server health check (public)</td></tr>
+                    <tr><td>GET</td><td>/api/v1/auth/key</td><td>RSA public key (public)</td></tr>
+                    <tr><td>POST</td><td>/api/v1/auth/login</td><td>RSA-encrypted login</td></tr>
+                    <tr><td>POST</td><td>/api/v1/auth/refresh</td><td>Token refresh</td></tr>
+                    <tr><td>POST</td><td>/api/v1/auth/logout</td><td>Revoke current session</td></tr>
+                    <tr><td>POST</td><td>/api/v1/robots</td><td>Register robot</td></tr>
+                    <tr><td>GET</td><td>/api/v1/robots</td><td>List robots</td></tr>
+                    <tr><td>POST</td><td>/api/v1/robots/{id}/status</td><td>Push status heartbeat</td></tr>
+                    <tr><td>GET</td><td>/api/v1/robots/{id}/status</td><td>Get latest status</td></tr>
+                    <tr><td>POST</td><td>/api/v1/robots/{id}/telemetry</td><td>Push sensor telemetry</td></tr>
+                    <tr><td>GET</td><td>/api/v1/robots/{id}/telemetry</td><td>Query telemetry history</td></tr>
+                    <tr><td>WS</td><td>/api/v1/robots/{id}/telemetry/ws</td><td>Persistent WebSocket telemetry</td></tr>
+                    <tr><td>POST</td><td>/api/v1/robots/{id}/commands</td><td>Publish command to robot</td></tr>
+                    <tr><td>WS</td><td>/api/v1/robots/{id}/commands</td><td>Robot command channel (Node listens)</td></tr>
+                    <tr><td>GET</td><td>/api/v1/robots/{id}/capabilities</td><td>Query robot IO capabilities</td></tr>
+                    <tr><td>GET</td><td>/api/v1/robots/{id}/token</td><td>Get LiveKit streaming token</td></tr>
+                    <tr><td>POST</td><td>/api/v1/robots/{id}/alert</td><td>Submit robot alert</td></tr>
+                    <tr><td>GET</td><td>/api/v1/alerts</td><td>List alerts</td></tr>
+                    <tr><td>GET</td><td>/api/v1/robots/{id}/logs/subscribe</td><td>SSE real-time log stream</td></tr>
+                    <tr><td>GET</td><td>/api/v1/system/versions</td><td>Available OTA releases</td></tr>
+                    <tr><td>POST</td><td>/api/v1/system/update</td><td>Trigger OTA update</td></tr>
+                    <tr><td>GET</td><td>/api/v1/system/update/status</td><td>Poll OTA update progress</td></tr>
+                </tbody>
+            </table>
         </main>
+
+        <aside class="toc-sidebar">
+            <div class="toc-title">On this page</div>
+            <nav class="toc-links"></nav>
+        </aside>
     </div>
+
+    <script src="toc.js"></script>
 </body>
 
 </html>

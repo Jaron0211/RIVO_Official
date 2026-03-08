@@ -44,19 +44,55 @@
                     '需要具備多租戶與分級權限的 Fleet 管理系統'
                 ]
             },
+            whyRivo: {
+                label: 'Why RIVO',
+                title: '為何選擇 RIVO',
+                subtitle: '讓工程團隊專注核心技術，平台能力交給 RIVO',
+                titles: [
+                    '快速導入',
+                    '企業級資安',
+                    '即時串流監控',
+                    '在地技術支援',
+                    '彈性擴展架構',
+                    '零程式碼感測器接入'
+                ],
+                descriptions: [
+                    '2 天啟動 PoC，不需自建後端基礎設施',
+                    '端到端 TLS 加密傳輸，完整操作稽核紀錄',
+                    '低延遲影像與遙測資料回傳，支援遠端運維決策',
+                    '台灣團隊、繁中文件與專屬導入顧問服務',
+                    '從 1 台到數百台裝置，依營運規模按需成長',
+                    'YAML 宣告式定義即可支援 UART、I2C、SPI、Modbus、CAN 等主流協議，新增感測器無需重新編譯'
+                ]
+            },
             solution: {
                 label: '運作方式',
                 title: '2 分鐘完成平台接入',
-                subtitle: '以標準 API 與節點代理，快速連線並開始營運監控',
-                pills: [
-                    'ROS1/ROS2 Topic 自動探索',
-                    '2D/3D 地圖與狀態可視化',
-                    '可配置控制元件與工作流',
-                    '快速部署與擴展'
+                subtitle: '2 分鐘連上平台，立即呈現可營運的車隊視圖',
+                terminalOutputs: [
+                    'Registry loaded 3 UART protocols',
+                    'loaded 2 actuator capabilities from actuators/',
+                    'UART source \'uart0\' registered',
+                    'starting command receiver for robot node-a1b2c3',
+                    'status update successful (sensors: 6)',
+                    '[client] telemetry WebSocket connected'
                 ],
-                widgets: ['電量', '速度', '狀態', '串流'],
-                status: '上線',
-                stream: '即時'
+                browserUrl: '/dashboard',
+                previewLabel: 'Dashboard 範圍',
+                previewValue: '群組：所有機器人',
+                videoTitle: '實際 Demo 影片',
+                videoDescription: '此區預留給產品實拍或客戶導入展示影片。將影片檔案放到 <code>assets/demo/rivo-demo.mp4</code> 即可替換。',
+                videoFallback: 'Demo Video Placeholder (16:9)',
+                widgets: ['機器人總數', '目前活動中', '系統警報', '已解決警報'],
+                widgetValues: ['12', '9', '3', '27'],
+                pills: [
+                    '2 天內啟動 PoC，快速向客戶展示成果',
+                    '單一儀表板掌握車隊狀態與告警',
+                    '異常即時通知，降低停機與維運成本',
+                    '遠端控制結合權限管理，操作全程可追溯',
+                    '即時影像與數據同步，跨據點也能穩定營運',
+                    '企業級安全防護，傳輸與存取雙重保障'
+                ]
             },
             rivoNode: {
                 label: 'RIVO Node',
@@ -297,19 +333,55 @@
                     'You need fleet management with multi-tenant and role-based control'
                 ]
             },
+            whyRivo: {
+                label: 'Why RIVO',
+                title: 'Why Choose RIVO',
+                subtitle: 'Let your engineering team focus on core robotics while RIVO handles platform complexity.',
+                titles: [
+                    'Fast Deployment',
+                    'Enterprise Security',
+                    'Real-Time Stream Monitoring',
+                    'Local Technical Support',
+                    'Elastic Scalability',
+                    'Zero-Code Sensor Onboarding'
+                ],
+                descriptions: [
+                    'Launch a PoC in 2 days without building backend infrastructure from scratch.',
+                    'End-to-end TLS transport with full operational audit trails.',
+                    'Low-latency video and telemetry uplink for remote operations decisions.',
+                    'Taiwan-based team with Traditional Chinese docs and guided onboarding support.',
+                    'Scale from 1 to hundreds of devices based on operational demand.',
+                    'Use YAML declarative definitions to support UART, I2C, SPI, Modbus, and CAN without recompiling.'
+                ]
+            },
             solution: {
                 label: 'How It Works',
                 title: 'Go Live in 2 Minutes',
-                subtitle: 'Connect quickly through standard APIs and node agents, then start operating at scale.',
-                pills: [
-                    'ROS1/ROS2 Topic Auto Discovery',
-                    '2D/3D Map and Status Visualization',
-                    'Configurable Control Components',
-                    'Fast Deployment and Scaling'
+                subtitle: 'Connect in minutes and present a production-ready fleet view to your stakeholders.',
+                terminalOutputs: [
+                    'Registry loaded 3 UART protocols',
+                    'loaded 2 actuator capabilities from actuators/',
+                    'UART source \'uart0\' registered',
+                    'starting command receiver for robot node-a1b2c3',
+                    'status update successful (sensors: 6)',
+                    '[client] telemetry WebSocket connected'
                 ],
-                widgets: ['Battery', 'Speed', 'Status', 'Stream'],
-                status: 'Online',
-                stream: 'Live'
+                browserUrl: '/dashboard',
+                previewLabel: 'Dashboard Scope',
+                previewValue: 'Group: All robots',
+                videoTitle: 'Live Product Demo',
+                videoDescription: 'Reserved for your product walkthrough or customer deployment video. Replace with <code>assets/demo/rivo-demo.mp4</code> when ready.',
+                videoFallback: 'Demo Video Placeholder (16:9)',
+                widgets: ['Total Robots', 'Active Now', 'System Alerts', 'Resolved Alerts'],
+                widgetValues: ['12', '9', '3', '27'],
+                pills: [
+                    'Launch a customer-facing PoC in as little as 2 days',
+                    'See fleet health and alerts in one unified dashboard',
+                    'Respond to anomalies faster and reduce downtime cost',
+                    'Operate remotely with role-based control and full auditability',
+                    'Keep video and telemetry in sync across distributed sites',
+                    'Protect operations with enterprise-grade security by design'
+                ]
             },
             rivoNode: {
                 label: 'RIVO Node',
@@ -658,13 +730,25 @@
         setMany('#problems .problem-card h3', t.problems.titles);
         setMany('#problems .problem-need', t.problems.needs);
 
+        setOne('#why-rivo .section-label', t.whyRivo.label);
+        setOne('#why-rivo .section-title', t.whyRivo.title);
+        setOne('#why-rivo .section-subtitle', t.whyRivo.subtitle);
+        setMany('#why-rivo .why-rivo-card h3', t.whyRivo.titles);
+        setMany('#why-rivo .why-rivo-card p', t.whyRivo.descriptions);
+
         setOne('#solution .section-label', t.solution.label);
         setOne('#solution .section-title', t.solution.title);
         setOne('#solution .section-subtitle', t.solution.subtitle);
+        setMany('#solution .terminal-body .output', t.solution.terminalOutputs);
+        setOne('#solution .browser-url', t.solution.browserUrl);
+        setOne('#solution .map-widget .widget-label', t.solution.previewLabel);
+        setOne('#solution .map-widget .widget-value', t.solution.previewValue);
+        setOne('#solution .demo-video-title', t.solution.videoTitle);
+        setOne('#solution .demo-video-desc', t.solution.videoDescription);
+        setOne('#solution .demo-video-fallback', t.solution.videoFallback);
+        setMany('#solution .browser-content .browser-widget:not(.map-widget) .widget-label', t.solution.widgets);
+        setMany('#solution .browser-content .browser-widget:not(.map-widget) .widget-value', t.solution.widgetValues);
         setMany('#solution .feature-pill', t.solution.pills);
-        setMany('#solution .widget-label', t.solution.widgets);
-        setOne('#solution .browser-widget:nth-child(4) .widget-value', t.solution.status);
-        setOne('#solution .browser-widget:nth-child(5) .widget-value', t.solution.stream);
 
         setOne('#rivo-node > .container > .section-label', t.rivoNode.label);
         setOne('#rivo-node > .container > .section-title', t.rivoNode.title);

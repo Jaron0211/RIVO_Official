@@ -81,18 +81,31 @@
 └── logs/                # Server log files</code></pre>
 
             <h2>3. First-Time Setup</h2>
-            <h3>Step 1: Start the Server</h3>
-            <p>For binary deployment, run:</p>
-            <pre><code>./rivo-server</code></pre>
-            <p>The server will automatically create database tables and load schemas.</p>
+            <h3>Step 1: Install</h3>
+            <p><strong>Docker (recommended):</strong> Extract the Docker release package and run the installer:</p>
+            <pre><code>unzip rivo-server-docker-&lt;version&gt;.zip
+cd rivo-server-docker-&lt;version&gt;
+./install.sh</code></pre>
+            <p>The installer auto-generates secrets, creates <code>.env</code>, and starts Docker containers. Admin credentials are printed on completion.</p>
+            <p><strong>Binary (systemd):</strong> Extract the binary release package and run the installer as root:</p>
+            <pre><code>unzip rivo-server-linux-amd64-&lt;version&gt;.zip
+cd rivo-server-linux-amd64-&lt;version&gt;
+sudo ./install.sh</code></pre>
+            <p>The installer installs to <code>/opt/rivo-server/</code>, injects JWT secrets into config.yaml, and enables a systemd service.</p>
 
             <h3>Step 2: Verify Status</h3>
             <p>Check if the server is healthy:</p>
             <pre><code>curl http://localhost:8080/health</code></pre>
 
-            <h3>Step 3: Create Master Account</h3>
-            <p>Use the admin tool to create your initial account:</p>
-            <pre><code>./rivo-admin seed --email admin@yourcompany.com --password "SecurePassword123!"</code></pre>
+            <h3>Step 3: Default Credentials &amp; Managing Users</h3>
+            <p>The installer prints the default admin credentials on completion. Use <code>rivo-admin</code> to add users or change passwords:</p>
+            <pre><code># Interactive mode
+./rivo-admin
+
+# Common commands:
+#   user add -u &lt;email&gt; -p &lt;password&gt; -l master
+#   user reset-password -u &lt;email&gt; -p &lt;newpass&gt;
+#   user list</code></pre>
         </main>
     </div>
 </body>
