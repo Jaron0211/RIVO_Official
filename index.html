@@ -3,6 +3,12 @@
 
 <head>
     <meta charset="UTF-8">
+    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
+    <script>
+        if (location.protocol !== 'https:' && location.hostname !== 'localhost' && location.hostname !== '127.0.0.1') {
+            location.replace(`https:${location.href.substring(location.protocol.length)}`);
+        }
+    </script>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="RIVO 是面向企業的機器人與 IoT 營運平台，整合即時監控、遠端控制、資料治理與車隊調度，協助團隊快速規模化部署。">
     <meta name="keywords" content="RIVO, 企業機器人平台, 機器人車隊管理, IoT 營運平台, AI 機器人控制, 遠端監控, 邊緣運算, 企業資安, UART I2C SPI Modbus, 即時影像串流">
@@ -233,12 +239,12 @@
                         <div class="terminal-body">
                             <div><span class="prompt">$</span> <span class="command">./rivo-node --config config.yaml</span></div>
                             <br>
-                            <div><span class="output">Loaded 3 sensor protocols (UART / I2C)</span></div>
-                            <div><span class="output">Loaded 2 actuator definitions</span></div>
-                            <div><span class="output">Robot registered: node-a1b2c3</span></div>
-                            <div><span class="output">WebSocket Command Channel Active</span></div>
-                            <div><span class="output">LiveKit RTC Stream Ready</span></div>
-                            <div><span class="output">Edge Safety Gate: 5 rules loaded</span></div>
+                            <div><span class="output">Registry loaded 3 UART protocols</span></div>
+                            <div><span class="output">loaded 2 actuator capabilities from actuators/</span></div>
+                            <div><span class="output">UART source 'uart0' registered</span></div>
+                            <div><span class="output">starting command receiver for robot node-a1b2c3</span></div>
+                            <div><span class="output">status update successful (sensors: 6)</span></div>
+                            <div><span class="output">[client] telemetry WebSocket connected</span></div>
                             <span class="cursor"></span>
                         </div>
                     </div>
@@ -261,37 +267,53 @@
                         </div>
                         <div class="browser-content">
                             <div class="browser-widget map-widget">
-                                <div class="map-dot"></div>
+                                <div class="widget-label">Dashboard Scope</div>
+                                <div class="widget-value">Group: All robots</div>
                             </div>
                             <div class="browser-widget">
-                                <div class="widget-label">Battery</div>
-                                <div class="widget-value">85%</div>
+                                <div class="widget-label">Total Robots</div>
+                                <div class="widget-value">12</div>
                             </div>
                             <div class="browser-widget">
-                                <div class="widget-label">Speed</div>
-                                <div class="widget-value">1.2 m/s</div>
+                                <div class="widget-label">Active Now</div>
+                                <div class="widget-value">9</div>
                             </div>
                             <div class="browser-widget">
-                                <div class="widget-label">Status</div>
-                                <div class="widget-value" style="color: #22C55E;">Online</div>
+                                <div class="widget-label">System Alerts</div>
+                                <div class="widget-value">3</div>
                             </div>
                             <div class="browser-widget">
-                                <div class="widget-label">Stream</div>
-                                <div class="widget-value" style="font-size: 14px;">Live</div>
+                                <div class="widget-label">Resolved Alerts</div>
+                                <div class="widget-value">27</div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
 
+            <!-- Demo Video Slot -->
+            <div class="demo-video-block fade-in">
+                <div class="demo-video-head">
+                    <h3 class="demo-video-title">實際 Demo 影片</h3>
+                    <p class="demo-video-desc">此區預留給產品實拍或客戶導入展示影片。將影片檔案放到 <code>assets/demo/rivo-demo.mp4</code> 即可替換。</p>
+                </div>
+                <div class="demo-video-frame">
+                    <video id="solution-demo-video" controls playsinline preload="metadata">
+                        <source src="assets/demo/rivo-demo.mp4" type="video/mp4">
+                        Your browser does not support the video tag.
+                    </video>
+                    <div class="demo-video-fallback">Demo Video Placeholder (16:9)</div>
+                </div>
+            </div>
+
             <!-- Feature Pills -->
             <div class="feature-pills fade-in">
-                <span class="feature-pill">YAML 宣告式感測器 / 致動器</span>
-                <span class="feature-pill">AI 自然語言指令控制</span>
-                <span class="feature-pill">LiveKit WebRTC 即時影像</span>
-                <span class="feature-pill">邊緣安全閘道</span>
-                <span class="feature-pill">斷線自動安全停機</span>
-                <span class="feature-pill">OTA 遠端更新</span>
+                <span class="feature-pill">2 天內啟動 PoC，快速向客戶展示成果</span>
+                <span class="feature-pill">單一儀表板掌握車隊狀態與告警</span>
+                <span class="feature-pill">異常即時通知，降低停機與維運成本</span>
+                <span class="feature-pill">遠端控制結合權限管理，操作全程可追溯</span>
+                <span class="feature-pill">即時影像與數據同步，跨據點也能穩定營運</span>
+                <span class="feature-pill">企業級安全防護，傳輸與存取雙重保障</span>
             </div>
         </div>
     </section>
@@ -770,6 +792,12 @@
             <span class="section-label fade-in">Pricing</span>
             <h2 class="section-title fade-in">清晰分級，支援成長</h2>
             <p class="section-subtitle fade-in">依場景與營運規模選擇，所有方案皆可升級</p>
+
+            <div class="pricing-carousel-nav fade-in" aria-label="Pricing Plan Navigation">
+                <button class="pricing-nav-btn pricing-nav-prev" type="button" aria-label="Previous plan">&larr;</button>
+                <div class="pricing-carousel-dots" aria-hidden="true"></div>
+                <button class="pricing-nav-btn pricing-nav-next" type="button" aria-label="Next plan">&rarr;</button>
+            </div>
 
             <div class="pricing-grid five-col">
                 <div class="pricing-card stagger-child">
@@ -1290,7 +1318,7 @@
         }, { threshold: 0.1 });
 
         // Observe parent containers of stagger children
-        document.querySelectorAll('.problems-grid, .features-grid, .pricing-grid, .testimonials-grid').forEach(grid => {
+        document.querySelectorAll('.problems-grid, .why-rivo-grid, .features-grid, .pricing-grid, .testimonials-grid').forEach(grid => {
             staggerObserver.observe(grid);
         });
 
@@ -1344,6 +1372,105 @@
         }
         updateArrow();
         window.addEventListener('resize', updateArrow);
+
+        // Demo video placeholder visibility
+        const demoVideo = document.getElementById('solution-demo-video');
+        const demoFallback = document.querySelector('.demo-video-fallback');
+        if (demoVideo && demoFallback) {
+            demoVideo.addEventListener('loadeddata', () => {
+                demoFallback.classList.add('hidden');
+            });
+            demoVideo.addEventListener('error', () => {
+                demoFallback.classList.remove('hidden');
+            });
+        }
+
+        // Pricing carousel controls for tablet/mobile
+        (function initPricingCarousel() {
+            const pricingSection = document.getElementById('pricing');
+            if (!pricingSection) return;
+
+            const grid = pricingSection.querySelector('.pricing-grid');
+            const cards = Array.from(pricingSection.querySelectorAll('.pricing-card'));
+            const prevBtn = pricingSection.querySelector('.pricing-nav-prev');
+            const nextBtn = pricingSection.querySelector('.pricing-nav-next');
+            const dotsWrap = pricingSection.querySelector('.pricing-carousel-dots');
+            const mq = window.matchMedia('(max-width: 1024px)');
+
+            if (!grid || !cards.length || !prevBtn || !nextBtn || !dotsWrap) return;
+
+            let currentIndex = 0;
+            let scrollRaf = null;
+
+            function nearestIndex() {
+                let idx = 0;
+                let min = Number.POSITIVE_INFINITY;
+                const left = grid.scrollLeft;
+                cards.forEach((card, i) => {
+                    const d = Math.abs(card.offsetLeft - left);
+                    if (d < min) {
+                        min = d;
+                        idx = i;
+                    }
+                });
+                return idx;
+            }
+
+            function updateControls() {
+                currentIndex = nearestIndex();
+                prevBtn.disabled = currentIndex <= 0;
+                nextBtn.disabled = currentIndex >= cards.length - 1;
+                dotsWrap.querySelectorAll('.pricing-dot').forEach((dot, i) => {
+                    dot.classList.toggle('active', i === currentIndex);
+                });
+            }
+
+            function goTo(index) {
+                const target = Math.max(0, Math.min(index, cards.length - 1));
+                grid.scrollTo({
+                    left: cards[target].offsetLeft,
+                    behavior: 'smooth'
+                });
+            }
+
+            dotsWrap.innerHTML = '';
+            cards.forEach((card, idx) => {
+                const dot = document.createElement('button');
+                dot.type = 'button';
+                dot.className = 'pricing-dot' + (idx === 0 ? ' active' : '');
+                dot.setAttribute('aria-label', `Go to ${card.querySelector('h3')?.textContent || `plan ${idx + 1}`}`);
+                dot.addEventListener('click', () => goTo(idx));
+                dotsWrap.appendChild(dot);
+            });
+
+            prevBtn.addEventListener('click', () => goTo(currentIndex - 1));
+            nextBtn.addEventListener('click', () => goTo(currentIndex + 1));
+
+            grid.addEventListener('scroll', () => {
+                if (scrollRaf) return;
+                scrollRaf = requestAnimationFrame(() => {
+                    updateControls();
+                    scrollRaf = null;
+                });
+            });
+
+            function onModeChange() {
+                if (!mq.matches) {
+                    grid.scrollLeft = 0;
+                    currentIndex = 0;
+                }
+                updateControls();
+            }
+
+            if (typeof mq.addEventListener === 'function') {
+                mq.addEventListener('change', onModeChange);
+            } else {
+                mq.addListener(onModeChange);
+            }
+
+            window.addEventListener('resize', updateControls);
+            updateControls();
+        })();
 
         // Initialize RIVO Node Template Browser
         window.addEventListener('DOMContentLoaded', async function () {

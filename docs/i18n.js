@@ -87,6 +87,11 @@ const I18n = {
             lang = this.defaultLang;
         }
 
+        // Always ensure English exists as fallback dictionary.
+        if (!this.translations['en']) {
+            await this.loadLocale('en');
+        }
+
         // Load locale if not cached
         if (!this.translations[lang]) {
             await this.loadLocale(lang);
@@ -117,7 +122,8 @@ const I18n = {
         // Text content
         document.querySelectorAll('[data-i18n]').forEach(el => {
             const key = el.dataset.i18n;
-            const translation = this.t(key);
+            const fallback = el.dataset.i18nHtml !== undefined ? el.innerHTML : el.textContent;
+            const translation = this.t(key, fallback);
 
             // Handle HTML content (for elements with nested tags)
             if (el.dataset.i18nHtml !== undefined) {

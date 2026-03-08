@@ -48,11 +48,16 @@ rivo_landing/
 ## Quick Commands
 
 ```bash
-# Start local development server
+# Start local development server (HTTP)
 cd /home/jaron0211/workspace/KairoIO_master/rivo_landing
 python3 -m http.server 8080
 
 # View at http://127.0.0.1:8080
+
+# Start local development server (HTTPS) - Generates self-signed cert on first run
+python3 server_https.py
+
+# View at https://localhost:8443
 ```
 
 ## Key Entry Points
