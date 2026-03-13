@@ -19,20 +19,20 @@
                 langSwitch: '語言切換'
             },
             hero: {
-                label: 'RIVO Server',
+                label: 'RIVO — Rapid Integration & Virtualization Orchestration',
                 intro: 'Next-Generation Robot Fleet Management Backend',
-                title: '即時可視化<br>AI 智能控制<br>企業級安全治理',
-                description: 'RIVO Server 以 Go 打造高效能後端，整合 WebSocket/SSE 即時通訊、LiveKit 視訊、AI 指令推理與多租戶安全架構，為現代機器人營運提供可擴展基礎。',
+                title: '次世代機器人管理平台',
+                description: 'RIVO 整合串流、AI智慧輔佐、企業級安全規範、可擴展性，為現代機器人營運提供可擴展基礎。',
                 primary: '預約架構諮詢',
                 secondary: '查看平台示範',
                 follow: '關注我們 - TW.'
             },
             problems: {
-                label: '痛點',
-                title: '機器人專案卡在商用化階段？',
+                label: '',
+                title: '專案卡在商用化階段？',
                 subtitle: '技術驗證完成後，真正挑戰是可營運、可擴展、可維運',
                 titles: [
-                    'Demo 成功，但缺少對外展示等級的監控介面',
+                    'Demo 成功，但缺少完整後端與管理介面',
                     '設備分散多地，遠端維運成本快速上升',
                     '團隊把大量時間花在後台基礎建設',
                     '節點數量成長後，管理與權限控管變複雜'
@@ -41,7 +41,7 @@
                     '需要可讓客戶與管理層一眼理解的可視化儀表板',
                     '需要隨時可連線的雲端監控與遠端控制能力',
                     '需要現成平台，將研發資源集中在核心產品',
-                    '需要具備多租戶與分級權限的 Fleet 管理系統'
+                    '需要具備多用戶與分級權限的 Fleet 管理系統'
                 ]
             },
             whyRivo: {
@@ -67,7 +67,7 @@
             },
             solution: {
                 label: '運作方式',
-                title: '2 分鐘完成平台接入',
+                title: '10 分鐘完成平台接入',
                 subtitle: '連線後即可啟用即時遙測、控制通道與營運觀測視圖',
                 terminalOutputs: [
                     'Registry loaded 3 UART protocols',
@@ -308,7 +308,7 @@
                 langSwitch: 'Language switcher'
             },
             hero: {
-                label: 'RIVO Server',
+                label: 'RIVO',
                 intro: 'Next-Generation Robot Fleet Management Backend',
                 title: 'Observe in Real Time.<br>Control with AI.<br>Operate Securely.',
                 description: 'Built with Go for performance and reliability, RIVO Server combines WebSocket/SSE streaming, LiveKit video, AI reasoning, and enterprise security controls into one operations backend.',
