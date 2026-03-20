@@ -30,8 +30,8 @@
                         pills: ['無需後端開發', '感測器即接即用', '自動化規則觸發']
                     },
                     {
-                        tag: '02 / Startup · AIoT · Academic',
-                        title: '新創企業 · AIoT · 學術單位',
+                        tag: '02 / Startup · Academic · AIoT',
+                        title: '新創／學術單位、AIoT',
                         desc: '加速從原型到產品的距離。RIVO 提供即開即用的連線、監控與資料管線，讓你的團隊把時間花在核心技術，而不是基礎設施。',
                         pills: ['ROS / ROS 2 整合', '多人協作', 'Academic 優惠']
                     },
@@ -400,8 +400,8 @@
                         pills: ['No Backend Required', 'Plug-and-Play Sensors', 'Automated Rule Triggers']
                     },
                     {
-                        tag: '02 / Startup · AIoT · Academic',
-                        title: 'Startups · AIoT · Academia',
+                        tag: '02 / Startup · Academic · AIoT',
+                        title: 'Startups · Academia · AIoT',
                         desc: 'Shorten the path from prototype to product. RIVO provides ready-to-use connectivity, monitoring, and data pipelines so your team can focus on core technology, not infrastructure.',
                         pills: ['ROS / ROS 2 Integration', 'Team Collaboration', 'Academic Discount']
                     },
