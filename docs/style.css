@@ -31,43 +31,37 @@ h1, h2, h3, h4, h5, h6 {
     font-family: 'TaipeiSansTC', 'Public Sans', sans-serif;
 }
 
-/* Layout - Three Column Structure */
+/* Layout - Two Column Structure */
 .docs-container {
     display: grid;
-    grid-template-columns: 250px minmax(0, 1100px) 250px;
+    grid-template-columns: var(--sidebar-width) minmax(0, 900px);
     justify-content: center;
     margin: 0 auto;
-    gap: 2rem;
-    padding: 0 2rem;
-    padding-top: calc(var(--nav-height) + 2rem);
+    gap: 0;
+    padding: 0;
+    padding-top: var(--nav-height);
     min-height: 100vh;
 }
 
 /* Full-width layout for editor pages */
 .docs-container.full-width {
-    grid-template-columns: 250px 1fr 250px;
+    grid-template-columns: var(--sidebar-width) 1fr;
     max-width: 100%;
-    padding: 0 1rem;
-}
-
-/* Layout variation for pages without TOC (like tools) */
-.main-content.wide {
-    grid-column: 2 / 4;
-    /* Span across middle and right (TOC) columns */
 }
 
 .sidebar {
     background: var(--bg-sidebar);
     border-right: 1px solid var(--border-color);
     position: sticky;
-    top: calc(var(--nav-height) + 1rem);
-    height: calc(100vh - var(--nav-height) - 2rem);
+    top: var(--nav-height);
+    height: calc(100vh - var(--nav-height));
     overflow-y: auto;
     padding: 1.5rem;
 }
 
 .main-content {
-    padding: 3rem 4rem;
+    padding: 3rem 3rem 4rem;
+    min-width: 0;
 }
 
 /* Navigation */
@@ -307,11 +301,7 @@ th {
 /* Responsive */
 @media (max-width: 1024px) {
     .docs-container {
-        grid-template-columns: 240px 1fr;
-    }
-
-    .toc-sidebar {
-        display: none;
+        grid-template-columns: 220px 1fr;
     }
 }
 

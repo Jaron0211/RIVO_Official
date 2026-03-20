@@ -5,9 +5,12 @@
     <meta charset="UTF-8">
     <title>RIVO Documentation</title>
     <script>
-        // Redirect to unified i18n documentation
-        // The i18n.js will handle language detection
-        window.location.href = 'getting-started.html';
+        var lang = localStorage.getItem('rivo_lang') || localStorage.getItem('rivo-docs-lang') || (navigator.language || navigator.userLanguage || 'zh');
+        if (lang === 'en') {
+            window.location.href = 'en/getting-started.html';
+        } else {
+            window.location.href = 'zh/getting-started.html';
+        }
     </script>
 </head>
 
