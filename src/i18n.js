@@ -1115,8 +1115,8 @@
             // Ignore storage errors in private mode.
         }
 
-        const browserLanguage = (navigator.language || 'en').toLowerCase().startsWith('zh') ? 'zh' : 'en';
-        const initialLanguage = savedLanguage === 'zh' || savedLanguage === 'en' ? savedLanguage : browserLanguage;
+        // Default to Traditional Chinese unless user explicitly switched to English
+        const initialLanguage = savedLanguage === 'en' ? 'en' : 'zh';
         applyLanguage(initialLanguage);
     }
 

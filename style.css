@@ -4485,27 +4485,27 @@ section {
 
 .pricing-carousel-track-wrapper {
     position: relative;
-    overflow-x: scroll;
-    scroll-behavior: smooth;
+    overflow-x: auto;
     scrollbar-width: none;
     -ms-overflow-style: none;
 }
-.pricing-carousel-track-wrapper::-webkit-scrollbar {
-    display: none;
-}
+.pricing-carousel-track-wrapper::-webkit-scrollbar { display: none; }
 
 .pricing-carousel-track-new {
     display: flex;
-    scroll-behavior: smooth;
-    gap: 24px;
-    transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
-    will-change: transform;
+    flex-wrap: nowrap;
+    align-items: stretch;
+    justify-content: center;
+    gap: 16px;
+    width: max-content;
+    min-width: 100%;
 }
 
 .pricing-card-new {
-    flex: 0 0 calc(33.333% - 16px);
-    min-width: 280px;
-    padding: 36px 28px;
+    flex: 0 0 200px;
+    width: 200px;
+    min-width: 0;
+    padding: 28px 20px;
     border-radius: 16px;
     border: 1px solid rgba(255,255,255,0.10);
     background: rgba(255,255,255,0.04);
@@ -4540,14 +4540,14 @@ section {
 }
 
 .pricing-card-name {
-    font-size: 22px;
+    font-size: 17px;
     font-weight: 700;
     color: #ffffff;
-    margin-bottom: 8px;
+    margin-bottom: 6px;
 }
 
 .pricing-card-price {
-    font-size: 36px;
+    font-size: 28px;
     font-weight: 700;
     color: #ffffff;
     margin-bottom: 4px;
@@ -4636,7 +4636,7 @@ section {
 }
 
 .pricing-carousel-controls {
-    display: flex;
+    display: none;
     align-items: center;
     justify-content: center;
     gap: 20px;
@@ -4718,14 +4718,26 @@ section {
 }
 
 /* Responsive for new sections */
-@media (max-width: 900px) {
+@media (max-width: 1100px) {
     .audience-slide-inner { min-height: 360px; }
     .audience-slide-left {
         width: 65%;
         padding: 40px 60px 40px 32px;
         clip-path: polygon(0 0, 100% 0, calc(100% - 48px) 100%, 0 100%);
     }
-    .pricing-card-new { flex: 0 0 calc(80% - 16px); }
+    .pricing-carousel-track-wrapper {
+        overflow-x: scroll;
+        scroll-behavior: smooth;
+        scrollbar-width: none;
+        -ms-overflow-style: none;
+    }
+    .pricing-carousel-track-wrapper::-webkit-scrollbar { display: none; }
+    .pricing-carousel-track-new {
+        flex-wrap: nowrap;
+        justify-content: flex-start;
+    }
+    .pricing-card-new { flex: 0 0 calc(80% - 16px); max-width: none; }
+    .pricing-carousel-controls { display: flex; }
     .security-demo { aspect-ratio: unset; }
     .security-grid { grid-template-columns: 1fr 1fr; }
     .integration-flow { flex-direction: row; }
@@ -4739,7 +4751,7 @@ section {
         clip-path: polygon(0 0, 100% 0, calc(100% - 36px) 100%, 0 100%);
     }
     .security-grid { grid-template-columns: 1fr; }
-    .pricing-card-new { flex: 0 0 calc(90% - 12px); }
+    .pricing-card-new { flex: 0 0 calc(90% - 12px); max-width: none; }
 }
 
 /* ===== Comparison Section dark override ===== */
