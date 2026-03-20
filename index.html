@@ -1733,24 +1733,11 @@
 
             function isMobile() { return window.innerWidth <= 1100; }
 
-            function setPadding() {
-                if (!isMobile()) {
-                    track.style.paddingLeft = '';
-                    track.style.paddingRight = '';
-                    return;
-                }
-                const cardWidth = cards[0] ? cards[0].offsetWidth : 0;
-                const pad = Math.max(0, (wrapper.offsetWidth - cardWidth) / 2);
-                track.style.paddingLeft = pad + 'px';
-                track.style.paddingRight = pad + 'px';
-            }
-
             function scrollToCard(idx) {
                 if (!isMobile()) return;
                 const card = cards[idx];
                 if (!card) return;
-                const cardCenter = card.offsetLeft + card.offsetWidth / 2;
-                wrapper.scrollLeft = cardCenter - wrapper.offsetWidth / 2;
+                card.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
             }
 
             function update() {
@@ -1764,10 +1751,8 @@
 
             prevBtn.addEventListener('click', () => { current--; update(); });
             nextBtn.addEventListener('click', () => { current++; update(); });
-            window.addEventListener('resize', () => { setPadding(); update(); });
+            window.addEventListener('resize', update);
 
-            // init
-            setPadding();
             requestAnimationFrame(() => { update(); });
         })();
 

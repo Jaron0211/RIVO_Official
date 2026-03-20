@@ -4494,7 +4494,7 @@ section {
 .pricing-carousel-track-new {
     display: flex;
     flex-wrap: nowrap;
-    align-items: stretch;
+    align-items: flex-start;
     justify-content: center;
     gap: 16px;
     width: max-content;
@@ -4728,6 +4728,7 @@ section {
     .pricing-carousel-track-wrapper {
         overflow-x: scroll;
         scroll-behavior: smooth;
+        scroll-snap-type: x mandatory;
         scrollbar-width: none;
         -ms-overflow-style: none;
     }
@@ -4735,8 +4736,17 @@ section {
     .pricing-carousel-track-new {
         flex-wrap: nowrap;
         justify-content: flex-start;
+        min-width: unset;
+        width: max-content;
+        padding: 0 10vw;
+        gap: 16px;
     }
-    .pricing-card-new { flex: 0 0 calc(80% - 16px); max-width: none; }
+    .pricing-card-new {
+        flex: 0 0 80vw;
+        width: 80vw;
+        max-width: none;
+        scroll-snap-align: center;
+    }
     .pricing-carousel-controls { display: flex; }
     .security-demo { aspect-ratio: unset; }
     .security-grid { grid-template-columns: 1fr 1fr; }
@@ -4751,7 +4761,7 @@ section {
         clip-path: polygon(0 0, 100% 0, calc(100% - 36px) 100%, 0 100%);
     }
     .security-grid { grid-template-columns: 1fr; }
-    .pricing-card-new { flex: 0 0 calc(90% - 12px); max-width: none; }
+    .pricing-card-new { flex: 0 0 84vw; width: 84vw; }
 }
 
 /* ===== Comparison Section dark override ===== */
