@@ -58,13 +58,12 @@
                     alt="RIVO" class="logo-img">
             </a>
             <ul class="nav-links">
-                <li><a href="#problems">痛點</a></li>
-                <li><a href="#why-rivo">為何選擇</a></li>
-                <li><a href="#solution">解決方案</a></li>
-                <li><a href="#rivo-node">RIVO Node</a></li>
-                <li><a href="#features">功能</a></li>
-                <li><a href="#comparison">比較</a></li>
+                <li><a href="#audience">適用對象</a></li>
+                <li><a href="#integration-feature">整合功能</a></li>
+                <li><a href="#ai-talk">AI 控制</a></li>
+                <li><a href="#security">安全性</a></li>
                 <li><a href="#pricing">定價</a></li>
+                <li><a href="#comparison">比較</a></li>
                 <li><a href="#faq">FAQ</a></li>
                 <li class="lang-switch-item">
                     <div class="lang-switch" role="group" aria-label="語言切換">
@@ -110,8 +109,363 @@
         </div>
     </section>
 
-    <!-- Problems + Solution Merged Section -->
-    <section id="problems" class="problems-solution-merged">
+    <!-- ============================================================
+         SECTION 2: 新一代智能整合平台 — Audience Carousel
+         ============================================================ -->
+    <section id="audience" class="audience-section dark-section" data-phase="1">
+        <div class="container">
+            <div class="audience-header fade-in">
+                <span class="section-label">For Everyone</span>
+                <h2 class="section-title">新一代智能整合平台</h2>
+                <p class="section-subtitle">不論是誰，RIVO 都能讓你的整合體驗更好</p>
+            </div>
+
+            <div class="audience-carousel-wrapper fade-in">
+                <div class="audience-carousel-track" id="audienceTrack">
+
+                    <!-- Slide 1: Makers -->
+                    <div class="audience-slide">
+                        <div class="audience-slide-inner">
+                            <div class="audience-slide-left">
+                                <span class="audience-type-tag">01 / Makers · Smart Agriculture</span>
+                                <h3 class="audience-slide-title">個人創客 · 智慧農業</h3>
+                                <div class="audience-title-divider"></div>
+                                <p class="audience-slide-desc">有想法就直接動手。RIVO 讓你把任何感測器或裝置接上雲端、即時監控數據、設定自動觸發條件，不需要後端工程師，一個人就能把想法變成可展示的系統。</p>
+                                <div class="audience-slide-pills">
+                                    <span class="audience-pill">無需後端開發</span>
+                                    <span class="audience-pill">感測器即接即用</span>
+                                    <span class="audience-pill">自動化規則觸發</span>
+                                </div>
+                            </div>
+                            <div class="audience-slide-right">
+                                <div class="audience-demo-box">
+                                    <img src="assets/maker.png" alt="個人創客使用RIVO" loading="lazy">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Slide 2: Academic -->
+                    <div class="audience-slide">
+                        <div class="audience-slide-inner">
+                            <div class="audience-slide-left">
+                                <span class="audience-type-tag">02 / Startup · AIoT · Academic</span>
+                                <h3 class="audience-slide-title">新創企業 · AIoT · 學術單位</h3>
+                                <div class="audience-title-divider"></div>
+                                <p class="audience-slide-desc">加速從原型到產品的距離。RIVO 提供即開即用的連線、監控與資料管線，讓你的團隊把時間花在核心技術，而不是基礎設施。</p>
+                                <div class="audience-slide-pills">
+                                    <span class="audience-pill">ROS / ROS 2 整合</span>
+                                    <span class="audience-pill">多人協作</span>
+                                    <span class="audience-pill">Academic 優惠</span>
+                                </div>
+                            </div>
+                            <div class="audience-slide-right">
+                                <div class="audience-demo-box">
+                                    <img src="assets/academic.png" alt="學術研究使用RIVO" loading="lazy">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Slide 3: Enterprise -->
+                    <div class="audience-slide">
+                        <div class="audience-slide-inner">
+                            <div class="audience-slide-left">
+                                <span class="audience-type-tag">03 / Enterprise</span>
+                                <h3 class="audience-slide-title">企業轉型 · 多機管理</h3>
+                                <div class="audience-title-divider"></div>
+                                <p class="audience-slide-desc">從單台 PoC 到跨據點車隊部署，RIVO 提供分級權限、完整稽核軌跡與即時告警，讓現場維運標準化，符合企業 IT 治理需求。</p>
+                                <div class="audience-slide-pills">
+                                    <span class="audience-pill">私有部署可選</span>
+                                    <span class="audience-pill">SLA 99.9%</span>
+                                    <span class="audience-pill">台灣在地支援</span>
+                                </div>
+                            </div>
+                            <div class="audience-slide-right">
+                                <div class="audience-demo-box">
+                                    <img src="assets/enterprise.jpg" alt="企業車隊管理使用RIVO" loading="lazy">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div><!-- /audience-carousel-track -->
+            </div>
+
+            <div class="audience-nav">
+                <button class="audience-nav-btn" id="audiencePrev" aria-label="上一個">&#8592;</button>
+                <div class="audience-nav-dots" id="audienceDots"></div>
+                <button class="audience-nav-btn" id="audienceNext" aria-label="下一個">&#8594;</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============================================================
+         SECTION 3: 試試RIVO的智慧整合功能 — Integration
+         ============================================================ -->
+    <section id="integration-feature" class="integration-feature-section dark-section" data-phase="2">
+        <div class="container">
+            <div class="integration-feature-header fade-in">
+                <span class="section-label">Integration</span>
+                <h2 class="section-title">試試 RIVO 的智慧整合功能</h2>
+                <p class="section-subtitle">時間就是最珍貴的資源，您應該花更多時間去發揮創意，而不是無盡的 Coding<br>由 RIVO AI 協助您更聰明快速地整合</p>
+            </div>
+
+            <div class="integration-feature-tabs fade-in">
+                <button class="integration-feature-tab active" data-tab="hardware">硬體整合</button>
+                <button class="integration-feature-tab" data-tab="software">軟體整合</button>
+            </div>
+
+            <!-- Hardware Integration -->
+            <div class="integration-feature-content active fade-in" data-tab="hardware">
+                <div class="integration-flow">
+                    <div class="flow-column">
+                        <div class="flow-column-title">輸入來源</div>
+                        <div class="flow-node">影像</div>
+                        <div class="flow-node">創新模組</div>
+                        <div class="flow-node">工業控制器</div>
+                    </div>
+                    <div class="flow-arrow">
+                        <svg viewBox="0 0 40 16" fill="none"><path d="M0 8 H32 M26 2 L34 8 L26 14" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                        <span>UART / I2C<br>SPI / Modbus</span>
+                    </div>
+                    <div class="flow-column" style="flex:0 0 auto; min-width:160px;">
+                        <div class="flow-column-title">AI 解析</div>
+                        <div class="flow-node highlight">RIVO AI<br><span style="font-size:11px;opacity:0.6;">自動識別協議</span></div>
+                    </div>
+                    <div class="flow-arrow">
+                        <svg viewBox="0 0 40 16" fill="none"><path d="M0 8 H32 M26 2 L34 8 L26 14" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                        <span>標準化<br>資料流</span>
+                    </div>
+                    <div class="flow-column" style="flex:0 0 auto; min-width:160px;">
+                        <div class="flow-column-title">RIVO 節點</div>
+                        <div class="flow-node rivo-center-node">RIVO Node<br><span style="font-size:11px;opacity:0.6;">邊緣運算層</span></div>
+                    </div>
+                    <div class="flow-arrow">
+                        <svg viewBox="0 0 40 16" fill="none"><path d="M0 8 H32 M26 2 L34 8 L26 14" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                        <span>HTTPS /<br>WebSocket</span>
+                    </div>
+                    <div class="flow-column">
+                        <div class="flow-column-title">應用效益</div>
+                        <div class="flow-node">即時儀表板</div>
+                        <div class="flow-node">異常告警</div>
+                        <div class="flow-node">遠端控制</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Software Integration -->
+            <div class="integration-feature-content fade-in" data-tab="software">
+                <div class="integration-flow">
+                    <div class="flow-column">
+                        <div class="flow-column-title">軟體框架</div>
+                        <div class="flow-node">ROS / ROS 2<br><span style="font-size:11px;opacity:0.6;">ROSNode</span></div>
+                        <div class="flow-node">Linux Agent<br><span style="font-size:11px;opacity:0.6;">ARM / x86</span></div>
+                    </div>
+                    <div class="flow-arrow">
+                        <svg viewBox="0 0 40 16" fill="none"><path d="M0 8 H32 M26 2 L34 8 L26 14" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                        <span>YAML<br>宣告式設定</span>
+                    </div>
+                    <div class="flow-column" style="flex:0 0 auto; min-width:160px;">
+                        <div class="flow-column-title">RIVO 節點</div>
+                        <div class="flow-node rivo-center-node">RIVO Node<br><span style="font-size:11px;opacity:0.6;">無需新增硬體</span></div>
+                    </div>
+                    <div class="flow-arrow">
+                        <svg viewBox="0 0 40 16" fill="none"><path d="M0 8 H32 M26 2 L34 8 L26 14" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                        <span>容器化<br>部署</span>
+                    </div>
+                    <div class="flow-column">
+                        <div class="flow-column-title">應用效益</div>
+                        <div class="flow-node">即時遙測</div>
+                        <div class="flow-node">OTA 更新</div>
+                        <div class="flow-node">邊緣安全閘道</div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- ============================================================
+         SECTION 4: 「說」給你的機器聽吧 — AI Natural Language
+         ============================================================ -->
+    <section id="ai-talk" class="ai-talk-section dark-section" data-phase="3">
+        <div class="container">
+            <div class="ai-talk-header fade-in">
+                <span class="section-label">AI Control</span>
+                <h2 class="section-title">「說」給你的機器聽吧</h2>
+                <p class="section-subtitle">RIVO 理解、學習你的系統，讓您真正與機器人對話</p>
+            </div>
+            <div class="ai-talk-demo fade-in">
+                <video autoplay muted loop playsinline style="width:100%;height:100%;object-fit:cover;border-radius:15px;">
+                    <source src="assets/demo/App-Demo.mp4" type="video/mp4">
+                </video>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============================================================
+         SECTION 5: 安全性？別擔心 — Security
+         ============================================================ -->
+    <section id="security" class="security-section dark-section" data-phase="4">
+        <div class="container">
+            <div class="security-header fade-in">
+                <span class="section-label">Security</span>
+                <h2 class="section-title">安全性？別擔心</h2>
+                <p class="section-subtitle">RIVO 從設計之初就以企業安全規範設計，提供企業更好的整合解決方案</p>
+            </div>
+            <div class="security-demo fade-in">
+                <div class="security-grid">
+                    <div class="security-card">
+                        <svg class="security-card-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+                        <h4>傳輸加密 TLS</h4>
+                        <p>所有節點與平台間通訊採 TLS 加密，AES-GCM 端對端資料保護</p>
+                    </div>
+                    <div class="security-card">
+                        <svg class="security-card-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="3"/><path d="M12 1v4M12 19v4M4.22 4.22l2.83 2.83M16.95 16.95l2.83 2.83M1 12h4M19 12h4M4.22 19.78l2.83-2.83M16.95 7.05l2.83-2.83"/></svg>
+                        <h4>邊緣安全閘道</h4>
+                        <p>指令在本地驗證安全規則，低電量、障礙物等條件自動攔截危險操作</p>
+                    </div>
+                    <div class="security-card">
+                        <svg class="security-card-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+                        <h4>多層級權限管理</h4>
+                        <p>角色、群組與資源範圍三層控管，完整操作稽核軌跡</p>
+                    </div>
+                    <div class="security-card">
+                        <svg class="security-card-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+                        <h4>斷線自動停機</h4>
+                        <p>Watchdog 持續偵測連線，失聯超過閾值自動執行 stop/hold 策略</p>
+                    </div>
+                    <div class="security-card">
+                        <svg class="security-card-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/></svg>
+                        <h4>私有部署支援</h4>
+                        <p>Enterprise 方案支援 On-Premise / VPC，資料主權完全由您掌控</p>
+                    </div>
+                    <div class="security-card">
+                        <svg class="security-card-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                        <h4>AI 雙層防護</h4>
+                        <p>伺服器端 AI 安全評估 + 本地邊緣規則驗證，兩層防護相互獨立</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============================================================
+         SECTION 6: 清晰分級，支援成長 — Pricing Carousel
+         ============================================================ -->
+    <section id="pricing" class="pricing-carousel-section dark-section" data-phase="5">
+        <div class="container">
+            <div class="pricing-carousel-header fade-in">
+                <span class="section-label">Pricing</span>
+                <h2 class="section-title">清晰分級，支援成長</h2>
+                <p class="section-subtitle">不同方案提供滿足您的需求</p>
+            </div>
+
+            <div class="pricing-carousel-track-wrapper fade-in">
+                <div class="pricing-carousel-track-new" id="pricingTrackNew">
+
+                    <!-- Free -->
+                    <div class="pricing-card-new">
+                        <div class="pricing-card-name">Free</div>
+                        <div class="pricing-card-price">免費</div>
+                        <div class="pricing-card-period-sub">達限硬停，無超額收費</div>
+                        <div class="pricing-card-target">個人創客 / 學生 / 概念驗證</div>
+                        <div class="pricing-card-divider"></div>
+                        <ul class="pricing-card-features-new">
+                            <li>1 台機器人</li>
+                            <li>10 robot-hours / 月</li>
+                            <li>2 小時串流 / 月</li>
+                            <li>通訊 10 Hz</li>
+                            <li>720p 30fps 串流</li>
+                        </ul>
+                        <a href="#contact" class="pricing-card-cta">免費開始</a>
+                    </div>
+
+                    <!-- Starter -->
+                    <div class="pricing-card-new">
+                        <div class="pricing-card-name">Starter</div>
+                        <div class="pricing-card-price"><span class="currency-new">NT$</span>290<span class="period-new"> / 月</span></div>
+                        <div class="pricing-card-period-sub">小型專案，彈性起步</div>
+                        <div class="pricing-card-target">教育研究 / 小型專案 / Side Project</div>
+                        <div class="pricing-card-divider"></div>
+                        <ul class="pricing-card-features-new">
+                            <li>2 台機器人</li>
+                            <li>150 robot-hours / 月</li>
+                            <li>30 小時串流 / 月</li>
+                            <li>通訊 10 Hz</li>
+                            <li>720p 30fps 串流</li>
+                        </ul>
+                        <a href="#contact" class="pricing-card-cta">選擇 Starter</a>
+                    </div>
+
+                    <!-- Pro -->
+                    <div class="pricing-card-new featured-new">
+                        <div class="pricing-card-name">Pro</div>
+                        <div class="pricing-card-price"><span class="currency-new">NT$</span>1,290<span class="period-new"> / 月</span></div>
+                        <div class="pricing-card-period-sub">最受歡迎，兼顧效能與成本</div>
+                        <div class="pricing-card-target">機器人新創 / 研發團隊 / 中小企業</div>
+                        <div class="pricing-card-divider"></div>
+                        <ul class="pricing-card-features-new">
+                            <li>10 台機器人</li>
+                            <li>800 robot-hours / 月</li>
+                            <li>200 小時串流 / 月</li>
+                            <li>通訊 100 Hz</li>
+                            <li>1080p 60fps 串流</li>
+                        </ul>
+                        <a href="#contact" class="pricing-card-cta">選擇 Pro</a>
+                    </div>
+
+                    <!-- Studio -->
+                    <div class="pricing-card-new">
+                        <div class="pricing-card-name">Studio</div>
+                        <div class="pricing-card-price"><span class="currency-new">NT$</span>2,890<span class="period-new"> / 月</span></div>
+                        <div class="pricing-card-period-sub">進階規模，高頻應用</div>
+                        <div class="pricing-card-target">系統整合商 / 機器人服務商 / 進階開發</div>
+                        <div class="pricing-card-divider"></div>
+                        <ul class="pricing-card-features-new">
+                            <li>30 台機器人</li>
+                            <li>1,800 robot-hours / 月</li>
+                            <li>700 小時串流 / 月</li>
+                            <li>通訊 200 Hz</li>
+                            <li>1080p 60fps 串流</li>
+                        </ul>
+                        <a href="#contact" class="pricing-card-cta">選擇 Studio</a>
+                    </div>
+
+                    <!-- Fleet -->
+                    <div class="pricing-card-new">
+                        <div class="pricing-card-name">Fleet</div>
+                        <div class="pricing-card-price"><span class="currency-new">NT$</span>4,890<span class="period-new"> / 月</span></div>
+                        <div class="pricing-card-period-sub">無限機器人，全面車隊管理</div>
+                        <div class="pricing-card-target">大型企業 / 多據點車隊 / 商用落地</div>
+                        <div class="pricing-card-divider"></div>
+                        <ul class="pricing-card-features-new">
+                            <li>無限台機器人</li>
+                            <li>2,500 robot-hours / 月</li>
+                            <li>2,000 小時串流 / 月</li>
+                            <li>高頻通訊支援</li>
+                            <li>完整串流規格</li>
+                        </ul>
+                        <a href="#contact" class="pricing-card-cta">聯絡業務</a>
+                    </div>
+
+                </div>
+            </div>
+
+            <div class="pricing-carousel-controls fade-in">
+                <button class="pricing-carousel-btn" id="pricingPrevNew" aria-label="上一個">&#8592;</button>
+                <span class="pricing-carousel-indicator" id="pricingIndicatorNew">1 / 5</span>
+                <button class="pricing-carousel-btn" id="pricingNextNew" aria-label="下一個">&#8594;</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============================================================
+         Comparison Section (kept, now with dark styling)
+         ============================================================ -->
+    <!-- Problems + Solution Merged Section (REMOVED — replaced by sections above) -->
+    <section id="problems" class="problems-solution-merged" style="display:none;">
         <div id="solution"></div>
         <div class="container">
             <div class="ps-layout">
@@ -187,8 +541,8 @@
     </section>
 
 
-    <!-- Auto Flow Section -->
-    <section id="auto-flow" class="auto-flow-section">
+    <!-- Auto Flow Section (REMOVED — replaced by Integration Feature section) -->
+    <section id="auto-flow" class="auto-flow-section" style="display:none;">
         <div class="container">
             <h2 class="section-title fade-in">Coding? 試試我們的全自動流程</h2>
             <p class="section-subtitle fade-in">上傳技術文件，由RIVO為您完成感測器/制動器部屬，簡化您的開發成本</p>
@@ -239,8 +593,8 @@
         </div>
     </section>
 
-    <!-- AI Smart Section -->
-    <section id="ai-smart" class="ai-smart-section">
+    <!-- AI Smart Section (REMOVED — replaced by ai-talk section) -->
+    <section id="ai-smart" class="ai-smart-section" style="display:none;">
         <div class="container">
             <h2 class="section-title fade-in">更智慧、更方便</h2>
             <p class="section-subtitle fade-in">告訴RIVO你想讓機器人做什麼，藉由自然語言與機器互動，你可以有更好的交互體驗</p>
@@ -275,8 +629,8 @@
         </div>
     </section>
 
-    <!-- RIVO Node Hardware Edge Node Section -->
-    <section id="rivo-node" class="features" style="background: linear-gradient(135deg, #FAFAFA 0%, #F5F5F5 100%);">
+    <!-- RIVO Node Hardware Edge Node Section (HIDDEN — content merged into integration-feature) -->
+    <section id="rivo-node" class="features" style="display:none; background: linear-gradient(135deg, #FAFAFA 0%, #F5F5F5 100%);">
         <div class="container">
             <span class="section-label fade-in">RIVO Node</span>
             <div class="coming-soon-badge fade-in">COMING SOON / 敬請期待</div>
@@ -601,8 +955,8 @@
         </div>
     </section>
 
-    <!-- Features Grid Section -->
-    <section id="features" class="features">
+    <!-- Features Grid Section (HIDDEN) -->
+    <section id="features" class="features" style="display:none;">
         <div class="container">
             <span class="section-label fade-in">Platform</span>
             <h2 class="section-title fade-in">為企業營運打造的核心能力</h2>
@@ -650,8 +1004,11 @@
     </section>
 
 
+    <!-- Old pricing section HIDDEN -->
+    <section id="pricing-old" class="pricing" style="display:none;"></section>
+
     <!-- Comparison Section -->
-    <section id="comparison" class="comparison">
+    <section id="comparison" class="comparison dark-section" data-phase="5">
         <div class="container">
             <span class="section-label fade-in">Comparison</span>
             <h2 class="section-title fade-in">為何企業選擇 RIVO</h2>
@@ -730,7 +1087,7 @@
                             <td>維護與雲資源成本</td>
                             <td>伺服器 + 維運</td>
                             <td>$100+ USD / robot</td>
-                            <td class="highlight-col"><strong>NT$ 3K 起</strong></td>
+                            <td class="highlight-col"><strong>NT$ 290 / 月起</strong></td>
                         </tr>
                     </tbody>
                 </table>
@@ -749,8 +1106,8 @@
         </div>
     </section>
 
-    <!-- Pricing Section -->
-    <section id="pricing" class="pricing">
+    <!-- Pricing Section OLD (HIDDEN — replaced by pricing-carousel-section) -->
+    <section id="pricing-legacy" class="pricing" style="display:none;">
         <div class="container">
             <span class="section-label fade-in">Pricing</span>
             <h2 class="section-title fade-in">清晰分級，支援成長</h2>
@@ -899,59 +1256,6 @@
         </div>
     </section>
 
-    <!-- Social Proof Section -->
-    <section id="testimonials" class="testimonials">
-        <div class="container">
-            <span class="section-label fade-in">Testimonials</span>
-            <h2 class="section-title fade-in">客戶實際導入成果</h2>
-            <p class="section-subtitle fade-in">跨研究、製造與新創團隊的部署回饋</p>
-
-            <div class="testimonials-grid">
-                <div class="testimonial-card stagger-child">
-                    <div class="testimonial-badge">研究單位</div>
-                    <blockquote>
-                        「過去我們需要自行維護多套監控工具。導入 RIVO 後，一個平台就整合即時影像、告警與操作紀錄，團隊協作效率明顯提升。」
-                    </blockquote>
-                    <div class="testimonial-author">
-                        <div class="author-avatar">林</div>
-                        <div class="author-info">
-                            <strong>林教授</strong>
-                            <span>國立大學智慧機器人實驗室</span>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="testimonial-card stagger-child">
-                    <div class="testimonial-badge">機器人新創</div>
-                    <blockquote>
-                        「RIVO 讓我們在產品展示前完成遠端控制與儀表板上線，客戶能在同一介面看到機器人狀態與 KPI，溝通效率大幅提升。」
-                    </blockquote>
-                    <div class="testimonial-author">
-                        <div class="author-avatar">陳</div>
-                        <div class="author-info">
-                            <strong>陳執行長</strong>
-                            <span>物流機器人新創團隊</span>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="testimonial-card stagger-child">
-                    <div class="testimonial-badge">智慧製造</div>
-                    <blockquote>
-                        「工廠多機調度最大的痛點是可視性與異常回應。RIVO 提供集中監控與權限管理後，現場維運流程更標準化。」
-                    </blockquote>
-                    <div class="testimonial-author">
-                        <div class="author-avatar">張</div>
-                        <div class="author-info">
-                            <strong>張技術總監</strong>
-                            <span>智慧製造系統整合商</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
     <!-- FAQ Section -->
     <section id="faq" class="faq">
         <div class="container">
@@ -1022,16 +1326,6 @@
                         <p>RIVO 聚焦亞太導入場景，提供繁中介面、在地支援與彈性部署，同時維持企業級擴展與治理能力。</p>
                     </div>
                 </div>
-
-                <div class="faq-item">
-                    <button class="faq-question" aria-expanded="false">
-                        <h3>可以做私有部署與客製整合嗎？</h3>
-                        <span class="faq-toggle">+</span>
-                    </button>
-                    <div class="faq-answer">
-                        <p>可以。企業方案支援 On-Premise / VPC 部署，並可依需求提供 SSO、權限模型與流程整合。</p>
-                    </div>
-                </div>
             </div>
         </div>
     </section>
@@ -1067,27 +1361,6 @@
                         </div>
                     </div>
 
-                    <div class="contact-item">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" />
-                            <circle cx="12" cy="10" r="3" />
-                        </svg>
-                        <div>
-                            <h4>Address</h4>
-                            <span>台南市東區大學路1號</span>
-                        </div>
-                    </div>
-
-                    <div class="contact-item">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <circle cx="12" cy="12" r="10" />
-                            <polyline points="12 6 12 12 16 14" />
-                        </svg>
-                        <div>
-                            <h4>Service Hours</h4>
-                            <span>Mon - Fri, 09:00 - 18:00 (GMT+8)</span>
-                        </div>
-                    </div>
                 </div>
 
                 <form class="contact-form" action="https://formspree.io/f/mqakvjzd" method="POST">
@@ -1153,8 +1426,6 @@
                         <ul>
                             <li><a href="mailto:hello@rivo.dev">hello@rivo.dev</a></li>
                             <li><span>Line: @rivo.dev</span></li>
-                            <li><span>台南市東區大學路1號</span></li>
-                            <li><span>Mon - Fri, 09:00 - 18:00 (GMT+8)</span></li>
                         </ul>
                     </div>
                 </div>
@@ -1407,6 +1678,127 @@
             window.addEventListener('resize', updateControls);
             updateControls();
         })();
+
+        // ===== Audience Carousel =====
+        (function initAudienceCarousel() {
+            const track = document.getElementById('audienceTrack');
+            const slides = Array.from(track.querySelectorAll('.audience-slide'));
+            const prevBtn = document.getElementById('audiencePrev');
+            const nextBtn = document.getElementById('audienceNext');
+            const dotsWrap = document.getElementById('audienceDots');
+            if (!track || !slides.length) return;
+
+            let current = 0;
+
+            // Build dots
+            slides.forEach((_, i) => {
+                const dot = document.createElement('button');
+                dot.className = 'audience-dot' + (i === 0 ? ' active' : '');
+                dot.setAttribute('aria-label', `Slide ${i + 1}`);
+                dot.addEventListener('click', () => goTo(i));
+                dotsWrap.appendChild(dot);
+            });
+
+            function update() {
+                track.style.transform = `translateX(-${current * 100}%)`;
+                prevBtn.disabled = current === 0;
+                nextBtn.disabled = current === slides.length - 1;
+                dotsWrap.querySelectorAll('.audience-dot').forEach((d, i) => d.classList.toggle('active', i === current));
+            }
+
+            function goTo(idx) {
+                current = Math.max(0, Math.min(idx, slides.length - 1));
+                update();
+            }
+
+            prevBtn.addEventListener('click', () => goTo(current - 1));
+            nextBtn.addEventListener('click', () => goTo(current + 1));
+            update();
+        })();
+
+        // ===== Integration Feature Tabs =====
+        document.querySelectorAll('.integration-feature-tab').forEach(tab => {
+            tab.addEventListener('click', function () {
+                const tabName = this.dataset.tab;
+                const section = this.closest('.integration-feature-section');
+                section.querySelectorAll('.integration-feature-tab').forEach(t => t.classList.remove('active'));
+                section.querySelectorAll('.integration-feature-content').forEach(c => c.classList.remove('active'));
+                this.classList.add('active');
+                section.querySelector(`.integration-feature-content[data-tab="${tabName}"]`).classList.add('active');
+            });
+        });
+
+        // ===== Pricing Carousel (new) =====
+        (function initPricingCarouselNew() {
+            const track = document.getElementById('pricingTrackNew');
+            const indicator = document.getElementById('pricingIndicatorNew');
+            const prevBtn = document.getElementById('pricingPrevNew');
+            const nextBtn = document.getElementById('pricingNextNew');
+            if (!track) return;
+
+            const cards = Array.from(track.querySelectorAll('.pricing-card-new'));
+            let current = 0;
+
+            function visibleCount() {
+                if (window.innerWidth >= 900) return 3;
+                if (window.innerWidth >= 600) return 2;
+                return 1;
+            }
+
+            function getCardWidth() {
+                if (!cards[0]) return 0;
+                return cards[0].offsetWidth + 24; // gap
+            }
+
+            function update() {
+                const maxIdx = Math.max(0, cards.length - visibleCount());
+                current = Math.max(0, Math.min(current, maxIdx));
+                track.style.transform = `translateX(-${current * getCardWidth()}px)`;
+                prevBtn.disabled = current === 0;
+                nextBtn.disabled = current >= maxIdx;
+                indicator.textContent = `${current + 1} / ${cards.length}`;
+            }
+
+            prevBtn.addEventListener('click', () => { current--; update(); });
+            nextBtn.addEventListener('click', () => { current++; update(); });
+            window.addEventListener('resize', update);
+            update();
+        })();
+
+        // ===== Background Phase Observer =====
+        (function initPhaseObserver() {
+            const sections = document.querySelectorAll('[data-phase]');
+            if (!sections.length) return;
+
+            const phaseObserver = new IntersectionObserver(function (entries) {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting && window.rivoSetPhase) {
+                        const phase = parseInt(entry.target.dataset.phase, 10);
+                        window.rivoSetPhase(phase);
+                    }
+                });
+            }, { threshold: 0.3 });
+
+            sections.forEach(s => phaseObserver.observe(s));
+
+            // Reset to phase 0 when hero is visible
+            const heroSection = document.querySelector('.hero');
+            if (heroSection) {
+                const heroObserver = new IntersectionObserver(function (entries) {
+                    entries.forEach(entry => {
+                        if (entry.isIntersecting && window.rivoSetPhase) {
+                            window.rivoSetPhase(0);
+                        }
+                    });
+                }, { threshold: 0.3 });
+                heroObserver.observe(heroSection);
+            }
+        })();
+
+        // ===== Stagger observer update for new cards =====
+        document.querySelectorAll('.audience-slide-pills, .pricing-carousel-track-new').forEach(grid => {
+            staggerObserver.observe(grid);
+        });
 
         // Initialize RIVO Node Template Browser
         window.addEventListener('DOMContentLoaded', async function () {

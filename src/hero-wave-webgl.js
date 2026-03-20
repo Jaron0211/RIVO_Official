@@ -1,51 +1,117 @@
 /**
  * Hero WebGL Wave Background
  * Ported from RIVO_Media Three.js shader effect.
- * Runs on the hero canvas as a contained background.
+ * Runs as a fixed full-page background canvas.
+ * Supports phase transitions per scroll section.
  */
 (function () {
     'use strict';
 
+    // Phase configurations per section
+    const PHASES = [
+        // 0: Hero
+        { bg: '#05070a', lineColor: '#eaebeaff', lineOpacity: 0.45, waveAmplitude: 4.1, waveSpeed: 0.04, flowSpeedX: 3.5, flowSpeedY: 1.8 },
+        // 1: Audience
+        { bg: '#050810', lineColor: '#c0d4f8', lineOpacity: 0.38, waveAmplitude: 3.0, waveSpeed: 0.03, flowSpeedX: 2.5, flowSpeedY: 1.2 },
+        // 2: Integration
+        { bg: '#040e09', lineColor: '#a8e0c8', lineOpacity: 0.42, waveAmplitude: 5.2, waveSpeed: 0.05, flowSpeedX: 4.2, flowSpeedY: 2.0 },
+        // 3: AI
+        { bg: '#080410', lineColor: '#ccc0f0', lineOpacity: 0.40, waveAmplitude: 3.5, waveSpeed: 0.035, flowSpeedX: 3.0, flowSpeedY: 3.2 },
+        // 4: Security
+        { bg: '#030e07', lineColor: '#88dca8', lineOpacity: 0.40, waveAmplitude: 2.5, waveSpeed: 0.025, flowSpeedX: 2.2, flowSpeedY: 1.0 },
+        // 5: Pricing
+        { bg: '#060708', lineColor: '#c8d0e0', lineOpacity: 0.35, waveAmplitude: 3.2, waveSpeed: 0.03, flowSpeedX: 3.2, flowSpeedY: 1.5 },
+    ];
+
+    let _material = null;
+    let _renderer = null;
+    let _currentPhase = 0;
+    let _targetPhase = 0;
+    let _phaseProgress = 1.0;
+    let _THREE = null;
+
+    function hexToRGB(hex) {
+        const r = parseInt(hex.slice(1, 3), 16) / 255;
+        const g = parseInt(hex.slice(3, 5), 16) / 255;
+        const b = parseInt(hex.slice(5, 7), 16) / 255;
+        return [r, g, b];
+    }
+
+    function lerpColor(a, b, t) {
+        return [
+            a[0] + (b[0] - a[0]) * t,
+            a[1] + (b[1] - a[1]) * t,
+            a[2] + (b[2] - a[2]) * t,
+        ];
+    }
+
+    function lerp(a, b, t) { return a + (b - a) * t; }
+
+    // Smooth easing
+    function ease(t) { return t < 0.5 ? 2 * t * t : -1 + (4 - 2 * t) * t; }
+
+    // Called each frame to interpolate uniforms toward target phase
+    function updatePhaseUniforms(delta) {
+        if (!_material || !_renderer) return;
+        if (_phaseProgress >= 1.0) return;
+
+        _phaseProgress = Math.min(1.0, _phaseProgress + delta * 0.8); // ~1.25s transition
+        const t = ease(_phaseProgress);
+
+        const from = PHASES[_currentPhase];
+        const to = PHASES[_targetPhase];
+
+        const fromBg = hexToRGB(from.bg);
+        const toBg = hexToRGB(to.bg);
+        const bgColor = lerpColor(fromBg, toBg, t);
+        _renderer.setClearColor(new _THREE.Color(bgColor[0], bgColor[1], bgColor[2]), 1);
+
+        const fromLine = hexToRGB(from.lineColor);
+        const toLine = hexToRGB(to.lineColor);
+        const lineColor = lerpColor(fromLine, toLine, t);
+        _material.uniforms.uColor.value.setRGB(lineColor[0], lineColor[1], lineColor[2]);
+
+        _material.uniforms.uOpacity.value = lerp(from.lineOpacity, to.lineOpacity, t);
+        _material.uniforms.uWaveAmplitude.value = lerp(from.waveAmplitude, to.waveAmplitude, t);
+        _material.uniforms.uWaveSpeed.value = lerp(from.waveSpeed, to.waveSpeed, t);
+        _material.uniforms.uFlowSpeedX.value = lerp(from.flowSpeedX, to.flowSpeedX, t);
+        _material.uniforms.uFlowSpeedY.value = lerp(from.flowSpeedY, to.flowSpeedY, t);
+
+        if (_phaseProgress >= 1.0) {
+            _currentPhase = _targetPhase;
+        }
+    }
+
+    // Public API: set phase index (0-5)
+    window.rivoSetPhase = function (phaseIndex) {
+        const idx = Math.max(0, Math.min(PHASES.length - 1, phaseIndex));
+        if (idx === _targetPhase && _phaseProgress >= 1.0) return;
+        _currentPhase = _targetPhase;
+        _targetPhase = idx;
+        _phaseProgress = 0.0;
+    };
+
     function initHeroWave(canvas) {
         if (!window.THREE) return;
-        const THREE = window.THREE;
+        _THREE = window.THREE;
+        const THREE = _THREE;
 
-        const config = {
-            backgroundColor: '#05070a',
-            lineColor: '#eaebeaff',
-            lineOpacity: 0.45,
-            waveAmplitude: 4.1,
-            waveFrequency: 0.03,
-            waveSpeed: 0.10,
-            uncertainty: 3,
-            flowSpeedX: 10.0,
-            flowSpeedY: 5.0,
-            fineDetailScale: 3.0,
-            fineDetailAmount: 0.3,
-            densityContrast: 1.5,
-            textForceDepth: 0.0,
-            imageForceDepth: 0.0,
-            forceFieldStrength: 0.0,
-            forceFieldRadius: 20.0,
-            rowsPerGroup: 400,
-        };
+        const config = PHASES[0];
 
-        const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true });
-        renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-        renderer.setClearColor(new THREE.Color(config.backgroundColor), 1);
+        _renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: false });
+        _renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+        _renderer.setClearColor(new THREE.Color(config.bg), 1);
 
         const scene = new THREE.Scene();
         const camera = new THREE.PerspectiveCamera(45, canvas.clientWidth / canvas.clientHeight, 0.1, 1000);
         camera.position.set(0, -59.2, 60);
         camera.lookAt(0, 0, 0);
 
-        // Blank textures (no text/image interaction in hero mode)
         const blankCanvas = document.createElement('canvas');
         blankCanvas.width = 4; blankCanvas.height = 4;
         const textTexture = new THREE.CanvasTexture(blankCanvas);
         const imageTexture = new THREE.CanvasTexture(blankCanvas);
 
-        // Smooth mouse tracking
         const mouse = new THREE.Vector2(-9999, -9999);
         const raycaster = new THREE.Raycaster();
         const plane = new THREE.Plane(new THREE.Vector3(0, 0, 1), 0);
@@ -156,7 +222,6 @@ void main() {
   float densityProxy = abs(elevation) / uWaveAmplitude + abs(yTwist) / max(uUncertainty, 0.001);
   vDensity = smoothstep(0.0, uDensityContrast, densityProxy);
 
-  // Mouse repulsion
   float dist = distance(aOriginalPosition.xy, uMouse.xy);
   if (dist < uForceRadius) {
     float force = (uForceRadius - dist) / uForceRadius;
@@ -197,31 +262,32 @@ void main() {
         const cols = 600;
         const width = 450;
         const height = 280;
+        const rowsPerGroup = 400;
 
         const uniformBlock = {
             uTime: { value: 0 },
             uMouse: { value: new THREE.Vector3(-9999, -9999, 0) },
             uGroupOffset: { value: 0 },
             uWaveAmplitude: { value: config.waveAmplitude },
-            uWaveFrequency: { value: config.waveFrequency },
+            uWaveFrequency: { value: 0.03 },
             uWaveSpeed: { value: config.waveSpeed },
-            uUncertainty: { value: config.uncertainty },
+            uUncertainty: { value: 3 },
             uFlowSpeedX: { value: config.flowSpeedX },
             uFlowSpeedY: { value: config.flowSpeedY },
-            uFineDetailScale: { value: config.fineDetailScale },
-            uFineDetailAmount: { value: config.fineDetailAmount },
-            uDensityContrast: { value: config.densityContrast },
-            uTextForceDepth: { value: config.textForceDepth },
-            uImageForceDepth: { value: config.imageForceDepth },
-            uForceRadius: { value: config.forceFieldRadius },
-            uForceStrength: { value: config.forceFieldStrength },
+            uFineDetailScale: { value: 3.0 },
+            uFineDetailAmount: { value: 0.3 },
+            uDensityContrast: { value: 1.5 },
+            uTextForceDepth: { value: 0.0 },
+            uImageForceDepth: { value: 0.0 },
+            uForceRadius: { value: 20.0 },
+            uForceStrength: { value: 0.0 },
             uTextTexture: { value: textTexture },
             uImageTexture: { value: imageTexture },
             uColor: { value: new THREE.Color(config.lineColor) },
             uOpacity: { value: config.lineOpacity },
         };
 
-        const material = new THREE.ShaderMaterial({
+        _material = new THREE.ShaderMaterial({
             vertexShader,
             fragmentShader,
             uniforms: uniformBlock,
@@ -230,14 +296,14 @@ void main() {
             depthWrite: false,
         });
 
-        const totalVerts = config.rowsPerGroup * cols + (config.rowsPerGroup - 1);
+        const totalVerts = rowsPerGroup * cols + (rowsPerGroup - 1);
         const positions = new Float32Array(totalVerts * 3);
         const originalPositions = new Float32Array(totalVerts * 3);
         const references = new Float32Array(totalVerts * 2);
 
         let idx = 0;
-        for (let y = 0; y < config.rowsPerGroup; y++) {
-            const yProgress = y / (config.rowsPerGroup - 1);
+        for (let y = 0; y < rowsPerGroup; y++) {
+            const yProgress = y / (rowsPerGroup - 1);
             const yProgressJittered = yProgress + (Math.random() - 0.5) * 0.05;
             const yOffset = (yProgressJittered - 0.5) * height;
             for (let x = 0; x < cols; x++) {
@@ -253,7 +319,7 @@ void main() {
                 references[idx * 2 + 1] = yProgress;
                 idx++;
             }
-            if (y < config.rowsPerGroup - 1) {
+            if (y < rowsPerGroup - 1) {
                 positions[idx * 3] = NaN; positions[idx * 3 + 1] = NaN; positions[idx * 3 + 2] = NaN;
                 originalPositions[idx * 3] = NaN; originalPositions[idx * 3 + 1] = NaN; originalPositions[idx * 3 + 2] = NaN;
                 references[idx * 2] = 0.5; references[idx * 2 + 1] = yProgress;
@@ -267,29 +333,31 @@ void main() {
         geometry.setAttribute('aReference', new THREE.BufferAttribute(references, 2));
         geometry.boundingSphere = new THREE.Sphere(new THREE.Vector3(0, 0, 0), 1000);
 
-        const line = new THREE.Line(geometry, material);
+        const line = new THREE.Line(geometry, _material);
         scene.add(line);
 
-        // Resize handler
         function onResize() {
             const w = canvas.clientWidth;
             const h = canvas.clientHeight;
-            renderer.setSize(w, h, false);
+            _renderer.setSize(w, h, false);
             camera.aspect = w / h;
             camera.updateProjectionMatrix();
         }
         window.addEventListener('resize', onResize);
         onResize();
 
-        // Animation
         const clock = new THREE.Clock();
+        let lastTime = 0;
         function animate() {
             requestAnimationFrame(animate);
             const elapsed = clock.getElapsedTime();
+            const delta = elapsed - lastTime;
+            lastTime = elapsed;
             currentMouse.lerp(targetMouse, 0.08);
-            material.uniforms.uTime.value = elapsed;
-            material.uniforms.uMouse.value.copy(currentMouse);
-            renderer.render(scene, camera);
+            _material.uniforms.uTime.value = elapsed;
+            _material.uniforms.uMouse.value.copy(currentMouse);
+            updatePhaseUniforms(delta);
+            _renderer.render(scene, camera);
         }
         animate();
     }
@@ -301,7 +369,6 @@ void main() {
         if (window.THREE) {
             initHeroWave(canvas);
         } else {
-            // Wait for Three.js to load
             const script = document.querySelector('script[src*="three"]');
             if (script) {
                 script.addEventListener('load', () => initHeroWave(canvas));
