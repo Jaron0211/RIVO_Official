@@ -58,12 +58,11 @@
                     alt="RIVO" class="logo-img">
             </a>
             <ul class="nav-links">
-                <li><a href="#audience">適用對象</a></li>
                 <li><a href="#integration-feature">整合功能</a></li>
                 <li><a href="#ai-talk">AI 控制</a></li>
                 <li><a href="#security">安全性</a></li>
-                <li><a href="#pricing">定價</a></li>
                 <li><a href="#comparison">比較</a></li>
+                <li><a href="#pricing">定價</a></li>
                 <li><a href="#faq">FAQ</a></li>
                 <li class="lang-switch-item">
                     <div class="lang-switch" role="group" aria-label="語言切換">
@@ -208,7 +207,7 @@
             <div class="integration-feature-header fade-in">
                 <span class="section-label">Integration</span>
                 <h2 class="section-title">試試 RIVO 的智慧整合功能</h2>
-                <p class="section-subtitle">時間就是最珍貴的資源，您應該花更多時間去發揮創意，而不是無盡的 Coding<br>由 RIVO AI 協助您更聰明快速地整合</p>
+                <p class="section-subtitle">把精力放在真正重要的事上。RIVO 讓硬體接線、協議解析、資料串接通通自動搞定。</p>
             </div>
 
             <div class="integration-feature-tabs fade-in">
@@ -222,24 +221,16 @@
                     <div class="flow-column">
                         <div class="flow-column-title">輸入來源</div>
                         <div class="flow-node">影像</div>
-                        <div class="flow-node">創新模組</div>
+                        <div class="flow-node">創客模組</div>
                         <div class="flow-node">工業控制器</div>
                     </div>
                     <div class="flow-arrow">
                         <svg viewBox="0 0 40 16" fill="none"><path d="M0 8 H32 M26 2 L34 8 L26 14" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-                        <span>UART / I2C<br>SPI / Modbus</span>
-                    </div>
-                    <div class="flow-column" style="flex:0 0 auto; min-width:160px;">
-                        <div class="flow-column-title">AI 解析</div>
-                        <div class="flow-node highlight">RIVO AI<br><span style="font-size:11px;opacity:0.6;">自動識別協議</span></div>
-                    </div>
-                    <div class="flow-arrow">
-                        <svg viewBox="0 0 40 16" fill="none"><path d="M0 8 H32 M26 2 L34 8 L26 14" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-                        <span>標準化<br>資料流</span>
+                        <span>AI 解析協議</span>
                     </div>
                     <div class="flow-column" style="flex:0 0 auto; min-width:160px;">
                         <div class="flow-column-title">RIVO 節點</div>
-                        <div class="flow-node rivo-center-node">RIVO Node<br><span style="font-size:11px;opacity:0.6;">邊緣運算層</span></div>
+                        <div class="flow-node rivo-center-node"><img src="assets/logo-white.png" alt="RIVO Node" style="height:22px;width:auto;display:block;margin:0 auto;"></div>
                     </div>
                     <div class="flow-arrow">
                         <svg viewBox="0 0 40 16" fill="none"><path d="M0 8 H32 M26 2 L34 8 L26 14" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
@@ -268,7 +259,7 @@
                     </div>
                     <div class="flow-column" style="flex:0 0 auto; min-width:160px;">
                         <div class="flow-column-title">RIVO 節點</div>
-                        <div class="flow-node rivo-center-node">RIVO Node<br><span style="font-size:11px;opacity:0.6;">無需新增硬體</span></div>
+                        <div class="flow-node rivo-center-node"><img src="assets/logo-white.png" alt="RIVO Node" style="height:22px;width:auto;display:block;margin:0 auto;"></div>
                     </div>
                     <div class="flow-arrow">
                         <svg viewBox="0 0 40 16" fill="none"><path d="M0 8 H32 M26 2 L34 8 L26 14" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
@@ -276,9 +267,9 @@
                     </div>
                     <div class="flow-column">
                         <div class="flow-column-title">應用效益</div>
-                        <div class="flow-node">即時遙測</div>
-                        <div class="flow-node">OTA 更新</div>
-                        <div class="flow-node">邊緣安全閘道</div>
+                        <div class="flow-node">即時儀表板</div>
+                        <div class="flow-node">異常告警</div>
+                        <div class="flow-node">遠端控制</div>
                     </div>
                 </div>
             </div>
@@ -1731,38 +1722,43 @@
         // ===== Pricing Carousel (new) =====
         (function initPricingCarouselNew() {
             const track = document.getElementById('pricingTrackNew');
+            const wrapper = track && track.closest('.pricing-carousel-track-wrapper');
             const indicator = document.getElementById('pricingIndicatorNew');
             const prevBtn = document.getElementById('pricingPrevNew');
             const nextBtn = document.getElementById('pricingNextNew');
-            if (!track) return;
+            if (!track || !wrapper) return;
 
             const cards = Array.from(track.querySelectorAll('.pricing-card-new'));
             let current = 0;
 
-            function visibleCount() {
-                if (window.innerWidth >= 900) return 3;
-                if (window.innerWidth >= 600) return 2;
-                return 1;
+            function setPadding() {
+                const cardWidth = cards[0] ? cards[0].offsetWidth : 0;
+                const pad = Math.max(0, (wrapper.offsetWidth - cardWidth) / 2);
+                track.style.paddingLeft = pad + 'px';
+                track.style.paddingRight = pad + 'px';
             }
 
-            function getCardWidth() {
-                if (!cards[0]) return 0;
-                return cards[0].offsetWidth + 24; // gap
+            function scrollToCard(idx) {
+                const card = cards[idx];
+                if (!card) return;
+                const cardCenter = card.offsetLeft + card.offsetWidth / 2;
+                wrapper.scrollLeft = cardCenter - wrapper.offsetWidth / 2;
             }
 
             function update() {
-                const maxIdx = Math.max(0, cards.length - visibleCount());
-                current = Math.max(0, Math.min(current, maxIdx));
-                track.style.transform = `translateX(-${current * getCardWidth()}px)`;
                 prevBtn.disabled = current === 0;
-                nextBtn.disabled = current >= maxIdx;
+                nextBtn.disabled = current === cards.length - 1;
                 indicator.textContent = `${current + 1} / ${cards.length}`;
+                scrollToCard(current);
             }
 
             prevBtn.addEventListener('click', () => { current--; update(); });
             nextBtn.addEventListener('click', () => { current++; update(); });
-            window.addEventListener('resize', update);
-            update();
+            window.addEventListener('resize', () => { setPadding(); update(); });
+
+            // init: set padding once, then scroll
+            setPadding();
+            requestAnimationFrame(() => { update(); });
         })();
 
         // ===== Background Phase Observer =====

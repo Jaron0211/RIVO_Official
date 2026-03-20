@@ -12,11 +12,90 @@
                 ogDescription: 'RIVO Server 是高效能 Go 後端平台，整合即時資料串流、AI 任務推理與安全優先架構，提供企業級機器人車隊管理能力。'
             },
             nav: {
-                items: ['痛點', '為何選擇', '解決方案', 'RIVO Node（敬請期待）', '功能', '比較', '定價', 'FAQ'],
+                items: ['整合功能', 'AI 控制', '安全性', '比較', '定價', 'FAQ'],
                 docs: '技術文件 / Resources',
                 cta: '預約諮詢',
                 mobileMenu: '選單',
                 langSwitch: '語言切換'
+            },
+            audience: {
+                label: 'For Everyone',
+                title: '新一代智能整合平台',
+                subtitle: '不論是誰，RIVO 都能讓你的整合體驗更好',
+                slides: [
+                    {
+                        tag: '01 / Makers · Smart Agriculture',
+                        title: '個人創客 · 智慧農業',
+                        desc: '有想法就直接動手。RIVO 讓你把任何感測器或裝置接上雲端、即時監控數據、設定自動觸發條件，不需要後端工程師，一個人就能把想法變成可展示的系統。',
+                        pills: ['無需後端開發', '感測器即接即用', '自動化規則觸發']
+                    },
+                    {
+                        tag: '02 / Startup · AIoT · Academic',
+                        title: '新創企業 · AIoT · 學術單位',
+                        desc: '加速從原型到產品的距離。RIVO 提供即開即用的連線、監控與資料管線，讓你的團隊把時間花在核心技術，而不是基礎設施。',
+                        pills: ['ROS / ROS 2 整合', '多人協作', 'Academic 優惠']
+                    },
+                    {
+                        tag: '03 / Enterprise',
+                        title: '企業轉型 · 多機管理',
+                        desc: '從單台 PoC 到跨據點車隊部署，RIVO 提供分級權限、完整稽核軌跡與即時告警，讓現場維運標準化，符合企業 IT 治理需求。',
+                        pills: ['私有部署可選', 'SLA 99.9%', '台灣在地支援']
+                    }
+                ]
+            },
+            integrationFeature: {
+                label: 'Integration',
+                title: '試試 RIVO 的智慧整合功能',
+                subtitle: '把精力放在真正重要的事上。RIVO 讓硬體接線、協議解析、資料串接通通自動搞定。',
+                tabs: ['硬體整合', '軟體整合'],
+                hardware: {
+                    col1Title: '輸入來源',
+                    nodes: ['影像', '創客模組', '工業控制器'],
+                    arrow1: 'AI 解析協議',
+                    col2Title: 'RIVO 節點',
+                    arrow2: 'HTTPS / WebSocket',
+                    col3Title: '應用效益',
+                    outputs: ['即時儀表板', '異常告警', '遠端控制']
+                },
+                software: {
+                    col1Title: '軟體框架',
+                    nodes: ['ROS / ROS 2', 'Linux Agent'],
+                    arrow1: 'YAML 宣告式設定',
+                    col2Title: 'RIVO 節點',
+                    arrow2: '容器化部署',
+                    col3Title: '應用效益',
+                    outputs: ['即時儀表板', '異常告警', '遠端控制']
+                }
+            },
+            aiTalk: {
+                label: 'AI Control',
+                title: '「說」給你的機器聽吧',
+                subtitle: 'RIVO 理解、學習你的系統，讓您真正與機器人對話'
+            },
+            security: {
+                label: 'Security',
+                title: '安全性？別擔心',
+                subtitle: 'RIVO 從設計之初就以企業安全規範設計，提供企業更好的整合解決方案',
+                cards: [
+                    { title: '傳輸加密 TLS', desc: '所有節點與平台間通訊採 TLS 加密，AES-GCM 端對端資料保護' },
+                    { title: '邊緣安全閘道', desc: '指令在本地驗證安全規則，低電量、障礙物等條件自動攔截危險操作' },
+                    { title: '多層級權限管理', desc: '角色、群組與資源範圍三層控管，完整操作稽核軌跡' },
+                    { title: '斷線自動停機', desc: 'Watchdog 持續偵測連線，失聯超過閾值自動執行 stop/hold 策略' },
+                    { title: '私有部署支援', desc: 'Enterprise 方案支援 On-Premise / VPC，資料主權完全由您掌控' },
+                    { title: 'AI 雙層防護', desc: '伺服器端 AI 安全評估 + 本地邊緣規則驗證，兩層防護相互獨立' }
+                ]
+            },
+            pricingNew: {
+                label: 'Pricing',
+                title: '清晰分級，支援成長',
+                subtitle: '不同方案提供滿足您的需求',
+                cards: [
+                    { name: 'Free', price: '免費', sub: '達限硬停，無超額收費', target: '個人創客 / 學生 / 概念驗證', features: ['1 台機器人', '10 robot-hours / 月', '2 小時串流 / 月', '通訊 10 Hz', '720p 30fps 串流'], cta: '免費開始' },
+                    { name: 'Starter', price: 'NT$290', sub: '小型專案，彈性起步', target: '教育研究 / 小型專案 / Side Project', features: ['2 台機器人', '150 robot-hours / 月', '30 小時串流 / 月', '通訊 10 Hz', '720p 30fps 串流'], cta: '選擇 Starter' },
+                    { name: 'Pro', price: 'NT$1,290', sub: '最受歡迎，兼顧效能與成本', target: '機器人新創 / 研發團隊 / 中小企業', features: ['10 台機器人', '800 robot-hours / 月', '200 小時串流 / 月', '通訊 100 Hz', '1080p 60fps 串流'], cta: '選擇 Pro' },
+                    { name: 'Studio', price: 'NT$2,890', sub: '進階規模，高頻應用', target: '系統整合商 / 機器人服務商 / 進階開發', features: ['30 台機器人', '1,800 robot-hours / 月', '700 小時串流 / 月', '通訊 200 Hz', '1080p 60fps 串流'], cta: '選擇 Studio' },
+                    { name: 'Fleet', price: 'NT$4,890', sub: '無限機器人，全面車隊管理', target: '大型企業 / 多據點車隊 / 商用落地', features: ['無限台機器人', '2,500 robot-hours / 月', '2,000 小時串流 / 月', '高頻通訊支援', '完整串流規格'], cta: '聯絡業務' }
+                ]
             },
             hero: {
                 label: 'RIVO — Rapid Integration & Virtualization Orchestration',
@@ -189,10 +268,12 @@
                     ['導入時間', '3-6 個月', '4-10 週', '1-2 週設定', '<strong>2 天啟動 PoC</strong>'],
                     ['初期建置成本', '高（人力 + 架構）', '中（需客製）', '低（授權為主）', '<strong>可控（方案化）</strong>'],
                     ['內部技術負擔', '需平台團隊長期維護', '需整合與前端能力', '需熟悉英文流程', '<strong>專注機器人應用開發</strong>'],
-                    ['行動端支援', '需另外開發', '需另外開發', '部分支援', '內建'],
+                    ['AI 自然語言控制', '需自行整合 LLM', '無', '有限', '內建'],
+                    ['邊緣安全規則', '需自行開發', '無', '有限', '內建'],
+                    ['行動端支援', '需另外開發', '需另外開發', '部分支援', 'Android App 內建'],
                     ['中文介面與文件', '-', '有限', '有限', '完整'],
                     ['在地導入服務', '-', '-', '通常遠端', '台灣團隊'],
-                    ['月度營運成本', '維護與雲資源成本', '伺服器 + 維運', '$100+ USD / robot', '<strong>NT$ 3K 起</strong>']
+                    ['月度營運成本', '維護與雲資源成本', '伺服器 + 維運', '$100+ USD / robot', '<strong>NT$ 290 / 月起</strong>']
                 ],
                 fitTitle: '適合你的團隊，如果你：',
                 fitItems: [
@@ -301,20 +382,99 @@
                 ogDescription: 'RIVO Server is a high-performance Go backend that unifies real-time streaming, AI-assisted autonomy, and security-first architecture for enterprise robot fleets.'
             },
             nav: {
-                items: ['Challenges', 'Why RIVO', 'Solution', 'RIVO Node (Coming Soon)', 'Features', 'Comparison', 'Pricing', 'FAQ'],
+                items: ['Integration', 'AI Control', 'Security', 'Comparison', 'Pricing', 'FAQ'],
                 docs: 'Resources',
                 cta: 'Book a Call',
                 mobileMenu: 'Menu',
                 langSwitch: 'Language switcher'
             },
+            audience: {
+                label: 'For Everyone',
+                title: 'Next-Generation Smart Integration Platform',
+                subtitle: 'Whoever you are, RIVO makes integration easier.',
+                slides: [
+                    {
+                        tag: '01 / Makers · Smart Agriculture',
+                        title: 'Makers · Smart Agriculture',
+                        desc: 'Just start building. RIVO connects any sensor or device to the cloud, monitors data in real time, and lets you set automation triggers — no backend engineer needed.',
+                        pills: ['No Backend Required', 'Plug-and-Play Sensors', 'Automated Rule Triggers']
+                    },
+                    {
+                        tag: '02 / Startup · AIoT · Academic',
+                        title: 'Startups · AIoT · Academia',
+                        desc: 'Shorten the path from prototype to product. RIVO provides ready-to-use connectivity, monitoring, and data pipelines so your team can focus on core technology, not infrastructure.',
+                        pills: ['ROS / ROS 2 Integration', 'Team Collaboration', 'Academic Discount']
+                    },
+                    {
+                        tag: '03 / Enterprise',
+                        title: 'Enterprise · Multi-Fleet',
+                        desc: 'From a single PoC to cross-site fleet deployment, RIVO provides role-based access, full audit trails, and real-time alerts to standardize field operations and meet enterprise IT governance.',
+                        pills: ['Private Deployment Available', 'SLA 99.9%', 'Taiwan Local Support']
+                    }
+                ]
+            },
+            integrationFeature: {
+                label: 'Integration',
+                title: 'Explore RIVO\'s Smart Integration',
+                subtitle: 'Focus on what truly matters. RIVO handles wiring, protocol parsing, and data bridging automatically.',
+                tabs: ['Hardware Integration', 'Software Integration'],
+                hardware: {
+                    col1Title: 'Input Sources',
+                    nodes: ['Vision', 'Maker Modules', 'Industrial Controllers'],
+                    arrow1: 'AI Protocol Parsing',
+                    col2Title: 'RIVO Node',
+                    arrow2: 'HTTPS / WebSocket',
+                    col3Title: 'Benefits',
+                    outputs: ['Live Dashboard', 'Anomaly Alerts', 'Remote Control']
+                },
+                software: {
+                    col1Title: 'Software Framework',
+                    nodes: ['ROS / ROS 2', 'Linux Agent'],
+                    arrow1: 'YAML Declarative Config',
+                    col2Title: 'RIVO Node',
+                    arrow2: 'Containerized Deploy',
+                    col3Title: 'Benefits',
+                    outputs: ['Live Dashboard', 'Anomaly Alerts', 'Remote Control']
+                }
+            },
+            aiTalk: {
+                label: 'AI Control',
+                title: 'Just Talk to Your Robots',
+                subtitle: 'RIVO understands and learns your system — enabling true natural language robot control.'
+            },
+            security: {
+                label: 'Security',
+                title: 'Security? Don\'t Worry.',
+                subtitle: 'RIVO is built with enterprise security standards from the ground up.',
+                cards: [
+                    { title: 'TLS Encryption', desc: 'All node-to-platform traffic uses TLS with AES-GCM end-to-end data protection.' },
+                    { title: 'Edge Safety Gateway', desc: 'Commands are validated locally against safety rules — dangerous actions are blocked automatically.' },
+                    { title: 'Multi-Level Access Control', desc: 'Three-layer control: roles, groups, and resource scopes — with a full audit trail.' },
+                    { title: 'Auto-Stop on Disconnect', desc: 'Watchdog monitors connectivity and executes stop/hold policy when the threshold is exceeded.' },
+                    { title: 'Private Deployment', desc: 'Enterprise plans support On-Premise / VPC deployment — full data sovereignty.' },
+                    { title: 'AI Dual-Layer Protection', desc: 'Server-side AI safety assessment + local edge rule validation — two independent layers.' }
+                ]
+            },
+            pricingNew: {
+                label: 'Pricing',
+                title: 'Clear Plans Built for Growth',
+                subtitle: 'Choose the plan that fits your needs.',
+                cards: [
+                    { name: 'Free', price: 'Free', sub: 'Hard limit, no overage charges', target: 'Makers / Students / PoC', features: ['1 Robot', '10 robot-hours / mo', '2 hrs streaming / mo', '10 Hz communication', '720p 30fps streaming'], cta: 'Get Started Free' },
+                    { name: 'Starter', price: 'NT$290', sub: 'Flexible start for small projects', target: 'Education / Small Projects / Side Projects', features: ['2 Robots', '150 robot-hours / mo', '30 hrs streaming / mo', '10 Hz communication', '720p 30fps streaming'], cta: 'Choose Starter' },
+                    { name: 'Pro', price: 'NT$1,290', sub: 'Most popular — balanced performance', target: 'Robotics Startups / R&D Teams / SMBs', features: ['10 Robots', '800 robot-hours / mo', '200 hrs streaming / mo', '100 Hz communication', '1080p 60fps streaming'], cta: 'Choose Pro' },
+                    { name: 'Studio', price: 'NT$2,890', sub: 'Advanced scale, high-frequency apps', target: 'System Integrators / Robot Service Providers', features: ['30 Robots', '1,800 robot-hours / mo', '700 hrs streaming / mo', '200 Hz communication', '1080p 60fps streaming'], cta: 'Choose Studio' },
+                    { name: 'Fleet', price: 'NT$4,890', sub: 'Unlimited robots, full fleet management', target: 'Large Enterprises / Multi-site Fleets', features: ['Unlimited Robots', '2,500 robot-hours / mo', '2,000 hrs streaming / mo', 'High-frequency comms', 'Full streaming specs'], cta: 'Contact Sales' }
+                ]
+            },
             hero: {
-                label: 'RIVO',
-                intro: 'Next-Generation Robot Fleet Management Backend',
-                title: 'Observe in Real Time.<br>Control with AI.<br>Operate Securely.',
-                description: 'Built with Go for performance and reliability, RIVO Server combines WebSocket/SSE streaming, LiveKit video, AI reasoning, and enterprise security controls into one operations backend.',
-                primary: 'Book Architecture Consultation',
+                label: 'Enterprise Robotics Cloud Platform',
+                intro: 'Scale robotics operations with confidence',
+                title: 'Build Faster.<br>Operate Smarter.<br>Scale Securely.',
+                description: 'From PoC to production, RIVO provides real-time video, remote control, fleet operations, and enterprise security — so your team can focus on algorithms and hardware.',
+                primary: 'Book a Consultation',
                 secondary: 'View Platform Demo',
-                follow: 'Follow Us - TW. '
+                follow: 'Connect - Lk. / Yt. / Gh.'
             },
             problems: {
                 label: 'Pain Points',
@@ -478,10 +638,12 @@
                     ['Time to Launch', '3-6 months', '4-10 weeks', '1-2 weeks setup', '<strong>PoC in 2 days</strong>'],
                     ['Initial Build Cost', 'High (team + architecture)', 'Medium (customization needed)', 'Low (license-first)', '<strong>Predictable (plan-based)</strong>'],
                     ['Internal Technical Load', 'Requires a long-term platform team', 'Needs integration and frontend capability', 'Requires an English-first workflow', '<strong>Focus on robotics application development</strong>'],
-                    ['Mobile Support', 'Build separately', 'Build separately', 'Partial', 'Built-in'],
+                    ['AI Natural Language Control', 'Requires custom LLM integration', 'None', 'Limited', 'Built-in'],
+                    ['Edge Safety Rules', 'Custom development required', 'None', 'Limited', 'Built-in'],
+                    ['Mobile Support', 'Build separately', 'Build separately', 'Partial', 'Android App built-in'],
                     ['Chinese UI and Docs', '-', 'Limited', 'Limited', 'Complete'],
                     ['Local Delivery Support', '-', '-', 'Mostly remote', 'Taiwan-based team'],
-                    ['Monthly Operating Cost', 'Maintenance + cloud resources', 'Server + operations', '$100+ USD / robot', '<strong>Starts at NT$ 3K</strong>']
+                    ['Monthly Operating Cost', 'Maintenance + cloud resources', 'Server + operations', '$100+ USD / robot', '<strong>Starts at NT$ 290 / mo</strong>']
                 ],
                 fitTitle: 'Best fit if your team:',
                 fitItems: [
@@ -723,6 +885,94 @@
         setOne('.hero-buttons .btn-primary', t.hero.primary);
         setOne('.hero-buttons .btn-secondary', t.hero.secondary);
         setOne('.hero-follow', t.hero.follow);
+
+        // New sections
+        setOne('#audience .section-label', t.audience.label);
+        setOne('#audience .section-title', t.audience.title);
+        setOne('#audience .section-subtitle', t.audience.subtitle);
+        const slides = document.querySelectorAll('#audience .audience-slide');
+        slides.forEach((slide, i) => {
+            const s = t.audience.slides[i];
+            if (!s) return;
+            const tag = slide.querySelector('.audience-type-tag');
+            const title = slide.querySelector('.audience-slide-title');
+            const desc = slide.querySelector('.audience-slide-desc');
+            const pills = slide.querySelectorAll('.audience-pill');
+            if (tag) tag.textContent = s.tag;
+            if (title) title.textContent = s.title;
+            if (desc) desc.textContent = s.desc;
+            pills.forEach((p, j) => { if (s.pills[j]) p.textContent = s.pills[j]; });
+        });
+
+        setOne('#integration-feature .section-label', t.integrationFeature.label);
+        setOne('#integration-feature .section-title', t.integrationFeature.title);
+        setOne('#integration-feature .section-subtitle', t.integrationFeature.subtitle);
+        const ifTabs = document.querySelectorAll('.integration-feature-tab');
+        t.integrationFeature.tabs.forEach((label, i) => { if (ifTabs[i]) ifTabs[i].textContent = label; });
+        const hwContent = document.querySelector('#integration-feature .integration-feature-content[data-tab="hardware"]');
+        if (hwContent) {
+            const hw = t.integrationFeature.hardware;
+            const cols = hwContent.querySelectorAll('.flow-column');
+            const arrows = hwContent.querySelectorAll('.flow-arrow span');
+            if (cols[0]) { cols[0].querySelector('.flow-column-title').textContent = hw.col1Title; cols[0].querySelectorAll('.flow-node').forEach((n, i) => { if (hw.nodes[i]) n.childNodes[0].textContent = hw.nodes[i]; }); }
+            if (arrows[0]) arrows[0].textContent = hw.arrow1;
+            if (cols[1]) cols[1].querySelector('.flow-column-title').textContent = hw.col2Title;
+            if (arrows[1]) arrows[1].innerHTML = hw.arrow2;
+            if (cols[2]) { cols[2].querySelector('.flow-column-title').textContent = hw.col3Title; cols[2].querySelectorAll('.flow-node').forEach((n, i) => { if (hw.outputs[i]) n.textContent = hw.outputs[i]; }); }
+        }
+        const swContent = document.querySelector('#integration-feature .integration-feature-content[data-tab="software"]');
+        if (swContent) {
+            const sw = t.integrationFeature.software;
+            const cols = swContent.querySelectorAll('.flow-column');
+            const arrows = swContent.querySelectorAll('.flow-arrow span');
+            if (cols[0]) { cols[0].querySelector('.flow-column-title').textContent = sw.col1Title; cols[0].querySelectorAll('.flow-node').forEach((n, i) => { if (sw.nodes[i]) n.childNodes[0].textContent = sw.nodes[i]; }); }
+            if (arrows[0]) arrows[0].textContent = sw.arrow1;
+            if (cols[1]) cols[1].querySelector('.flow-column-title').textContent = sw.col2Title;
+            if (arrows[1]) arrows[1].innerHTML = sw.arrow2;
+            if (cols[2]) { cols[2].querySelector('.flow-column-title').textContent = sw.col3Title; cols[2].querySelectorAll('.flow-node').forEach((n, i) => { if (sw.outputs[i]) n.textContent = sw.outputs[i]; }); }
+        }
+
+        setOne('#ai-talk .section-label', t.aiTalk.label);
+        setOne('#ai-talk .section-title', t.aiTalk.title);
+        setOne('#ai-talk .section-subtitle', t.aiTalk.subtitle);
+
+        setOne('#security .section-label', t.security.label);
+        setOne('#security .section-title', t.security.title);
+        setOne('#security .section-subtitle', t.security.subtitle);
+        document.querySelectorAll('#security .security-card').forEach((card, i) => {
+            const c = t.security.cards[i];
+            if (!c) return;
+            const h4 = card.querySelector('h4');
+            const p = card.querySelector('p');
+            if (h4) h4.textContent = c.title;
+            if (p) p.textContent = c.desc;
+        });
+
+        setOne('#pricing .section-label', t.pricingNew.label);
+        setOne('#pricing .section-title', t.pricingNew.title);
+        setOne('#pricing .section-subtitle', t.pricingNew.subtitle);
+        document.querySelectorAll('#pricing .pricing-card-new').forEach((card, i) => {
+            const c = t.pricingNew.cards[i];
+            if (!c) return;
+            const price = card.querySelector('.pricing-card-price');
+            const sub = card.querySelector('.pricing-card-period-sub');
+            const target = card.querySelector('.pricing-card-target');
+            const features = card.querySelectorAll('.pricing-card-features-new li');
+            const cta = card.querySelector('.pricing-card-cta');
+            if (price) {
+                if (c.name === 'Free') {
+                    price.innerHTML = c.price;
+                } else {
+                    const amount = c.price.replace('NT$', '').replace(/,/g, ',');
+                    const perLabel = currentLanguage === 'en' ? ' / mo' : ' / 月';
+                    price.innerHTML = `<span class="currency-new">NT$</span>${amount}<span class="period-new">${perLabel}</span>`;
+                }
+            }
+            if (sub) sub.textContent = c.sub;
+            if (target) target.textContent = c.target;
+            features.forEach((li, j) => { if (c.features[j]) li.textContent = c.features[j]; });
+            if (cta) cta.textContent = c.cta;
+        });
 
         setOne('#problems .section-label', t.problems.label);
         setOne('#problems .section-title', t.problems.title);
