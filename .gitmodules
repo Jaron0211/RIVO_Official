@@ -1,0 +1,3 @@
+[submodule "rivo-web"]
+	path = rivo-web
+	url = git@github.com:Jaron0211/KairoIO_Center.git
