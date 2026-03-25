@@ -14,7 +14,7 @@
             nav: {
                 items: ['整合功能', 'AI 控制', '安全性', '比較', '定價', 'FAQ'],
                 docs: '技術文件 / Resources',
-                cta: '預約諮詢',
+                cta: '登入',
                 mobileMenu: '選單',
                 langSwitch: '語言切換'
             },
@@ -384,7 +384,7 @@
             nav: {
                 items: ['Integration', 'AI Control', 'Security', 'Comparison', 'Pricing', 'FAQ'],
                 docs: 'Resources',
-                cta: 'Book a Call',
+                cta: 'Login',
                 mobileMenu: 'Menu',
                 langSwitch: 'Language switcher'
             },
