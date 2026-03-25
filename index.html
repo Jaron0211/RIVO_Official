@@ -8,6 +8,24 @@
         if (location.protocol !== 'https:' && location.hostname !== 'localhost' && location.hostname !== '127.0.0.1') {
             location.replace(`https:${location.href.substring(location.protocol.length)}`);
         }
+        // Clear any stale Flutter service workers registered at the root scope
+        // from previous deployments. Without this, the SW serves old cached HTML.
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.getRegistrations().then(function(regs) {
+                regs.forEach(function(reg) {
+                    if (reg.scope === location.origin + '/' || reg.scope === location.origin + '/app/') {
+                        reg.unregister();
+                    }
+                });
+            });
+            caches.keys().then(function(names) {
+                names.forEach(function(name) {
+                    if (name.startsWith('flutter-app-cache')) {
+                        caches.delete(name);
+                    }
+                });
+            });
+        }
     </script>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="RIVO 是面向企業的機器人與 IoT 營運平台，整合即時監控、遠端控制、資料治理與車隊調度，協助團隊快速規模化部署。">
