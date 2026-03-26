@@ -55,6 +55,9 @@
             sp('user_id',       params['user_id']);
             sp('tenant_id',     params['tenant_id']);
             sp('user_role',     params['role']);
+            // Store profile completion flag for CompleteProfileScreen routing
+            var needsProfile = params['needs_profile'] === '1';
+            localStorage.setItem('flutter.is_profile_complete', JSON.stringify(!needsProfile));
           } catch(e) {}
           // Remove fragment so Flutter starts clean at /app/
           history.replaceState(null, '', window.location.pathname);
