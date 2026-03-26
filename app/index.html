@@ -31,6 +31,35 @@
 
   <title>RIVO</title>
   <link rel="manifest" href="manifest.json">
+
+  <!-- Handle OAuth redirect tokens before Flutter loads to avoid flicker -->
+  <script>
+    (function() {
+      var fragment = window.location.hash;
+      if (fragment && fragment.length > 1) {
+        var params = {};
+        fragment.substring(1).split('&').forEach(function(pair) {
+          var idx = pair.indexOf('=');
+          if (idx > 0) params[decodeURIComponent(pair.slice(0, idx))] = decodeURIComponent(pair.slice(idx + 1));
+        });
+        if (params['access_token'] && params['refresh_token']) {
+          try {
+            // Flutter web SharedPreferences uses 'flutter.' prefix
+            localStorage.setItem('flutter.access_token',  params['access_token']);
+            localStorage.setItem('flutter.token',         params['access_token']); // legacy key
+            localStorage.setItem('flutter.refresh_token', params['refresh_token']);
+            if (params['expires_at'])  localStorage.setItem('flutter.expires_at',  params['expires_at']);
+            if (params['email'])       localStorage.setItem('flutter.username',     params['email']);
+            if (params['user_id'])     localStorage.setItem('flutter.user_id',      params['user_id']);
+            if (params['tenant_id'])   localStorage.setItem('flutter.tenant_id',    params['tenant_id']);
+            if (params['role'])        localStorage.setItem('flutter.user_role',     params['role']);
+          } catch(e) {}
+          // Remove fragment so Flutter starts clean at /app/
+          history.replaceState(null, '', window.location.pathname);
+        }
+      }
+    })();
+  </script>
 </head>
 <body>
   <script src="flutter_bootstrap.js" async></script>
