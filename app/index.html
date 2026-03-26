@@ -44,15 +44,17 @@
         });
         if (params['access_token'] && params['refresh_token']) {
           try {
-            // Flutter web SharedPreferences uses 'flutter.' prefix
-            localStorage.setItem('flutter.access_token',  params['access_token']);
-            localStorage.setItem('flutter.token',         params['access_token']); // legacy key
-            localStorage.setItem('flutter.refresh_token', params['refresh_token']);
-            if (params['expires_at'])  localStorage.setItem('flutter.expires_at',  params['expires_at']);
-            if (params['email'])       localStorage.setItem('flutter.username',     params['email']);
-            if (params['user_id'])     localStorage.setItem('flutter.user_id',      params['user_id']);
-            if (params['tenant_id'])   localStorage.setItem('flutter.tenant_id',    params['tenant_id']);
-            if (params['role'])        localStorage.setItem('flutter.user_role',     params['role']);
+            // Flutter's shared_preferences_web stores values as JSON.stringify(value)
+            // with a 'flutter.' key prefix.
+            function sp(key, val) { if (val) localStorage.setItem('flutter.' + key, JSON.stringify(val)); }
+            sp('access_token',  params['access_token']);
+            sp('token',         params['access_token']); // legacy key
+            sp('refresh_token', params['refresh_token']);
+            sp('expires_at',    params['expires_at']);
+            sp('username',      params['email']);
+            sp('user_id',       params['user_id']);
+            sp('tenant_id',     params['tenant_id']);
+            sp('user_role',     params['role']);
           } catch(e) {}
           // Remove fragment so Flutter starts clean at /app/
           history.replaceState(null, '', window.location.pathname);
