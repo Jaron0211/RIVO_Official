@@ -1759,20 +1759,24 @@
                 card.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
             }
 
-            function update() {
+            function updateUI() {
                 if (isMobile()) {
                     prevBtn.disabled = current === 0;
                     nextBtn.disabled = current === cards.length - 1;
                     indicator.textContent = `${current + 1} / ${cards.length}`;
-                    scrollToCard(current);
                 }
+            }
+
+            function update() {
+                updateUI();
+                scrollToCard(current);
             }
 
             prevBtn.addEventListener('click', () => { current--; update(); });
             nextBtn.addEventListener('click', () => { current++; update(); });
-            window.addEventListener('resize', update);
+            window.addEventListener('resize', updateUI);
 
-            requestAnimationFrame(() => { update(); });
+            requestAnimationFrame(() => { updateUI(); });
         })();
 
         // ===== Background Phase Observer =====
