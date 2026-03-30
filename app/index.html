@@ -67,6 +67,14 @@
   </script>
 </head>
 <body>
-  <script src="flutter_bootstrap.js" async></script>
+  <script src="flutter_bootstrap.js?v=20260330" async></script>
+  <script>
+    // Force service worker update to load latest Flutter app
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.getRegistrations().then(function(registrations) {
+        registrations.forEach(function(reg) { reg.update(); });
+      });
+    }
+  </script>
 </body>
 </html>
