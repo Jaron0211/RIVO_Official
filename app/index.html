@@ -67,6 +67,26 @@
   </script>
 </head>
 <body>
+  <script>
+    // Force-unregister stale service workers so updated Flutter code loads immediately.
+    // After first load with new SW, this becomes a no-op.
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.getRegistrations().then(function(regs) {
+        var stale = false;
+        regs.forEach(function(r) {
+          if (r.active && r.active.scriptURL.indexOf('flutter_service_worker') !== -1) {
+            r.unregister();
+            stale = true;
+          }
+        });
+        if (stale) {
+          caches.keys().then(function(names) {
+            names.forEach(function(n) { caches.delete(n); });
+          });
+        }
+      });
+    }
+  </script>
   <script src="flutter_bootstrap.js" async></script>
 </body>
 </html>
