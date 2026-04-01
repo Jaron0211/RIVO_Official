@@ -17,9 +17,9 @@ function parseYAMLToGraph(yamlText) {
     const nodes = [];
     const connections = [];
     let nextId = 1;
-    const COL_INPUT = 80, COL_PROCESS = 350, COL_OUTPUT = 620;
-    let inputY = 60, processY = 60, outputY = 60;
-    const ROW_GAP = 130;
+    const COL_INPUT = 60, COL_PROCESS = 340, COL_OUTPUT = 620;
+    let inputY = 40, processY = 40, outputY = 40;
+    const ROW_GAP = 160; // bigger gap for detailed nodes
 
     // Track variable → nodeId mapping for auto-connecting
     const varToNode = {};
@@ -30,19 +30,20 @@ function parseYAMLToGraph(yamlText) {
     const readRegs = doc.read_registers || [];
     readRegs.forEach(reg => {
         const id = nextId++;
+        const fc = reg.function === 'read_input' ? 'FC04 (Input)' : 'FC03 (Holding)';
         nodes.push({
             id, type: 'input/modbus_sensor',
             x: COL_INPUT, y: inputY,
             properties: {
-                bus: 'modbus-rtu',
+                bus: doc.bus || 'modbus_rtu',
                 address: formatHex(reg.address),
-                function_code: reg.function === 'read_input' ? '0x04' : '0x03',
-                register: formatHex(reg.address),
-                length: reg.decode && reg.decode.startsWith('float32') ? 4 : 2,
-                decoder: 'modbus_' + (reg.decode || 'uint16'),
-                variable_name: reg.name || 'value',
-                scale: reg.scale,
-                unit: reg.unit || ''
+                function: fc,
+                decode: reg.decode || 'uint16',
+                scale: reg.scale || 1.0,
+                unit: reg.unit || '',
+                category: reg.category || 'sensor',
+                telemetry_topic: reg.telemetry_topic || '',
+                poll_interval_ms: reg.poll_interval_ms || ''
             },
             title: reg.name || 'Modbus Read'
         });
@@ -230,18 +231,18 @@ function parseYAMLToGraph(yamlText) {
     const writeRegs = doc.write_registers || [];
     writeRegs.forEach(wr => {
         const id = nextId++;
+        const fcMap = { 'write_register': 'FC06', 'write_multiple': 'FC10', 'write_coil': 'FC05' };
         nodes.push({
             id, type: 'output/actuator_write',
             x: COL_OUTPUT, y: outputY,
             properties: {
-                name: wr.name || 'actuator',
                 address: formatHex(wr.address),
-                function: wr.function || 'write_register',
+                function: (fcMap[wr.function] || wr.function || 'FC06') + ' (' + (wr.function || 'write_register') + ')',
                 decode: wr.decode || 'int16',
                 scale: wr.scale || 1.0,
                 unit: wr.unit || '',
-                range_min: (wr.range && wr.range[0]) || 0,
-                range_max: (wr.range && wr.range[1]) || 65535,
+                range_min: (wr.range && wr.range[0]) !== undefined ? wr.range[0] : '',
+                range_max: (wr.range && wr.range[1]) !== undefined ? wr.range[1] : '',
                 command_topic: wr.command_topic || ''
             },
             title: wr.name || 'Actuator Write'
@@ -260,9 +261,13 @@ function parseYAMLToGraph(yamlText) {
                 x: COL_INPUT, y: inputY,
                 properties: {
                     bus: busType,
-                    variable_name: cap.name || 'value',
+                    category: cap.category || 'sensor',
+                    data_type: cap.data_type || 'float',
                     unit: cap.unit || '',
-                    decoder: cap.data_type || 'float'
+                    range_min: cap.range && cap.range[0] !== undefined ? cap.range[0] : '',
+                    range_max: cap.range && cap.range[1] !== undefined ? cap.range[1] : '',
+                    sample_interval_ms: cap.sample_interval_ms || '',
+                    telemetry_topic: cap.telemetry_topic || ''
                 },
                 title: cap.name || 'Sensor'
             });

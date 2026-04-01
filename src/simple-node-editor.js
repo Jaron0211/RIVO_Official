@@ -553,17 +553,27 @@ class SimpleNodeEditor {
     drawNode(node) {
         const isSelected = node === this.selectedNode;
 
-        // Node background
+        // Determine which properties to show (filter out empty/internal ones)
+        const detailProps = this._getDetailProps(node);
+        const portRows = Math.max(node.inputs.length, node.outputs.length);
+        const propsHeight = detailProps.length * 14;
+        const portsHeight = portRows * 20;
+        const minBodyHeight = Math.max(portsHeight, propsHeight) + 15;
+        node.height = 30 + minBodyHeight;
+        node.width = Math.max(200, node.width);
+
+        // Node background with subtle category color
+        const catColor = this._categoryColor(node.type);
         this.ctx.fillStyle = '#FFFFFF';
         this.ctx.fillRect(node.x, node.y, node.width, node.height);
 
         // Node border
-        this.ctx.strokeStyle = isSelected ? '#000000' : '#E5E5E5';
+        this.ctx.strokeStyle = isSelected ? '#000000' : '#D4D4D4';
         this.ctx.lineWidth = isSelected ? 2 : 1;
         this.ctx.strokeRect(node.x, node.y, node.width, node.height);
 
-        // Node title bar
-        this.ctx.fillStyle = isSelected ? '#000000' : '#FAFAFA';
+        // Node title bar with category color
+        this.ctx.fillStyle = isSelected ? '#000000' : catColor;
         this.ctx.fillRect(node.x, node.y, node.width, 30);
 
         // Title border
@@ -575,16 +585,15 @@ class SimpleNodeEditor {
         this.ctx.stroke();
 
         // Title text
-        this.ctx.fillStyle = isSelected ? '#FFFFFF' : '#000000';
+        this.ctx.fillStyle = isSelected ? '#FFFFFF' : '#1A1A1A';
         this.ctx.font = '600 12px "Public Sans", sans-serif';
-        this.ctx.fillText(node.title, node.x + 10, node.y + 19);
+        const titleText = node.title.length > 28 ? node.title.substring(0, 25) + '...' : node.title;
+        this.ctx.fillText(titleText, node.x + 10, node.y + 19);
 
         // Draw input ports
         node.inputs.forEach((inputName, index) => {
             const pos = this.getPortPosition(node, index, true);
             this.drawPort(pos.x, pos.y, true);
-
-            // Input label
             this.ctx.fillStyle = '#737373';
             this.ctx.font = '400 10px "Space Mono", monospace';
             this.ctx.fillText(inputName, node.x + 15, pos.y + 4);
@@ -594,8 +603,6 @@ class SimpleNodeEditor {
         node.outputs.forEach((outputName, index) => {
             const pos = this.getPortPosition(node, index, false);
             this.drawPort(pos.x, pos.y, false);
-
-            // Output label
             this.ctx.fillStyle = '#737373';
             this.ctx.font = '400 10px "Space Mono", monospace';
             this.ctx.textAlign = 'right';
@@ -603,21 +610,50 @@ class SimpleNodeEditor {
             this.ctx.textAlign = 'left';
         });
 
-        // Node properties text
-        this.ctx.fillStyle = '#737373';
-        this.ctx.font = '400 10px "Space Mono", monospace';
-        let yOffset = 65;
-        const props = Object.entries(node.properties).slice(0, 1);
-        props.forEach(([key, value]) => {
-            const label = this.getPropertyLabel(key);
-            const text = `${label}: ${value}`;
-            if (text.length > 25) {
-                this.ctx.fillText(text.substring(0, 22) + '...', node.x + 10, node.y + yOffset);
-            } else {
-                this.ctx.fillText(text, node.x + 10, node.y + yOffset);
-            }
-            yOffset += 12;
+        // Detail properties (show all relevant settings)
+        this.ctx.font = '400 9px "Space Mono", monospace';
+        let yOff = node.y + 32 + portsHeight + 4;
+        detailProps.forEach(([key, value]) => {
+            // Key in muted color, value in dark
+            this.ctx.fillStyle = '#A3A3A3';
+            this.ctx.fillText(key + ':', node.x + 10, yOff);
+            this.ctx.fillStyle = '#404040';
+            const valStr = String(value);
+            const maxLen = Math.floor((node.width - 80) / 5.5);
+            this.ctx.fillText(valStr.length > maxLen ? valStr.substring(0, maxLen - 2) + '..' : valStr, node.x + 10 + (key.length + 1) * 5.5, yOff);
+            yOff += 14;
         });
+    }
+
+    _categoryColor(type) {
+        if (type.startsWith('input/')) return '#EFF6FF';   // blue tint
+        if (type.startsWith('process/')) return '#FEF9C3';  // yellow tint
+        if (type.startsWith('output/status') || type.startsWith('output/telemetry')) return '#F0FDF4'; // green tint
+        if (type.includes('actuator')) return '#FFF1F2';    // red tint
+        return '#FAFAFA';
+    }
+
+    _getDetailProps(node) {
+        const props = node.properties || {};
+        const skip = new Set(['variable_name', 'name', 'description']);
+        const entries = [];
+        // Show important properties first
+        const priority = ['bus', 'address', 'register', 'function_code', 'function', 'decode', 'decoder',
+                          'scale', 'unit', 'range_min', 'range_max', 'sensor_id', 'sensor_type',
+                          'topic', 'field', 'command_topic', 'expression', 'operation', 'mask',
+                          'shift_bits', 'length', 'baud_rate'];
+        for (const k of priority) {
+            if (props[k] !== undefined && props[k] !== '' && props[k] !== null && !skip.has(k)) {
+                entries.push([k, props[k]]);
+            }
+        }
+        // Then any remaining props
+        for (const [k, v] of Object.entries(props)) {
+            if (!priority.includes(k) && !skip.has(k) && v !== undefined && v !== '' && v !== null) {
+                entries.push([k, v]);
+            }
+        }
+        return entries.slice(0, 8); // max 8 props to keep node manageable
     }
 
     drawPort(x, y, isInput) {
