@@ -170,6 +170,34 @@ function parseYAMLToGraph(yamlText) {
         processY += ROW_GAP;
     });
 
+    // ── Capabilities fallback (must be before outputs so varToNode is populated) ──
+
+    // Capabilities as fallback input nodes (when no read_registers/read.fields/modbus.registers exist)
+    if (Object.keys(varToNode).length === 0 && Array.isArray(doc.capabilities)) {
+        doc.capabilities.forEach(cap => {
+            if (cap.category === 'actuator') return;
+            const id = nextId++;
+            const busType = doc.bus || 'sensor';
+            nodes.push({
+                id, type: busType === 'modbus' || busType === 'modbus_rtu' ? 'input/modbus_sensor' : 'input/sensor',
+                x: COL_INPUT, y: inputY,
+                properties: {
+                    bus: busType,
+                    category: cap.category || 'sensor',
+                    data_type: cap.data_type || 'float',
+                    unit: cap.unit || '',
+                    range_min: cap.range && cap.range[0] !== undefined ? cap.range[0] : '',
+                    range_max: cap.range && cap.range[1] !== undefined ? cap.range[1] : '',
+                    sample_interval_ms: cap.sample_interval_ms || '',
+                    telemetry_topic: cap.telemetry_topic || ''
+                },
+                title: cap.name || 'Sensor'
+            });
+            varToNode[cap.name] = id;
+            inputY += ROW_GAP;
+        });
+    }
+
     // ── Output Nodes ─────────────────────────────────────────
 
     // Status output (sensor_overview)
@@ -249,32 +277,6 @@ function parseYAMLToGraph(yamlText) {
         });
         outputY += ROW_GAP;
     });
-
-    // Capabilities as fallback input nodes (when no read_registers/read.fields/modbus.registers exist)
-    if (Object.keys(varToNode).length === 0 && Array.isArray(doc.capabilities)) {
-        doc.capabilities.forEach(cap => {
-            if (cap.category === 'actuator') return; // actuators go to output
-            const id = nextId++;
-            const busType = doc.bus || 'sensor';
-            nodes.push({
-                id, type: busType === 'modbus' || busType === 'modbus_rtu' ? 'input/modbus_sensor' : 'input/sensor',
-                x: COL_INPUT, y: inputY,
-                properties: {
-                    bus: busType,
-                    category: cap.category || 'sensor',
-                    data_type: cap.data_type || 'float',
-                    unit: cap.unit || '',
-                    range_min: cap.range && cap.range[0] !== undefined ? cap.range[0] : '',
-                    range_max: cap.range && cap.range[1] !== undefined ? cap.range[1] : '',
-                    sample_interval_ms: cap.sample_interval_ms || '',
-                    telemetry_topic: cap.telemetry_topic || ''
-                },
-                title: cap.name || 'Sensor'
-            });
-            varToNode[cap.name] = id;
-            inputY += ROW_GAP;
-        });
-    }
 
     // Capabilities actuator entries as output nodes (when no write_registers exist)
     if (writeRegs.length === 0 && Array.isArray(doc.capabilities)) {
