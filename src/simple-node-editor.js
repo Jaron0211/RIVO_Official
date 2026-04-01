@@ -737,23 +737,27 @@ class SimpleNodeEditor {
 
     /**
      * Load a pre-parsed graph (from yaml-to-graph.js) into the editor.
-     * @param {Array} parsedNodes - [{id, type, x, y, properties, title}]
+     * @param {Array} parsedNodes - [{id, type, x, y, properties, title, _standalone}]
      * @param {Array} parsedConnections - [{origin_id, origin_port, target_id, target_port}]
      */
     loadFromParsed(parsedNodes, parsedConnections) {
         this.clearAll();
         let maxId = 0;
         parsedNodes.forEach(pn => {
+            // Standalone actuator nodes: remove input ports
+            let inputs = this.getNodeInputs(pn.type);
+            if (pn._standalone) inputs = [];
+
             const node = {
                 id: pn.id,
                 type: pn.type,
                 x: pn.x,
                 y: pn.y,
-                width: 200,
+                width: 240,
                 height: 100,
                 properties: pn.properties || this.getDefaultProperties(pn.type),
                 title: pn.title || this.getNodeTitle(pn.type),
-                inputs: this.getNodeInputs(pn.type),
+                inputs: inputs,
                 outputs: this.getNodeOutputs(pn.type)
             };
             this.nodes.push(node);
@@ -769,7 +773,34 @@ class SimpleNodeEditor {
                 toPort: pc.target_port || 0
             });
         });
+
+        // Auto-fit: adjust view to show all nodes
+        this._autoFit();
         this.render();
+    }
+
+    /**
+     * Auto-fit the view to show all nodes with padding.
+     */
+    _autoFit() {
+        if (this.nodes.length === 0) return;
+        let minX = Infinity, minY = Infinity, maxX = -Infinity, maxY = -Infinity;
+        this.nodes.forEach(n => {
+            if (n.x < minX) minX = n.x;
+            if (n.y < minY) minY = n.y;
+            if (n.x + (n.width || 240) > maxX) maxX = n.x + (n.width || 240);
+            if (n.y + (n.height || 150) > maxY) maxY = n.y + (n.height || 150);
+        });
+        const pad = 40;
+        const graphW = maxX - minX + pad * 2;
+        const graphH = maxY - minY + pad * 2;
+        const canvasW = this.canvas.width || 800;
+        const canvasH = this.canvas.height || 400;
+
+        // Center the graph in the canvas
+        const offsetX = (canvasW - graphW) / 2 - minX + pad;
+        const offsetY = (canvasH - graphH) / 2 - minY + pad;
+        this.viewOffset = { x: Math.max(offsetX, pad - minX), y: Math.max(offsetY, pad - minY) };
     }
 
     /**

@@ -294,19 +294,23 @@ function parseYAMLToGraph(yamlText) {
         });
     }
 
-    // Custom commands (also actuator outputs)
+    // Custom commands (standalone command endpoints — no input port)
     const customCmds = doc.custom_commands || [];
     customCmds.forEach(cc => {
         const id = nextId++;
+        const reqFields = (cc.request_fields || []).map(f => f.name).join(', ');
         nodes.push({
             id, type: 'output/actuator_write',
             x: COL_OUTPUT, y: outputY,
+            _standalone: true, // mark as no-input command endpoint
             properties: {
-                name: cc.name || 'custom_cmd',
-                address: '0x' + (cc.function_code || 0).toString(16),
-                function: 'custom_fc',
+                address: '0x' + (cc.function_code || 0).toString(16).toUpperCase(),
+                function: 'Custom FC 0x' + (cc.function_code || 0).toString(16).toUpperCase(),
                 decode: 'custom',
-                command_topic: cc.command_topic || ''
+                command_topic: cc.command_topic || '',
+                category: cc.category || 'actuator',
+                request_fields: reqFields || '',
+                description: cc.description || ''
             },
             title: cc.name || 'Custom FC'
         });
