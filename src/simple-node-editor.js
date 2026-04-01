@@ -684,4 +684,83 @@ class SimpleNodeEditor {
     getConnections() {
         return this.connections;
     }
+
+    /**
+     * Load a pre-parsed graph (from yaml-to-graph.js) into the editor.
+     * @param {Array} parsedNodes - [{id, type, x, y, properties, title}]
+     * @param {Array} parsedConnections - [{origin_id, origin_port, target_id, target_port}]
+     */
+    loadFromParsed(parsedNodes, parsedConnections) {
+        this.clearAll();
+        let maxId = 0;
+        parsedNodes.forEach(pn => {
+            const node = {
+                id: pn.id,
+                type: pn.type,
+                x: pn.x,
+                y: pn.y,
+                width: 200,
+                height: 100,
+                properties: pn.properties || this.getDefaultProperties(pn.type),
+                title: pn.title || this.getNodeTitle(pn.type),
+                inputs: this.getNodeInputs(pn.type),
+                outputs: this.getNodeOutputs(pn.type)
+            };
+            this.nodes.push(node);
+            if (pn.id > maxId) maxId = pn.id;
+        });
+        this.nextNodeId = maxId + 1;
+
+        parsedConnections.forEach(pc => {
+            this.connections.push({
+                from: pc.origin_id,
+                fromPort: pc.origin_port || 0,
+                to: pc.target_id,
+                toPort: pc.target_port || 0
+            });
+        });
+        this.render();
+    }
+
+    /**
+     * Load from a YAML string using the yaml-to-graph parser.
+     * Requires yaml-to-graph.js to be loaded.
+     */
+    loadFromYAML(yamlText) {
+        if (typeof parseYAMLToGraph !== 'function') {
+            console.error('yaml-to-graph.js not loaded');
+            return null;
+        }
+        const result = parseYAMLToGraph(yamlText);
+        if (result.error) {
+            console.error('YAML parse error:', result.error);
+            return result;
+        }
+        this.loadFromParsed(result.nodes, result.connections);
+        return result;
+    }
 }
+
+// Touch event support for mobile/WebView — map touch events to mouse equivalents.
+(function() {
+    const origSetup = SimpleNodeEditor.prototype.setupEventListeners;
+    SimpleNodeEditor.prototype.setupEventListeners = function() {
+        origSetup.call(this);
+
+        const touchToMouse = (type) => (e) => {
+            e.preventDefault();
+            const touch = e.touches[0] || e.changedTouches[0];
+            if (!touch) return;
+            const mouseEvt = new MouseEvent(type, {
+                clientX: touch.clientX,
+                clientY: touch.clientY,
+                button: 0
+            });
+            this.canvas.dispatchEvent(mouseEvt);
+        };
+
+        this.canvas.addEventListener('touchstart', touchToMouse('mousedown'), { passive: false });
+        this.canvas.addEventListener('touchmove', touchToMouse('mousemove'), { passive: false });
+        this.canvas.addEventListener('touchend', touchToMouse('mouseup'), { passive: false });
+    };
+})();
