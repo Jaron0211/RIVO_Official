@@ -5,13 +5,12 @@
  */
 
 function parseYAMLToGraph(yamlText) {
-    // Minimal YAML parser for flat RIVO protocol structure.
-    // Uses js-yaml if available, otherwise a simple line parser.
     let doc;
     if (typeof jsyaml !== 'undefined') {
         try { doc = jsyaml.load(yamlText); } catch (e) { return { error: 'YAML parse error: ' + e.message }; }
     } else {
-        doc = simpleYAMLParse(yamlText);
+        // Fallback: use a regex-based extractor for key YAML sections
+        doc = extractYAMLSections(yamlText);
     }
     if (!doc || typeof doc !== 'object') return { error: 'Invalid YAML document' };
 
@@ -250,6 +249,46 @@ function parseYAMLToGraph(yamlText) {
         outputY += ROW_GAP;
     });
 
+    // Capabilities as fallback input nodes (when no read_registers/read.fields/modbus.registers exist)
+    if (Object.keys(varToNode).length === 0 && Array.isArray(doc.capabilities)) {
+        doc.capabilities.forEach(cap => {
+            if (cap.category === 'actuator') return; // actuators go to output
+            const id = nextId++;
+            const busType = doc.bus || 'sensor';
+            nodes.push({
+                id, type: busType === 'modbus' || busType === 'modbus_rtu' ? 'input/modbus_sensor' : 'input/sensor',
+                x: COL_INPUT, y: inputY,
+                properties: {
+                    bus: busType,
+                    variable_name: cap.name || 'value',
+                    unit: cap.unit || '',
+                    decoder: cap.data_type || 'float'
+                },
+                title: cap.name || 'Sensor'
+            });
+            varToNode[cap.name] = id;
+            inputY += ROW_GAP;
+        });
+    }
+
+    // Capabilities actuator entries as output nodes (when no write_registers exist)
+    if (writeRegs.length === 0 && Array.isArray(doc.capabilities)) {
+        doc.capabilities.filter(c => c.category === 'actuator').forEach(cap => {
+            const id = nextId++;
+            nodes.push({
+                id, type: 'output/actuator_write',
+                x: COL_OUTPUT, y: outputY,
+                properties: {
+                    name: cap.name || 'actuator',
+                    unit: cap.unit || '',
+                    command_topic: cap.command_topic || cap.telemetry_topic || ''
+                },
+                title: cap.name || 'Actuator'
+            });
+            outputY += ROW_GAP;
+        });
+    }
+
     // Custom commands (also actuator outputs)
     const customCmds = doc.custom_commands || [];
     customCmds.forEach(cc => {
@@ -304,103 +343,119 @@ function extractVarName(expr) {
 }
 
 /**
- * Simple YAML parser for flat RIVO protocol YAML.
- * Handles: scalars, arrays of objects, nested objects (2 levels).
- * Does NOT handle: multi-line strings, anchors, tags, flow mappings.
+ * extractYAMLSections — robust YAML parser using indentation-based recursive descent.
+ * Handles nested objects, arrays of objects, inline arrays, and multi-level nesting.
  */
-function simpleYAMLParse(text) {
-    const lines = text.split('\n');
-    const result = {};
-    let currentKey = null;
-    let currentArray = null;
-    let currentObj = null;
-    let indent = 0;
+function extractYAMLSections(text) {
+    const lines = text.split('\n').map(l => l.replace(/\r$/, ''));
+    let pos = 0;
 
-    for (const rawLine of lines) {
-        const line = rawLine.replace(/\r$/, '');
-        if (/^\s*#/.test(line) || /^\s*$/.test(line)) continue;
+    function parseBlock(minIndent) {
+        const result = {};
+        while (pos < lines.length) {
+            const line = lines[pos];
+            if (/^\s*#/.test(line) || /^\s*$/.test(line)) { pos++; continue; }
+            const indent = line.search(/\S/);
+            if (indent < minIndent) break;
+            const content = line.trim();
 
-        const spaces = line.match(/^(\s*)/)[1].length;
-        const content = line.trim();
-
-        // Array item
-        if (content.startsWith('- ')) {
-            if (currentArray !== null) {
-                const item = content.substring(2);
-                const kv = item.match(/^(\w+):\s*(.+)?$/);
-                if (kv) {
-                    currentObj = {};
-                    currentObj[kv[1]] = parseValue(kv[2] || '');
-                    currentArray.push(currentObj);
-                } else {
-                    currentArray.push(parseValue(item));
-                    currentObj = null;
-                }
+            // Array item at this level
+            if (content.startsWith('- ')) {
+                break; // let caller handle arrays
             }
-            continue;
-        }
 
-        // Key: value pair
-        const kv = content.match(/^([\w.]+):\s*(.*)$/);
-        if (kv) {
+            const kv = content.match(/^([\w_\-.\/]+):\s*(.*)$/);
+            if (!kv) { pos++; continue; }
+
             const key = kv[1];
-            const val = kv[2];
+            const val = (kv[2] || '').trim();
+            pos++;
 
-            if (spaces === 0) {
-                // Top-level key
-                if (val === '' || val === undefined) {
-                    result[key] = {};
-                    currentKey = key;
-                    currentArray = null;
-                    currentObj = null;
-                    indent = spaces;
+            if (val === '' || val === undefined || val.length === 0) {
+                // Check if next non-empty line is an array or nested object
+                const nextContent = peekNextContent();
+                if (nextContent && nextContent.trim().startsWith('- ')) {
+                    result[key] = parseArray(indent + 2);
                 } else {
-                    result[key] = parseValue(val);
-                    currentKey = null;
-                    currentArray = null;
+                    result[key] = parseBlock(indent + 2);
                 }
-            } else if (currentObj && spaces > indent + 2) {
-                // Property of current array item
-                currentObj[key] = parseValue(val || '');
-            } else if (currentKey) {
-                if (val === '' || val === undefined) {
-                    // Nested object or start of array
-                    if (typeof result[currentKey] === 'object' && !Array.isArray(result[currentKey])) {
-                        result[currentKey][key] = {};
-                    }
-                } else if (val.startsWith('[') && val.endsWith(']')) {
-                    // Inline array
-                    const inner = val.slice(1, -1).split(',').map(s => parseValue(s.trim()));
-                    if (typeof result[currentKey] === 'object') {
-                        result[currentKey][key] = inner;
-                    }
-                } else {
-                    if (typeof result[currentKey] === 'object' && !Array.isArray(result[currentKey])) {
-                        result[currentKey][key] = parseValue(val);
-                    }
-                }
-            }
-
-            // Detect upcoming array
-            if ((val === '' || val === undefined) && spaces >= 0) {
-                // Check if next line starts with -
-                const nextIdx = lines.indexOf(rawLine) + 1;
-                if (nextIdx < lines.length && lines[nextIdx].trim().startsWith('- ')) {
-                    if (spaces === 0) {
-                        result[key] = [];
-                        currentArray = result[key];
-                        currentKey = key;
-                        indent = spaces;
-                    } else if (currentKey && typeof result[currentKey] === 'object') {
-                        result[currentKey][key] = [];
-                        currentArray = result[currentKey][key];
-                        indent = spaces;
-                    }
-                }
+            } else if (val.startsWith('[') && val.endsWith(']')) {
+                // Inline array: [0, 300]
+                const inner = val.slice(1, -1).split(',').map(s => parseValue(s.trim()));
+                result[key] = inner;
+            } else {
+                result[key] = parseValue(val);
             }
         }
+        return result;
     }
-    return result;
+
+    function parseArray(minIndent) {
+        const arr = [];
+        while (pos < lines.length) {
+            const line = lines[pos];
+            if (/^\s*#/.test(line) || /^\s*$/.test(line)) { pos++; continue; }
+            const indent = line.search(/\S/);
+            if (indent < minIndent - 2) break;
+            const content = line.trim();
+            if (!content.startsWith('- ')) break;
+
+            // Array item
+            const itemContent = content.substring(2).trim();
+            const kv = itemContent.match(/^([\w_\-.\/]+):\s*(.*)$/);
+            if (kv) {
+                // Object item — parse remaining properties
+                const obj = {};
+                obj[kv[1]] = kv[2] ? parseValue(kv[2].trim()) : '';
+                pos++;
+                // Read continuation properties at deeper indent
+                while (pos < lines.length) {
+                    const nextLine = lines[pos];
+                    if (/^\s*#/.test(nextLine) || /^\s*$/.test(nextLine)) { pos++; continue; }
+                    const ni = nextLine.search(/\S/);
+                    if (ni <= indent) break;
+                    const nc = nextLine.trim();
+                    if (nc.startsWith('- ')) break;
+                    const nkv = nc.match(/^([\w_\-.\/]+):\s*(.*)$/);
+                    if (nkv) {
+                        const nval = (nkv[2] || '').trim();
+                        if (nval === '') {
+                            pos++;
+                            const peekLine = peekNextContent();
+                            if (peekLine && peekLine.trim().startsWith('- ')) {
+                                obj[nkv[1]] = parseArray(ni + 4);
+                            } else {
+                                obj[nkv[1]] = parseBlock(ni + 2);
+                            }
+                        } else if (nval.startsWith('[') && nval.endsWith(']')) {
+                            obj[nkv[1]] = nval.slice(1, -1).split(',').map(s => parseValue(s.trim()));
+                            pos++;
+                        } else {
+                            obj[nkv[1]] = parseValue(nval);
+                            pos++;
+                        }
+                    } else {
+                        pos++;
+                    }
+                }
+                arr.push(obj);
+            } else {
+                arr.push(parseValue(itemContent));
+                pos++;
+            }
+        }
+        return arr;
+    }
+
+    function peekNextContent() {
+        for (let i = pos; i < lines.length; i++) {
+            const l = lines[i].trim();
+            if (l !== '' && !l.startsWith('#')) return lines[i];
+        }
+        return null;
+    }
+
+    return parseBlock(0);
 }
 
 function parseValue(s) {

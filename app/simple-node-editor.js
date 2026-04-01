@@ -26,6 +26,8 @@ class SimpleNodeEditor {
 
         // Callback for canvas changes (to update YAML)
         this.onCanvasChange = options.onCanvasChange || null;
+        // Read-only mode: allow panning but disable drag, connect, delete
+        this.readOnly = options.readOnly || false;
 
         this.setupCanvas();
         this.setupEventListeners();
@@ -273,6 +275,16 @@ class SimpleNodeEditor {
         // Focus canvas for keyboard events
         this.canvas.focus({ preventScroll: true });
 
+        // In read-only mode: only allow panning, no drag/connect
+        if (this.readOnly) {
+            if (e.button === 0) {
+                this.isPanning = true;
+                this.panStart = { x: screenX, y: screenY };
+                this.viewStart = { x: this.viewOffset.x, y: this.viewOffset.y };
+            }
+            return;
+        }
+
         // Check if clicking on output ports (to start connection)
         for (let node of this.nodes) {
             for (let i = 0; i < node.outputs.length; i++) {
@@ -390,6 +402,7 @@ class SimpleNodeEditor {
     }
 
     onDoubleClick(e) {
+        if (this.readOnly) return;
         const rect = this.canvas.getBoundingClientRect();
         const screenX = e.clientX - rect.left;
         const screenY = e.clientY - rect.top;
@@ -439,6 +452,7 @@ class SimpleNodeEditor {
     }
 
     onKeyDown(e) {
+        if (this.readOnly) return;
         if (e.key === 'Delete' || e.key === 'Backspace') {
             if (this.selectedNode) {
                 this.deleteSelectedNode();
