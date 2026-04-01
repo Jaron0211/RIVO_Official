@@ -1543,6 +1543,10 @@
                                     <div class="palette-node-title">遙測輸出</div>
                                     <div class="palette-node-desc">對應到遙測圖表系統</div>
                                 </div>
+                                <div class="palette-node" draggable="true" data-node-type="ActuatorWrite">
+                                    <div class="palette-node-title">致動器寫入</div>
+                                    <div class="palette-node-desc">寫入 Modbus 暫存器控制馬達/致動器</div>
+                                </div>
                             </div>
                         </div>
 
@@ -1702,7 +1706,8 @@
                 'BitShift': 'process/bit_shift',
                 'BitMask': 'process/bit_mask',
                 'OutputStatus': 'output/status',
-                'OutputTelemetry': 'output/telemetry'
+                'OutputTelemetry': 'output/telemetry',
+                'ActuatorWrite': 'output/actuator_write'
             };
 
             // Setup drag and drop for palette nodes

@@ -205,6 +205,44 @@ Maps data to telemetry/charting system.
 }
 ```
 
+### 7. Actuator Write Node (`output/actuator_write`)
+
+Writes a value to a Modbus register or custom function code for motor/actuator control.
+
+**Properties:**
+- `name` (string, required): Actuator capability name (e.g., "speed_command")
+- `address` (string, required): Register address in hex format (e.g., "0x3F08")
+- `function` (string, required): Modbus function — `write_register` (FC06), `write_multiple` (FC10), `write_coil` (FC05)
+- `decode` (string, required): Data type — `uint16`, `int16`, `float32_be`
+- `scale` (number, optional): Scale factor applied before write (default 1.0)
+- `unit` (string, optional): Physical unit
+- `range_min` (number, optional): Minimum allowed value
+- `range_max` (number, optional): Maximum allowed value
+- `command_topic` (string, required): Command topic for actuator routing (e.g., "/motor/speed_cmd")
+
+**Inputs:**
+- `value` (number): The value to write
+
+**Example:**
+```json
+{
+  "id": "output_actuator_1",
+  "type": "output/actuator_write",
+  "position": { "x": 500, "y": 300 },
+  "data": {
+    "name": "speed_command",
+    "address": "0x3F08",
+    "function": "write_register",
+    "decode": "int16",
+    "scale": 1.0,
+    "unit": "r/min",
+    "range_min": 0,
+    "range_max": 4000,
+    "command_topic": "/motor/speed_cmd"
+  }
+}
+```
+
 ## Edges (Connections)
 
 Edges define data flow between nodes.

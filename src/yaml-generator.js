@@ -23,13 +23,15 @@ function generateEnhancedYAML(graph) {
         'process/bit_shift': ['input'],
         'process/bit_mask': ['input'],
         'output/status': ['value'],
-        'output/telemetry': ['value']
+        'output/telemetry': ['value'],
+        'output/actuator_write': ['value']
     };
 
     // Categorize nodes
     const sensorNodes = nodes.filter(n => n.type === 'input/sensor');
     const outputStatusNodes = nodes.filter(n => n.type === 'output/status');
     const outputTelemetryNodes = nodes.filter(n => n.type === 'output/telemetry');
+    const outputActuatorNodes = nodes.filter(n => n.type === 'output/actuator_write');
 
     if (sensorNodes.length === 0) {
         return { error: '至少需要一個感測器輸入節點' };
@@ -256,7 +258,28 @@ function generateEnhancedYAML(graph) {
         });
     }
 
-    // Map section  
+    // Write registers section (actuator outputs)
+    if (outputActuatorNodes.length > 0) {
+        yaml += "\nwrite_registers:\n";
+        outputActuatorNodes.forEach(node => {
+            const props = node.properties || {};
+            yaml += `  - name: "${props.name || 'actuator_1'}"\n`;
+            yaml += `    address: ${props.address || '0x0000'}\n`;
+            yaml += `    function: "${props.function || 'write_register'}"\n`;
+            yaml += `    decode: "${props.decode || 'int16'}"\n`;
+            yaml += `    scale: ${props.scale ?? 1.0}\n`;
+            if (props.unit) {
+                yaml += `    unit: "${props.unit}"\n`;
+            }
+            if (props.range_min !== undefined && props.range_max !== undefined) {
+                yaml += `    range: [${props.range_min}, ${props.range_max}]\n`;
+            }
+            yaml += `    category: "actuator"\n`;
+            yaml += `    command_topic: "${props.command_topic || '/actuator/cmd'}"\n`;
+        });
+    }
+
+    // Map section
     yaml += "\nmap:\n";
 
     // Status mapping

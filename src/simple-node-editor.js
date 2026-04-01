@@ -98,7 +98,8 @@ class SimpleNodeEditor {
             'process/bit_shift': ['input'],
             'process/bit_mask': ['input'],
             'output/status': ['value'],
-            'output/telemetry': ['value']
+            'output/telemetry': ['value'],
+            'output/actuator_write': ['value']
         };
         return inputs[type] || [];
     }
@@ -115,7 +116,8 @@ class SimpleNodeEditor {
             'process/bit_shift': ['result'],
             'process/bit_mask': ['result'],
             'output/status': [],
-            'output/telemetry': []
+            'output/telemetry': [],
+            'output/actuator_write': []
         };
         return outputs[type] || [];
     }
@@ -180,6 +182,17 @@ class SimpleNodeEditor {
             'output/telemetry': {
                 topic: '/topic',
                 field: 'data'
+            },
+            'output/actuator_write': {
+                name: 'speed_command',
+                address: '0x0000',
+                function: 'write_register',
+                decode: 'int16',
+                scale: 1.0,
+                unit: '',
+                range_min: 0,
+                range_max: 65535,
+                command_topic: '/actuator/cmd'
             }
         };
         return defaults[type] || {};
@@ -198,7 +211,8 @@ class SimpleNodeEditor {
             'process/bit_shift': 'protocolCreator.nodeTypes.bitShift',
             'process/bit_mask': 'protocolCreator.nodeTypes.bitMask',
             'output/status': 'protocolCreator.nodeTypes.statusOutput',
-            'output/telemetry': 'protocolCreator.nodeTypes.telemetryOutput'
+            'output/telemetry': 'protocolCreator.nodeTypes.telemetryOutput',
+            'output/actuator_write': 'protocolCreator.nodeTypes.actuatorWrite'
         };
 
         // Try i18n first
@@ -221,7 +235,8 @@ class SimpleNodeEditor {
             'process/bit_shift': 'Bit Shift',
             'process/bit_mask': 'Bit Mask',
             'output/status': 'Status Output',
-            'output/telemetry': 'Telemetry Output'
+            'output/telemetry': 'Telemetry Output',
+            'output/actuator_write': 'Actuator Write'
         };
         return fallbackTitles[type] || 'Node';
     }
