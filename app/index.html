@@ -42,11 +42,20 @@
           var idx = pair.indexOf('=');
           if (idx > 0) params[decodeURIComponent(pair.slice(0, idx))] = decodeURIComponent(pair.slice(idx + 1));
         });
-        if (params['access_token'] && params['refresh_token']) {
+        // Flutter's shared_preferences_web stores values as JSON.stringify(value)
+        // with a 'flutter.' key prefix.
+        function sp(key, val) { if (val) localStorage.setItem('flutter.' + key, JSON.stringify(val)); }
+
+        if (params['mfa_required'] === 'true' && params['challenge_token']) {
+          // OAuth MFA: store challenge token and redirect to /mfa
           try {
-            // Flutter's shared_preferences_web stores values as JSON.stringify(value)
-            // with a 'flutter.' key prefix.
-            function sp(key, val) { if (val) localStorage.setItem('flutter.' + key, JSON.stringify(val)); }
+            sp('mfa_pending', 'true');
+            sp('mfa_challenge_token', params['challenge_token']);
+            sp('username', params['email']);
+          } catch(e) {}
+          history.replaceState(null, '', window.location.pathname + '#/mfa');
+        } else if (params['access_token'] && params['refresh_token']) {
+          try {
             sp('access_token',  params['access_token']);
             sp('token',         params['access_token']); // legacy key
             sp('refresh_token', params['refresh_token']);
