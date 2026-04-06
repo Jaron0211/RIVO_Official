@@ -74,6 +74,105 @@
       }
     })();
   </script>
+  <!-- Three.js for 3D visualization -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
+  <script>
+    // Called from Dart via js interop to init 3D scene on a container element
+    window.kairo_initThree = function(containerId) {
+      var container = document.getElementById(containerId);
+      if (!container || container.clientWidth < 10) {
+        setTimeout(function() { window.kairo_initThree(containerId); }, 200);
+        return;
+      }
+
+      var scene = new THREE.Scene();
+      var camera = new THREE.PerspectiveCamera(75, container.clientWidth / container.clientHeight, 0.1, 1000);
+      var renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+      renderer.setSize(container.clientWidth, container.clientHeight);
+      container.appendChild(renderer.domElement);
+
+      scene.add(new THREE.GridHelper(20, 20, 0x444444, 0x222222));
+      scene.add(new THREE.AxesHelper(1));
+
+      var controls = new THREE.OrbitControls(camera, renderer.domElement);
+      controls.enableDamping = true;
+
+      // Robot model
+      var group = new THREE.Group();
+      var body = new THREE.Mesh(new THREE.BoxGeometry(0.5, 0.15, 0.4), new THREE.MeshPhongMaterial({ color: 0x6366f1 }));
+      body.position.y = 0.1;
+      group.add(body);
+      var head = new THREE.Mesh(new THREE.CylinderGeometry(0.05, 0.05, 0.1, 16), new THREE.MeshPhongMaterial({ color: 0xef4444 }));
+      head.position.set(0.15, 0.25, 0);
+      group.add(head);
+      scene.add(group);
+      window.robotMesh = group;
+
+      // Scan points
+      var scanGeom = new THREE.BufferGeometry();
+      var scanPts = new THREE.Points(scanGeom, new THREE.PointsMaterial({ color: 0xffa500, size: 0.05 }));
+      scene.add(scanPts);
+      window.scanPoints = scanPts;
+
+      // Trajectory trail
+      var trailPos = [];
+      var trailGeom = new THREE.BufferGeometry();
+      scene.add(new THREE.Line(trailGeom, new THREE.LineBasicMaterial({ color: 0x00ffff, transparent: true, opacity: 0.6 })));
+
+      // Lights
+      var dl = new THREE.DirectionalLight(0xffffff, 1);
+      dl.position.set(10, 10, 10);
+      scene.add(dl);
+      scene.add(new THREE.AmbientLight(0x404040));
+
+      camera.position.set(3, 3, 3);
+      controls.update();
+
+      window.kairo_followMode = true;
+      window.kairo_setFollowMode = function(f) { window.kairo_followMode = f; };
+      window.kairo_resetCamera = function() {
+        var r = window.robotMesh;
+        if (r) { camera.position.set(r.position.x+3, 3, r.position.z+3); controls.target.set(r.position.x,0,r.position.z); }
+        else { camera.position.set(3,3,3); controls.target.set(0,0,0); }
+        controls.update();
+      };
+
+      window.kairo_update = function(x, y, yaw, ranges, angleMin, angleInc) {
+        if (window.robotMesh) { window.robotMesh.position.set(x, 0, -y); window.robotMesh.rotation.y = yaw; }
+        trailPos.push(x, 0.02, -y);
+        if (trailPos.length > 1500) trailPos.splice(0, 3);
+        trailGeom.setAttribute('position', new THREE.Float32BufferAttribute(trailPos, 3));
+        trailGeom.computeBoundingSphere();
+        if (ranges && ranges.length > 0 && window.scanPoints) {
+          var pts = [];
+          for (var i = 0; i < ranges.length; i++) {
+            var r = ranges[i]; if (r < 0.1 || r > 30) continue;
+            var a = angleMin + i * angleInc + yaw;
+            pts.push(x + r*Math.cos(a), 0.1, -(y + r*Math.sin(a)));
+          }
+          var g = new THREE.BufferGeometry();
+          g.setAttribute('position', new THREE.Float32BufferAttribute(pts, 3));
+          window.scanPoints.geometry.dispose();
+          window.scanPoints.geometry = g;
+        }
+        if (window.kairo_followMode) controls.target.set(x, 0, -y);
+      };
+
+      function animate() {
+        requestAnimationFrame(animate);
+        controls.update();
+        renderer.render(scene, camera);
+        if (container.clientWidth !== renderer.domElement.width || container.clientHeight !== renderer.domElement.height) {
+          renderer.setSize(container.clientWidth, container.clientHeight);
+          camera.aspect = container.clientWidth / container.clientHeight;
+          camera.updateProjectionMatrix();
+        }
+      }
+      animate();
+      console.log('[3D] Three.js initialized on', containerId);
+    };
+  </script>
 </head>
 <body>
   <script>
