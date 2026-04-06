@@ -138,9 +138,12 @@
         controls.update();
       };
 
-      window.kairo_update = function(x, y, yaw, ranges, angleMin, angleInc) {
-        if (window.robotMesh) { window.robotMesh.position.set(x, 0, -y); window.robotMesh.rotation.y = yaw; }
-        trailPos.push(x, 0.02, -y);
+      window.kairo_update = function(x, y, z, roll, pitch, yaw, ranges, angleMin, angleInc) {
+        if (window.robotMesh) {
+          window.robotMesh.position.set(x, z, -y); // ROS X→Three X, ROS Y→Three -Z, ROS Z→Three Y
+          window.robotMesh.rotation.set(roll, yaw, -pitch, 'YXZ');
+        }
+        trailPos.push(x, z + 0.02, -y);
         if (trailPos.length > 1500) trailPos.splice(0, 3);
         trailGeom.setAttribute('position', new THREE.Float32BufferAttribute(trailPos, 3));
         trailGeom.computeBoundingSphere();
@@ -156,7 +159,7 @@
           window.scanPoints.geometry.dispose();
           window.scanPoints.geometry = g;
         }
-        if (window.kairo_followMode) controls.target.set(x, 0, -y);
+        if (window.kairo_followMode) controls.target.set(x, z, -y);
       };
 
       function animate() {
