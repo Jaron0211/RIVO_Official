@@ -37,14 +37,14 @@
 
   /* ---------- hero（非對稱版面，差異化）---------- */
   .hero{display:grid;grid-template-columns:1fr 1fr;grid-template-rows:150px 200px 84px;
-    grid-template-areas:"logo word" "tex tex" "label label"}
+    grid-template-areas:"logo logo" "tex tex" "label label"}
   .hero>div{border-right:var(--bd);border-bottom:var(--bd);display:flex;align-items:flex-end;padding:16px;overflow:hidden;position:relative}
   .hero .word{font-size:54px;font-weight:600;letter-spacing:-.03em;line-height:.9}
   .cell-logo{grid-area:logo;background:var(--paper);align-items:center;justify-content:flex-start}
   .cell-logo img{height:24px;width:auto;display:block}
   .cell-word{grid-area:word;background:var(--accent)}                 /* 產品字：橘 */
   .cell-tex{grid-area:tex;background:var(--paper);padding:0!important}
-  .cell-label{grid-area:label;background:var(--ink);color:var(--paper);align-items:center}
+  .cell-label{grid-area:label;background:var(--accent);color:var(--ink);align-items:center}
   .cell-label .ml{font-family:var(--mono);font-size:12px;letter-spacing:.14em;line-height:1.6;text-transform:uppercase}
   .cell-tex pre{font-family:var(--mono);font-size:7px;line-height:1;white-space:pre;color:var(--ink);width:100%;height:100%;overflow:hidden;user-select:none}
 
@@ -55,11 +55,11 @@
   .statement .sub{font-family:var(--mono);font-size:13px;line-height:1.7;color:#cfcfcf;margin-top:22px;max-width:34ch}
   .statement .tex{display:none}
 
-  /* ---------- mint texture block ---------- */
-  .texblock{background:var(--accent);min-height:280px;position:relative;overflow:hidden}
+  /* ---------- texture block（白底）---------- */
+  .texblock{background:var(--paper);min-height:280px;position:relative;overflow:hidden;border-bottom:var(--bd)}
   .texblock .inner{padding:26px 22px;position:relative;z-index:1}
   .texblock .copy{font-size:30px;font-weight:600;letter-spacing:-.02em;line-height:1.05;max-width:18ch}
-  .texblock pre{position:absolute;inset:0;font-family:var(--mono);font-size:8px;line-height:1.3;white-space:pre;color:rgba(20,20,20,.42);user-select:none;pointer-events:none;z-index:0;overflow:hidden}
+  .texblock pre{position:absolute;inset:auto;top:50%;left:50%;transform:translate(-50%,-50%);width:max-content;font-family:var(--mono);font-size:3.4px;line-height:1.12;white-space:pre;color:rgba(20,20,20,.55);user-select:none;pointer-events:none;z-index:0;overflow:hidden}
   .logos{display:flex;gap:26px;align-items:center;font-family:var(--mono);font-size:15px;font-weight:700;margin-top:30px;flex-wrap:wrap}
 
   /* ---------- stat blocks ---------- */
@@ -87,13 +87,11 @@
     .top .nav a{color:var(--ink);text-decoration:none}
     .top .lang button{padding:0 26px;font-size:16px}
 
-    /* Hero：非對稱——左欄 logo/標籤、中間整條紋理、右邊整條產品字 */
-    .hero{grid-template-columns:1.2fr 1.7fr 1fr;grid-template-rows:1fr 1fr;min-height:78vh;
-      grid-template-areas:"logo tex word" "label tex word"}
+    /* Hero：左欄 logo/橘色標籤、右側整條紋理 */
+    .hero{grid-template-columns:1fr 1.7fr;grid-template-rows:1fr 1fr;min-height:78vh;
+      grid-template-areas:"logo tex" "label tex"}
     .hero>div{padding:34px}
-    .hero .word{font-size:104px;letter-spacing:-.04em}
     .cell-logo img{height:40px}
-    .cell-word{align-items:flex-end}
     .cell-label .ml{font-size:14px}
 
     /* 宣言：左標題 + 右 ASCII 紋理 兩欄 */
@@ -113,7 +111,7 @@
     .texblock{min-height:420px}
     .texblock .inner{padding:64px}
     .texblock .copy{font-size:62px;max-width:16ch}
-    .texblock pre{font-size:11px}
+    .texblock pre{font-size:5px}
     .logos{font-size:20px;gap:40px;margin-top:48px}
 
     .cta{display:flex;align-items:flex-end;justify-content:space-between;padding:96px 64px}
@@ -141,16 +139,15 @@
   <div class="hero">
     <div class="cell-logo"><img src="assets/logo-navbar.png" alt="RIVO"></div>
     <div class="cell-tex"><pre id="tex1"></pre></div>
-    <div class="cell-word"><span class="word">飛控</span></div>
-    <div class="cell-label"><span class="ml">Robot fleet<br>機器人群控</span></div>
+    <div class="cell-label"><span class="ml">UAV autopilot<br>無人機飛控系統</span></div>
   </div>
 
   <!-- statement -->
   <div class="statement">
     <div class="inner">
-      <div class="label" style="color:var(--accent);margin-bottom:24px">From chip to fleet</div>
-      <h1>FROM CHIP<br>TO FLEET.</h1>
-      <p class="sub">整架無人機，圍繞一顆大腦而生。開源飛控 RPilot → 地面站 RIVO GCS → 機隊後台，一條龍由你掌握。</p>
+      <div class="label" style="color:var(--accent);margin-bottom:24px">UAV flight control system</div>
+      <h1>FROM CHIP<br>TO CONTROL.</h1>
+      <p class="sub">整架無人機，圍繞一顆飛控大腦而生。RPilot 飛控 → RIVO GCS 地面站 → 無人機分層管理機制，一條龍由你掌握。</p>
     </div>
     <div class="tex"><pre id="texSide"></pre></div>
   </div>
@@ -159,25 +156,25 @@
   <div class="texblock">
     <pre id="texBig"></pre>
     <div class="inner">
-      <div class="label" style="margin-bottom:18px">Recent build</div>
+      <div class="label" style="margin-bottom:18px">The system</div>
       <div class="copy">一條龍，由你掌握。</div>
-      <div class="logos"><span>RPilot</span><span>·</span><span>GCS</span><span>·</span><span>Fleet</span></div>
+      <div class="logos"><span>RPilot 飛控</span><span>·</span><span>RIVO GCS</span><span>·</span><span>分層管理</span></div>
     </div>
   </div>
 
   <!-- stat blocks -->
   <div class="stats">
     <div class="stat dark">
-      <div class="num">開源</div>
-      <div class="cap">飛控 RPilot — 機器人的大腦</div>
+      <div class="num">飛控</div>
+      <div class="cap">RPilot · 無人機飛行控制核心</div>
     </div>
     <div class="stat mint">
-      <div class="num">一個畫面</div>
-      <div class="cap r">RIVO GCS — 指揮整支機隊</div>
+      <div class="num">地面站</div>
+      <div class="cap r">RIVO GCS · 地面控制系統</div>
     </div>
     <div class="stat grey">
-      <div class="num">端到端</div>
-      <div class="cap">FC → GCS → FLEET 垂直整合</div>
+      <div class="num">分層管理</div>
+      <div class="cap">無人機分層管理機制</div>
     </div>
   </div>
 
@@ -189,7 +186,7 @@
     </div>
     <div>
       <a class="btn">預約展示 →</a>
-      <div class="foot">原型 PROTO · Archivo + Space Mono · 文案與數據皆為示意</div>
+      <div class="foot">RIVO · 無人機飛控 · 地面控制站 · 分層管理機制</div>
     </div>
   </div>
 
@@ -252,7 +249,55 @@ function makeFlow(el, cw, ch, ramp, thresh){
 makeFlow(document.getElementById('tex1'), 4.2, 7, '.:*+=#', 0.55);
 makeFlow(document.getElementById('tex2'), 4.2, 7, '.:*+=#', 0.55);
 makeFlow(document.getElementById('texSide'), 5.2, 11, '.:*+=#%@', 0.5);
-makeFlow(document.getElementById('texBig'), 5.0, 10.4, '.:*+=#%@', 0.5);
+/* banner 背景：手部 ASCII + 細微閃爍（像活的素描） */
+const HAND_RAMP = '.:*I$JTLCYZVSUGPAOXFDE#RKHBQNWM';
+const HAND_IDX = {}; for(let i=0;i<HAND_RAMP.length;i++) HAND_IDX[HAND_RAMP[i]]=i;
+fetch('assets/hand.ascii').then(r=>r.text()).then(t=>{
+  const el = document.getElementById('texBig');
+  const lines = t.replace(/\n+$/,'').split('\n');
+  el.textContent = lines.join('\n');
+  let last=0;
+  (function frame(ts){
+    requestAnimationFrame(frame);
+    if(ts-last<150) return; last=ts;            // ~7fps 細微閃爍
+    let out='';
+    for(let r=0;r<lines.length;r++){
+      const row=lines[r]; let line='';
+      for(let c=0;c<row.length;c++){
+        let ch=row[c];
+        if(ch!==' ' && Math.random()<0.018){     // 少量字元 ±1 灰階跳動
+          let i=HAND_IDX[ch];
+          if(i!=null){ i+=Math.random()<0.5?-1:1; if(i<0)i=0; if(i>=HAND_RAMP.length)i=HAND_RAMP.length-1; ch=HAND_RAMP[i]; }
+        }
+        line+=ch;
+      }
+      out+=line+'\n';
+    }
+    el.textContent=out;
+  })(0);
+});
+
+/* mono 標籤：捲進視窗時「解碼」動畫 */
+function scrambleEl(el){
+  const final = el.textContent, pool = '!<>-_\\/[]{}=+*^?#01';
+  let f=0;
+  const id=setInterval(()=>{
+    let out='';
+    for(let i=0;i<final.length;i++){
+      if(final[i]===' ') out+=' ';
+      else if(i < f*0.65) out+=final[i];
+      else out+=pool[Math.floor(Math.random()*pool.length)];
+    }
+    el.textContent=out; f++;
+    if(f*0.65 > final.length){ el.textContent=final; clearInterval(id); }
+  }, 32);
+}
+if('IntersectionObserver' in window){
+  const io=new IntersectionObserver((ents)=>{
+    ents.forEach(e=>{ if(e.isIntersecting){ scrambleEl(e.target); io.unobserve(e.target); } });
+  },{threshold:0.7});
+  document.querySelectorAll('.label').forEach(el=>io.observe(el));
+}
 </script>
 </body>
 </html>
