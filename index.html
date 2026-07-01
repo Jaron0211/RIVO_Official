@@ -36,7 +36,7 @@
   .pad{padding:26px 22px}
 
   /* ---------- hero（非對稱版面，差異化）---------- */
-  .hero{display:grid;grid-template-columns:1fr 3fr;grid-template-rows:4fr 1fr;min-height:86vh;
+  .hero{display:grid;grid-template-columns:1fr 2fr;grid-template-rows:4fr 1fr;min-height:86vh;
     grid-template-areas:"logo tex" "label label"}
   .hero>div{border-right:var(--bd);border-bottom:var(--bd);display:flex;align-items:flex-end;padding:16px;overflow:hidden;position:relative}
   .hero .word{font-size:54px;font-weight:600;letter-spacing:-.03em;line-height:.9}
@@ -64,6 +64,23 @@
   .statement .sub{font-family:var(--mono);font-size:clamp(10px,1.2vw,16px);line-height:1.6;color:#e7e7e7;margin-top:2.2vw;max-width:44ch}
   .statement .fc-img{position:absolute;right:4%;bottom:0;z-index:1;width:42vw;max-width:640px;height:auto;pointer-events:none;
     filter:drop-shadow(0 2vw 3.2vw rgba(0,0,0,.92))}
+
+  /* 手機：分頁影片改成流內、完整顯示（不裁切上下），文字排下方 */
+  @media (max-width:768px){
+    .sc-content .sc-video{position:relative;width:100%;height:auto;object-fit:contain}
+    .sc-content[data-tab="fc"] .sc-video{width:100%}
+    .sc-content.has-video::after{display:none}
+    .sc-body{padding:22px}
+  }
+
+  /* 手機：FROM CHIP TO FLEET 放大、加高 */
+  @media (max-width:768px){
+    .statement{min-height:82vh}
+    .statement .inner{max-width:74%;padding:10vw 6vw}
+    .statement h1{font-size:16vw}
+    .statement .sub{font-size:12px;margin-top:5vw;max-width:30ch}
+    .statement .fc-img{width:48vw}
+  }
 
   /* ---------- texture block（白底）---------- */
   .texblock{background:var(--paper);min-height:400px;position:relative;overflow:hidden;border-bottom:var(--bd)}
@@ -109,6 +126,16 @@
   .sc-note{font-family:var(--mono);font-size:11px;letter-spacing:.1em;opacity:.55;margin-top:16px}
 
   /* ---------- cta ---------- */
+  /* ---------- 合作夥伴 logo 牆 ---------- */
+  .partners{background:var(--paper);color:var(--ink);border-bottom:var(--bd)}
+  .partners-head{display:flex;align-items:baseline;gap:14px;flex-wrap:wrap;padding:22px}
+  .partners-head .p-zh{font-family:var(--mono);font-size:11px;letter-spacing:.06em;opacity:.5}
+  .partners-grid{display:grid;grid-template-columns:repeat(3,1fr);border-top:var(--bd)}
+  .pt-cell{display:flex;align-items:center;justify-content:center;padding:30px 18px;border-right:var(--bd);min-height:130px}
+  .pt-cell:last-child{border-right:none}
+  .pt-cell img{max-height:80px;max-width:82%;width:auto;height:auto;object-fit:contain;filter:grayscale(1);opacity:.6;transition:filter .3s ease,opacity .3s ease}
+  .pt-cell:hover img{filter:none;opacity:1}
+  .pt-cell:first-child img{max-height:120px;max-width:96%}
   .cta{background:var(--ink);color:var(--paper);padding:40px 22px 54px;position:relative;overflow:hidden}
   .cta-at{position:absolute;top:50%;right:3%;transform:translateY(-50%);margin:0;font-family:var(--mono);line-height:1;white-space:pre;color:rgba(255,81,8,.2);z-index:0;pointer-events:none;user-select:none}
   .cta .left,.cta>div{position:relative;z-index:1}
@@ -157,6 +184,10 @@
     .texblock pre{font-size:.4vw}
     .logos{font-size:20px;gap:40px;margin-top:48px}
 
+    .partners-head{padding:32px 40px}
+    .pt-cell{padding:48px 30px;min-height:200px}
+    .pt-cell img{max-height:110px}
+    .pt-cell:first-child img{max-height:150px}
     .cta{display:flex;align-items:flex-end;justify-content:space-between;padding:96px 64px}
     .cta .left h2{font-size:108px}
     .cta .btn{margin-top:0;font-size:16px;padding:18px 30px}
@@ -263,6 +294,16 @@
   </section>
 
   <!-- cta -->
+  <!-- 合作夥伴 -->
+  <section class="partners">
+    <div class="partners-head"><span class="label">Official Partners</span><span class="p-zh">官方合作夥伴</span></div>
+    <div class="partners-grid">
+      <div class="pt-cell"><img src="assets/partners/p1.png" alt="台灣淨零碳規劃產業工會"></div>
+      <div class="pt-cell"><img src="assets/partners/p2.png" alt="Partner"></div>
+      <div class="pt-cell"><img src="assets/partners/p3.png" alt="Partner"></div>
+    </div>
+  </section>
+
   <div class="cta">
     <pre class="cta-at" id="ctaAt" aria-hidden="true"></pre>
     <div class="left">
@@ -292,9 +333,10 @@ function tick(){
 tick(); setInterval(tick, 10000);
 
 /* 開發用：#stmt[-tab] 時隱藏 hero 並可指定分頁（方便截圖驗證，正常瀏覽無影響） */
-if(location.hash.indexOf('#stmt')===0){
+if(location.hash.indexOf('#stmt')===0 || location.hash.indexOf('#sc')===0){
   window.addEventListener('load',()=>{
-    document.querySelectorAll('.hero,.top').forEach(e=>e.style.display='none');
+    var sel=location.hash.indexOf('#sc')===0?'.hero,.top,.statement,.texblock':'.hero,.top';
+    document.querySelectorAll(sel).forEach(e=>e.style.display='none');
     const m=location.hash.match(/-(\w+)$/); if(m) showTab(m[1]);
   });
 }
