@@ -7,14 +7,14 @@
 <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800;900&family=Space+Mono:wght@400;700&family=Noto+Sans+TC:wght@400;500;700;900&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Funnel+Display:wght@300;400;500;600;700;800&family=Space+Mono:wght@400;700&family=Noto+Sans+TC:wght@400;500;700;900&display=swap" rel="stylesheet">
 <style>
   :root{
     --ink:#000000;
     --paper:#fffdf8;
     --accent:#ff5108;   /* 橘：主強調色 */
     --hot:#ff2321;      /* 紅：最重要的動作 */
-    --disp:'Archivo','Noto Sans TC',sans-serif;
+    --disp:'Funnel Display','Noto Sans TC',sans-serif;
     --mono:'Space Mono',ui-monospace,monospace;
     --bd:1px solid var(--ink);
   }
@@ -36,8 +36,8 @@
   .pad{padding:26px 22px}
 
   /* ---------- hero（非對稱版面，差異化）---------- */
-  .hero{display:grid;grid-template-columns:1fr 1fr;grid-template-rows:150px 200px 128px;
-    grid-template-areas:"logo logo" "tex tex" "label label"}
+  .hero{display:grid;grid-template-columns:1fr 3fr;grid-template-rows:4fr 1fr;min-height:86vh;
+    grid-template-areas:"logo tex" "label label"}
   .hero>div{border-right:var(--bd);border-bottom:var(--bd);display:flex;align-items:flex-end;padding:16px;overflow:hidden;position:relative}
   .hero .word{font-size:54px;font-weight:600;letter-spacing:-.03em;line-height:.9}
   .cell-logo{grid-area:logo;background:var(--paper);align-items:center;justify-content:flex-start}
@@ -45,7 +45,7 @@
   .cell-logo img{position:relative;z-index:1;height:24px;width:auto;display:block}
   .cell-word{grid-area:word;background:var(--accent)}                 /* 產品字：橘 */
   .cell-tex{grid-area:tex;background:var(--paper);padding:0!important}
-  .cell-label{grid-area:label;background:var(--accent);color:var(--ink);flex-direction:column;justify-content:center;align-items:flex-start;gap:14px}
+  .cell-label{grid-area:label;background:var(--accent);color:var(--ink);flex-direction:column;justify-content:center;align-items:flex-start;gap:9px}
   .hero-rot{width:100%}
   .hero-rot .en{display:block;font-family:var(--disp);font-weight:800;font-size:19px;line-height:1.05;letter-spacing:-.01em;height:2.3em;overflow:hidden}
   .hero-rot .zh{display:block;font-family:var(--mono);font-size:13px;letter-spacing:.04em;opacity:.9;margin-top:5px;height:1.3em;overflow:hidden}
@@ -109,7 +109,9 @@
   .sc-note{font-family:var(--mono);font-size:11px;letter-spacing:.1em;opacity:.55;margin-top:16px}
 
   /* ---------- cta ---------- */
-  .cta{background:var(--ink);color:var(--paper);padding:40px 22px 54px}
+  .cta{background:var(--ink);color:var(--paper);padding:40px 22px 54px;position:relative;overflow:hidden}
+  .cta-at{position:absolute;top:50%;right:3%;transform:translateY(-50%);margin:0;font-family:var(--mono);line-height:1;white-space:pre;color:rgba(255,81,8,.2);z-index:0;pointer-events:none;user-select:none}
+  .cta .left,.cta>div{position:relative;z-index:1}
   .cta h2{font-size:40px;font-weight:800;letter-spacing:-.03em;line-height:.95;text-transform:uppercase}
   .cta .btn{margin-top:24px;display:inline-block;background:var(--hot);color:var(--paper);font-family:var(--mono);font-size:14px;padding:14px 22px;letter-spacing:.04em;cursor:pointer}
   .foot{font-family:var(--mono);font-size:11px;color:#8a8a8a;margin-top:30px;letter-spacing:.04em}
@@ -127,8 +129,7 @@
     .top .lang button{padding:0 26px;font-size:16px}
 
     /* Hero：左欄 logo/橘色標籤、右側整條紋理 */
-    .hero{grid-template-columns:1fr 1.7fr;grid-template-rows:1fr 1fr;min-height:78vh;
-      grid-template-areas:"logo tex" "label tex"}
+    .hero{min-height:86vh}
     .hero>div{padding:34px}
     .cell-logo img{height:40px}
     .hero-rot .en{font-size:32px}
@@ -170,7 +171,7 @@
   <div class="top">
     <div class="logo"></div>                              <!-- 箭頭移除、保留黑格 -->
     <div class="clock" id="clock">--:-- 台北</div>
-    <div class="nav"><a href="mailto:rivo@rivo.com.tw">聯繫</a></div>
+    <div class="nav"><a href="mailto:rivo@rivo.com.tw" data-en="Contact">聯繫</a></div>
     <div class="lang">
       <button class="active" data-l="zh">中</button>
       <button data-l="en">EN</button>
@@ -196,7 +197,7 @@
     <div class="inner">
       <div class="label" style="color:var(--accent);margin-bottom:24px">Autonomous UAV System</div>
       <h1>FROM CHIP<br>TO FLEET.</h1>
-      <p class="sub">從晶片，到機隊。<br>浚研系統提供自主無人機的一站式整合方案。</p>
+      <p class="sub" data-en="From chip to fleet.<br>RIVO delivers an end-to-end autonomous UAV solution.">從晶片，到機隊。<br>浚研系統提供自主無人機的一站式整合方案。</p>
     </div>
     <img class="fc-img" src="assets/fc_no_bg.png" alt="RPilot 飛控板">
   </div>
@@ -206,8 +207,8 @@
     <pre id="texBig"></pre>
     <div class="inner">
       <div class="label" style="margin-bottom:18px">The system</div>
-      <div class="copy">一條龍，由你掌握。</div>
-      <div class="logos"><span>RPilot 飛控</span><span>·</span><span>RIVO GCS</span><span>·</span><span>無人機</span></div>
+      <div class="copy" data-en="One integrated stack — fully in your control.">一條龍，由你掌握。</div>
+      <div class="logos"><span data-en="RPilot FC">RPilot 飛控</span><span>·</span><span>RIVO GCS</span><span>·</span><span data-en="UAV">無人機</span></div>
     </div>
   </div>
 
@@ -215,16 +216,16 @@
   <section class="showcase">
     <div class="sc-tabs">
       <button class="sc-tab active" data-tab="fc" onclick="showTab('fc')">
-        <span class="idx">01</span><span class="w">飛控</span>
-        <span class="cap">RPilot · 無人機飛行控制核心</span>
+        <span class="idx">01</span><span class="w" data-en="Flight Ctrl">飛控</span>
+        <span class="cap" data-en="RPilot · UAV flight-control core">RPilot · 無人機飛行控制核心</span>
       </button>
       <button class="sc-tab" data-tab="gcs" onclick="showTab('gcs')">
-        <span class="idx">02</span><span class="w">地面站</span>
-        <span class="cap">RIVO GCS · 地面控制系統</span>
+        <span class="idx">02</span><span class="w" data-en="GCS">地面站</span>
+        <span class="cap" data-en="RIVO GCS · Ground-control system">RIVO GCS · 地面控制系統</span>
       </button>
       <button class="sc-tab" data-tab="uav" onclick="showTab('uav')">
-        <span class="idx">03</span><span class="w">無人機</span>
-        <span class="cap">完整無人機解決方案</span>
+        <span class="idx">03</span><span class="w" data-en="UAV">無人機</span>
+        <span class="cap" data-en="Complete UAV solution">完整無人機解決方案</span>
       </button>
     </div>
     <div class="sc-panel">
@@ -236,7 +237,7 @@
         <div class="sc-body">
           <div class="sc-kick">01 — RPILOT</div>
           <h3 class="sc-h">RPilot<span class="sc-h-sm">Flight Controller</span></h3>
-          <p class="sc-desc">由 RIVO 自行開發的 RPilot 系統,具備高度安全性能以及多感測器冗餘,滿足現代自動化無人機的最高需求。</p>
+          <p class="sc-desc" data-en="RIVO's in-house RPilot system — high safety performance with multi-sensor redundancy, meeting the highest demands of modern autonomous UAVs.">由 RIVO 自行開發的 RPilot 系統,具備高度安全性能以及多感測器冗餘,滿足現代自動化無人機的最高需求。</p>
         </div>
       </div>
       <div class="sc-content has-video" data-tab="gcs">
@@ -247,15 +248,15 @@
         <div class="sc-body">
           <div class="sc-kick">02 — RIVO GCS</div>
           <h3 class="sc-h"><img class="sc-h-logo" src="assets/logo-white.png" alt="RIVO">GCS</h3>
-          <p class="sc-desc">任務規劃、即時串流、RBAC 多層分級管理,最符合直覺操作的無人機管理平台。</p>
+          <p class="sc-desc" data-en="Mission planning, live streaming and RBAC multi-tier access control — the most intuitive UAV management platform.">任務規劃、即時串流、RBAC 多層分級管理,最符合直覺操作的無人機管理平台。</p>
         </div>
       </div>
       <div class="sc-content has-video" data-tab="uav">
         <pre class="uav-ascii" id="uavAscii" aria-hidden="true"></pre>
         <div class="sc-body">
           <div class="sc-kick">03 — COMPLETE UAV</div>
-          <h3 class="sc-h">完整無人機方案 <span class="sc-badge">Coming Soon</span></h3>
-          <p class="sc-desc">由 RIVO 一手打造的飛控與系統,給您最完整的無人機解決方案。</p>
+          <h3 class="sc-h"><span data-en="Complete UAV Solution">完整無人機方案</span> <span class="sc-badge">Coming Soon</span></h3>
+          <p class="sc-desc" data-en="Flight controller and system built end-to-end by RIVO — the most complete UAV solution for you.">由 RIVO 一手打造的飛控與系統,給您最完整的無人機解決方案。</p>
         </div>
       </div>
     </div>
@@ -263,27 +264,29 @@
 
   <!-- cta -->
   <div class="cta">
+    <pre class="cta-at" id="ctaAt" aria-hidden="true"></pre>
     <div class="left">
       <div class="label" style="color:var(--accent);margin-bottom:20px">Contact</div>
-      <h2>聯繫我們</h2>
+      <h2 data-en="Contact Us">聯繫我們</h2>
     </div>
     <div>
-      <a class="btn" href="mailto:rivo@rivo.com.tw">rivo@rivo.com.tw →</a>
+      <a class="btn" href="mailto:rivo@rivo.com.tw" data-en="Email Us →">寫信給我們 →</a>
     </div>
   </div>
 
   <footer class="sitefoot">
     <img class="foot-logo" src="assets/logo-navbar.png" alt="RIVO">
-    <span class="foot-copy">© 2026 RIVO · 浚研系統 JUNYAN SYSTEMS. All rights reserved.</span>
+    <span class="foot-copy">© 2026 RIVO Systems Co. LTD. All rights reserved.</span>
   </footer>
 
 </div>
 
 <script>
+let LANG='zh';
 function tick(){
   try{
     const s=new Intl.DateTimeFormat('en-GB',{timeZone:'Asia/Taipei',hour:'2-digit',minute:'2-digit',hour12:false}).format(new Date());
-    document.getElementById('clock').textContent = s+' 台北';
+    document.getElementById('clock').textContent = s+(LANG==='en'?' Taipei':' 台北');
   }catch(e){}
 }
 tick(); setInterval(tick, 10000);
@@ -329,6 +332,14 @@ fetch('assets/uav.ascii').then(r=>r.text()).then(t=>{
   })(0);
 });
 
+/* 聯繫格：超大 @ ASCII 背景 */
+fetch('assets/at.ascii').then(r=>r.text()).then(t=>{
+  const el=document.getElementById('ctaAt'); if(!el) return;
+  const txt=t.replace(/\n+$/,''); el.textContent=txt; const rows=txt.split('\n').length;
+  function fit(){ const c=el.closest('.cta'); const h=(c&&c.clientHeight)||300; el.style.fontSize=(h*0.92/rows).toFixed(2)+'px'; }
+  fit(); window.addEventListener('resize',fit);
+});
+
 /* hero 橘框標語輪播（亂碼解碼式切換） */
 (function(){
   const enEl=document.getElementById('heroEn'), zhEl=document.getElementById('heroZh');
@@ -371,13 +382,19 @@ function showTab(id){
   document.querySelectorAll('.sc-content').forEach(c=>c.classList.toggle('active', c.dataset.tab===id));
 }
 
-/* 中/英 切換（原型：先切 active 樣式） */
-document.querySelectorAll('.top .lang button').forEach(b=>{
-  b.addEventListener('click',()=>{
-    document.querySelectorAll('.top .lang button').forEach(x=>x.classList.remove('active'));
-    b.classList.add('active');
+/* 中/英 切換：實際翻譯 */
+function setLang(lang){
+  LANG=lang;
+  document.querySelectorAll('[data-en]').forEach(el=>{
+    if(el.dataset.zh===undefined) el.dataset.zh=el.innerHTML;
+    el.innerHTML=(lang==='en')?el.dataset.en:el.dataset.zh;
   });
-});
+  document.documentElement.lang=(lang==='en')?'en':'zh-Hant';
+  document.querySelectorAll('.top .lang button').forEach(b=>b.classList.toggle('active',b.dataset.l===lang));
+  tick();
+}
+document.querySelectorAll('.top .lang button').forEach(b=>b.addEventListener('click',()=>setLang(b.dataset.l)));
+if(location.search.indexOf('lang=en')>=0) setLang('en');  // 深連結語言
 
 /* 可分離正弦流場 → ASCII 紋理（自適應元素尺寸） */
 function makeFlow(el, cw, ch, ramp, thresh){
