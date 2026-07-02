@@ -82,6 +82,12 @@
     .statement .fc-img{height:40%;width:auto;right:auto;left:50%;transform:translateX(-50%)}
   }
 
+  /* 手機：hero 由左右兩欄改成上下堆疊 */
+  @media (max-width:768px){
+    .hero{grid-template-columns:1fr;grid-template-rows:1fr 1.3fr auto;
+      grid-template-areas:"logo" "tex" "label"}
+  }
+
   /* ---------- texture block（白底）---------- */
   .texblock{background:var(--paper);min-height:400px;position:relative;overflow:hidden;border-bottom:var(--bd)}
   .texblock .inner{padding:26px 22px;position:relative;z-index:1}
