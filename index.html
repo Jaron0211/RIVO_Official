@@ -145,7 +145,7 @@
     .sc-content[data-tab="fc"] .sc-video{width:100%}
     .sc-content.has-video::after{display:none}
     .uav-media{display:block;position:relative;aspect-ratio:16/9;overflow:hidden}
-    .uav-media .uav-ascii{right:auto;left:50%;transform:translateX(-50%)}
+    .uav-media .uav-ascii{right:auto;left:0}   /* 貼齊上下左，右側裁切 */
     .sc-body{padding:22px;min-height:236px}
   }
 
@@ -403,10 +403,11 @@ fetch('assets/uav.ascii').then(r=>r.text()).then(t=>{
   const base=t.replace(/\n+$/,'').split('\n'), rows=base.length;
   el.textContent=base.join('\n');
   function fit(){
-    // 手機：.uav-media 是 16:9 盒（有高度）；桌機 display:contents 沒有盒 → 退回用 panel 高
+    // 手機：.uav-media 是 16:9 盒（有高度），字高剛好貼合上下；桌機 display:contents 沒有盒 → 用 panel 高、略放大裁切
     const box=el.parentElement, p=el.closest('.sc-panel');
-    const h=(box&&box.clientHeight)||((p&&p.clientHeight)||560);
-    el.style.fontSize=(h*1.05/rows).toFixed(2)+'px';
+    const boxed=!!(box&&box.clientHeight);
+    const h=boxed?box.clientHeight:((p&&p.clientHeight)||560);
+    el.style.fontSize=(h*(boxed?1:1.05)/rows).toFixed(2)+'px';
   }
   window._uavFit=fit; fit(); window.addEventListener('resize',fit);
   const RAMP='.:*I$JTLCYZVSUGPAOXFDE#RKHBQNWM', idx={}; for(let k=0;k<RAMP.length;k++) idx[RAMP[k]]=k;
@@ -486,6 +487,7 @@ function showTab(id){
       if(!REDUCED_MOTION) v.play().catch(()=>{});
     } else { v.pause(); }
   });
+  if(id==='uav'&&window._uavFit) window._uavFit();   // 顯示後容器才有高度，重算 ASCII 字級
 }
 if(REDUCED_MOTION) document.querySelectorAll('.sc-video').forEach(v=>{ v.removeAttribute('autoplay'); v.pause(); });
 
