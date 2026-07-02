@@ -1,0 +1,6 @@
+User-agent: *
+Allow: /
+Disallow: /proto.html
+Disallow: /ascii.html
+
+Sitemap: https://rivo.com.tw/sitemap.xml
