@@ -118,6 +118,7 @@
   /* 背景影片：滿版貼齊邊緣(高=panel，超出從左側裁)、不可互動/右鍵 */
   .sc-content .sc-video{position:absolute;left:0;top:0;bottom:0;width:100%;height:100%;object-fit:cover;object-position:right center;z-index:0;pointer-events:none;user-select:none}
   .sc-content[data-tab="fc"] .sc-video{width:105.3%}   /* 飛控影片右邊裁 5% */
+  .uav-media{display:contents}   /* 桌機：容器不佔盒，pre 直接對齊 sc-content */
   .uav-ascii{position:absolute;top:0;right:0;margin:0;font-family:var(--mono);line-height:1;white-space:pre;color:rgba(255,81,8,.6);z-index:0;pointer-events:none;user-select:none;overflow:hidden}
   /* 影片上的可讀性遮罩(左深右透) */
   .sc-content.has-video::after{content:'';position:absolute;inset:0;z-index:1;pointer-events:none;
@@ -137,13 +138,15 @@
   .sc-feats li b{color:var(--accent);flex:0 0 5em;letter-spacing:.04em}
   .sc-note{font-family:var(--mono);font-size:11px;letter-spacing:.1em;opacity:.55;margin-top:16px}
 
-  /* 手機：分頁影片改成流內、完整顯示（不裁切上下），文字排下方
+  /* 手機：分頁改成「上方 16:9 媒體區 + 下方黑卡」，三個分頁等高
      （必須放在上方 showcase 基礎規則之後，否則同權重選擇器會被後者覆蓋） */
   @media (max-width:768px){
-    .sc-content .sc-video{position:relative;width:100%;height:auto;object-fit:contain}
+    .sc-content .sc-video{position:relative;display:block;width:100%;height:auto;aspect-ratio:16/9;object-fit:cover;object-position:center}
     .sc-content[data-tab="fc"] .sc-video{width:100%}
     .sc-content.has-video::after{display:none}
-    .sc-body{padding:22px}
+    .uav-media{display:block;position:relative;aspect-ratio:16/9;overflow:hidden}
+    .uav-media .uav-ascii{right:auto;left:50%;transform:translateX(-50%)}
+    .sc-body{padding:22px;min-height:236px}
   }
 
   /* ---------- cta ---------- */
@@ -289,7 +292,7 @@
         </video>
         <div class="sc-body">
           <div class="sc-kick">01 — RPILOT</div>
-          <h2 class="sc-h">RPilot<span class="sc-h-sm">Flight Controller</span></h2>
+          <h2 class="sc-h"><img class="sc-h-logo" src="assets/logo-white.png" alt="RIVO">RPilot<span class="sc-h-sm">Flight Controller</span></h2>
           <p class="sc-desc" data-en="RIVO's in-house RPilot system — high safety performance with multi-sensor redundancy, meeting the highest demands of modern autonomous UAVs.">由 RIVO 自行開發的 RPilot 系統,具備高度安全性能以及多感測器冗餘,滿足現代自動化無人機的最高需求。</p>
         </div>
       </div>
@@ -306,7 +309,7 @@
         </div>
       </div>
       <div class="sc-content has-video" data-tab="uav" role="tabpanel" id="panel-uav" aria-labelledby="tab-uav" hidden>
-        <pre class="uav-ascii" id="uavAscii" aria-hidden="true"></pre>
+        <div class="uav-media"><pre class="uav-ascii" id="uavAscii" aria-hidden="true"></pre></div>
         <div class="sc-body">
           <div class="sc-kick">03 — COMPLETE UAV</div>
           <h2 class="sc-h"><span data-en="Complete UAV Solution">完整無人機方案</span> <span class="sc-badge">Coming Soon</span></h2>
@@ -399,7 +402,12 @@ fetch('assets/uav.ascii').then(r=>r.text()).then(t=>{
   const el=document.getElementById('uavAscii'); if(!el) return;
   const base=t.replace(/\n+$/,'').split('\n'), rows=base.length;
   el.textContent=base.join('\n');
-  function fit(){ const p=el.closest('.sc-panel'); const h=(p&&p.clientHeight)||560; el.style.fontSize=(h*1.05/rows).toFixed(2)+'px'; }
+  function fit(){
+    // 手機：.uav-media 是 16:9 盒（有高度）；桌機 display:contents 沒有盒 → 退回用 panel 高
+    const box=el.parentElement, p=el.closest('.sc-panel');
+    const h=(box&&box.clientHeight)||((p&&p.clientHeight)||560);
+    el.style.fontSize=(h*1.05/rows).toFixed(2)+'px';
+  }
   window._uavFit=fit; fit(); window.addEventListener('resize',fit);
   const RAMP='.:*I$JTLCYZVSUGPAOXFDE#RKHBQNWM', idx={}; for(let k=0;k<RAMP.length;k++) idx[RAMP[k]]=k;
   startLoop(el, ()=>{
