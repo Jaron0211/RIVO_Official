@@ -79,14 +79,6 @@
   .statement .fc-img{position:absolute;right:4%;bottom:0;z-index:1;width:42vw;max-width:640px;height:auto;pointer-events:none;
     filter:drop-shadow(0 2vw 3.2vw rgba(0,0,0,.92))}
 
-  /* 手機：分頁影片改成流內、完整顯示（不裁切上下），文字排下方 */
-  @media (max-width:768px){
-    .sc-content .sc-video{position:relative;width:100%;height:auto;object-fit:contain}
-    .sc-content[data-tab="fc"] .sc-video{width:100%}
-    .sc-content.has-video::after{display:none}
-    .sc-body{padding:22px}
-  }
-
   /* 手機：FROM CHIP TO FLEET 放大、加高 */
   @media (max-width:768px){
     .statement{min-height:82vh;align-items:flex-start}
@@ -144,6 +136,15 @@
   .sc-feats li{display:flex;gap:12px;padding:9px 0;border-bottom:1px solid rgba(255,253,248,.35)}
   .sc-feats li b{color:var(--accent);flex:0 0 5em;letter-spacing:.04em}
   .sc-note{font-family:var(--mono);font-size:11px;letter-spacing:.1em;opacity:.55;margin-top:16px}
+
+  /* 手機：分頁影片改成流內、完整顯示（不裁切上下），文字排下方
+     （必須放在上方 showcase 基礎規則之後，否則同權重選擇器會被後者覆蓋） */
+  @media (max-width:768px){
+    .sc-content .sc-video{position:relative;width:100%;height:auto;object-fit:contain}
+    .sc-content[data-tab="fc"] .sc-video{width:100%}
+    .sc-content.has-video::after{display:none}
+    .sc-body{padding:22px}
+  }
 
   /* ---------- cta ---------- */
   /* ---------- 合作夥伴 logo 牆 ---------- */
