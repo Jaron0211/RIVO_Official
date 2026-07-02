@@ -3,8 +3,21 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>RIVO</title>
+<title>RIVO — 自主無人機一站式整合方案 | From Chip to Fleet</title>
+<meta name="description" content="從晶片到機隊，RIVO 浚研系統提供 RPilot 飛控、RIVO GCS 地面站到完整無人機的端到端自主無人機解決方案。">
+<link rel="canonical" href="https://rivo.com.tw/">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://rivo.com.tw/">
+<meta property="og:site_name" content="RIVO">
+<meta property="og:title" content="RIVO — From Chip to Fleet">
+<meta property="og:description" content="從晶片到機隊，RIVO 提供自主無人機的一站式整合方案：RPilot 飛控、RIVO GCS 地面站與完整無人機解決方案。">
+<meta property="og:image" content="https://rivo.com.tw/assets/logo-og.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="RIVO — From Chip to Fleet">
+<meta name="twitter:description" content="從晶片到機隊，RIVO 提供自主無人機的一站式整合方案。">
+<meta name="twitter:image" content="https://rivo.com.tw/assets/logo-og.png">
 <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32.png">
+<link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Funnel+Display:wght@300;400;500;600;700;800&family=Space+Mono:wght@400;700&family=Noto+Sans+TC:wght@400;500;700;900&display=swap" rel="stylesheet">
@@ -51,6 +64,7 @@
   .hero-rot .zh{display:block;font-family:var(--mono);font-size:13px;letter-spacing:.04em;opacity:.9;margin-top:5px;height:1.3em;overflow:hidden}
   .hero-rot .caret{display:inline-block;width:.13em;height:1em;background:currentColor;vertical-align:-.1em;margin-left:.12em;animation:caretBlink 1.05s steps(1,end) infinite}
   @keyframes caretBlink{0%,49%{opacity:1}50%,100%{opacity:0}}
+  @media (prefers-reduced-motion:reduce){.hero-rot .caret{animation:none}}
   .hero-brand{font-family:var(--mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;border-top:1px solid rgba(0,0,0,.4);padding-top:10px;width:100%}
   .cell-tex pre{font-family:var(--mono);font-size:7px;line-height:1;white-space:pre;color:var(--ink);width:100%;height:100%;overflow:hidden;user-select:none}
 
@@ -209,9 +223,9 @@
     <div class="logo"></div>                              <!-- 箭頭移除、保留黑格 -->
     <div class="clock" id="clock">--:-- 台北</div>
     <div class="nav"><a href="mailto:rivo@rivo.com.tw" data-en="Contact">聯繫</a></div>
-    <div class="lang">
-      <button class="active" data-l="zh">中</button>
-      <button data-l="en">EN</button>
+    <div class="lang" role="group" aria-label="語言切換 Language">
+      <button class="active" data-l="zh" aria-pressed="true" aria-label="中文">中</button>
+      <button data-l="en" aria-pressed="false" aria-label="English">EN</button>
     </div>
   </div>
 
@@ -251,48 +265,50 @@
 
   <!-- showcase：左側可點擊分頁 + 右側內容區 -->
   <section class="showcase">
-    <div class="sc-tabs">
-      <button class="sc-tab active" data-tab="fc" onclick="showTab('fc')">
+    <div class="sc-tabs" role="tablist" aria-label="產品展示">
+      <button class="sc-tab active" data-tab="fc" onclick="showTab('fc')" role="tab" id="tab-fc" aria-controls="panel-fc" aria-selected="true">
         <span class="idx">01</span><span class="w" data-en="Flight Ctrl">飛控</span>
         <span class="cap" data-en="RPilot · UAV flight-control core">RPilot · 無人機飛行控制核心</span>
       </button>
-      <button class="sc-tab" data-tab="gcs" onclick="showTab('gcs')">
+      <button class="sc-tab" data-tab="gcs" onclick="showTab('gcs')" role="tab" id="tab-gcs" aria-controls="panel-gcs" aria-selected="false">
         <span class="idx">02</span><span class="w" data-en="GCS">地面站</span>
         <span class="cap" data-en="RIVO GCS · Ground-control system">RIVO GCS · 地面控制系統</span>
       </button>
-      <button class="sc-tab" data-tab="uav" onclick="showTab('uav')">
+      <button class="sc-tab" data-tab="uav" onclick="showTab('uav')" role="tab" id="tab-uav" aria-controls="panel-uav" aria-selected="false">
         <span class="idx">03</span><span class="w" data-en="UAV">無人機</span>
         <span class="cap" data-en="Complete UAV solution">完整無人機解決方案</span>
       </button>
     </div>
     <div class="sc-panel">
-      <div class="sc-content active has-video" data-tab="fc">
-        <video class="sc-video" autoplay muted loop playsinline preload="auto" oncontextmenu="return false"
+      <div class="sc-content active has-video" data-tab="fc" role="tabpanel" id="panel-fc" aria-labelledby="tab-fc">
+        <video class="sc-video" autoplay muted loop playsinline preload="auto" poster="assets/video/fc_poster.jpg"
+          aria-hidden="true" oncontextmenu="return false"
           disablepictureinpicture controlslist="nodownload nofullscreen noremoteplayback">
           <source src="assets/video/fc_clip.mp4" type="video/mp4">
         </video>
         <div class="sc-body">
           <div class="sc-kick">01 — RPILOT</div>
-          <h3 class="sc-h">RPilot<span class="sc-h-sm">Flight Controller</span></h3>
+          <h2 class="sc-h">RPilot<span class="sc-h-sm">Flight Controller</span></h2>
           <p class="sc-desc" data-en="RIVO's in-house RPilot system — high safety performance with multi-sensor redundancy, meeting the highest demands of modern autonomous UAVs.">由 RIVO 自行開發的 RPilot 系統,具備高度安全性能以及多感測器冗餘,滿足現代自動化無人機的最高需求。</p>
         </div>
       </div>
-      <div class="sc-content has-video" data-tab="gcs">
-        <video class="sc-video" autoplay muted loop playsinline preload="auto" oncontextmenu="return false"
+      <div class="sc-content has-video" data-tab="gcs" role="tabpanel" id="panel-gcs" aria-labelledby="tab-gcs" hidden>
+        <video class="sc-video" muted loop playsinline preload="none" poster="assets/video/gcs_poster.jpg"
+          aria-hidden="true" oncontextmenu="return false"
           disablepictureinpicture controlslist="nodownload nofullscreen noremoteplayback">
-          <source src="assets/video/GCS.mp4" type="video/mp4">
+          <source data-src="assets/video/GCS.mp4" type="video/mp4">
         </video>
         <div class="sc-body">
           <div class="sc-kick">02 — RIVO GCS</div>
-          <h3 class="sc-h"><img class="sc-h-logo" src="assets/logo-white.png" alt="RIVO">GCS</h3>
+          <h2 class="sc-h"><img class="sc-h-logo" src="assets/logo-white.png" alt="RIVO">GCS</h2>
           <p class="sc-desc" data-en="Mission planning, live streaming and RBAC multi-tier access control — the most intuitive UAV management platform.">任務規劃、即時串流、RBAC 多層分級管理,最符合直覺操作的無人機管理平台。</p>
         </div>
       </div>
-      <div class="sc-content has-video" data-tab="uav">
+      <div class="sc-content has-video" data-tab="uav" role="tabpanel" id="panel-uav" aria-labelledby="tab-uav" hidden>
         <pre class="uav-ascii" id="uavAscii" aria-hidden="true"></pre>
         <div class="sc-body">
           <div class="sc-kick">03 — COMPLETE UAV</div>
-          <h3 class="sc-h"><span data-en="Complete UAV Solution">完整無人機方案</span> <span class="sc-badge">Coming Soon</span></h3>
+          <h2 class="sc-h"><span data-en="Complete UAV Solution">完整無人機方案</span> <span class="sc-badge">Coming Soon</span></h2>
           <p class="sc-desc" data-en="Flight controller and system built end-to-end by RIVO — the most complete UAV solution for you.">由 RIVO 一手打造的飛控與系統,給您最完整的無人機解決方案。</p>
         </div>
       </div>
@@ -305,8 +321,8 @@
     <div class="partners-head"><span class="label">Official Partners</span><span class="p-zh">官方合作夥伴</span></div>
     <div class="partners-grid">
       <div class="pt-cell"><img src="assets/partners/p1.png" alt="台灣淨零碳規劃產業工會"></div>
-      <div class="pt-cell"><img src="assets/partners/p2.png" alt="Partner"></div>
-      <div class="pt-cell"><img src="assets/partners/p3.png" alt="Partner"></div>
+      <div class="pt-cell"><img src="assets/partners/p2.png" alt="合作夥伴標誌"></div>
+      <div class="pt-cell"><img src="assets/partners/p3.png" alt="內政部消防署"></div>
     </div>
   </section>
 
@@ -330,6 +346,24 @@
 
 <script>
 let LANG='zh';
+const REDUCED_MOTION=window.matchMedia&&window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+/* rAF 迴圈統一管理：離開視窗或分頁隱藏時暫停；減少動態偏好時不啟動（保留靜態首幀） */
+function startLoop(el, step, interval){
+  if(REDUCED_MOTION||!el) return;
+  let inView=true, last=0, raf=null;
+  function frame(ts){ raf=requestAnimationFrame(frame); if(ts-last<interval) return; last=ts; step(); }
+  function sync(){
+    const on=inView&&!document.hidden;
+    if(on&&raf==null){ raf=requestAnimationFrame(frame); }
+    else if(!on&&raf!=null){ cancelAnimationFrame(raf); raf=null; }
+  }
+  if('IntersectionObserver' in window){
+    new IntersectionObserver(es=>{ es.forEach(e=>{ inView=e.isIntersecting; }); sync(); }).observe(el);
+  } else { sync(); }
+  document.addEventListener('visibilitychange',sync);
+}
+
 function tick(){
   try{
     const s=new Intl.DateTimeFormat('en-GB',{timeZone:'Asia/Taipei',hour:'2-digit',minute:'2-digit',hour12:false}).format(new Date());
@@ -367,9 +401,7 @@ fetch('assets/uav.ascii').then(r=>r.text()).then(t=>{
   function fit(){ const p=el.closest('.sc-panel'); const h=(p&&p.clientHeight)||560; el.style.fontSize=(h*1.05/rows).toFixed(2)+'px'; }
   window._uavFit=fit; fit(); window.addEventListener('resize',fit);
   const RAMP='.:*I$JTLCYZVSUGPAOXFDE#RKHBQNWM', idx={}; for(let k=0;k<RAMP.length;k++) idx[RAMP[k]]=k;
-  let last=0;
-  (function frame(ts){ requestAnimationFrame(frame);
-    if(ts-last<150) return; last=ts;
+  startLoop(el, ()=>{
     let out='';
     for(let r=0;r<base.length;r++){ const row=base[r]; let line='';
       for(let c=0;c<row.length;c++){ let ch=row[c];
@@ -377,7 +409,7 @@ fetch('assets/uav.ascii').then(r=>r.text()).then(t=>{
         line+=ch; }
       out+=line+'\n'; }
     el.textContent=out;
-  })(0);
+  }, 150);
 });
 
 /* 聯繫格：超大 @ ASCII 背景 */
@@ -421,16 +453,34 @@ fetch('assets/at.ascii').then(r=>r.text()).then(t=>{
     }, 40);
   }
   let i=0;
-  setInterval(()=>{ i=(i+1)%TAGS.length; transition('en',TAGS[i].en,EN_POOL); transition('zh',TAGS[i].zh,ZH_POOL); }, 4600);
+  if(!REDUCED_MOTION){
+    setInterval(()=>{ i=(i+1)%TAGS.length; transition('en',TAGS[i].en,EN_POOL); transition('zh',TAGS[i].zh,ZH_POOL); }, 4600);
+  }
 })();
 
-/* showcase 分頁切換 */
+/* showcase 分頁切換：切入時才載入影片（省流量），切出時暫停播放 */
 function showTab(id){
-  document.querySelectorAll('.sc-tab').forEach(t=>t.classList.toggle('active', t.dataset.tab===id));
-  document.querySelectorAll('.sc-content').forEach(c=>c.classList.toggle('active', c.dataset.tab===id));
+  document.querySelectorAll('.sc-tab').forEach(t=>{
+    const on=t.dataset.tab===id;
+    t.classList.toggle('active',on);
+    t.setAttribute('aria-selected',on?'true':'false');
+  });
+  document.querySelectorAll('.sc-content').forEach(c=>{
+    const on=c.dataset.tab===id;
+    c.classList.toggle('active',on);
+    if(on) c.removeAttribute('hidden'); else c.setAttribute('hidden','');
+    const v=c.querySelector('video');
+    if(!v) return;
+    if(on){
+      const s=v.querySelector('source[data-src]');
+      if(s){ s.src=s.dataset.src; s.removeAttribute('data-src'); v.load(); }
+      if(!REDUCED_MOTION) v.play().catch(()=>{});
+    } else { v.pause(); }
+  });
 }
+if(REDUCED_MOTION) document.querySelectorAll('.sc-video').forEach(v=>{ v.removeAttribute('autoplay'); v.pause(); });
 
-/* 中/英 切換：實際翻譯 */
+/* 中/英 切換：實際翻譯，並記住選擇（與 docs 共用 rivo_lang key） */
 function setLang(lang){
   LANG=lang;
   document.querySelectorAll('[data-en]').forEach(el=>{
@@ -438,11 +488,21 @@ function setLang(lang){
     el.innerHTML=(lang==='en')?el.dataset.en:el.dataset.zh;
   });
   document.documentElement.lang=(lang==='en')?'en':'zh-Hant';
-  document.querySelectorAll('.top .lang button').forEach(b=>b.classList.toggle('active',b.dataset.l===lang));
+  document.querySelectorAll('.top .lang button').forEach(b=>{
+    const on=b.dataset.l===lang;
+    b.classList.toggle('active',on);
+    b.setAttribute('aria-pressed',on?'true':'false');
+  });
+  try{ localStorage.setItem('rivo_lang',lang); }catch(e){}
   tick();
 }
 document.querySelectorAll('.top .lang button').forEach(b=>b.addEventListener('click',()=>setLang(b.dataset.l)));
-if(location.search.indexOf('lang=en')>=0) setLang('en');  // 深連結語言
+/* 語言優先序：URL 參數 > localStorage（預設中文） */
+(function(){
+  var saved=null; try{ saved=localStorage.getItem('rivo_lang'); }catch(e){}
+  if(location.search.indexOf('lang=en')>=0) setLang('en');
+  else if(location.search.indexOf('lang=')<0 && saved==='en') setLang('en');
+})();
 
 /* 可分離正弦流場 → ASCII 紋理（自適應元素尺寸） */
 function makeFlow(el, cw, ch, ramp, thresh){
@@ -473,16 +533,10 @@ function makeFlow(el, cw, ch, ramp, thresh){
     el.textContent=out;
   }
   size(); frame();
-  let last=0;
-  (function loop(ts){
-    requestAnimationFrame(loop);
-    if(ts-last<90) return; last=ts;
-    t+=0.09; frame();
-  })(0);
+  startLoop(el, ()=>{ t+=0.09; frame(); }, 90);
   window.addEventListener('resize',()=>{size();frame();});
 }
 makeFlow(document.getElementById('tex1'), 4.2, 7, '.:*+=#', 0.55);
-makeFlow(document.getElementById('tex2'), 4.2, 7, '.:*+=#', 0.55);
 makeFlow(document.getElementById('texSide'), 4.8, 10, '.:*+=#%@', 0.5);
 /* banner 背景：手部 ASCII + 細微閃爍（像活的素描） */
 const HAND_RAMP = '.:*I$JTLCYZVSUGPAOXFDE#RKHBQNWM';
@@ -491,10 +545,7 @@ fetch('assets/hand.ascii').then(r=>r.text()).then(t=>{
   const el = document.getElementById('texBig');
   const lines = t.replace(/\n+$/,'').split('\n');
   el.textContent = lines.join('\n');
-  let last=0;
-  (function frame(ts){
-    requestAnimationFrame(frame);
-    if(ts-last<150) return; last=ts;            // ~7fps 細微閃爍
+  startLoop(el, ()=>{                            // ~7fps 細微閃爍
     let out='';
     for(let r=0;r<lines.length;r++){
       const row=lines[r]; let line='';
@@ -509,7 +560,7 @@ fetch('assets/hand.ascii').then(r=>r.text()).then(t=>{
       out+=line+'\n';
     }
     el.textContent=out;
-  })(0);
+  }, 150);
 });
 
 /* mono 標籤：捲進視窗時「解碼」動畫 */
@@ -527,7 +578,7 @@ function scrambleEl(el){
     if(f*0.65 > final.length){ el.textContent=final; clearInterval(id); }
   }, 32);
 }
-if('IntersectionObserver' in window){
+if(!REDUCED_MOTION && 'IntersectionObserver' in window){
   const io=new IntersectionObserver((ents)=>{
     ents.forEach(e=>{ if(e.isIntersecting){ scrambleEl(e.target); io.unobserve(e.target); } });
   },{threshold:0.7});

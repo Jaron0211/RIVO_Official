@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">
+  <url>
+    <loc>https://rivo.com.tw/</loc>
+    <priority>1.0</priority>
+  </url>
+  <url>
+    <loc>https://rivo.com.tw/docs/zh/getting-started.html</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://rivo.com.tw/docs/en/getting-started.html"/>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://rivo.com.tw/docs/en/getting-started.html</loc>
+    <xhtml:link rel="alternate" hreflang="zh-Hant" href="https://rivo.com.tw/docs/zh/getting-started.html"/>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://rivo.com.tw/docs/zh/deployment-config.html</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://rivo.com.tw/docs/en/deployment-config.html"/>
+  </url>
+  <url>
+    <loc>https://rivo.com.tw/docs/en/deployment-config.html</loc>
+    <xhtml:link rel="alternate" hreflang="zh-Hant" href="https://rivo.com.tw/docs/zh/deployment-config.html"/>
+  </url>
+  <url>
+    <loc>https://rivo.com.tw/docs/zh/api-guide.html</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://rivo.com.tw/docs/en/api-guide.html"/>
+  </url>
+  <url>
+    <loc>https://rivo.com.tw/docs/en/api-guide.html</loc>
+    <xhtml:link rel="alternate" hreflang="zh-Hant" href="https://rivo.com.tw/docs/zh/api-guide.html"/>
+  </url>
+  <url>
+    <loc>https://rivo.com.tw/docs/zh/custom-schemas.html</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://rivo.com.tw/docs/en/custom-schemas.html"/>
+  </url>
+  <url>
+    <loc>https://rivo.com.tw/docs/en/custom-schemas.html</loc>
+    <xhtml:link rel="alternate" hreflang="zh-Hant" href="https://rivo.com.tw/docs/zh/custom-schemas.html"/>
+  </url>
+  <url>
+    <loc>https://rivo.com.tw/docs/zh/protocol-creator.html</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://rivo.com.tw/docs/en/protocol-creator.html"/>
+  </url>
+  <url>
+    <loc>https://rivo.com.tw/docs/en/protocol-creator.html</loc>
+    <xhtml:link rel="alternate" hreflang="zh-Hant" href="https://rivo.com.tw/docs/zh/protocol-creator.html"/>
+  </url>
+  <url>
+    <loc>https://rivo.com.tw/docs/zh/visual-editor.html</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://rivo.com.tw/docs/en/visual-editor.html"/>
+  </url>
+  <url>
+    <loc>https://rivo.com.tw/docs/en/visual-editor.html</loc>
+    <xhtml:link rel="alternate" hreflang="zh-Hant" href="https://rivo.com.tw/docs/zh/visual-editor.html"/>
+  </url>
+  <url>
+    <loc>https://rivo.com.tw/docs/zh/advanced.html</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://rivo.com.tw/docs/en/advanced.html"/>
+  </url>
+  <url>
+    <loc>https://rivo.com.tw/docs/en/advanced.html</loc>
+    <xhtml:link rel="alternate" hreflang="zh-Hant" href="https://rivo.com.tw/docs/zh/advanced.html"/>
+  </url>
+  <url>
+    <loc>https://rivo.com.tw/docs/zh/troubleshooting.html</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://rivo.com.tw/docs/en/troubleshooting.html"/>
+  </url>
+  <url>
+    <loc>https://rivo.com.tw/docs/en/troubleshooting.html</loc>
+    <xhtml:link rel="alternate" hreflang="zh-Hant" href="https://rivo.com.tw/docs/zh/troubleshooting.html"/>
+  </url>
+</urlset>
