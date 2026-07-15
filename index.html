@@ -36,8 +36,9 @@
   .page{background:var(--paper)}
 
   /* ---------- top bar ---------- */
-  .top{display:grid;grid-template-columns:64px 1fr auto;height:62px;border-bottom:var(--bd)}
-  .top .logo{background:var(--ink)}                       /* 黑色 logo 格 */
+  .top{display:grid;grid-template-columns:132px 1fr auto;height:62px;border-bottom:var(--bd)}
+  .top .logo{background:var(--ink);display:flex;align-items:center;justify-content:center;padding:0 16px}   /* 黑格：白色 RIVO 字標 */
+  .top .logo img{height:18px;width:auto;display:block}
   .top .clock{display:flex;align-items:center;justify-content:center;font-family:var(--mono);font-size:13px;letter-spacing:.04em;background:var(--paper);border-right:var(--bd)}
   .top .lang{display:flex;background:var(--accent)}        /* 中/英 切換 */
   .top .lang button{border:none;background:transparent;font-family:var(--mono);font-size:14px;letter-spacing:.04em;padding:0 18px;cursor:pointer;color:var(--ink)}
@@ -161,7 +162,8 @@
      桌機版 (≥ 900px)：橫向模組帶、更大字級、多欄並排
      ============================================================ */
   @media (min-width:900px){
-    .top{grid-template-columns:84px 240px 1fr auto;height:72px}
+    .top{grid-template-columns:168px 240px 1fr auto;height:72px}
+    .top .logo img{height:22px}
     .top .nav{display:flex;align-items:center;gap:34px;padding:0 28px;font-family:var(--mono);font-size:13px;letter-spacing:.06em;text-transform:uppercase;border-right:var(--bd)}
     .top .nav a{color:var(--ink);text-decoration:none}
     .top .lang button{padding:0 26px;font-size:16px}
@@ -208,7 +210,7 @@
 
   <!-- top bar -->
   <div class="top">
-    <div class="logo"></div>
+    <div class="logo"><img src="assets/logo-white.png" alt="RIVO"></div>
     <div class="clock" id="clock">--:-- 台北</div>
     <div class="nav"><a href="mailto:rivo@rivo.com.tw" data-en="Contact">聯繫</a></div>
     <div class="lang" role="group" aria-label="語言切換 Language">
@@ -465,6 +467,13 @@ fetch('assets/at.ascii').then(r=>r.text()).then(t=>{
   }
 })();
 
+/* 載入(若為延遲來源)並播放單一 showcase 影片；共用給分頁切換與捲動觀察 */
+function playSCVideo(v){
+  if(!v||REDUCED_MOTION) return;
+  const s=v.querySelector('source[data-src]');
+  if(s){ s.src=s.dataset.src; s.removeAttribute('data-src'); v.load(); }
+  v.play().catch(()=>{});
+}
 /* showcase 分頁切換：切入時才載入影片（省流量），切出時暫停播放 */
 function showTab(id){
   document.querySelectorAll('.sc-tab').forEach(t=>{
@@ -478,15 +487,23 @@ function showTab(id){
     if(on) c.removeAttribute('hidden'); else c.setAttribute('hidden','');
     const v=c.querySelector('video');
     if(!v) return;
-    if(on){
-      const s=v.querySelector('source[data-src]');
-      if(s){ s.src=s.dataset.src; s.removeAttribute('data-src'); v.load(); }
-      if(!REDUCED_MOTION) v.play().catch(()=>{});
-    } else { v.pause(); }
+    if(on) playSCVideo(v); else v.pause();
   });
   if(id==='uav'&&window._uavFit) window._uavFit();   // 顯示後容器才有高度，重算 ASCII 字級
 }
 if(REDUCED_MOTION) document.querySelectorAll('.sc-video').forEach(v=>{ v.removeAttribute('autoplay'); v.pause(); });
+
+/* 修正：預設分頁(fc)影片在 showcase 捲入視窗時就播放（原本要先切分頁再切回才會動）；捲出則暫停省電 */
+(function(){
+  const sc=document.querySelector('.showcase'); if(!sc) return;
+  const activeV=()=>{ const c=sc.querySelector('.sc-content.active'); return c&&c.querySelector('video'); };
+  if('IntersectionObserver' in window){
+    new IntersectionObserver(es=>es.forEach(e=>{
+      if(e.isIntersecting) playSCVideo(activeV());
+      else sc.querySelectorAll('video').forEach(v=>v.pause());
+    }),{threshold:0.2}).observe(sc);
+  } else { playSCVideo(activeV()); }
+})();
 
 /* 中/英 切換：實際翻譯，並記住選擇（與 docs 共用 rivo_lang key） */
 function setLang(lang){
