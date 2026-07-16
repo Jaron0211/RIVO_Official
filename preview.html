@@ -567,7 +567,7 @@ function startTerrainScan(el){
   if(!el) return;
   el.style.color='rgba(22,22,22,.66)';                    // 地形墨色（同 god-hand 質感）
   const RM = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
-  const ASPECT=0.6, FADE_S=10.0, RCIRC=12, SPEED=13, RAMP='·:-=+*ox#%@', ACOL='rgb(255,81,8)';
+  const ASPECT=0.6, FADE_S=10.0, RCIRC=16.8, SPEED=13, RAMP='·:-=+*ox#%@', ACOL='rgb(255,81,8)';
   let COLS, ROWS, H, mem, drone=null, nextSpawn=0;
   function genTerrain(){
     H=new Float32Array(COLS*ROWS);
@@ -614,8 +614,8 @@ function startTerrainScan(el){
           html+='<span style="color:'+ACOL+'">✚</span>'; continue;
         }
         const b=mem[idx];
-        const lvl=(0.4+0.6*b)*(0.35+0.65*H[idx]);        // 底層一直有地形(鋪滿如 god-hand)；掃過更密（越高越密）
-        const ci=(lvl*(RAMP.length-1))|0; if(ci>0) ch=RAMP[ci];
+        if(b>0.03){ const lvl=b*(0.35+0.65*H[idx]);      // 未掃＝全白；掃過才顯示地形（越高越密），10 秒淡回白
+          const ci=(lvl*(RAMP.length-1))|0; if(ci>0) ch=RAMP[ci]; }
         run+=ch;
       }
       if(run) html+=run; html+='\n';
