@@ -1,0 +1,665 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>RIVO — 自主無人機一站式整合方案 | From Chip to Fleet</title>
+<meta name="description" content="從晶片到機隊，RIVO 浚研系統提供 RPilot 飛控、RIVO GCS 地面站到完整無人機的端到端自主無人機解決方案。">
+<link rel="canonical" href="https://rivo.com.tw/">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://rivo.com.tw/">
+<meta property="og:site_name" content="RIVO">
+<meta property="og:title" content="RIVO — From Chip to Fleet">
+<meta property="og:description" content="從晶片到機隊，RIVO 提供自主無人機的一站式整合方案：RPilot 飛控、RIVO GCS 地面站與完整無人機解決方案。">
+<meta property="og:image" content="https://rivo.com.tw/assets/logo-og.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="RIVO — From Chip to Fleet">
+<meta name="twitter:description" content="從晶片到機隊，RIVO 提供自主無人機的一站式整合方案。">
+<meta name="twitter:image" content="https://rivo.com.tw/assets/logo-og.png">
+<link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32.png">
+<link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Funnel+Display:wght@300;400;500;600;700;800&family=Space+Mono:wght@400;700&family=Noto+Sans+TC:wght@400;500;700;900&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#000000;
+    --paper:#fffdf8;
+    --accent:#ff5108;   /* 橘：主強調色 */
+    --hot:#ff2321;      /* 紅：最重要的動作 */
+    --disp:'Funnel Display','Noto Sans TC',sans-serif;
+    --mono:'Space Mono',ui-monospace,monospace;
+    --bd:1px solid var(--ink);
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{background:var(--ink);color:var(--ink);font-family:var(--disp);-webkit-font-smoothing:antialiased}
+  .page{background:var(--paper)}
+
+  /* ---------- top bar ---------- */
+  .top{display:grid;grid-template-columns:132px 1fr auto;height:62px;border-bottom:var(--bd)}
+  .top .logo{background:var(--ink);display:flex;align-items:center;justify-content:center;padding:0 16px}   /* 黑格：白色 RIVO 字標 */
+  .top .logo img{height:18px;width:auto;display:block}
+  .top .clock{display:flex;align-items:center;justify-content:center;font-family:var(--mono);font-size:13px;letter-spacing:.04em;background:var(--paper);border-right:var(--bd)}
+  .top .lang{display:flex;background:var(--accent)}        /* 中/英 切換 */
+  .top .lang button{border:none;background:transparent;font-family:var(--mono);font-size:14px;letter-spacing:.04em;padding:0 18px;cursor:pointer;color:var(--ink)}
+  .top .lang button.active{background:var(--ink);color:var(--accent)}
+  .top .nav{display:none}
+
+  .label{font-family:var(--mono);font-size:12px;letter-spacing:.12em;text-transform:uppercase;display:flex;align-items:center;gap:9px}
+  .label::before{content:'';width:9px;height:9px;background:currentColor;display:inline-block}
+
+  /* ---------- hero（非對稱版面，差異化）---------- */
+  .hero{display:grid;grid-template-columns:1fr 2fr;grid-template-rows:4fr 1fr;min-height:86vh;
+    grid-template-areas:"logo tex" "label label"}
+  .hero>div{border-right:var(--bd);border-bottom:var(--bd);display:flex;align-items:flex-end;padding:16px;overflow:hidden;position:relative}
+  .cell-logo{grid-area:logo;background:var(--paper);align-items:center;justify-content:flex-start}
+  .cell-logo .logo-ascii{position:absolute;top:0;right:0;margin:0;font-family:var(--mono);white-space:pre;line-height:1.02;color:rgba(0,0,0,.46);z-index:0;pointer-events:none;user-select:none;overflow:hidden}
+  .cell-logo img{position:relative;z-index:1;height:24px;width:auto;display:block}
+  .cell-tex{grid-area:tex;background:var(--paper);padding:0!important}
+  .cell-label{grid-area:label;background:var(--accent);color:var(--ink);flex-direction:column;justify-content:center;align-items:flex-start;gap:9px}
+  .hero-rot{width:100%}
+  .hero-rot .en{display:block;font-family:var(--disp);font-weight:800;font-size:19px;line-height:1.05;letter-spacing:-.01em;height:2.3em;overflow:hidden}
+  .hero-rot .zh{display:block;font-family:var(--mono);font-size:13px;letter-spacing:.04em;opacity:.9;margin-top:5px;height:1.3em;overflow:hidden}
+  .hero-rot .caret{display:inline-block;width:.13em;height:1em;background:currentColor;vertical-align:-.1em;margin-left:.12em;animation:caretBlink 1.05s steps(1,end) infinite}
+  @keyframes caretBlink{0%,49%{opacity:1}50%,100%{opacity:0}}
+  @media (prefers-reduced-motion:reduce){.hero-rot .caret{animation:none}}
+  .hero-brand{font-family:var(--mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;border-top:1px solid rgba(0,0,0,.4);padding-top:10px;width:100%}
+  .cell-tex pre{font-family:var(--mono);font-size:7px;line-height:1;white-space:pre;color:var(--ink);width:100%;height:100%;overflow:hidden;user-select:none}
+
+  /* ---------- statement（ASCII 全幅背景 + 右側飛控板照片）---------- */
+  /* 用 vw 單位讓手機版＝電腦版的等比例縮放（構圖完全一致） */
+  .statement{background:var(--ink);color:var(--paper);position:relative;overflow:hidden;min-height:58vw;display:flex;align-items:center}
+  .statement .bgtex{position:absolute;inset:0;margin:0;font-family:var(--mono);font-size:8px;line-height:1.25;white-space:pre;color:rgba(255,81,8,.3);z-index:0;overflow:hidden;user-select:none;pointer-events:none}
+  .statement .inner{position:relative;z-index:2;padding:6vw 4.4vw;max-width:58%}
+  .statement .inner .label{font-size:clamp(9px,.85vw,12px)}
+  .statement h1{font-size:10.4vw;font-weight:800;letter-spacing:-.045em;line-height:.88;text-transform:uppercase}
+  .statement .sub{font-family:var(--mono);font-size:clamp(10px,1.2vw,16px);line-height:1.6;color:#e7e7e7;margin-top:2.2vw;max-width:44ch}
+  .statement .fc-img{position:absolute;right:4%;bottom:0;z-index:1;width:42vw;max-width:640px;height:auto;pointer-events:none;
+    filter:drop-shadow(0 2vw 3.2vw rgba(0,0,0,.92))}
+
+  /* 手機（≤768px）：FROM CHIP 放大加高、hero 改上下堆疊 */
+  @media (max-width:768px){
+    .statement{min-height:82vh;align-items:flex-start}
+    .statement .inner{max-width:74%;padding:10vw 6vw}
+    .statement h1{font-size:16vw}
+    .statement .sub{font-size:12px;margin-top:5vw;max-width:30ch}
+    .statement .fc-img{height:40%;width:auto;right:auto;left:50%;transform:translateX(-50%)}
+    .hero{grid-template-columns:1fr;grid-template-rows:1fr 1.3fr auto;
+      grid-template-areas:"logo" "tex" "label"}
+  }
+
+  /* ---------- texture block（白底）---------- */
+  .texblock{background:var(--paper);min-height:400px;position:relative;overflow:hidden;border-bottom:var(--bd)}
+  .texblock .inner{padding:26px 22px;position:relative;z-index:1}
+  .texblock .copy{font-size:30px;font-weight:600;letter-spacing:-.02em;line-height:1.05;max-width:18ch}
+  .texblock pre{position:absolute;inset:auto;top:50%;left:50%;transform:translate(-50%,-50%);width:max-content;font-family:var(--mono);font-size:3.4px;line-height:1.12;white-space:pre;color:rgba(20,20,20,.55);user-select:none;pointer-events:none;z-index:0;overflow:hidden}
+  .logos{display:flex;gap:26px;align-items:center;font-family:var(--mono);font-size:15px;font-weight:700;margin-top:30px;flex-wrap:wrap}
+
+  /* ---------- showcase（手機＝上方橫向三 tab；桌機＝左側垂直） ---------- */
+  .showcase{display:grid;grid-template-columns:1fr;border-bottom:var(--bd)}
+  .sc-tabs{display:flex;flex-direction:row}
+  .sc-tab{flex:1;text-align:center;align-items:center;background:var(--paper);color:var(--ink);border:none;border-right:var(--bd);border-bottom:var(--bd);cursor:pointer;
+    padding:14px 8px;font-family:var(--disp);display:flex;flex-direction:column;gap:3px;transition:background .2s}
+  .sc-tab:last-child{border-right:none}
+  .sc-tab .idx{font-family:var(--mono);font-size:10px;letter-spacing:.1em;opacity:.5}
+  .sc-tab .w{font-size:21px;font-weight:700;letter-spacing:-.02em;line-height:1}
+  .sc-tab .cap{display:none;font-family:var(--mono);font-size:12px;opacity:.6}
+  .sc-tab:hover{background:#f1eee6}
+  .sc-tab.active,.sc-tab.active:hover{background:var(--accent)}
+  .sc-panel{position:relative;background:var(--ink);min-height:300px;display:flex;flex-direction:column}
+  .sc-content{display:none;flex:1 0 auto;position:relative;overflow:hidden;color:var(--paper);min-height:300px}
+  .sc-content.active{display:block}
+  /* 背景影片：滿版貼齊邊緣(高=panel，超出從左側裁)、不可互動/右鍵 */
+  .sc-content .sc-video{position:absolute;left:0;top:0;bottom:0;width:100%;height:100%;object-fit:cover;object-position:right center;z-index:0;pointer-events:none;user-select:none}
+  .sc-content[data-tab="fc"] .sc-video{width:105.3%}   /* 飛控影片右邊裁 5% */
+  .uav-media{display:contents}   /* 桌機：容器不佔盒，pre 直接對齊 sc-content */
+  .uav-ascii{position:absolute;top:0;right:0;margin:0;font-family:var(--mono);line-height:1;white-space:pre;color:rgba(255,81,8,.6);z-index:0;pointer-events:none;user-select:none;overflow:hidden}
+  /* 影片上的可讀性遮罩(左深右透) */
+  .sc-content.has-video::after{content:'';position:absolute;inset:0;z-index:1;pointer-events:none;
+    background:linear-gradient(90deg,rgba(0,0,0,.86) 0%,rgba(0,0,0,.5) 42%,rgba(0,0,0,0) 68%)}
+  .sc-body{position:relative;z-index:2;padding:24px 22px}
+  /* 飛控文案（brutalist：mono、硬邊分隔線、無圓角/柔陰影） */
+  .sc-kick{font-family:var(--mono);font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--accent);margin-bottom:14px}
+  .sc-h{font-size:32px;font-weight:800;letter-spacing:-.02em;line-height:.95;text-transform:uppercase;margin-bottom:14px}
+  .sc-h-sm{display:block;font-size:.4em;font-weight:600;letter-spacing:.01em;opacity:.85;text-transform:none;margin-top:.12em}
+  .sc-h-logo{height:.68em;width:auto;display:inline-block;vertical-align:-.04em;margin-right:.14em}
+  .sc-badge{font-family:var(--mono);font-size:.26em;font-weight:400;letter-spacing:.1em;text-transform:uppercase;border:1px solid var(--accent);color:var(--accent);padding:.45em .7em;vertical-align:middle;margin-left:.4em;white-space:nowrap}
+  .sc-desc{font-family:var(--mono);font-size:13px;line-height:1.85;color:#eceae4;max-width:36ch;margin-top:4px}
+
+  /* 手機：分頁改成「上方 16:9 媒體區 + 下方黑卡」，三個分頁等高
+     （必須放在上方 showcase 基礎規則之後，否則同權重選擇器會被後者覆蓋） */
+  @media (max-width:768px){
+    .sc-content .sc-video{position:relative;display:block;width:100%;height:auto;aspect-ratio:16/9;object-fit:cover;object-position:center}
+    .sc-content[data-tab="fc"] .sc-video{width:100%}
+    .sc-content.has-video::after{display:none}
+    .uav-media{display:block;position:relative;aspect-ratio:16/9;overflow:hidden}
+    .uav-media .uav-ascii{right:auto;left:0}   /* 貼齊上下左，右側裁切 */
+    .sc-body{padding:22px;min-height:236px}
+  }
+
+  /* ---------- 合作夥伴 logo 牆 ---------- */
+  .partners{background:var(--paper);color:var(--ink);border-bottom:var(--bd)}
+  .partners-head{display:flex;align-items:baseline;gap:14px;flex-wrap:wrap;padding:22px}
+  .partners-head .p-zh{font-family:var(--mono);font-size:11px;letter-spacing:.06em;opacity:.5}
+  .partners-grid{display:grid;grid-template-columns:repeat(3,1fr);border-top:var(--bd)}
+  .pt-cell{display:flex;align-items:center;justify-content:center;padding:30px 18px;border-right:var(--bd);min-height:130px}
+  .pt-cell:last-child{border-right:none}
+  .pt-cell img{max-height:80px;max-width:82%;width:auto;height:auto;object-fit:contain;filter:grayscale(1);opacity:.6;transition:filter .3s ease,opacity .3s ease}
+  .pt-cell:hover img{filter:none;opacity:1}
+  .pt-cell:first-child img{max-height:120px;max-width:96%}
+
+  /* ---------- cta / footer ---------- */
+  .cta{background:var(--ink);color:var(--paper);padding:40px 22px 54px;position:relative;overflow:hidden}
+  .cta-at{position:absolute;top:50%;right:3%;transform:translateY(-50%);margin:0;font-family:var(--mono);line-height:1;white-space:pre;color:rgba(255,81,8,.2);z-index:0;pointer-events:none;user-select:none}
+  .cta .left,.cta>div{position:relative;z-index:1}
+  .cta h2{font-size:40px;font-weight:800;letter-spacing:-.03em;line-height:.95;text-transform:uppercase}
+  .cta .btn{margin-top:24px;display:inline-block;background:var(--hot);color:var(--paper);font-family:var(--mono);font-size:14px;padding:14px 22px;letter-spacing:.04em;cursor:pointer}
+  .sitefoot{background:var(--paper);color:var(--ink);display:flex;align-items:center;justify-content:space-between;gap:18px;padding:18px 22px;border-top:var(--bd)}
+  .sitefoot .foot-logo{height:20px;width:auto;display:block}
+  .sitefoot .foot-copy{font-family:var(--mono);font-size:11px;letter-spacing:.05em;opacity:.65;text-align:right}
+
+  /* ============================================================
+     桌機版 (≥ 900px)：橫向模組帶、更大字級、多欄並排
+     ============================================================ */
+  @media (min-width:900px){
+    .top{grid-template-columns:168px 240px 1fr auto;height:72px}
+    .top .logo img{height:22px}
+    .top .nav{display:flex;align-items:center;gap:34px;padding:0 28px;font-family:var(--mono);font-size:13px;letter-spacing:.06em;text-transform:uppercase;border-right:var(--bd)}
+    .top .nav a{color:var(--ink);text-decoration:none}
+    .top .lang button{padding:0 26px;font-size:16px}
+
+    /* Hero：左欄 logo/橘色標籤、右側整條紋理 */
+    .hero{min-height:86vh}
+    .hero>div{padding:34px}
+    .cell-logo img{height:40px}
+    .hero-rot .en{font-size:32px}
+    .hero-rot .zh{font-size:18px}
+    .hero-brand{font-size:13px}
+
+    /* showcase：桌機＝左側垂直分頁 38% / 右內容 62% */
+    .showcase{grid-template-columns:30% 70%}
+    .sc-tabs{flex-direction:column;border-right:var(--bd)}
+    .sc-tab{flex:1;justify-content:center;text-align:left;align-items:flex-start;border-right:none;border-bottom:var(--bd);padding:38px 40px;gap:8px}
+    .sc-tab:last-child{border-bottom:none}
+    .sc-tab .w{font-size:64px}
+    .sc-tab .cap{display:block;font-size:13px}
+    .sc-panel{min-height:560px}
+    .sc-content{min-height:560px}
+    .sc-body{padding:56px;max-width:60%}
+    .sc-h{font-size:50px}
+
+    /* 背景 god-hand 隨寬度等比縮放，填滿寬度、section 維持與圖同比例 */
+    .texblock{min-height:30vw}
+    .texblock .inner{padding:64px}
+    .texblock .copy{font-size:62px;max-width:16ch}
+    .texblock pre{font-size:.4vw}
+    .logos{font-size:20px;gap:40px;margin-top:48px}
+
+    .partners-head{padding:32px 40px}
+    .pt-cell{padding:48px 30px;min-height:200px}
+    .pt-cell img{max-height:110px}
+    .pt-cell:first-child img{max-height:150px}
+    .cta{display:flex;align-items:flex-end;justify-content:space-between;padding:96px 64px}
+    .cta .left h2{font-size:108px}
+    .cta .btn{margin-top:0;font-size:16px;padding:18px 30px}
+  }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <!-- top bar -->
+  <div class="top">
+    <div class="logo"><img src="assets/logo-white.png" alt="RIVO"></div>
+    <div class="clock" id="clock">--:-- 台北</div>
+    <div class="nav"><a href="mailto:rivo@rivo.com.tw" data-en="Contact">聯繫</a></div>
+    <div class="lang" role="group" aria-label="語言切換 Language">
+      <button class="active" data-l="zh" aria-pressed="true" aria-label="中文">中</button>
+      <button data-l="en" aria-pressed="false" aria-label="English">EN</button>
+    </div>
+  </div>
+
+  <!-- statement -->
+  <div class="statement">
+    <pre id="texSide" class="bgtex"></pre>
+    <div class="inner">
+      <div class="label" style="color:var(--accent);margin-bottom:24px">Autonomous UAV System</div>
+      <h1>FROM CHIP<br>TO FLEET.</h1>
+      <p class="sub" data-en="From chip to fleet.<br>RIVO delivers an end-to-end autonomous UAV solution.">從晶片，到機隊。<br>浚研系統提供自主無人機的一站式整合方案。</p>
+    </div>
+    <img class="fc-img" src="assets/fc_no_bg.png" alt="RPilot 飛控板">
+  </div>
+
+  <!-- hero（非對稱）-->
+  <div class="hero">
+    <div class="cell-logo"><pre class="logo-ascii" id="heroDrone"></pre><img src="assets/logo-navbar.png" alt="RIVO"></div>
+    <div class="cell-tex"><pre id="tex1"></pre></div>
+    <div class="cell-label">
+      <div class="hero-rot">
+        <span class="en" id="heroEn"><span class="en-txt">Designed from the Ground Up.</span><span class="caret"></span></span>
+        <span class="zh" id="heroZh">從底層開始設計。</span>
+      </div>
+      <div class="hero-brand">RIVO · Autonomous UAV Solutions</div>
+    </div>
+  </div>
+
+  <!-- mint texture block -->
+  <div class="texblock">
+    <pre id="texBig"></pre>
+    <div class="inner">
+      <div class="label" style="margin-bottom:18px">The system</div>
+      <div class="copy" data-en="One integrated stack — fully in your control.">一條龍，由你掌握。</div>
+      <div class="logos"><span data-en="RPilot FC">RPilot 飛控</span><span>·</span><span>RIVO GCS</span><span>·</span><span data-en="UAV">無人機</span></div>
+    </div>
+  </div>
+
+  <!-- showcase：左側可點擊分頁 + 右側內容區 -->
+  <section class="showcase">
+    <div class="sc-tabs" role="tablist" aria-label="產品展示">
+      <button class="sc-tab active" data-tab="fc" onclick="showTab('fc')" role="tab" id="tab-fc" aria-controls="panel-fc" aria-selected="true">
+        <span class="idx">01</span><span class="w" data-en="Flight Ctrl">飛控</span>
+        <span class="cap" data-en="RPilot · UAV flight-control core">RPilot · 無人機飛行控制核心</span>
+      </button>
+      <button class="sc-tab" data-tab="gcs" onclick="showTab('gcs')" role="tab" id="tab-gcs" aria-controls="panel-gcs" aria-selected="false">
+        <span class="idx">02</span><span class="w" data-en="GCS">地面站</span>
+        <span class="cap" data-en="RIVO GCS · Ground-control system">RIVO GCS · 地面控制系統</span>
+      </button>
+      <button class="sc-tab" data-tab="uav" onclick="showTab('uav')" role="tab" id="tab-uav" aria-controls="panel-uav" aria-selected="false">
+        <span class="idx">03</span><span class="w" data-en="UAV">無人機</span>
+        <span class="cap" data-en="Complete UAV solution">完整無人機解決方案</span>
+      </button>
+    </div>
+    <div class="sc-panel">
+      <div class="sc-content active has-video" data-tab="fc" role="tabpanel" id="panel-fc" aria-labelledby="tab-fc">
+        <video class="sc-video" autoplay muted loop playsinline preload="auto" poster="assets/video/fc_poster.jpg"
+          aria-hidden="true" oncontextmenu="return false"
+          disablepictureinpicture controlslist="nodownload nofullscreen noremoteplayback">
+          <source src="assets/video/fc_clip.mp4" type="video/mp4">
+        </video>
+        <div class="sc-body">
+          <div class="sc-kick">01 — RPILOT</div>
+          <h2 class="sc-h"><img class="sc-h-logo" src="assets/logo-white.png" alt="RIVO">RPilot<span class="sc-h-sm">Flight Controller</span></h2>
+          <p class="sc-desc" data-en="RIVO's in-house RPilot system — high safety performance with multi-sensor redundancy, meeting the highest demands of modern autonomous UAVs.">由 RIVO 自行開發的 RPilot 系統,具備高度安全性能以及多感測器冗餘,滿足現代自動化無人機的最高需求。</p>
+        </div>
+      </div>
+      <div class="sc-content has-video" data-tab="gcs" role="tabpanel" id="panel-gcs" aria-labelledby="tab-gcs" hidden>
+        <video class="sc-video" muted loop playsinline preload="none" poster="assets/video/gcs_poster.jpg"
+          aria-hidden="true" oncontextmenu="return false"
+          disablepictureinpicture controlslist="nodownload nofullscreen noremoteplayback">
+          <source data-src="assets/video/GCS.mp4" type="video/mp4">
+        </video>
+        <div class="sc-body">
+          <div class="sc-kick">02 — RIVO GCS</div>
+          <h2 class="sc-h"><img class="sc-h-logo" src="assets/logo-white.png" alt="RIVO">GCS</h2>
+          <p class="sc-desc" data-en="Mission planning, live streaming and RBAC multi-tier access control — the most intuitive UAV management platform.">任務規劃、即時串流、RBAC 多層分級管理,最符合直覺操作的無人機管理平台。</p>
+        </div>
+      </div>
+      <div class="sc-content has-video" data-tab="uav" role="tabpanel" id="panel-uav" aria-labelledby="tab-uav" hidden>
+        <div class="uav-media"><pre class="uav-ascii" id="uavAscii" aria-hidden="true"></pre></div>
+        <div class="sc-body">
+          <div class="sc-kick">03 — COMPLETE UAV</div>
+          <h2 class="sc-h"><span data-en="Complete UAV Solution">完整無人機方案</span> <span class="sc-badge">Coming Soon</span></h2>
+          <p class="sc-desc" data-en="Flight controller and system built end-to-end by RIVO — the most complete UAV solution for you.">由 RIVO 一手打造的飛控與系統,給您最完整的無人機解決方案。</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 合作夥伴 -->
+  <section class="partners">
+    <div class="partners-head"><span class="label">Official Partners</span><span class="p-zh">官方合作夥伴</span></div>
+    <div class="partners-grid">
+      <div class="pt-cell"><img src="assets/partners/p1.png" alt="台灣淨零碳規劃產業工會"></div>
+      <div class="pt-cell"><img src="assets/partners/p2.png" alt="合作夥伴標誌"></div>
+      <div class="pt-cell"><img src="assets/partners/p3.png" alt="內政部消防署"></div>
+    </div>
+  </section>
+
+  <!-- cta / footer -->
+  <div class="cta">
+    <pre class="cta-at" id="ctaAt" aria-hidden="true"></pre>
+    <div class="left">
+      <div class="label" style="color:var(--accent);margin-bottom:20px">Contact</div>
+      <h2 data-en="Contact Us">聯繫我們</h2>
+    </div>
+    <div>
+      <a class="btn" href="mailto:rivo@rivo.com.tw" data-en="Email Us →">寫信給我們 →</a>
+    </div>
+  </div>
+
+  <footer class="sitefoot">
+    <img class="foot-logo" src="assets/logo-navbar.png" alt="RIVO">
+    <span class="foot-copy">© 2026 RIVO Systems Co. LTD. All rights reserved.</span>
+  </footer>
+
+</div>
+
+<script>
+let LANG='zh';
+const REDUCED_MOTION=window.matchMedia&&window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+/* rAF 迴圈統一管理：離開視窗或分頁隱藏時暫停；減少動態偏好時不啟動（保留靜態首幀） */
+function startLoop(el, step, interval){
+  if(REDUCED_MOTION||!el) return;
+  let inView=true, last=0, raf=null;
+  function frame(ts){ raf=requestAnimationFrame(frame); if(ts-last<interval) return; last=ts; step(); }
+  function sync(){
+    const on=inView&&!document.hidden;
+    if(on&&raf==null){ raf=requestAnimationFrame(frame); }
+    else if(!on&&raf!=null){ cancelAnimationFrame(raf); raf=null; }
+  }
+  if('IntersectionObserver' in window){
+    new IntersectionObserver(es=>{ es.forEach(e=>{ inView=e.isIntersecting; }); sync(); }).observe(el);
+  } else { sync(); }
+  document.addEventListener('visibilitychange',sync);
+}
+
+function tick(){
+  try{
+    const s=new Intl.DateTimeFormat('en-GB',{timeZone:'Asia/Taipei',hour:'2-digit',minute:'2-digit',hour12:false}).format(new Date());
+    document.getElementById('clock').textContent = s+(LANG==='en'?' Taipei':' 台北');
+  }catch(e){}
+}
+tick(); setInterval(tick, 10000);
+
+/* 開發用：#stmt[-tab] 時隱藏 hero 並可指定分頁（方便截圖驗證，正常瀏覽無影響） */
+if(location.hash.indexOf('#stmt')===0 || location.hash.indexOf('#sc')===0){
+  window.addEventListener('load',()=>{
+    var sel=location.hash.indexOf('#sc')===0?'.hero,.top,.statement,.texblock':'.hero,.top';
+    document.querySelectorAll(sel).forEach(e=>e.style.display='none');
+    const m=location.hash.match(/-(\w+)$/); if(m) showTab(m[1]);
+  });
+}
+
+/* hero logo 格：無人機 ASCII 裝飾背景（貼齊上下右，超出裁切） */
+fetch('assets/hero-drone.ascii').then(r=>r.text()).then(t=>{
+  const el=document.getElementById('heroDrone'); if(!el) return;
+  el.textContent=t.replace(/\n+$/,'');
+  function fit(){
+    el.style.fontSize='10px';
+    const natH=el.scrollHeight||1, cell=el.parentElement;
+    el.style.fontSize=(10*cell.clientHeight*1.08/natH).toFixed(2)+'px';   // 略大於格高→上下切齊裁切
+  }
+  fit(); window.addEventListener('resize',fit);
+});
+
+/* 共用：ASCII 灰階 ±1 抖動（像活的素描），~7fps；用 startLoop 管理（離開視窗即暫停） */
+const FLICKER_RAMP='.:*I$JTLCYZVSUGPAOXFDE#RKHBQNWM';
+const FLICKER_IDX={}; for(let i=0;i<FLICKER_RAMP.length;i++) FLICKER_IDX[FLICKER_RAMP[i]]=i;
+function startFlicker(el, lines, prob){
+  startLoop(el, ()=>{
+    let out='';
+    for(let r=0;r<lines.length;r++){
+      const row=lines[r]; let line='';
+      for(let c=0;c<row.length;c++){
+        let ch=row[c];
+        if(ch!==' ' && Math.random()<prob){
+          let i=FLICKER_IDX[ch];
+          if(i!=null){ i+=Math.random()<0.5?-1:1; if(i<0)i=0; if(i>=FLICKER_RAMP.length)i=FLICKER_RAMP.length-1; ch=FLICKER_RAMP[i]; }
+        }
+        line+=ch;
+      }
+      out+=line+'\n';
+    }
+    el.textContent=out;
+  }, 150);
+}
+
+/* 無人機格：無人機 ASCII 背景 + ±1 灰階抖動 */
+fetch('assets/uav.ascii').then(r=>r.text()).then(t=>{
+  const el=document.getElementById('uavAscii'); if(!el) return;
+  const base=t.replace(/\n+$/,'').split('\n'), rows=base.length;
+  el.textContent=base.join('\n');
+  function fit(){
+    // 手機：.uav-media 是 16:9 盒（有高度），字高剛好貼合上下；桌機 display:contents 沒有盒 → 用 panel 高、略放大裁切
+    const box=el.parentElement, p=el.closest('.sc-panel');
+    const boxed=!!(box&&box.clientHeight);
+    const h=boxed?box.clientHeight:((p&&p.clientHeight)||560);
+    el.style.fontSize=(h*(boxed?1:1.05)/rows).toFixed(2)+'px';
+  }
+  window._uavFit=fit; fit(); window.addEventListener('resize',fit);
+  startFlicker(el, base, 0.02);
+});
+
+/* 聯繫格：超大 @ ASCII 背景 */
+fetch('assets/at.ascii').then(r=>r.text()).then(t=>{
+  const el=document.getElementById('ctaAt'); if(!el) return;
+  const txt=t.replace(/\n+$/,''); el.textContent=txt; const rows=txt.split('\n').length;
+  function fit(){ const c=el.closest('.cta'); const h=(c&&c.clientHeight)||300; el.style.fontSize=(h*0.92/rows).toFixed(2)+'px'; }
+  fit(); window.addEventListener('resize',fit);
+});
+
+/* hero 橘框標語輪播（亂碼解碼式切換） */
+(function(){
+  const enEl=document.getElementById('heroEn'), zhEl=document.getElementById('heroZh');
+  if(!enEl||!zhEl) return;
+  const TAGS=[
+    {en:'Designed from the Ground Up.', zh:'從底層開始設計。'},
+    {en:'Built for Autonomous Intelligence.', zh:'為自主智慧而打造。'},
+    {en:'Engineered to Fly Beyond Limits.', zh:'為突破飛行極限而生。'},
+  ];
+  const EN_POOL='!<>-_\\/[]{}=+*#%&01?ABCDEFGHKLMNXYZ';
+  const ZH_POOL='無人機飛控地面站系統晶片機隊自主智慧研發台灣資安遙測航';
+  // 右→左用亂碼逐字消失，再左→右用亂碼逐字生成新字（位置鎖定，不跳動）
+  const enTxt=enEl.querySelector('.en-txt');
+  let displayEn=TAGS[0].en, displayZh=TAGS[0].zh;
+  function renderEn(){ enTxt.textContent=displayEn; }
+  function renderZh(){ zhEl.textContent=displayZh; }
+  renderEn(); renderZh();
+
+  function transition(kind,target,pool){
+    const isEn=kind==='en', cur=isEn?displayEn:displayZh;
+    const OUT=cur.length, IN=target.length;
+    let f=0; const K=isEn?'_ens':'_zhs';
+    clearInterval(window[K]);
+    window[K]=setInterval(()=>{
+      f++; let s;
+      if(f<=OUT){ s=cur.slice(0,OUT-f); }                                // 右→左逐字消失
+      else if(f-OUT<=IN){ const k=f-OUT; s=target.slice(0,k);            // 左→右逐字生成
+        if(k<IN) s=s.slice(0,-1)+pool[(Math.random()*pool.length)|0]; }
+      else { s=target; clearInterval(window[K]); }
+      if(isEn){ displayEn=s; renderEn(); } else { displayZh=s; renderZh(); }
+    }, 40);
+  }
+  let i=0;
+  if(!REDUCED_MOTION){
+    setInterval(()=>{ i=(i+1)%TAGS.length; transition('en',TAGS[i].en,EN_POOL); transition('zh',TAGS[i].zh,ZH_POOL); }, 4600);
+  }
+})();
+
+/* 載入(若為延遲來源)並播放單一 showcase 影片；共用給分頁切換與捲動觀察 */
+function playSCVideo(v){
+  if(!v||REDUCED_MOTION) return;
+  const s=v.querySelector('source[data-src]');
+  if(s){ s.src=s.dataset.src; s.removeAttribute('data-src'); v.load(); }
+  v.play().catch(()=>{});
+}
+/* showcase 分頁切換：切入時才載入影片（省流量），切出時暫停播放 */
+function showTab(id){
+  document.querySelectorAll('.sc-tab').forEach(t=>{
+    const on=t.dataset.tab===id;
+    t.classList.toggle('active',on);
+    t.setAttribute('aria-selected',on?'true':'false');
+  });
+  document.querySelectorAll('.sc-content').forEach(c=>{
+    const on=c.dataset.tab===id;
+    c.classList.toggle('active',on);
+    if(on) c.removeAttribute('hidden'); else c.setAttribute('hidden','');
+    const v=c.querySelector('video');
+    if(!v) return;
+    if(on) playSCVideo(v); else v.pause();
+  });
+  if(id==='uav'&&window._uavFit) window._uavFit();   // 顯示後容器才有高度，重算 ASCII 字級
+}
+if(REDUCED_MOTION) document.querySelectorAll('.sc-video').forEach(v=>{ v.removeAttribute('autoplay'); v.pause(); });
+
+/* 修正：預設分頁(fc)影片在 showcase 捲入視窗時就播放（原本要先切分頁再切回才會動）；捲出則暫停省電 */
+(function(){
+  const sc=document.querySelector('.showcase'); if(!sc) return;
+  const activeV=()=>{ const c=sc.querySelector('.sc-content.active'); return c&&c.querySelector('video'); };
+  if('IntersectionObserver' in window){
+    new IntersectionObserver(es=>es.forEach(e=>{
+      if(e.isIntersecting) playSCVideo(activeV());
+      else sc.querySelectorAll('video').forEach(v=>v.pause());
+    }),{threshold:0.2}).observe(sc);
+  } else { playSCVideo(activeV()); }
+})();
+
+/* 中/英 切換：實際翻譯，並記住選擇（與 docs 共用 rivo_lang key） */
+function setLang(lang){
+  LANG=lang;
+  document.querySelectorAll('[data-en]').forEach(el=>{
+    if(el.dataset.zh===undefined) el.dataset.zh=el.innerHTML;
+    el.innerHTML=(lang==='en')?el.dataset.en:el.dataset.zh;
+  });
+  document.documentElement.lang=(lang==='en')?'en':'zh-Hant';
+  document.querySelectorAll('.top .lang button').forEach(b=>{
+    const on=b.dataset.l===lang;
+    b.classList.toggle('active',on);
+    b.setAttribute('aria-pressed',on?'true':'false');
+  });
+  try{ localStorage.setItem('rivo_lang',lang); }catch(e){}
+  tick();
+}
+document.querySelectorAll('.top .lang button').forEach(b=>b.addEventListener('click',()=>setLang(b.dataset.l)));
+/* 語言優先序：URL 參數 > localStorage（預設中文） */
+(function(){
+  var saved=null; try{ saved=localStorage.getItem('rivo_lang'); }catch(e){}
+  if(location.search.indexOf('lang=en')>=0) setLang('en');
+  else if(location.search.indexOf('lang=')<0 && saved==='en') setLang('en');
+})();
+
+/* 可分離正弦流場 → ASCII 紋理（自適應元素尺寸） */
+function makeFlow(el, cw, ch, ramp, thresh){
+  if(!el) return;
+  let cols=0, rows=0, t=Math.random()*10;
+  function size(){
+    const r=el.getBoundingClientRect();
+    cols=Math.max(4,Math.ceil(r.width/cw)+1);
+    rows=Math.max(4,Math.ceil(r.height/ch)+1);
+  }
+  function frame(){
+    const C=cols,R=rows;
+    const aX=new Float64Array(C),aY=new Float64Array(R),aXY=new Float64Array(C+R),aD=new Float64Array(C+R);
+    for(let c=0;c<C;c++) aX[c]=Math.sin(c*0.16+t);
+    for(let r=0;r<R;r++) aY[r]=Math.sin(r*0.20-t*0.8);
+    for(let k=0;k<C+R;k++) aXY[k]=Math.sin(k*0.12+t*0.6);
+    for(let k=0;k<C+R;k++) aD[k]=Math.sin((k-R)*0.10-t*0.7);
+    let out='';
+    for(let r=0;r<R;r++){const yr=aY[r];let line='';
+      for(let c=0;c<C;c++){
+        const v=(aX[c]+yr+aXY[c+r]+aD[c-r+R]+4)/8;
+        if(v<thresh){line+=' ';continue;}
+        let i=((v-thresh)/(1-thresh)*ramp.length)|0;
+        line+=ramp[i<ramp.length?i:ramp.length-1];
+      }
+      out+=line+'\n';
+    }
+    el.textContent=out;
+  }
+  size(); frame();
+  startLoop(el, ()=>{ t+=0.09; frame(); }, 90);
+  window.addEventListener('resize',()=>{size();frame();});
+}
+
+/* 地形掃描動畫（取代 hero cell-tex 的流場 ASCII）：自適應容器、無 HUD */
+function startTerrainScan(el){
+  if(!el) return;
+  const RM = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const ASPECT=0.6, FADE_S=10.0, RCIRC=12, SPEED=13, RAMP='·:-=+*ox#%@', ACOL='rgb(255,81,8)';
+  let COLS, ROWS, H, mem, drone=null, nextSpawn=0;
+  function genTerrain(){
+    H=new Float32Array(COLS*ROWS);
+    const octs=[[34,1.0],[16,0.62],[8,0.36],[4,0.20],[2,0.10]], sm=t=>t*t*(3-2*t);
+    const L=octs.map(o=>{ const wl=o[0], gw=Math.ceil(COLS/wl)+2, gh=Math.ceil(ROWS/wl)+2;
+      const g=new Float32Array(gw*gh); for(let i=0;i<g.length;i++) g[i]=Math.random(); return {wl,amp:o[1],gw,g}; });
+    let mn=1e9,mx=-1e9;
+    for(let y=0;y<ROWS;y++)for(let x=0;x<COLS;x++){ let v=0;
+      for(const o of L){ const fx=x/o.wl, fy=y/o.wl, ix=fx|0, iy=fy|0, tx=sm(fx-ix), ty=sm(fy-iy);
+        const a=o.g[iy*o.gw+ix], b=o.g[iy*o.gw+ix+1], c=o.g[(iy+1)*o.gw+ix], d=o.g[(iy+1)*o.gw+ix+1];
+        const top=a+(b-a)*tx; v+=(top+(c+(d-c)*tx-top)*ty)*o.amp; }
+      H[y*COLS+x]=v; if(v<mn)mn=v; if(v>mx)mx=v; }
+    const inv=1/(mx-mn); for(let i=0;i<H.length;i++){ let n=(H[i]-mn)*inv; H[i]=n*n*(3-2*n); }
+  }
+  function setup(){
+    const box=el.parentElement, w=box.clientWidth||300, h=box.clientHeight||200;
+    ROWS=Math.max(36, Math.min(120, Math.round(h/9)));
+    const fs=h/ROWS; el.style.fontSize=fs.toFixed(2)+'px';
+    COLS=Math.max(30, Math.round(w/(fs*ASPECT)));
+    mem=new Float32Array(COLS*ROWS); drone=null; nextSpawn=0; genTerrain();
+  }
+  function spawn(now){ const fromLeft=Math.random()<0.5;
+    drone={ x:fromLeft?-RCIRC:COLS+RCIRC, y:RCIRC*0.4+Math.random()*(ROWS-RCIRC*0.8),
+            vx:(fromLeft?1:-1)*SPEED/ASPECT, vy:0 }; }
+  function step(now,dt){ const dec=dt/FADE_S;
+    for(let i=0;i<mem.length;i++){ const v=mem[i]; if(v>0) mem[i]=v>dec?v-dec:0; }
+    if(!drone){ if(now>=nextSpawn) spawn(now); return; }
+    drone.x+=drone.vx*dt; const m=RCIRC+3;
+    if(drone.x<-m||drone.x>COLS+m){ drone=null; nextSpawn=now+0.3+Math.random()*1.4; return; }
+    const cx=drone.x, cy=drone.y;
+    const x0=Math.max(0,(cx-RCIRC/ASPECT-1)|0), x1=Math.min(COLS-1,(cx+RCIRC/ASPECT+1)|0);
+    const y0=Math.max(0,(cy-RCIRC-1)|0), y1=Math.min(ROWS-1,(cy+RCIRC+1)|0);
+    for(let y=y0;y<=y1;y++)for(let x=x0;x<=x1;x++){ const dxc=(x-cx)*ASPECT, dyr=y-cy, sd=Math.sqrt(dxc*dxc+dyr*dyr);
+      if(sd<=RCIRC){ const rf=1-sd/RCIRC, idx=y*COLS+x; if(rf>mem[idx]) mem[idx]=rf; } }
+  }
+  function cross(){ const cc=Math.round(drone.x), cr=Math.round(drone.y), o={}, HX=5, VY=3;
+    for(let d=-HX;d<=HX;d++){ const c=cc+d; if(d&&c>=0&&c<COLS) o[cr*COLS+c]='─'; }
+    for(let d=-VY;d<=VY;d++){ const r=cr+d; if(d&&r>=0&&r<ROWS) o[r*COLS+cc]='│'; }
+    if(cc>=0&&cc<COLS&&cr>=0&&cr<ROWS) o[cr*COLS+cc]='┼'; return o; }
+  function draw(){ const ac=drone?cross():null; let html='';
+    for(let y=0;y<ROWS;y++){ let run='', rk=null;
+      for(let x=0;x<COLS;x++){ const idx=y*COLS+x; let ch=' ', color=null;
+        if(ac&&ac[idx]!==undefined){ ch=ac[idx]; color=ACOL; }
+        else { const b=mem[idx];
+          if(b>0.03){ const e=H[idx]; ch=RAMP[(e*(RAMP.length-1))|0];
+            let g=Math.round((238-e*220)*b+251*(1-b)); g=(g/12|0)*12; if(g<236) color='rgb('+g+','+g+','+g+')'; else ch=' '; } }
+        if(color!==rk){ if(run) html+= rk?'<span style="color:'+rk+'">'+run+'</span>':run; run=''; rk=color; }
+        run+=ch; }
+      if(run) html+= rk?'<span style="color:'+rk+'">'+run+'</span>':run; html+='\n'; }
+    el.innerHTML=html; }
+  setup();
+  let ro; window.addEventListener('resize',()=>{ clearTimeout(ro); ro=setTimeout(setup,200); });
+  if(RM){ drone={ x:-RCIRC, y:ROWS*0.5, vx:SPEED/ASPECT, vy:0 }; for(let s=0;s<=6;s+=0.016) step(s,0.016); draw(); return; }
+  let t0=performance.now(), last=t0, la=0, raf=null, inView=true;
+  function frame(ts){ raf=requestAnimationFrame(frame); const now=(ts-t0)/1000, dt=Math.min(0.05,(ts-last)/1000); last=ts;
+    step(now,dt); if(ts-la>42){ draw(); la=ts; } }
+  function sync(){ if(inView && !document.hidden){ if(raf==null){ last=performance.now(); raf=requestAnimationFrame(frame); } }
+    else if(raf!=null){ cancelAnimationFrame(raf); raf=null; } }
+  if('IntersectionObserver' in window){ new IntersectionObserver(es=>{ es.forEach(e=>inView=e.isIntersecting); sync(); }).observe(el); } else sync();
+  document.addEventListener('visibilitychange', sync);
+}
+
+startTerrainScan(document.getElementById('tex1'));
+makeFlow(document.getElementById('texSide'), 4.8, 10, '.:*+=#%@', 0.5);
+/* banner 背景：手部 ASCII + ±1 灰階抖動 */
+fetch('assets/hand.ascii').then(r=>r.text()).then(t=>{
+  const el=document.getElementById('texBig');
+  const lines=t.replace(/\n+$/,'').split('\n');
+  el.textContent=lines.join('\n');
+  startFlicker(el, lines, 0.018);
+});
+
+/* mono 標籤：捲進視窗時「解碼」動畫 */
+function scrambleEl(el){
+  const final = el.textContent, pool = '!<>-_\\/[]{}=+*^?#01';
+  let f=0;
+  const id=setInterval(()=>{
+    let out='';
+    for(let i=0;i<final.length;i++){
+      if(final[i]===' ') out+=' ';
+      else if(i < f*0.65) out+=final[i];
+      else out+=pool[Math.floor(Math.random()*pool.length)];
+    }
+    el.textContent=out; f++;
+    if(f*0.65 > final.length){ el.textContent=final; clearInterval(id); }
+  }, 32);
+}
+if(!REDUCED_MOTION && 'IntersectionObserver' in window){
+  const io=new IntersectionObserver((ents)=>{
+    ents.forEach(e=>{ if(e.isIntersecting){ scrambleEl(e.target); io.unobserve(e.target); } });
+  },{threshold:0.7});
+  document.querySelectorAll('.label').forEach(el=>io.observe(el));
+}
+</script>
+</body>
+</html>
