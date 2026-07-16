@@ -588,8 +588,6 @@ function startTerrainScan(el){
       H[y*COLS+x]=v; if(v<mn)mn=v; if(v>mx)mx=v; }
     const inv=1/(mx-mn); for(let i=0;i<H.length;i++){ let n=(H[i]-mn)*inv; n=Math.min(1,Math.max(0,(n-0.5)*1.45+0.5)); H[i]=n*n*(3-2*n); }
   }
-  // 高程色彩梯度（冷灰→暖深），量化利於 run-length
-  function terrCol(e){ const q=(e*11|0)/11; const r=(195-q*128)|0, g=(200-q*166)|0, b=(206-q*186)|0; return 'rgb('+r+','+g+','+b+')'; }
   function setup(){
     const box=el.parentElement, w=box.clientWidth||300, h=box.clientHeight||200;
     const fs=Math.max(2.8, innerWidth*0.003);
@@ -625,7 +623,10 @@ function startTerrainScan(el){
       for(let x=0;x<COLS;x++){ const idx=y*COLS+x; let ch=' ', color=null;
         const s=seen[idx];
         if(s>0.03){ const e=H[idx], T=(now-at[idx]-HOLD)/DISAPPEAR;
-          if(e>=T){ let lvl=s*(0.2+0.8*e); const ci=(lvl*(RAMP.length-1))|0; if(ci>0){ ch=RAMP[ci]; color=terrCol(e); } } }
+          if(e>=T){ const band=Math.min(NC-1,(e*NC)|0), t=band/(NC-1);   // 按等高線帶填灰階（與等高線對齊）
+            ch=RAMP[(2+t*(RAMP.length-3))|0];                              // 字符密度依帶（越高越密）
+            const gb=Math.round(200-t*175), g=Math.round(gb+(250-gb)*(1-s));  // 灰階（越高越黑）；圓邊(低 s)淡向白
+            color='rgb('+g+','+g+','+g+')'; } }
         if(color!==rk){ if(run) html+= rk?'<span style="color:'+rk+'">'+run+'</span>':run; run=''; rk=color; }
         run+=ch;
       }
