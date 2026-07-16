@@ -562,9 +562,10 @@ function makeFlow(el, cw, ch, ramp, thresh){
   window.addEventListener('resize',()=>{size();frame();});
 }
 
-/* 地形掃描動畫（取代 hero cell-tex 的流場 ASCII）：自適應容器、無 HUD */
+/* 地形掃描動畫（取代 hero cell-tex 的流場 ASCII）：密度同 god-hand、單色、單個橘色 ✚，自適應、離場暫停 */
 function startTerrainScan(el){
   if(!el) return;
+  el.style.color='rgba(22,22,22,.66)';                    // 地形墨色（同 god-hand 質感）
   const RM = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
   const ASPECT=0.6, FADE_S=10.0, RCIRC=12, SPEED=13, RAMP='·:-=+*ox#%@', ACOL='rgb(255,81,8)';
   let COLS, ROWS, H, mem, drone=null, nextSpawn=0;
@@ -583,9 +584,10 @@ function startTerrainScan(el){
   }
   function setup(){
     const box=el.parentElement, w=box.clientWidth||300, h=box.clientHeight||200;
-    ROWS=Math.max(36, Math.min(120, Math.round(h/9)));
-    const fs=h/ROWS; el.style.fontSize=fs.toFixed(2)+'px';
-    COLS=Math.max(30, Math.round(w/(fs*ASPECT)));
+    const fs=Math.max(3.4, innerWidth*0.004);            // ≈0.4vw，跟 god-hand 一樣密（下限 3.4px）
+    el.style.fontSize=fs.toFixed(2)+'px';
+    ROWS=Math.max(30, Math.min(220, Math.floor(h/fs)));
+    COLS=Math.max(30, Math.min(520, Math.floor(w/(fs*ASPECT))));
     mem=new Float32Array(COLS*ROWS); drone=null; nextSpawn=0; genTerrain();
   }
   function spawn(now){ const fromLeft=Math.random()<0.5;
@@ -602,27 +604,30 @@ function startTerrainScan(el){
     for(let y=y0;y<=y1;y++)for(let x=x0;x<=x1;x++){ const dxc=(x-cx)*ASPECT, dyr=y-cy, sd=Math.sqrt(dxc*dxc+dyr*dyr);
       if(sd<=RCIRC){ const rf=1-sd/RCIRC, idx=y*COLS+x; if(rf>mem[idx]) mem[idx]=rf; } }
   }
-  function cross(){ const cc=Math.round(drone.x), cr=Math.round(drone.y), o={}, HX=5, VY=3;
-    for(let d=-HX;d<=HX;d++){ const c=cc+d; if(d&&c>=0&&c<COLS) o[cr*COLS+c]='─'; }
-    for(let d=-VY;d<=VY;d++){ const r=cr+d; if(d&&r>=0&&r<ROWS) o[r*COLS+cc]='│'; }
-    if(cc>=0&&cc<COLS&&cr>=0&&cr<ROWS) o[cr*COLS+cc]='┼'; return o; }
-  function draw(){ const ac=drone?cross():null; let html='';
-    for(let y=0;y<ROWS;y++){ let run='', rk=null;
-      for(let x=0;x<COLS;x++){ const idx=y*COLS+x; let ch=' ', color=null;
-        if(ac&&ac[idx]!==undefined){ ch=ac[idx]; color=ACOL; }
-        else { const b=mem[idx];
-          if(b>0.03){ const e=H[idx]; ch=RAMP[(e*(RAMP.length-1))|0];
-            let g=Math.round((238-e*220)*b+251*(1-b)); g=(g/12|0)*12; if(g<236) color='rgb('+g+','+g+','+g+')'; else ch=' '; } }
-        if(color!==rk){ if(run) html+= rk?'<span style="color:'+rk+'">'+run+'</span>':run; run=''; rk=color; }
-        run+=ch; }
-      if(run) html+= rk?'<span style="color:'+rk+'">'+run+'</span>':run; html+='\n'; }
-    el.innerHTML=html; }
+  function draw(){
+    const cc=drone?Math.round(drone.x):-1, cr=drone?Math.round(drone.y):-1;
+    let html='';
+    for(let y=0;y<ROWS;y++){ let run='', orange=false;
+      for(let x=0;x<COLS;x++){ const idx=y*COLS+x; let ch=' ';
+        if(x===cc && y===cr){                              // 單個橘色粗體十字
+          if(run){ html+= orange?'<span style="color:'+ACOL+'">'+run+'</span>':run; run=''; }
+          html+='<span style="color:'+ACOL+'">✚</span>'; continue;
+        }
+        const b=mem[idx];
+        const lvl=(0.4+0.6*b)*(0.35+0.65*H[idx]);        // 底層一直有地形(鋪滿如 god-hand)；掃過更密（越高越密）
+        const ci=(lvl*(RAMP.length-1))|0; if(ci>0) ch=RAMP[ci];
+        run+=ch;
+      }
+      if(run) html+=run; html+='\n';
+    }
+    el.innerHTML=html;
+  }
   setup();
   let ro; window.addEventListener('resize',()=>{ clearTimeout(ro); ro=setTimeout(setup,200); });
   if(RM){ drone={ x:-RCIRC, y:ROWS*0.5, vx:SPEED/ASPECT, vy:0 }; for(let s=0;s<=6;s+=0.016) step(s,0.016); draw(); return; }
   let t0=performance.now(), last=t0, la=0, raf=null, inView=true;
   function frame(ts){ raf=requestAnimationFrame(frame); const now=(ts-t0)/1000, dt=Math.min(0.05,(ts-last)/1000); last=ts;
-    step(now,dt); if(ts-la>42){ draw(); la=ts; } }
+    step(now,dt); if(ts-la>50){ draw(); la=ts; } }
   function sync(){ if(inView && !document.hidden){ if(raf==null){ last=performance.now(); raf=requestAnimationFrame(frame); } }
     else if(raf!=null){ cancelAnimationFrame(raf); raf=null; } }
   if('IntersectionObserver' in window){ new IntersectionObserver(es=>{ es.forEach(e=>inView=e.isIntersecting); sync(); }).observe(el); } else sync();
