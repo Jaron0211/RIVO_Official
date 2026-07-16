@@ -1,0 +1,9 @@
+# screenshot loop: ignore working shots, keep the golden baseline set
+.shots/*
+!.shots/baseline/
+!.shots/baseline/**
+
+__pycache__/
+*.pyc
+.venvs/
+contact-worker/.wrangler/
