@@ -569,7 +569,7 @@ function makeFlow(el, cw, ch, ramp, thresh){
 function startTerrainScan(el){
   if(!el) return;
   const RM = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
-  const ASPECT=0.6, HOLD=20, DISAPPEAR=12, RCIRC=42, SPEED=13, NC=20, RAMP=' .:-=+*ox#%@', ACOL='rgb(255,81,8)';
+  const ASPECT=0.6, HOLD=20, DISAPPEAR=12, RCIRC=42, SPEED=13, NC=13, RAMP=' .:-=+*ox#%@', ACOL='rgb(255,81,8)';
   el.style.position='absolute'; el.style.inset='0'; el.style.zIndex='0';
   const elC=document.createElement('pre');
   elC.style.cssText='position:absolute;inset:0;margin:0;white-space:pre;line-height:1;letter-spacing:0;color:'+ACOL+';z-index:1;pointer-events:none;user-select:none;overflow:hidden';
@@ -577,7 +577,7 @@ function startTerrainScan(el){
   let COLS, ROWS, H, seen, at, drone=null, nextSpawn=0;
   function genTerrain(){
     H=new Float32Array(COLS*ROWS);
-    const octs=[[42,1.0],[22,0.55],[11,0.3],[5.5,0.16]], sm=t=>t*t*(3-2*t);   // fBm：更密（小尺度、更多山谷）
+    const octs=[[112,1.0],[56,0.5],[28,0.24]], sm=t=>t*t*(3-2*t);   // fBm：大尺度（大而分明的等高圈）
     const L=octs.map(o=>{ const wl=o[0], gw=Math.ceil(COLS/wl)+2, gh=Math.ceil(ROWS/wl)+2;
       const g=new Float32Array(gw*gh); for(let i=0;i<g.length;i++) g[i]=Math.random(); return {wl,amp:o[1],gw,g}; });
     let mn=1e9,mx=-1e9;
