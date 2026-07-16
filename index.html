@@ -639,7 +639,7 @@ if(!REDUCED_MOTION && 'IntersectionObserver' in window){
 /* 聯繫浮動視窗 + 表單 → Cloudflare Worker → Resend（含 Turnstile 人機驗證） */
 (function(){
   var WORKER_URL='https://rivo-contact.rivo-contact.workers.dev';
-  var TURNSTILE_SITEKEY='YOUR_TURNSTILE_SITEKEY'; // ← 換成 Cloudflare Turnstile sitekey（公開，可寫前端）
+  var TURNSTILE_SITEKEY='0x4AAAAAAD3PupWJgBuNq6JX'; // ← 換成 Cloudflare Turnstile sitekey（公開，可寫前端）
   var f=document.getElementById('cform'); if(!f) return;
   var drawer=document.getElementById('cdrawer'), scrim=document.getElementById('cdrawerScrim');
   var msg=f.querySelector('.cf-msg'), btn=f.querySelector('button.btn');
