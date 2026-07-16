@@ -569,7 +569,7 @@ function makeFlow(el, cw, ch, ramp, thresh){
 function startTerrainScan(el){
   if(!el) return;
   const RM = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
-  const ASPECT=0.6, HOLD=20, DISAPPEAR=12, RCIRC=42, SPEED=13, NC=18, RAMP=' .:-=+*ox#%@', ACOL='rgb(255,81,8)';
+  const ASPECT=0.6, HOLD=20, DISAPPEAR=12, RCIRC=42, SPEED=13, NC=20, RAMP=' .:-=+*ox#%@', ACOL='rgb(255,81,8)';
   el.style.position='absolute'; el.style.inset='0'; el.style.zIndex='0';
   const elC=document.createElement('pre');
   elC.style.cssText='position:absolute;inset:0;margin:0;white-space:pre;line-height:1;letter-spacing:0;color:'+ACOL+';z-index:1;pointer-events:none;user-select:none;overflow:hidden';
@@ -577,7 +577,7 @@ function startTerrainScan(el){
   let COLS, ROWS, H, seen, at, drone=null, nextSpawn=0;
   function genTerrain(){
     H=new Float32Array(COLS*ROWS);
-    const octs=[[74,1.0],[37,0.5],[18,0.24]], sm=t=>t*t*(3-2*t);   // 平滑 fBm（流暢乾淨等高線）
+    const octs=[[42,1.0],[22,0.55],[11,0.3],[5.5,0.16]], sm=t=>t*t*(3-2*t);   // fBm：更密（小尺度、更多山谷）
     const L=octs.map(o=>{ const wl=o[0], gw=Math.ceil(COLS/wl)+2, gh=Math.ceil(ROWS/wl)+2;
       const g=new Float32Array(gw*gh); for(let i=0;i<g.length;i++) g[i]=Math.random(); return {wl,amp:o[1],gw,g}; });
     let mn=1e9,mx=-1e9;
@@ -586,13 +586,13 @@ function startTerrainScan(el){
         const a=o.g[iy*o.gw+ix], b=o.g[iy*o.gw+ix+1], c=o.g[(iy+1)*o.gw+ix], d=o.g[(iy+1)*o.gw+ix+1];
         const top=a+(b-a)*tx; v+=(top+(c+(d-c)*tx-top)*ty)*o.amp; }
       H[y*COLS+x]=v; if(v<mn)mn=v; if(v>mx)mx=v; }
-    const inv=1/(mx-mn); for(let i=0;i<H.length;i++){ let n=(H[i]-mn)*inv; H[i]=n*n*(3-2*n); }
+    const inv=1/(mx-mn); for(let i=0;i<H.length;i++){ let n=(H[i]-mn)*inv; n=Math.min(1,Math.max(0,(n-0.5)*1.45+0.5)); H[i]=n*n*(3-2*n); }
   }
   // 高程色彩梯度（冷灰→暖深），量化利於 run-length
   function terrCol(e){ const q=(e*11|0)/11; const r=(195-q*128)|0, g=(200-q*166)|0, b=(206-q*186)|0; return 'rgb('+r+','+g+','+b+')'; }
   function setup(){
     const box=el.parentElement, w=box.clientWidth||300, h=box.clientHeight||200;
-    const fs=Math.max(3.4, innerWidth*0.004);
+    const fs=Math.max(2.8, innerWidth*0.003);
     el.style.fontSize=fs.toFixed(2)+'px'; elC.style.fontSize=fs.toFixed(2)+'px'; elC.style.fontFamily=getComputedStyle(el).fontFamily;
     ROWS=Math.max(30, Math.min(240, Math.floor(h/fs)));
     COLS=Math.max(30, Math.min(560, Math.floor(w/(fs*ASPECT))));
