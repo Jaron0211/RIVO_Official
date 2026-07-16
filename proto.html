@@ -175,6 +175,7 @@
   .cf-msg{font-family:var(--mono);font-size:12px;letter-spacing:.04em;min-height:1.2em;margin:0}
   .cf-msg.ok{color:var(--success,#22C55E)}
   .cf-msg.err{color:var(--hot)}
+  .cf-ts:empty{display:none}
   @media (prefers-reduced-motion:reduce){.cdrawer,.cdrawer-scrim{transition:none}}
   .sitefoot{background:var(--paper);color:var(--ink);display:flex;align-items:center;justify-content:space-between;gap:18px;padding:18px 22px;border-top:var(--bd)}
   .sitefoot .foot-logo{height:20px;width:auto;display:block}
@@ -226,6 +227,7 @@
     .cta .btn{margin-top:0;font-size:16px;padding:18px 30px}
   }
 </style>
+  <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
 </head>
 <body>
 <div class="page">
@@ -367,6 +369,7 @@
       <input class="cf-in" name="email" type="email" required maxlength="200" placeholder="Email" autocomplete="email">
       <textarea class="cf-in" name="message" required maxlength="5000" rows="5" placeholder="訊息 Message"></textarea>
       <input class="cf-hp" type="text" name="company" tabindex="-1" autocomplete="off" aria-hidden="true">
+      <div id="cfTs" class="cf-ts"></div>
       <button class="btn" type="submit" data-en="Send →">送出 →</button>
       <p class="cf-msg" aria-live="polite"></p>
     </form>
@@ -633,13 +636,20 @@ if(!REDUCED_MOTION && 'IntersectionObserver' in window){
   document.querySelectorAll('.label').forEach(el=>io.observe(el));
 }
 
-/* 聯繫浮動視窗 + 表單 → Cloudflare Worker → Resend → rivo+web-contact@rivo.com.tw */
+/* 聯繫浮動視窗 + 表單 → Cloudflare Worker → Resend（含 Turnstile 人機驗證） */
 (function(){
   var WORKER_URL='https://rivo-contact.rivo-contact.workers.dev';
+  var TURNSTILE_SITEKEY='YOUR_TURNSTILE_SITEKEY'; // ← 換成 Cloudflare Turnstile sitekey（公開，可寫前端）
   var f=document.getElementById('cform'); if(!f) return;
   var drawer=document.getElementById('cdrawer'), scrim=document.getElementById('cdrawerScrim');
   var msg=f.querySelector('.cf-msg'), btn=f.querySelector('button.btn');
-  var lastFocus=null;
+  var lastFocus=null, tsWidget=null, openedAt=0;
+  function tsReady(){ return TURNSTILE_SITEKEY.indexOf('YOUR_')!==0 && !!window.turnstile; }
+  function ensureTurnstile(){
+    if(!tsReady()) return;
+    if(tsWidget===null){ try{ tsWidget=turnstile.render('#cfTs',{sitekey:TURNSTILE_SITEKEY,theme:'dark',size:'flexible'}); }catch(_){} }
+    else { try{ turnstile.reset(tsWidget); }catch(_){} }
+  }
   function openD(e){
     if(e) e.preventDefault();
     lastFocus=document.activeElement;
@@ -647,6 +657,7 @@ if(!REDUCED_MOTION && 'IntersectionObserver' in window){
     requestAnimationFrame(function(){ scrim.classList.add('show'); drawer.classList.add('show'); });
     drawer.setAttribute('aria-hidden','false');
     document.body.style.overflow='hidden';
+    openedAt=Date.now(); setTimeout(ensureTurnstile,50);
     var first=f.querySelector('input[name="name"]');
     if(first) setTimeout(function(){ first.focus(); },80);
   }
@@ -677,7 +688,9 @@ if(!REDUCED_MOTION && 'IntersectionObserver' in window){
   var EN=function(){ return document.documentElement.lang==='en'; };
   f.addEventListener('submit', async function(e){
     e.preventDefault(); msg.className='cf-msg'; msg.textContent='';
-    var data={name:val('name'),email:val('email'),message:val('message'),company:val('company')};
+    var token=(tsReady()&&tsWidget!==null)?turnstile.getResponse(tsWidget):'';
+    if(tsReady()&&!token){ msg.className='cf-msg err'; msg.textContent=EN()?'Verifying — try again in a moment.':'驗證處理中，請稍候再送出。'; ensureTurnstile(); return; }
+    var data={name:val('name'),email:val('email'),message:val('message'),company:val('company'),token:token,elapsed:Date.now()-openedAt};
     var orig=btn.textContent; btn.disabled=true; btn.textContent=EN()?'Sending…':'送出中…';
     try{
       var r=await fetch(WORKER_URL,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(data)});
@@ -685,7 +698,7 @@ if(!REDUCED_MOTION && 'IntersectionObserver' in window){
       if(r.ok&&j.ok){ f.reset(); msg.className='cf-msg ok'; msg.textContent=EN()?'Sent — we will reply soon.':'已送出，我們會盡快回覆。'; }
       else { msg.className='cf-msg err'; msg.textContent=(j&&j.error)||(EN()?'Failed, please try again.':'送出失敗，請稍後再試。'); }
     }catch(_){ msg.className='cf-msg err'; msg.textContent=EN()?'Network error.':'連線失敗，請稍後再試。'; }
-    finally{ btn.disabled=false; btn.textContent=orig; }
+    finally{ btn.disabled=false; btn.textContent=orig; if(tsReady()&&tsWidget!==null){ try{ turnstile.reset(tsWidget); }catch(_){} } }
   });
 })();
 </script>

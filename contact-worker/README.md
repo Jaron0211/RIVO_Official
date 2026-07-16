@@ -26,10 +26,41 @@ npx wrangler deploy                # 部署，會印出網址 https://rivo-conta
 部署後把那個 `…workers.dev` 網址給我，我就把 `frontend-snippet.html` 的表單接好、套上網站風格、放進 `index.html` 的聯繫區塊並上線。
 
 ## 檔案
-- `worker.js` — Worker 程式（CORS 鎖本站、蜜罐擋機器人、驗證、呼叫 Resend、不外洩錯誤）
-- `wrangler.toml` — 部署設定（金鑰用 secret，不在檔案裡）
-- `frontend-snippet.html` — 前端表單 + CSS + JS（待你給 Worker 網址後接上）
+- `worker.js` — Worker 程式（CORS、蜜罐、Turnstile 人機驗證、KV 限流、最短填寫時間、呼叫 Resend）
+- `wrangler.toml` — 部署設定（金鑰用 secret、KV 綁定）
+- `frontend-snippet.html` — 前端表單 + CSS + JS（已整合進 index.html）
 
-## 之後可加強（可選）
-- **Cloudflare Turnstile**（免費隱形驗證碼）擋垃圾：前端加 widget、Worker 端驗證 token。
-- 速率限制：Cloudflare WAF rate-limiting rule，或 Worker 用 KV 計數。
+## 防濫用設定（防止被洗信 — 需完成才會生效）
+
+程式已內建 3 道防線，但 **Turnstile 與 KV 需要你在後台建立資源**才會啟用
+（未設定時：Turnstile 略過、限流略過，表單仍可用，但沒有保護）。
+
+### 1) Cloudflare Turnstile（隱形驗證碼，免費）
+1. Cloudflare 後台 → **Turnstile → Add site**，網域填 `rivo.com.tw`（Widget Mode 選 **Managed**）。
+2. 拿到 **Site Key**（公開）與 **Secret Key**（機密）。
+3. 把 **Site Key** 貼到 `index.html` 裡的 `TURNSTILE_SITEKEY='...'`。
+4. 把 **Secret Key** 設成 Worker 機密：
+   ```bash
+   cd contact-worker
+   npx wrangler secret put TURNSTILE_SECRET   # 提示處貼 Secret Key
+   ```
+
+### 2) KV（限流計數）
+```bash
+npx wrangler kv namespace create RL           # 印出 id = "xxxx"
+# 把該 id 貼到 wrangler.toml 的 [[kv_namespaces]] id
+```
+
+### 3) 重新部署
+```bash
+npx wrangler deploy
+```
+
+### 內建的三道防線（可在 worker.js 頂部調整數字）
+- **Turnstile 人機驗證** — 沒通過就不寄（擋掉絕大多數自動化洗信）。
+- **KV 限流** — 每 IP 10 分鐘 ≤ 3 封、每天 ≤ 15 封；**全站每天 ≤ 80 封**（< Resend 免費 100/天，護住額度）。
+- **最短填寫時間** — 開表單到送出 < 2 秒直接擋（秒填的機器人）。
+- 另保留蜜罐欄位；信件內文會附上來訪 IP，方便必要時封鎖。
+
+> 註：`CORS 只允許 rivo.com.tw` 擋得住瀏覽器，但擋不住直接打 API 的腳本（Origin 可偽造），
+> 所以真正的防護是上面三道，尤其是 Turnstile。

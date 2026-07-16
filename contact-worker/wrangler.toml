@@ -2,6 +2,12 @@ name = "rivo-contact"
 main = "worker.js"
 compatibility_date = "2024-11-01"
 
-# RESEND_API_KEY 是「機密」，不要寫在這裡。部署前執行：
-#   npx wrangler secret put RESEND_API_KEY
-# 貼上 Resend 後台的 API key（re_ 開頭）即可。
+# --- 機密（不要寫在這裡）。部署前分別執行： ---
+#   npx wrangler secret put RESEND_API_KEY     # Resend 金鑰（re_ 開頭）
+#   npx wrangler secret put TURNSTILE_SECRET   # Cloudflare Turnstile 的 secret key
+
+# --- 限流計數用的 KV。先建立再把 id 填進來： ---
+#   npx wrangler kv namespace create RL        # 會印出一段 id = "xxxx"，貼到下面
+[[kv_namespaces]]
+binding = "RL"
+id = "PUT_YOUR_KV_NAMESPACE_ID_HERE"
