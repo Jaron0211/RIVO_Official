@@ -562,13 +562,14 @@ function makeFlow(el, cw, ch, ramp, thresh){
   window.addEventListener('resize',()=>{size();frame();});
 }
 
-/* 地形掃描動畫（取代 hero cell-tex 的流場 ASCII）：密度同 god-hand、單色、單個橘色 ✚，自適應、離場暫停 */
+/* 地形掃描（取代 hero cell-tex 流場 ASCII）：掃過＝清楚顯示不淡出；滿 HOLD 秒後由低海拔往上消失。
+   密度同 god-hand、單色、單個橘色 ✚，自適應、離場暫停 */
 function startTerrainScan(el){
   if(!el) return;
-  el.style.color='rgba(16,16,16,.75)';                    // 地形墨色（同 god-hand 質感）
+  el.style.color='rgba(16,16,16,.75)';
   const RM = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
-  const ASPECT=0.6, FADE_S=20.0, RCIRC=42, SPEED=13, RAMP='·:-=+*ox#%@', ACOL='rgb(255,81,8)';
-  let COLS, ROWS, H, mem, drone=null, nextSpawn=0;
+  const ASPECT=0.6, HOLD=20, DISAPPEAR=12, RCIRC=42, SPEED=13, RAMP='·:-=+*ox#%@', ACOL='rgb(255,81,8)';
+  let COLS, ROWS, H, seen, at, drone=null, nextSpawn=0;
   function genTerrain(){
     H=new Float32Array(COLS*ROWS);
     const octs=[[44,1.0],[20,0.5],[10,0.28],[5,0.15],[2.5,0.08]], sm=t=>t*t*(3-2*t);
@@ -584,17 +585,16 @@ function startTerrainScan(el){
   }
   function setup(){
     const box=el.parentElement, w=box.clientWidth||300, h=box.clientHeight||200;
-    const fs=Math.max(3.4, innerWidth*0.004);            // ≈0.4vw，跟 god-hand 一樣密（下限 3.4px）
+    const fs=Math.max(3.4, innerWidth*0.004);
     el.style.fontSize=fs.toFixed(2)+'px';
     ROWS=Math.max(30, Math.min(220, Math.floor(h/fs)));
     COLS=Math.max(30, Math.min(520, Math.floor(w/(fs*ASPECT))));
-    mem=new Float32Array(COLS*ROWS); drone=null; nextSpawn=0; genTerrain();
+    seen=new Float32Array(COLS*ROWS); at=new Float32Array(COLS*ROWS); drone=null; nextSpawn=0; genTerrain();
   }
   function spawn(now){ const fromLeft=Math.random()<0.5;
     drone={ x:fromLeft?-RCIRC:COLS+RCIRC, y:RCIRC*0.4+Math.random()*(ROWS-RCIRC*0.8),
             vx:(fromLeft?1:-1)*SPEED/ASPECT, vy:0 }; }
-  function step(now,dt){ const dec=dt/FADE_S;
-    for(let i=0;i<mem.length;i++){ const v=mem[i]; if(v>0) mem[i]=v>dec?v-dec:0; }
+  function step(now,dt){
     if(!drone){ if(now>=nextSpawn) spawn(now); return; }
     drone.x+=drone.vx*dt; const m=RCIRC+3;
     if(drone.x<-m||drone.x>COLS+m){ drone=null; nextSpawn=now+0.3+Math.random()*1.4; return; }
@@ -602,21 +602,20 @@ function startTerrainScan(el){
     const x0=Math.max(0,(cx-RCIRC/ASPECT-1)|0), x1=Math.min(COLS-1,(cx+RCIRC/ASPECT+1)|0);
     const y0=Math.max(0,(cy-RCIRC-1)|0), y1=Math.min(ROWS-1,(cy+RCIRC+1)|0);
     for(let y=y0;y<=y1;y++)for(let x=x0;x<=x1;x++){ const dxc=(x-cx)*ASPECT, dyr=y-cy, sd=Math.sqrt(dxc*dxc+dyr*dyr);
-      if(sd<=RCIRC){ const rf=1-sd/RCIRC, idx=y*COLS+x; if(rf>mem[idx]) mem[idx]=rf; } }
+      if(sd<=RCIRC){ const rf=1-sd/RCIRC, idx=y*COLS+x; if(rf>seen[idx]) seen[idx]=rf; at[idx]=now; } }   // 記錄強度+時間，不衰減
   }
-  function draw(){
+  function draw(now){
     const cc=drone?Math.round(drone.x):-1, cr=drone?Math.round(drone.y):-1;
     let html='';
-    for(let y=0;y<ROWS;y++){ let run='', orange=false;
+    for(let y=0;y<ROWS;y++){ let run='';
       for(let x=0;x<COLS;x++){ const idx=y*COLS+x; let ch=' ';
-        if(x===cc && y===cr){                              // 單個橘色粗體十字
-          if(run){ html+= orange?'<span style="color:'+ACOL+'">'+run+'</span>':run; run=''; }
-          html+='<span style="color:'+ACOL+'">✚</span>'; continue;
+        if(x===cc && y===cr){ if(run){ html+=run; run=''; } html+='<span style="color:'+ACOL+'">✚</span>'; continue; }
+        const s=seen[idx];
+        if(s>0.03){ const e=H[idx], T=(now-at[idx]-HOLD)/DISAPPEAR;   // T<0：HOLD 期間全顯示；T>0：水位上升
+          if(e>=T){ let lvl=s*(0.24+0.76*e);                          // 清楚顯示（不隨時間變淡）
+            const cf=(e*6)%1; if(cf<0.12) lvl=Math.min(1,lvl+0.55*s); // 等高線
+            const ci=(lvl*(RAMP.length-1))|0; if(ci>0) ch=RAMP[ci]; } // e<T → 低海拔先消失（留白）
         }
-        const b=mem[idx];
-        if(b>0.03){ const e=H[idx]; let lvl=b*(0.24+0.76*e);     // 未掃＝全白；掃過才顯示地形，淡回白
-          const cf=(e*6)%1; if(cf<0.12) lvl=Math.min(1,lvl+0.55*b); // 等高線 → 起伏更明顯（地形圖感）
-          const ci=(lvl*(RAMP.length-1))|0; if(ci>0) ch=RAMP[ci]; }
         run+=ch;
       }
       if(run) html+=run; html+='\n';
@@ -625,10 +624,10 @@ function startTerrainScan(el){
   }
   setup();
   let ro; window.addEventListener('resize',()=>{ clearTimeout(ro); ro=setTimeout(setup,200); });
-  if(RM){ drone={ x:-RCIRC, y:ROWS*0.5, vx:SPEED/ASPECT, vy:0 }; for(let s=0;s<=6;s+=0.016) step(s,0.016); draw(); return; }
+  if(RM){ drone={ x:-RCIRC, y:ROWS*0.5, vx:SPEED/ASPECT, vy:0 }; for(let s=0;s<=14;s+=0.016) step(s,0.016); draw(14); return; }
   let t0=performance.now(), last=t0, la=0, raf=null, inView=true;
   function frame(ts){ raf=requestAnimationFrame(frame); const now=(ts-t0)/1000, dt=Math.min(0.05,(ts-last)/1000); last=ts;
-    step(now,dt); if(ts-la>50){ draw(); la=ts; } }
+    step(now,dt); if(ts-la>50){ draw(now); la=ts; } }
   function sync(){ if(inView && !document.hidden){ if(raf==null){ last=performance.now(); raf=requestAnimationFrame(frame); } }
     else if(raf!=null){ cancelAnimationFrame(raf); raf=null; } }
   if('IntersectionObserver' in window){ new IntersectionObserver(es=>{ es.forEach(e=>inView=e.isIntersecting); sync(); }).observe(el); } else sync();
