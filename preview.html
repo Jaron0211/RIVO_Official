@@ -563,42 +563,46 @@ function makeFlow(el, cw, ch, ramp, thresh){
 }
 
 /* 地形掃描（取代 hero cell-tex 流場 ASCII）。雙層：
-   - 橘色等高線＝常駐（一直顯示，單色 textContent）
-   - 灰階山谷填色＝無人機掃過才顯示、清楚不淡出、滿 HOLD 秒後由低海拔往上消失
+   - 常駐橘色等高線＝乾淨連續細線（level-crossing）
+   - 掃描填色＝字符密度 + 冷→暖高程色彩梯度；清楚不淡出、滿 HOLD 秒後由低海拔往上消失
    自適應、離場暫停 */
 function startTerrainScan(el){
   if(!el) return;
   const RM = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
-  const ASPECT=0.6, HOLD=20, DISAPPEAR=12, RCIRC=42, SPEED=13, NC=8, RAMP='·:-=+*ox#%@', ACOL='rgb(255,81,8)';
-  el.style.position='absolute'; el.style.inset='0'; el.style.color='rgba(28,28,28,.66)'; el.style.zIndex='0';  // 灰階填色層
-  const elC=document.createElement('pre');   // 常駐橘色等高線層（疊在上方）
+  const ASPECT=0.6, HOLD=20, DISAPPEAR=12, RCIRC=42, SPEED=13, NC=18, RAMP=' .:-=+*ox#%@', ACOL='rgb(255,81,8)';
+  el.style.position='absolute'; el.style.inset='0'; el.style.zIndex='0';
+  const elC=document.createElement('pre');
   elC.style.cssText='position:absolute;inset:0;margin:0;white-space:pre;line-height:1;letter-spacing:0;color:'+ACOL+';z-index:1;pointer-events:none;user-select:none;overflow:hidden';
   el.parentElement.appendChild(elC);
   let COLS, ROWS, H, seen, at, drone=null, nextSpawn=0;
   function genTerrain(){
     H=new Float32Array(COLS*ROWS);
-    const octs=[[56,1.0],[28,0.5],[14,0.3],[7,0.16]], sm=t=>t*t*(3-2*t);      // ridged 山谷/山脊
+    const octs=[[74,1.0],[37,0.5],[18,0.24]], sm=t=>t*t*(3-2*t);   // 平滑 fBm（流暢乾淨等高線）
     const L=octs.map(o=>{ const wl=o[0], gw=Math.ceil(COLS/wl)+2, gh=Math.ceil(ROWS/wl)+2;
       const g=new Float32Array(gw*gh); for(let i=0;i<g.length;i++) g[i]=Math.random(); return {wl,amp:o[1],gw,g}; });
     let mn=1e9,mx=-1e9;
     for(let y=0;y<ROWS;y++)for(let x=0;x<COLS;x++){ let v=0;
       for(const o of L){ const fx=x/o.wl, fy=y/o.wl, ix=fx|0, iy=fy|0, tx=sm(fx-ix), ty=sm(fy-iy);
         const a=o.g[iy*o.gw+ix], b=o.g[iy*o.gw+ix+1], c=o.g[(iy+1)*o.gw+ix], d=o.g[(iy+1)*o.gw+ix+1];
-        const top=a+(b-a)*tx, bv=top+(c+(d-c)*tx-top)*ty; v+=(1-Math.abs(2*bv-1))*o.amp; }
+        const top=a+(b-a)*tx; v+=(top+(c+(d-c)*tx-top)*ty)*o.amp; }
       H[y*COLS+x]=v; if(v<mn)mn=v; if(v>mx)mx=v; }
-    const inv=1/(mx-mn); for(let i=0;i<H.length;i++){ let n=(H[i]-mn)*inv; n=Math.min(1,Math.max(0,(n-0.5)*1.4+0.5)); H[i]=n*n*(3-2*n); }  // 起伏對比加大
+    const inv=1/(mx-mn); for(let i=0;i<H.length;i++){ let n=(H[i]-mn)*inv; H[i]=n*n*(3-2*n); }
   }
+  // 高程色彩梯度（冷灰→暖深），量化利於 run-length
+  function terrCol(e){ const q=(e*11|0)/11; const r=(195-q*128)|0, g=(200-q*166)|0, b=(206-q*186)|0; return 'rgb('+r+','+g+','+b+')'; }
   function setup(){
     const box=el.parentElement, w=box.clientWidth||300, h=box.clientHeight||200;
     const fs=Math.max(3.4, innerWidth*0.004);
     el.style.fontSize=fs.toFixed(2)+'px'; elC.style.fontSize=fs.toFixed(2)+'px'; elC.style.fontFamily=getComputedStyle(el).fontFamily;
-    ROWS=Math.max(30, Math.min(220, Math.floor(h/fs)));
-    COLS=Math.max(30, Math.min(520, Math.floor(w/(fs*ASPECT))));
+    ROWS=Math.max(30, Math.min(240, Math.floor(h/fs)));
+    COLS=Math.max(30, Math.min(560, Math.floor(w/(fs*ASPECT))));
     seen=new Float32Array(COLS*ROWS); at=new Float32Array(COLS*ROWS); drone=null; nextSpawn=0; genTerrain(); drawContours();
   }
-  function drawContours(){   // 常駐等高線：只需畫一次（地形不變）
+  function drawContours(){   // 常駐等高線：level-crossing（高程等級變化處＝線），只畫一次
     let t='';
-    for(let y=0;y<ROWS;y++){ for(let x=0;x<COLS;x++){ const cf=(H[y*COLS+x]*NC)%1; t+= cf<0.1?'·':' '; } t+='\n'; }
+    for(let y=0;y<ROWS;y++){ for(let x=0;x<COLS;x++){ const i=y*COLS+x, l=(H[i]*NC)|0;
+      const lr=x+1<COLS?(H[i+1]*NC)|0:l, ld=y+1<ROWS?(H[i+COLS]*NC)|0:l;
+      t+= (l!==lr||l!==ld)?'•':' '; } t+='\n'; }
     elC.textContent=t; elC._base=t;
   }
   function spawn(now){ const fromLeft=Math.random()<0.5;
@@ -614,17 +618,21 @@ function startTerrainScan(el){
     for(let y=y0;y<=y1;y++)for(let x=x0;x<=x1;x++){ const dxc=(x-cx)*ASPECT, dyr=y-cy, sd=Math.sqrt(dxc*dxc+dyr*dyr);
       if(sd<=RCIRC){ const rf=1-sd/RCIRC, idx=y*COLS+x; if(rf>seen[idx]) seen[idx]=rf; at[idx]=now; } }
   }
-  function draw(now){   // 灰階填色層（動態）；等高線層常駐，只在無人機位置疊一個 ✚
+  function draw(now){   // 掃描填色層：字符密度 + 高程色彩梯度（run-length）
     const cc=drone?Math.round(drone.x):-1, cr=drone?Math.round(drone.y):-1;
-    let g='';
-    for(let y=0;y<ROWS;y++){ for(let x=0;x<COLS;x++){ const idx=y*COLS+x; let ch=' ';
+    let html='';
+    for(let y=0;y<ROWS;y++){ let run='', rk=null;
+      for(let x=0;x<COLS;x++){ const idx=y*COLS+x; let ch=' ', color=null;
         const s=seen[idx];
         if(s>0.03){ const e=H[idx], T=(now-at[idx]-HOLD)/DISAPPEAR;
-          if(e>=T){ let lvl=s*(0.15+0.7*e); const ci=(lvl*(RAMP.length-1))|0; if(ci>0) ch=RAMP[ci]; } }
-        g+=ch;
-      } g+='\n'; }
-    el.textContent=g;
-    if(cr>=0){ const rows=elC._base.split('\n'); const line=rows[cr]||''; rows[cr]=line.substring(0,cc)+'✚'+line.substring(cc+1); elC.textContent=rows.join('\n'); }
+          if(e>=T){ let lvl=s*(0.2+0.8*e); const ci=(lvl*(RAMP.length-1))|0; if(ci>0){ ch=RAMP[ci]; color=terrCol(e); } } }
+        if(color!==rk){ if(run) html+= rk?'<span style="color:'+rk+'">'+run+'</span>':run; run=''; rk=color; }
+        run+=ch;
+      }
+      if(run) html+= rk?'<span style="color:'+rk+'">'+run+'</span>':run; html+='\n';
+    }
+    el.innerHTML=html;
+    if(cr>=0){ const rows=elC._base.split('\n'); const ln=rows[cr]||''; rows[cr]=ln.substring(0,cc)+'✚'+ln.substring(cc+1); elC.textContent=rows.join('\n'); }
     else if(elC.textContent!==elC._base) elC.textContent=elC._base;
   }
   setup();
