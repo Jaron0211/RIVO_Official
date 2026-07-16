@@ -154,18 +154,28 @@
   .cta .left,.cta>div{position:relative;z-index:1}
   .cta h2{font-size:40px;font-weight:800;letter-spacing:-.03em;line-height:.95;text-transform:uppercase}
   .cta .btn{margin-top:24px;display:inline-block;background:var(--hot);color:var(--paper);font-family:var(--mono);font-size:14px;padding:14px 22px;letter-spacing:.04em;cursor:pointer}
-  /* 聯繫表單 */
-  .cform{display:flex;flex-direction:column;gap:12px;max-width:440px;width:100%}
+  /* 聯繫浮動視窗（右側滑出） */
+  .cdrawer-scrim{position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:90;opacity:0;transition:opacity .28s ease}
+  .cdrawer-scrim.show{opacity:1}
+  .cdrawer{position:fixed;top:0;right:0;height:100%;width:min(440px,100%);background:var(--ink);color:var(--paper);border-left:3px solid var(--hot);z-index:100;display:flex;flex-direction:column;gap:16px;padding:28px 26px;transform:translateX(100%);transition:transform .32s cubic-bezier(.4,0,.2,1);overflow-y:auto}
+  .cdrawer.show{transform:translateX(0)}
+  .cdrawer-head{display:flex;align-items:baseline;justify-content:space-between;gap:12px}
+  .cdrawer-title{font-size:34px;font-weight:800;letter-spacing:-.03em;line-height:.95;text-transform:uppercase;margin:0}
+  .cdrawer-x{background:none;border:none;color:var(--paper);font-size:30px;line-height:1;cursor:pointer;padding:0 2px;font-family:var(--mono)}
+  .cdrawer-x:hover{color:var(--hot)}
+  .cdrawer-sub{font-family:var(--mono);font-size:12px;letter-spacing:.03em;color:rgba(255,253,248,.6);margin:0}
+  .cform{display:flex;flex-direction:column;gap:12px;width:100%}
   .cf-in{font-family:var(--mono);font-size:14px;color:var(--paper);background:transparent;border:1px solid rgba(255,253,248,.4);padding:12px 14px;outline:none}
   .cf-in::placeholder{color:rgba(255,253,248,.45)}
   .cf-in:focus{border-color:var(--accent)}
   textarea.cf-in{resize:vertical}
   .cf-hp{position:absolute;left:-9999px;width:1px;height:1px;opacity:0}
-  .cform .btn{align-self:flex-start;margin-top:2px}
+  .cform .btn{align-self:flex-start;margin-top:4px;display:inline-block;background:var(--hot);color:var(--paper);font-family:var(--mono);font-size:14px;padding:14px 22px;letter-spacing:.04em;cursor:pointer;border:none}
   .cform .btn[disabled]{opacity:.5;cursor:default}
   .cf-msg{font-family:var(--mono);font-size:12px;letter-spacing:.04em;min-height:1.2em;margin:0}
   .cf-msg.ok{color:var(--success,#22C55E)}
   .cf-msg.err{color:var(--hot)}
+  @media (prefers-reduced-motion:reduce){.cdrawer,.cdrawer-scrim{transition:none}}
   .sitefoot{background:var(--paper);color:var(--ink);display:flex;align-items:center;justify-content:space-between;gap:18px;padding:18px 22px;border-top:var(--bd)}
   .sitefoot .foot-logo{height:20px;width:auto;display:block}
   .sitefoot .foot-copy{font-family:var(--mono);font-size:11px;letter-spacing:.05em;opacity:.65;text-align:right}
@@ -224,7 +234,7 @@
   <div class="top">
     <div class="logo"><img src="assets/logo-white.png" alt="RIVO"></div>
     <div class="clock" id="clock">--:-- 台北</div>
-    <div class="nav"><a href="mailto:rivo@rivo.com.tw" data-en="Contact">聯繫</a></div>
+    <div class="nav"><a href="mailto:rivo@rivo.com.tw" data-cform-open data-en="Contact">聯繫</a></div>
     <div class="lang" role="group" aria-label="語言切換 Language">
       <button class="active" data-l="zh" aria-pressed="true" aria-label="中文">中</button>
       <button data-l="en" aria-pressed="false" aria-label="English">EN</button>
@@ -334,20 +344,33 @@
       <div class="label" style="color:var(--accent);margin-bottom:20px">Contact</div>
       <h2 data-en="Contact Us">聯繫我們</h2>
     </div>
-    <form id="cform" class="cform" novalidate>
-      <input class="cf-in" name="name" maxlength="200" placeholder="姓名 Name" autocomplete="name">
-      <input class="cf-in" name="email" type="email" required maxlength="200" placeholder="Email" autocomplete="email">
-      <textarea class="cf-in" name="message" required maxlength="5000" rows="4" placeholder="訊息 Message"></textarea>
-      <input class="cf-hp" type="text" name="company" tabindex="-1" autocomplete="off" aria-hidden="true">
-      <button class="btn" type="submit" data-en="Send →">送出 →</button>
-      <p class="cf-msg" aria-live="polite"></p>
-    </form>
+    <div class="cta-ca">
+      <button type="button" class="btn" data-cform-open data-en="Email Us →">寫信給我們 →</button>
+    </div>
   </div>
 
   <footer class="sitefoot">
     <img class="foot-logo" src="assets/logo-navbar.png" alt="RIVO">
     <span class="foot-copy">© 2026 RIVO Systems Co. LTD. All rights reserved.</span>
   </footer>
+
+  <!-- 聯繫浮動視窗（右側滑出） -->
+  <div class="cdrawer-scrim" id="cdrawerScrim" hidden></div>
+  <aside class="cdrawer" id="cdrawer" role="dialog" aria-modal="true" aria-labelledby="cdrawerTitle" aria-hidden="true">
+    <div class="cdrawer-head">
+      <h2 class="cdrawer-title" id="cdrawerTitle" data-en="Contact Us">聯繫我們</h2>
+      <button type="button" class="cdrawer-x" id="cdrawerClose" aria-label="關閉 Close">×</button>
+    </div>
+    <p class="cdrawer-sub" data-en="Leave a message — we'll reply by email.">留下訊息，我們會以 Email 回覆。</p>
+    <form id="cform" class="cform" novalidate>
+      <input class="cf-in" name="name" maxlength="200" placeholder="姓名 Name" autocomplete="name">
+      <input class="cf-in" name="email" type="email" required maxlength="200" placeholder="Email" autocomplete="email">
+      <textarea class="cf-in" name="message" required maxlength="5000" rows="5" placeholder="訊息 Message"></textarea>
+      <input class="cf-hp" type="text" name="company" tabindex="-1" autocomplete="off" aria-hidden="true">
+      <button class="btn" type="submit" data-en="Send →">送出 →</button>
+      <p class="cf-msg" aria-live="polite"></p>
+    </form>
+  </aside>
 
 </div>
 
@@ -610,11 +633,46 @@ if(!REDUCED_MOTION && 'IntersectionObserver' in window){
   document.querySelectorAll('.label').forEach(el=>io.observe(el));
 }
 
-/* 聯繫表單 → Cloudflare Worker → Resend → rivo+web-contact@rivo.com.tw */
+/* 聯繫浮動視窗 + 表單 → Cloudflare Worker → Resend → rivo+web-contact@rivo.com.tw */
 (function(){
   var WORKER_URL='https://rivo-contact.rivo-contact.workers.dev';
   var f=document.getElementById('cform'); if(!f) return;
+  var drawer=document.getElementById('cdrawer'), scrim=document.getElementById('cdrawerScrim');
   var msg=f.querySelector('.cf-msg'), btn=f.querySelector('button.btn');
+  var lastFocus=null;
+  function openD(e){
+    if(e) e.preventDefault();
+    lastFocus=document.activeElement;
+    scrim.hidden=false;
+    requestAnimationFrame(function(){ scrim.classList.add('show'); drawer.classList.add('show'); });
+    drawer.setAttribute('aria-hidden','false');
+    document.body.style.overflow='hidden';
+    var first=f.querySelector('input[name="name"]');
+    if(first) setTimeout(function(){ first.focus(); },80);
+  }
+  function closeD(){
+    scrim.classList.remove('show'); drawer.classList.remove('show');
+    drawer.setAttribute('aria-hidden','true');
+    document.body.style.overflow='';
+    setTimeout(function(){ scrim.hidden=true; },340);
+    if(lastFocus&&lastFocus.focus) lastFocus.focus();
+  }
+  var trg=document.querySelectorAll('[data-cform-open]');
+  for(var i=0;i<trg.length;i++) trg[i].addEventListener('click',openD);
+  var xBtn=document.getElementById('cdrawerClose');
+  if(xBtn) xBtn.addEventListener('click',closeD);
+  scrim.addEventListener('click',closeD);
+  document.addEventListener('keydown',function(e){ if(e.key==='Escape'&&drawer.classList.contains('show')) closeD(); });
+  drawer.addEventListener('keydown',function(e){
+    if(e.key!=='Tab') return;
+    var foc=Array.prototype.filter.call(drawer.querySelectorAll('button,input,textarea,a[href]'),function(el){
+      return !el.disabled && el.offsetParent!==null && el.getAttribute('tabindex')!=='-1'; });
+    if(!foc.length) return;
+    var a=foc[0], b=foc[foc.length-1];
+    if(e.shiftKey&&document.activeElement===a){ e.preventDefault(); b.focus(); }
+    else if(!e.shiftKey&&document.activeElement===b){ e.preventDefault(); a.focus(); }
+  });
+  if(location.hash==='#contact') openD();
   var val=function(n){ var el=f.querySelector('[name="'+n+'"]'); return el?el.value:''; };
   var EN=function(){ return document.documentElement.lang==='en'; };
   f.addEventListener('submit', async function(e){
