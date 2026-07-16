@@ -154,6 +154,18 @@
   .cta .left,.cta>div{position:relative;z-index:1}
   .cta h2{font-size:40px;font-weight:800;letter-spacing:-.03em;line-height:.95;text-transform:uppercase}
   .cta .btn{margin-top:24px;display:inline-block;background:var(--hot);color:var(--paper);font-family:var(--mono);font-size:14px;padding:14px 22px;letter-spacing:.04em;cursor:pointer}
+  /* 聯繫表單 */
+  .cform{display:flex;flex-direction:column;gap:12px;max-width:440px;width:100%}
+  .cf-in{font-family:var(--mono);font-size:14px;color:var(--paper);background:transparent;border:1px solid rgba(255,253,248,.4);padding:12px 14px;outline:none}
+  .cf-in::placeholder{color:rgba(255,253,248,.45)}
+  .cf-in:focus{border-color:var(--accent)}
+  textarea.cf-in{resize:vertical}
+  .cf-hp{position:absolute;left:-9999px;width:1px;height:1px;opacity:0}
+  .cform .btn{align-self:flex-start;margin-top:2px}
+  .cform .btn[disabled]{opacity:.5;cursor:default}
+  .cf-msg{font-family:var(--mono);font-size:12px;letter-spacing:.04em;min-height:1.2em;margin:0}
+  .cf-msg.ok{color:var(--success,#22C55E)}
+  .cf-msg.err{color:var(--hot)}
   .sitefoot{background:var(--paper);color:var(--ink);display:flex;align-items:center;justify-content:space-between;gap:18px;padding:18px 22px;border-top:var(--bd)}
   .sitefoot .foot-logo{height:20px;width:auto;display:block}
   .sitefoot .foot-copy{font-family:var(--mono);font-size:11px;letter-spacing:.05em;opacity:.65;text-align:right}
@@ -322,9 +334,14 @@
       <div class="label" style="color:var(--accent);margin-bottom:20px">Contact</div>
       <h2 data-en="Contact Us">聯繫我們</h2>
     </div>
-    <div>
-      <a class="btn" href="mailto:rivo@rivo.com.tw" data-en="Email Us →">寫信給我們 →</a>
-    </div>
+    <form id="cform" class="cform" novalidate>
+      <input class="cf-in" name="name" maxlength="200" placeholder="姓名 Name" autocomplete="name">
+      <input class="cf-in" name="email" type="email" required maxlength="200" placeholder="Email" autocomplete="email">
+      <textarea class="cf-in" name="message" required maxlength="5000" rows="4" placeholder="訊息 Message"></textarea>
+      <input class="cf-hp" type="text" name="company" tabindex="-1" autocomplete="off" aria-hidden="true">
+      <button class="btn" type="submit" data-en="Send →">送出 →</button>
+      <p class="cf-msg" aria-live="polite"></p>
+    </form>
   </div>
 
   <footer class="sitefoot">
@@ -592,6 +609,27 @@ if(!REDUCED_MOTION && 'IntersectionObserver' in window){
   },{threshold:0.7});
   document.querySelectorAll('.label').forEach(el=>io.observe(el));
 }
+
+/* 聯繫表單 → Cloudflare Worker → Resend → rivo+web-contact@rivo.com.tw */
+(function(){
+  var WORKER_URL='https://rivo-contact.rivo-contact.workers.dev';
+  var f=document.getElementById('cform'); if(!f) return;
+  var msg=f.querySelector('.cf-msg'), btn=f.querySelector('button.btn');
+  var val=function(n){ var el=f.querySelector('[name="'+n+'"]'); return el?el.value:''; };
+  var EN=function(){ return document.documentElement.lang==='en'; };
+  f.addEventListener('submit', async function(e){
+    e.preventDefault(); msg.className='cf-msg'; msg.textContent='';
+    var data={name:val('name'),email:val('email'),message:val('message'),company:val('company')};
+    var orig=btn.textContent; btn.disabled=true; btn.textContent=EN()?'Sending…':'送出中…';
+    try{
+      var r=await fetch(WORKER_URL,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(data)});
+      var j=await r.json().catch(function(){return {};});
+      if(r.ok&&j.ok){ f.reset(); msg.className='cf-msg ok'; msg.textContent=EN()?'Sent — we will reply soon.':'已送出，我們會盡快回覆。'; }
+      else { msg.className='cf-msg err'; msg.textContent=(j&&j.error)||(EN()?'Failed, please try again.':'送出失敗，請稍後再試。'); }
+    }catch(_){ msg.className='cf-msg err'; msg.textContent=EN()?'Network error.':'連線失敗，請稍後再試。'; }
+    finally{ btn.disabled=false; btn.textContent=orig; }
+  });
+})();
 </script>
 </body>
 </html>

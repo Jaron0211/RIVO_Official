@@ -1,0 +1,55 @@
+<!-- ============================================================
+     前端表單片段 — 取代 index.html 目前 .cta 裡那顆
+     <a class="btn" href="mailto:...">寫信給我們 →</a>
+     把下面 <div id="…"> 部分放進 .cta 的右欄，CSS 併入 <style>，
+     JS 併入 <script>。把 WORKER_URL 換成你部署後的 Worker 網址。
+     ============================================================ -->
+
+<!-- ① 表單（放在 .cta 內、原按鈕的位置） -->
+<form id="cform" class="cform" novalidate>
+  <input class="cf-in" name="name" maxlength="200" placeholder="姓名 Name" autocomplete="name">
+  <input class="cf-in" name="email" type="email" required maxlength="200" placeholder="Email" autocomplete="email">
+  <textarea class="cf-in" name="message" required maxlength="5000" rows="4" placeholder="訊息 Message"></textarea>
+  <input class="cf-hp" type="text" name="company" tabindex="-1" autocomplete="off" aria-hidden="true">
+  <button class="btn" type="submit" data-en="Send →">送出 →</button>
+  <p class="cf-msg" aria-live="polite"></p>
+</form>
+
+<!-- ② CSS（併入 index.html 的 <style>） -->
+<style>
+  .cform{display:flex;flex-direction:column;gap:12px;max-width:420px}
+  .cf-in{font-family:var(--mono);font-size:14px;color:var(--paper);background:transparent;
+    border:1px solid rgba(255,253,248,.4);padding:12px 14px;outline:none}
+  .cf-in::placeholder{color:rgba(255,253,248,.45)}
+  .cf-in:focus{border-color:var(--accent)}
+  textarea.cf-in{resize:vertical}
+  .cf-hp{position:absolute;left:-9999px;width:1px;height:1px;opacity:0}   /* honeypot：藏起來 */
+  .cform .btn{align-self:flex-start;border:none;cursor:pointer}
+  .cform .btn[disabled]{opacity:.5;cursor:default}
+  .cf-msg{font-family:var(--mono);font-size:12px;letter-spacing:.04em;min-height:1.2em;margin:0}
+  .cf-msg.ok{color:#22C55E}
+  .cf-msg.err{color:var(--hot)}
+</style>
+
+<!-- ③ JS（併入 index.html 的 <script>） -->
+<script>
+(function(){
+  const WORKER_URL = 'https://rivo-contact.<你的子網域>.workers.dev';   // ← 換成你的 Worker 網址
+  const f = document.getElementById('cform'); if(!f) return;
+  const msg = f.querySelector('.cf-msg'), btn = f.querySelector('button');
+  const T = () => (document.documentElement.lang==='en'); // 跟站上語系
+  f.addEventListener('submit', async (e)=>{
+    e.preventDefault();
+    msg.className='cf-msg'; msg.textContent='';
+    const data = { name:f.name.value, email:f.email.value, message:f.message.value, company:f.company.value };
+    btn.disabled=true; btn.textContent = T()?'Sending…':'送出中…';
+    try{
+      const r = await fetch(WORKER_URL, { method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify(data) });
+      const j = await r.json().catch(()=>({}));
+      if(r.ok && j.ok){ f.reset(); msg.className='cf-msg ok'; msg.textContent = T()?'Sent — we will reply soon.':'已送出，我們會盡快回覆。'; }
+      else { msg.className='cf-msg err'; msg.textContent = j.error || (T()?'Failed, please try again.':'送出失敗，請稍後再試。'); }
+    }catch(_){ msg.className='cf-msg err'; msg.textContent = T()?'Network error.':'連線失敗，請稍後再試。'; }
+    finally{ btn.disabled=false; btn.textContent = T()?'Send →':'送出 →'; }
+  });
+})();
+</script>
