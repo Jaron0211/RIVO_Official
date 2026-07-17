@@ -24,9 +24,8 @@
 <link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Funnel+Display:wght@300;400;500;600;700;800&family=Space+Mono:wght@400;700&family=Noto+Sans+TC:wght@400;500;700;900&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@125,900&family=Funnel+Display:wght@300;400;500;600;700;800&family=Space+Mono:wght@400;700&family=Noto+Sans+TC:wght@400;500;700;900&display=swap" rel="stylesheet">
 <style>
-  @font-face{font-family:'Hanson';src:url('assets/fonts/hanson.woff') format('woff');font-weight:100 900;font-style:normal;font-display:swap}
   :root{
     --ink:#000000;
     --paper:#fffdf8;
@@ -34,7 +33,7 @@
     --hot:#ff2321;      /* 紅：最重要的動作 */
     --disp:'Funnel Display','Noto Sans TC',sans-serif;
     --mono:'Space Mono',ui-monospace,monospace;
-    --hanson:'Hanson','Noto Sans TC',sans-serif; /* EN display；CJK 自動落到思源 900 */
+    --wide:'Archivo','Noto Sans TC',sans-serif; /* EN display（Expanded Black 125%）；CJK 落思源 900 */
     --bd:1px solid var(--ink);
   }
   *{box-sizing:border-box;margin:0;padding:0}
@@ -64,7 +63,7 @@
   .cell-tex{grid-area:tex;background:var(--paper);padding:0!important}
   .cell-label{grid-area:label;background:var(--accent);color:var(--ink);flex-direction:column;justify-content:center;align-items:flex-start;gap:9px}
   .hero-rot{width:100%}
-  .hero-rot .en{display:block;font-family:var(--hanson);font-weight:400;font-size:17px;line-height:1.05;letter-spacing:.01em;height:2.3em;overflow:hidden}
+  .hero-rot .en{display:block;font-family:var(--wide);font-stretch:125%;font-weight:900;font-size:17px;line-height:1.05;letter-spacing:.01em;height:2.3em;overflow:hidden}
   .hero-rot .zh{display:block;font-family:var(--mono);font-size:13px;letter-spacing:.04em;opacity:.9;margin-top:5px;height:1.3em;overflow:hidden}
   .hero-rot .caret{display:inline-block;width:.13em;height:1em;background:currentColor;vertical-align:-.1em;margin-left:.12em;animation:caretBlink 1.05s steps(1,end) infinite}
   @keyframes caretBlink{0%,49%{opacity:1}50%,100%{opacity:0}}
@@ -78,7 +77,7 @@
   .statement .bgtex{position:absolute;inset:0;margin:0;font-family:var(--mono);font-size:8px;line-height:1.25;white-space:pre;color:rgba(255,81,8,.3);z-index:0;overflow:hidden;user-select:none;pointer-events:none}
   .statement .inner{position:relative;z-index:2;padding:6vw 4.4vw;max-width:58%}
   .statement .inner .label{font-size:clamp(9px,.85vw,12px)}
-  .statement h1{font-family:var(--hanson);font-size:clamp(44px,7.5vw,120px);font-weight:900;letter-spacing:.005em;line-height:.9;text-transform:uppercase}
+  .statement h1{font-family:var(--wide);font-stretch:125%;font-size:clamp(44px,7.5vw,120px);font-weight:900;letter-spacing:.005em;line-height:.9;text-transform:uppercase}
   .statement .sub{font-family:var(--mono);font-size:clamp(10px,1.2vw,16px);line-height:1.6;color:#e7e7e7;margin-top:2.2vw;max-width:44ch}
   .statement .fc-img{position:absolute;right:4%;bottom:0;z-index:1;width:42vw;max-width:640px;max-height:92%;height:auto;object-fit:contain;object-position:bottom;pointer-events:none;
     filter:drop-shadow(0 2vw 3.2vw rgba(0,0,0,.92))}
@@ -97,7 +96,7 @@
   /* ---------- texture block（白底）---------- */
   .texblock{background:var(--paper);min-height:400px;position:relative;overflow:hidden;border-bottom:var(--bd)}
   .texblock .inner{padding:26px 22px;position:relative;z-index:1}
-  .texblock .copy{font-family:var(--hanson);font-size:30px;font-weight:900;letter-spacing:.01em;line-height:1.05;max-width:18ch}
+  .texblock .copy{font-family:var(--wide);font-stretch:125%;font-size:30px;font-weight:900;letter-spacing:.01em;line-height:1.05;max-width:18ch}
   .texblock pre{position:absolute;inset:auto;top:50%;left:50%;transform:translate(-50%,-50%);width:max-content;font-family:var(--mono);font-size:3.4px;line-height:1.12;white-space:pre;color:rgba(20,20,20,.55);user-select:none;pointer-events:none;z-index:0;overflow:hidden}
   .logos{display:flex;gap:26px;align-items:center;font-family:var(--mono);font-size:15px;font-weight:700;margin-top:30px;flex-wrap:wrap}
 
@@ -108,7 +107,7 @@
     padding:14px 8px;font-family:var(--disp);display:flex;flex-direction:column;gap:3px;transition:background .2s}
   .sc-tab:last-child{border-right:none}
   .sc-tab .idx{font-family:var(--mono);font-size:10px;letter-spacing:.1em;opacity:.5}
-  .sc-tab .w{font-family:var(--hanson);font-size:21px;font-weight:900;letter-spacing:-.02em;line-height:1}
+  .sc-tab .w{font-family:var(--wide);font-stretch:125%;font-size:21px;font-weight:900;letter-spacing:-.02em;line-height:1}
   .sc-tab .cap{display:none;font-family:var(--mono);font-size:12px;opacity:.6}
   .sc-tab:hover{background:#f1eee6}
   .sc-tab.active,.sc-tab.active:hover{background:var(--accent)}
@@ -126,7 +125,7 @@
   .sc-body{position:relative;z-index:2;padding:24px 22px}
   /* 飛控文案（brutalist：mono、硬邊分隔線、無圓角/柔陰影） */
   .sc-kick{font-family:var(--mono);font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--accent);margin-bottom:14px}
-  .sc-h{font-family:var(--hanson);font-size:32px;font-weight:900;letter-spacing:.01em;line-height:.95;text-transform:uppercase;margin-bottom:14px}
+  .sc-h{font-family:var(--wide);font-stretch:125%;font-size:32px;font-weight:900;letter-spacing:.01em;line-height:.95;text-transform:uppercase;margin-bottom:14px}
   .sc-h-sm{display:block;font-size:.4em;font-weight:600;letter-spacing:.01em;opacity:.85;text-transform:none;margin-top:.12em}
   .sc-h-logo{height:.68em;width:auto;display:inline-block;vertical-align:-.04em;margin-right:.14em}
   .sc-badge{font-family:var(--mono);font-size:.26em;font-weight:400;letter-spacing:.1em;text-transform:uppercase;border:1px solid var(--accent);color:var(--accent);padding:.45em .7em;vertical-align:middle;margin-left:.4em;white-space:nowrap}
@@ -158,15 +157,15 @@
   .cta{background:var(--ink);color:var(--paper);padding:40px 22px 54px;position:relative;overflow:hidden}
   .cta-at{position:absolute;top:50%;right:3%;transform:translateY(-50%);margin:0;font-family:var(--mono);line-height:1;white-space:pre;color:rgba(255,81,8,.2);z-index:0;pointer-events:none;user-select:none}
   .cta .left,.cta>div{position:relative;z-index:1}
-  .cta h2{font-family:var(--hanson);font-size:40px;font-weight:900;letter-spacing:.01em;line-height:.95;text-transform:uppercase}
-  .cta .btn{margin-top:24px;display:inline-block;background:var(--hot);color:var(--paper);font-family:var(--hanson);font-weight:900;font-size:14px;padding:14px 22px;letter-spacing:.06em;cursor:pointer}
+  .cta h2{font-family:var(--wide);font-stretch:125%;font-size:40px;font-weight:900;letter-spacing:.01em;line-height:.95;text-transform:uppercase}
+  .cta .btn{margin-top:24px;display:inline-block;background:var(--hot);color:var(--paper);font-family:var(--wide);font-stretch:125%;font-weight:900;font-size:14px;padding:14px 22px;letter-spacing:.06em;cursor:pointer}
   /* 聯繫浮動視窗（右側滑出） */
   .cdrawer-scrim{position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:90;opacity:0;transition:opacity .28s ease}
   .cdrawer-scrim.show{opacity:1}
   .cdrawer{position:fixed;top:0;right:0;height:100%;width:min(440px,100%);background:var(--ink);color:var(--paper);border-left:3px solid var(--hot);z-index:100;display:flex;flex-direction:column;gap:16px;padding:28px 26px;transform:translateX(100%);transition:transform .32s cubic-bezier(.4,0,.2,1);overflow-y:auto}
   .cdrawer.show{transform:translateX(0)}
   .cdrawer-head{display:flex;align-items:baseline;justify-content:space-between;gap:12px}
-  .cdrawer-title{font-family:var(--hanson);font-size:34px;font-weight:900;letter-spacing:.01em;line-height:.95;text-transform:uppercase;margin:0}
+  .cdrawer-title{font-family:var(--wide);font-stretch:125%;font-size:34px;font-weight:900;letter-spacing:.01em;line-height:.95;text-transform:uppercase;margin:0}
   .cdrawer-x{background:none;border:none;color:var(--paper);font-size:30px;line-height:1;cursor:pointer;padding:0 2px;font-family:var(--mono)}
   .cdrawer-x:hover{color:var(--hot)}
   .cdrawer-sub{font-family:var(--mono);font-size:12px;letter-spacing:.03em;color:rgba(255,253,248,.6);margin:0}
@@ -176,7 +175,7 @@
   .cf-in:focus{border-color:var(--accent)}
   textarea.cf-in{resize:vertical}
   .cf-hp{position:absolute;left:-9999px;width:1px;height:1px;opacity:0}
-  .cform .btn{align-self:flex-start;margin-top:4px;display:inline-block;background:var(--hot);color:var(--paper);font-family:var(--hanson);font-weight:900;font-size:14px;padding:14px 22px;letter-spacing:.06em;cursor:pointer;border:none}
+  .cform .btn{align-self:flex-start;margin-top:4px;display:inline-block;background:var(--hot);color:var(--paper);font-family:var(--wide);font-stretch:125%;font-weight:900;font-size:14px;padding:14px 22px;letter-spacing:.06em;cursor:pointer;border:none}
   .cform .btn[disabled]{opacity:.5;cursor:default}
   .cf-msg{font-family:var(--mono);font-size:12px;letter-spacing:.04em;min-height:1.2em;margin:0}
   .cf-msg.ok{color:var(--success,#22C55E)}
