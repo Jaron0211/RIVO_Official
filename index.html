@@ -78,7 +78,8 @@
   .statement .inner{position:relative;z-index:2;padding:6vw 4.4vw;max-width:58%}
   .statement .inner .label{font-size:clamp(9px,.85vw,12px)}
   .statement h1{font-family:var(--wide);font-stretch:125%;font-size:clamp(44px,7.5vw,120px);font-weight:900;letter-spacing:.005em;line-height:.9;text-transform:uppercase}
-  .statement .sub{font-family:var(--mono);font-size:clamp(10px,1.2vw,16px);line-height:1.6;color:#e7e7e7;margin-top:2.2vw;max-width:44ch}
+  .statement .sub{font-family:var(--mono);font-size:clamp(10px,1.2vw,16px);line-height:1.6;color:#e7e7e7;margin-top:2.2vw;max-width:44ch;text-wrap:balance}
+  .nb{display:inline-block} /* 鎖住中文語意片語，避免孤字斷行 */
   .statement .fc-img{position:absolute;right:4%;bottom:0;z-index:1;width:42vw;max-width:640px;max-height:92%;height:auto;object-fit:contain;object-position:bottom;pointer-events:none;
     filter:drop-shadow(0 2vw 3.2vw rgba(0,0,0,.92))}
 
@@ -254,7 +255,7 @@
     <div class="inner">
       <div class="label" style="color:var(--accent);margin-bottom:24px">Autonomous UAV System</div>
       <h1>FROM CHIP<br>TO FLEET.</h1>
-      <p class="sub" data-en="From chip to fleet.<br>RIVO delivers an end-to-end autonomous UAV solution.">從晶片，到機隊。<br>浚研系統提供自主無人機的一站式整合方案。</p>
+      <p class="sub" data-en="From chip to fleet.<br>RIVO delivers an end-to-end autonomous UAV solution.">從晶片，到機隊。<br>浚研系統提供自主無人機的<span class="nb">一站式整合方案。</span></p>
     </div>
     <img class="fc-img" src="assets/fc_no_bg.png" alt="RPilot 飛控板">
   </div>
